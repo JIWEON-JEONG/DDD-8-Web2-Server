@@ -20,6 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
 	 * BaseException 으로 throw 한 예외들 처리 하는 메서드.
+	 *
 	 * @param e BaseException
 	 * @return ErrorResponse
 	 */
@@ -27,15 +28,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ExceptionResponse handleExpectedException(BaseException e) {
 		log.error("BaseException", e);
 		return builder()
-			.httpStatus(e.getInformation().getHttpStatus())
-			.errorCode(e.getInformation().toString())
-			.message(e.getInformation().getMessage())
+			.httpStatus(e.getHttpStatus())
+			.errorCode(e.getErrorCode())
+			.message(e.getMessage())
 			.build();
 	}
 
 	/**
 	 * 예상하지 못한 예외들 처리.
 	 * 즉 throw 하지 못한 예외들. Runtime 중에 발생하는 모든 예외들 처리.
+	 *
 	 * @param e RuntimeException
 	 * @return ErrorResponse
 	 */

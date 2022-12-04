@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 주변 장소 추천 API
+ * 장소 추천 API
  */
 @RestController
 @Log4j2

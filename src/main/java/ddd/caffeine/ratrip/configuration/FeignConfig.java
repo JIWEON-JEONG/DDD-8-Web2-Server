@@ -17,12 +17,7 @@ public class FeignConfig {
 	}
 
 	// @Bean
-	// public ErrorDecoder feignErrorDecoder() {
-	//     return new ErrorDecoder() {
-	//         @Override
-	//         public Exception decode(String methodKey, Response response) {
-	//             return null;
-	//         }
-	//     };
+	// public FeignExceptionDecode decoder() {
+	// 	return new FeignExceptionDecode();
 	// }
 }

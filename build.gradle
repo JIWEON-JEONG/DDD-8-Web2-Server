@@ -33,6 +33,9 @@ dependencies {
     // feign
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
+    //IO
+    implementation 'commons-io:commons-io:2.6'
+
     //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -11,5 +11,4 @@ public class RatripServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RatripServerApplication.class, args);
 	}
-
 }

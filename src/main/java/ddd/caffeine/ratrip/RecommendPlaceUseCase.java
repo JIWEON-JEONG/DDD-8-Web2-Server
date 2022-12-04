@@ -1,8 +1,7 @@
 package ddd.caffeine.ratrip;
 
-import ddd.caffeine.ratrip.controller.dto.RecommendRequestDto;
-import ddd.caffeine.ratrip.controller.dto.RecommendResponseDto;
+import ddd.caffeine.ratrip.service.KakaoFeignResponseDto;
 
 public interface RecommendPlaceUseCase {
-    RecommendResponseDto recommendPlace(String region, String placeCategory);
+	KakaoFeignResponseDto recommendPlace(String region, String keyword);
 }

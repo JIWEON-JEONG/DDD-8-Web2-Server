@@ -7,23 +7,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.RecommendPlaceUseCase;
-import ddd.caffeine.ratrip.controller.dto.RecommendResponseDto;
+import ddd.caffeine.ratrip.service.KakaoFeignResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * 주변 장소 추천 API
  */
 @RestController
+@Log4j2
 @RequiredArgsConstructor
-@RequestMapping("/api/recommend")
+@RequestMapping("api/v1/recommend")
 public class RecommendPlaceController {
 	private final RecommendPlaceUseCase recommendPlaceUseCase;
 
-	@GetMapping(value = "place/{latitude}/{")
-	public ResponseEntity<RecommendResponseDto> callRecommendPlaceApi(@RequestParam(name = "region") String region,
-		@RequestParam(name = "category") String placeCategory
+	@GetMapping(value = "place")
+	public ResponseEntity<KakaoFeignResponseDto> callRecommendPlaceApi(@RequestParam(name = "region") String region,
+		@RequestParam(name = "keyword") String keyword
 	) {
-		RecommendResponseDto response = recommendPlaceUseCase.recommendPlace(region, placeCategory);
+		log.info("111111");
+		KakaoFeignResponseDto response = recommendPlaceUseCase.recommendPlace(region, keyword);
+		log.info(response.getDocuments().size());
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("a")
+	public ResponseEntity<String> callRecommendPlaceApi() {
+		String response = "home";
+		log.info(response);
 		return ResponseEntity.ok(response);
 	}
 }

@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class BaseException extends RuntimeException {
 
-	private Error error;
+	private ExceptionInformation information;
 
 	/**
 	 * BaseException 생성자.

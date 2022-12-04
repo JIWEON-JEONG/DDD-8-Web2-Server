@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.exception;
 
-import static ddd.caffeine.ratrip.exception.ErrorResponse.*;
+import static ddd.caffeine.ratrip.exception.ExceptionResponse.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,12 +24,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(BaseException.class)
-	public ErrorResponse handleRestApiException(BaseException e) {
+	public ExceptionResponse handleRestApiException(BaseException e) {
 		log.error("BaseException", e);
 		return builder()
-			.httpStatus(e.getError().getHttpStatus())
-			.errorCode(e.getError().getErrorCode())
-			.message(e.getError().getMessage())
+			.httpStatus(e.getExceptionInformation().getHttpStatus())
+			.errorCode(e.getExceptionInformation().getErrorCode())
+			.message(e.getExceptionInformation().getMessage())
 			.build();
 	}
 
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(RuntimeException.class)
-	public ErrorResponse handleRuntimeException(RuntimeException e) {
+	public ExceptionResponse handleRuntimeException(RuntimeException e) {
 		log.error("RuntimeException", e);
 		return builder()
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)

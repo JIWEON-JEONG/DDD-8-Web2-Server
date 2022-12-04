@@ -15,7 +15,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-public class ErrorResponse {
+public class ExceptionResponse {
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private HttpStatus httpStatus;

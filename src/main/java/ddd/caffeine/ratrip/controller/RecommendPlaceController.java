@@ -25,16 +25,7 @@ public class RecommendPlaceController {
 	public ResponseEntity<KakaoFeignResponseDto> callRecommendPlaceApi(@RequestParam(name = "region") String region,
 		@RequestParam(name = "keyword") String keyword
 	) {
-		log.info("111111");
 		KakaoFeignResponseDto response = recommendPlaceUseCase.recommendPlace(region, keyword);
-		log.info(response.getDocuments().size());
-		return ResponseEntity.ok(response);
-	}
-
-	@GetMapping("a")
-	public ResponseEntity<String> callRecommendPlaceApi() {
-		String response = "home";
-		log.info(response);
 		return ResponseEntity.ok(response);
 	}
 }

@@ -2,8 +2,6 @@ package ddd.caffeine.ratrip.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,12 +15,12 @@ import lombok.Getter;
 @Builder
 public class ExceptionResponse {
 
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private HttpStatus httpStatus;
 
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	/**
+	 * 프론트 개발자들과 상의 후 넣을지 안넣을지 결정.
+	 */
 	private String errorCode;
 
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String message;
 }

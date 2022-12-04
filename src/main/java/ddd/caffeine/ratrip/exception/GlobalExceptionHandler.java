@@ -24,12 +24,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(BaseException.class)
-	public ExceptionResponse handleRestApiException(BaseException e) {
+	public ExceptionResponse handleExpectedException(BaseException e) {
 		log.error("BaseException", e);
 		return builder()
-			.httpStatus(e.getExceptionInformation().getHttpStatus())
-			.errorCode(e.getExceptionInformation().getErrorCode())
-			.message(e.getExceptionInformation().getMessage())
+			.httpStatus(e.getInformation().getHttpStatus())
+			.errorCode(e.getInformation().toString())
+			.message(e.getInformation().getMessage())
 			.build();
 	}
 
@@ -40,11 +40,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(RuntimeException.class)
-	public ExceptionResponse handleRuntimeException(RuntimeException e) {
+	public ExceptionResponse handleUnexpectedException(RuntimeException e) {
 		log.error("RuntimeException", e);
 		return builder()
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-			.errorCode("UNEXPECTED_ERROR")
+			.errorCode("UNEXPECTED_EXCEPTION")
 			.message(e.getMessage())
 			.build();
 	}

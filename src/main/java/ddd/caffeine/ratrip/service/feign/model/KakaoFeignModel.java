@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.service;
+package ddd.caffeine.ratrip.service.feign.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.RecommendPlaceUseCase;
-import ddd.caffeine.ratrip.service.KakaoFeignResponseDto;
+import ddd.caffeine.ratrip.service.RecommendPlaceUseCase;
+import ddd.caffeine.ratrip.service.feign.model.KakaoFeignResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,10 +22,10 @@ public class RecommendPlaceController {
 	private final RecommendPlaceUseCase recommendPlaceUseCase;
 
 	@GetMapping(value = "place")
-	public ResponseEntity<KakaoFeignResponseDto> callRecommendPlaceApi(@RequestParam(name = "region") String region,
-		@RequestParam(name = "keyword") String keyword
+	public ResponseEntity<KakaoFeignResponseDto> callRecommendPlaceApi(@RequestParam String region,
+		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") @Max int page
 	) {
-		KakaoFeignResponseDto response = recommendPlaceUseCase.recommendPlace(region, keyword);
+		KakaoFeignResponseDto response = recommendPlaceUseCase.recommendPlace(region, keyword, page);
 		return ResponseEntity.ok(response);
 	}
 }

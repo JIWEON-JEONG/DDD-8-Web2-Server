@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.exception;
 
+import static org.springframework.http.HttpStatus.*;
+
 import org.springframework.http.HttpStatus;
 
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ExceptionInformation {
+	KAKAO_PAGE_NUMBER_EXCEPTION(BAD_REQUEST, "Page 는 1 이상 45 이하 여야 합니다."),
 	;
 
 	private HttpStatus httpStatus;

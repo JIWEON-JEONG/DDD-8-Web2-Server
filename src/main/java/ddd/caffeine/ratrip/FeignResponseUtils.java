@@ -14,10 +14,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 외부 API 통신 에서 Response 객체에 대한 Util Class.
+ */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FeignResponseUtils {
-	public static String getRequestBody(Response response) {
+	public static String encodeRequestBody(Response response) {
 		if (response.request().body() == null) {
 			return "";
 		}
@@ -29,7 +32,7 @@ public class FeignResponseUtils {
 		}
 	}
 
-	public static String getResponseBody(Response response) {
+	public static String encodeResponseBody(Response response) {
 		if (response.body() == null) {
 			return "";
 		}

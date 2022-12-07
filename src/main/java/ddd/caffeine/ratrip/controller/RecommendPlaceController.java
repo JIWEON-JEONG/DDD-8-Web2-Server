@@ -23,7 +23,7 @@ public class RecommendPlaceController {
 
 	@GetMapping(value = "place")
 	public ResponseEntity<KakaoFeignResponseDto> callRecommendPlaceApi(@RequestParam String region,
-		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") @Max int page
+		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") int page
 	) {
 		KakaoFeignResponseDto response = recommendPlaceUseCase.recommendPlace(region, keyword, page);
 		return ResponseEntity.ok(response);

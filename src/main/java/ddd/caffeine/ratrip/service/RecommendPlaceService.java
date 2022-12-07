@@ -23,6 +23,7 @@ public class RecommendPlaceService implements RecommendPlaceUseCase {
 
 	@Override
 	public KakaoFeignResponseDto recommendPlace(String region, String keyword, int page) {
+		validatePageSize(page);
 		return readPlaces(region, keyword, page);
 	}
 
@@ -35,7 +36,7 @@ public class RecommendPlaceService implements RecommendPlaceUseCase {
 
 	private void validatePageSize(int page) {
 		final int MIN_PAGE = 1;
-		final int MAX_PAGE = 45;
+		final int MAX_PAGE = 46;
 		if (page < MIN_PAGE || page > MAX_PAGE) {
 			throw new KakaoFeignException(ExceptionInformation.KAKAO_PAGE_NUMBER_EXCEPTION);
 		}

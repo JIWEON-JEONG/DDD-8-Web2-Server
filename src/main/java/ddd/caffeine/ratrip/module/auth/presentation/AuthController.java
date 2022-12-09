@@ -9,6 +9,7 @@ import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.AuthServiceProvider;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignInRequestDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignUpRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
@@ -41,5 +42,11 @@ public class AuthController {
 	@PostMapping("auth/reissue")
 	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
 		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
+	}
+
+	@PostMapping("/auth/signout")
+	public ResponseEntity<Long> signOut(@Valid @RequestBody SignOutRequestDto request) {
+		Long userId = tokenService.deleteToken(request.toServiceDto());
+		return ResponseEntity.ok(userId);
 	}
 }

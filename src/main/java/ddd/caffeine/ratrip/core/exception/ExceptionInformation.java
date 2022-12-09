@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.exception;
+package ddd.caffeine.ratrip.core.exception;
 
 import org.springframework.http.HttpStatus;
 

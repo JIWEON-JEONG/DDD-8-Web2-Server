@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.AuthServiceProvider;
+import ddd.caffeine.ratrip.module.auth.application.TokenService;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignInRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignUpRequestDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthServiceProvider authServiceProvider;
+	private final TokenService tokenService;
 
 	@PostMapping("/auth/signup")
 	public ResponseEntity<SignInResponseDto> signUp(@Valid @RequestBody SignUpRequestDto request) {
@@ -32,5 +36,10 @@ public class AuthController {
 		SignInResponseDto responseDto = authService.signIn(request.toServiceDto());
 
 		return ResponseEntity.ok(responseDto);
+	}
+
+	@PostMapping("auth/reissue")
+	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
+		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
 	}
 }

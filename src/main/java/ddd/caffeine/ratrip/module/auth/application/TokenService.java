@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.core.jwt.JwtProvider;
 import ddd.caffeine.ratrip.core.jwt.JwtUtil;
+import ddd.caffeine.ratrip.module.auth.application.dto.TokenReissueDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,12 @@ public class TokenService {
 
 	@Transactional
 	public TokenResponseDto createTokenInfo(Long userId) {
+		return jwtProvider.createTokenInfo(userId);
+	}
+
+	@Transactional
+	public TokenResponseDto reissueToken(TokenReissueDto request) {
+		Long userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
 		return jwtProvider.createTokenInfo(userId);
 	}
 }

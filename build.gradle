@@ -14,9 +14,15 @@ configurations {
     }
 }
 
+ext {
+    set('springCloudVersion', "2022.0.0-M5")
+}
+
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -28,7 +34,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // openfeign
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+
+    // 외부 API 통신 테스트 위한 라이브러리
+    testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
+
+    //IO
+    implementation 'commons-io:commons-io:2.6'
     
     // jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
@@ -40,6 +52,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {

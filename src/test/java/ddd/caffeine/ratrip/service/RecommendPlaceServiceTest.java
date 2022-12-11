@@ -37,7 +37,7 @@ class RecommendPlaceServiceTest {
 
 		//then
 		assertThatThrownBy(() ->
-			recommendPlaceService.recommendPlace(region, keyword, pageSize))
+			recommendPlaceService.recommendPlaces(region, keyword, pageSize))
 			.isInstanceOf(KakaoFeignException.class)
 			.hasMessage("Page 는 1 이상 45 이하 여야 합니다.");
 	}

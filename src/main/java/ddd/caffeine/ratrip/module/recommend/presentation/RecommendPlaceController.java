@@ -26,7 +26,7 @@ public class RecommendPlaceController {
 		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") int page
 	) {
 		RecommendResponseDto response = new RecommendResponseDto(
-			recommendPlaceUseCase.recommendPlace(region, keyword, page));
+			recommendPlaceUseCase.recommendPlaces(region, keyword, page));
 		return ResponseEntity.ok(response);
 	}
 }

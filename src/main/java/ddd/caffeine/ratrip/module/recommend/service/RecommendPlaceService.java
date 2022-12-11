@@ -19,7 +19,7 @@ public class RecommendPlaceService implements RecommendPlaceUseCase {
 	private final KakaoFeignClient kakaoFeignClient;
 
 	@Override
-	public KakaoFeignModel recommendPlace(String region, String keyword, int page) {
+	public KakaoFeignModel recommendPlaces(String region, String keyword, int page) {
 		validatePageSize(page);
 		return readPlaces(region, keyword, page);
 	}

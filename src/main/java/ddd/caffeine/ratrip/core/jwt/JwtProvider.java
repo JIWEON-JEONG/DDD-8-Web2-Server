@@ -44,8 +44,4 @@ public class JwtProvider {
 
 		return TokenResponseDto.of(accessToken, refreshToken);
 	}
-
-	public void deleteRefreshToken(Long userId) {
-		redisTemplate.delete("RT:" + userId);
-	}
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.core.jwt.JwtProvider;
+import ddd.caffeine.ratrip.core.jwt.JwtRemover;
 import ddd.caffeine.ratrip.core.jwt.JwtUtil;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignOutDto;
 import ddd.caffeine.ratrip.module.auth.application.dto.TokenReissueDto;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+	private final JwtRemover jwtRemover;
 	private final JwtProvider jwtProvider;
 	private final JwtUtil jwtUtil;
 
@@ -30,7 +32,7 @@ public class TokenService {
 	@Transactional
 	public Long deleteToken(SignOutDto signOutDto) {
 		Long userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
-		jwtProvider.deleteRefreshToken(userId);
+		jwtRemover.deleteRefreshToken(userId);
 		return userId;
 	}
 }

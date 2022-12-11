@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.service.feign.model;
+package ddd.caffeine.ratrip.module.recommend.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,10 @@
-package ddd.caffeine.ratrip.configuration;
+package ddd.caffeine.ratrip.common.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ddd.caffeine.ratrip.FeignResponseEncoder;
-import ddd.caffeine.ratrip.KakaoFeignErrorDecoder;
+import ddd.caffeine.ratrip.module.recommend.service.FeignResponseEncoder;
+import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignErrorDecoder;
 import feign.Logger;
 
 @Configuration

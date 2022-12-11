@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.service.feign.model;
+package ddd.caffeine.ratrip.module.recommend.domain;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor
-public class KakaoFeignResponseDto {
-	List<KakaoFeignModel> documents;
+public class KakaoFeignModel {
+	List<KakaoFeignData> documents;
 	KakaoFeignMetaData meta;
 }

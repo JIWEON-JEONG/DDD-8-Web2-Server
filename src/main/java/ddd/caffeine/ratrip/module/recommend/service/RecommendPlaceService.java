@@ -1,12 +1,11 @@
-package ddd.caffeine.ratrip.service;
+package ddd.caffeine.ratrip.module.recommend.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ddd.caffeine.ratrip.exception.ExceptionInformation;
-import ddd.caffeine.ratrip.exception.domain.KakaoFeignException;
-import ddd.caffeine.ratrip.service.feign.KakaoFeignClient;
-import ddd.caffeine.ratrip.service.feign.model.KakaoFeignResponseDto;
+import ddd.caffeine.ratrip.common.exception.ExceptionInformation;
+import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -20,12 +19,12 @@ public class RecommendPlaceService implements RecommendPlaceUseCase {
 	private final KakaoFeignClient kakaoFeignClient;
 
 	@Override
-	public KakaoFeignResponseDto recommendPlace(String region, String keyword, int page) {
+	public KakaoFeignModel recommendPlace(String region, String keyword, int page) {
 		validatePageSize(page);
 		return readPlaces(region, keyword, page);
 	}
 
-	private KakaoFeignResponseDto readPlaces(String region, String keyword, int page) {
+	private KakaoFeignModel readPlaces(String region, String keyword, int page) {
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		String query = region + " " + keyword;
 		return kakaoFeignClient.readPlacesByKeywordAndCategory(KAKAO_REQUEST_HEADER, query, page);

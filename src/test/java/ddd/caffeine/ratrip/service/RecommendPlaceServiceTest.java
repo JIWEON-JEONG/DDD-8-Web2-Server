@@ -8,8 +8,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 
-import ddd.caffeine.ratrip.exception.domain.KakaoFeignException;
-import ddd.caffeine.ratrip.service.feign.KakaoFeignClient;
+import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignClient;
+import ddd.caffeine.ratrip.module.recommend.service.RecommendPlaceService;
 
 /**
  * RecommendPlaceService 의 단위테스트 구현

@@ -1,9 +1,9 @@
-package ddd.caffeine.ratrip;
+package ddd.caffeine.ratrip.module.recommend.service;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import ddd.caffeine.ratrip.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;

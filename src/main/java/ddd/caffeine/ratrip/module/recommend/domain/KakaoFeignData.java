@@ -1,11 +1,11 @@
-package ddd.caffeine.ratrip.service.feign.model;
+package ddd.caffeine.ratrip.module.recommend.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class KakaoFeignModel {
+public class KakaoFeignData {
 	private String category_group_name;
 	private String category_name;
 	private String phone;

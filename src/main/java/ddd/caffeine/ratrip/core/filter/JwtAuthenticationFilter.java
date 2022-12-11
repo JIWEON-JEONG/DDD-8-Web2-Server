@@ -37,27 +37,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private void validateHeader(String bearerToken) {
-		if (isValidHeader(bearerToken)) {
-			validateAccessToken(getAccessTokenFromBearer(bearerToken));
-		}
+		validateHasText(bearerToken);
+		validateStartWithBearer(bearerToken);
+		validateAccessToken(getAccessTokenFromBearer(bearerToken));
 	}
 
-	private boolean isValidHeader(String bearerToken) {
-		return validateHasText(bearerToken) && validateStartWithBearer(bearerToken);
-	}
-
-	private boolean validateHasText(String bearerToken) {
+	private void validateHasText(String bearerToken) {
 		if (!StringUtils.hasText(bearerToken)) {
 			throw new RuntimeException("UNAUTHORIZED_EXCEPTION_EMPTY_HEADER");
 		}
-		return true;
 	}
 
-	private boolean validateStartWithBearer(String bearerToken) {
+	private void validateStartWithBearer(String bearerToken) {
 		if (!bearerToken.startsWith(BEARER_PREFIX)) {
 			throw new RuntimeException("UNAUTHORIZED_EXCEPTION_INVALID_BEARER");
 		}
-		return true;
 	}
 
 	private void validateAccessToken(String accessToken) {

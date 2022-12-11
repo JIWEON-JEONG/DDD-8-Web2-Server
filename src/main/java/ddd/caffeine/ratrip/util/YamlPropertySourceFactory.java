@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.util;
 
-import java.io.FileNotFoundException;
+import static ddd.caffeine.ratrip.exception.ExceptionInformation.*;
+
 import java.io.IOException;
 import java.util.Properties;
 
@@ -10,6 +11,8 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.lang.Nullable;
+
+import ddd.caffeine.ratrip.exception.CoreException;
 
 public class YamlPropertySourceFactory implements PropertySourceFactory {
 	@Override
@@ -21,17 +24,14 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
 		return new PropertiesPropertySource(resource.getResource().getFilename(), propertiesFromYaml);
 	}
 
-	private Properties loadYamlIntoProperties(EncodedResource resource) throws FileNotFoundException {
+	private Properties loadYamlIntoProperties(EncodedResource resource) {
 		try {
 			YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
 			factory.setResources(resource.getResource());
 			factory.afterPropertiesSet();
 			return factory.getObject();
 		} catch (IllegalStateException e) {
-			Throwable cause = e.getCause();
-			if (cause instanceof FileNotFoundException)
-				throw (FileNotFoundException)e.getCause();
-			throw e;
+			throw new CoreException(ILLEGAL_YML_PROPERTIES_EXCEPTION);
 		}
 	}
 }

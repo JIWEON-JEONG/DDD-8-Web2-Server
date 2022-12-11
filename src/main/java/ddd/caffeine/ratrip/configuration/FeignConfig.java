@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ddd.caffeine.ratrip.FeignResponseUtils;
 import ddd.caffeine.ratrip.KakaoFeignErrorDecoder;
 import feign.Logger;
 
@@ -18,7 +19,7 @@ public class FeignConfig {
 	}
 
 	@Bean
-	public KakaoFeignErrorDecoder errorDecoder() {
-		return new KakaoFeignErrorDecoder();
+	public KakaoFeignErrorDecoder errorDecoder(FeignResponseUtils feignResponseUtils) {
+		return new KakaoFeignErrorDecoder(feignResponseUtils);
 	}
 }

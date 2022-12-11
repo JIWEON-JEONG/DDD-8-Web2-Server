@@ -6,19 +6,21 @@ import java.util.Optional;
 import ddd.caffeine.ratrip.exception.domain.KakaoFeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class KakaoFeignErrorDecoder implements ErrorDecoder {
+
+	private final FeignResponseUtils feignResponseUtils;
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
 		final String errorCode = "KAKAO_FEIGN_EXCEPTION";
 
-		String requestBody = FeignResponseUtils.encodeRequestBody(response);
-		String responseBody = FeignResponseUtils.encodeResponseBody(response);
+		String requestBody = feignResponseUtils.encodeRequestBody(response);
+		String responseBody = feignResponseUtils.encodeResponseBody(response);
 
 		log.error("{} 요청이 성공하지 못했습니다. status: {} requestUrl: {}, requestBody: {}, responseBody: {}",
 			response.status(), methodKey, response.request().url(), requestBody, responseBody);

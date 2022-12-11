@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.stereotype.Component;
 
 import feign.Response;
 import lombok.AccessLevel;
@@ -18,9 +19,10 @@ import lombok.extern.slf4j.Slf4j;
  * 외부 API 통신 에서 Response 객체에 대한 Util Class.
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Component
 public class FeignResponseUtils {
-	public static String encodeRequestBody(Response response) {
+	public String encodeRequestBody(Response response) {
 		if (response.request().body() == null) {
 			return "";
 		}
@@ -32,7 +34,7 @@ public class FeignResponseUtils {
 		}
 	}
 
-	public static String encodeResponseBody(Response response) {
+	public String encodeResponseBody(Response response) {
 		if (response.body() == null) {
 			return "";
 		}

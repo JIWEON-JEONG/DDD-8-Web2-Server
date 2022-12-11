@@ -38,12 +38,11 @@ dependencies {
 
     //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.1'
 
 
     //security
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    testImplementation 'org.springframework.security:spring-security-test'
 
     //lombok
     compileOnly 'org.projectlombok:lombok'
@@ -55,6 +54,13 @@ dependencies {
 
     //data jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // WireMock
+    testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
+    //    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

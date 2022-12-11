@@ -14,8 +14,8 @@ import lombok.extern.log4j.Log4j2;
 /**
  * 장소 추천 API
  */
-@RestController
 @Log4j2
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/recommend")
 public class RecommendPlaceController {

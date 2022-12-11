@@ -16,12 +16,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 외부 API 통신 에서 Response 객체에 대한 Util Class.
+ * 외부 API 통신 에서 Response 객체 인코딩 해주는 클래스.
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Component
-public class FeignResponseUtils {
+public class FeignResponseEncoder {
 	public String encodeRequestBody(Response response) {
 		if (response.request().body() == null) {
 			return "";

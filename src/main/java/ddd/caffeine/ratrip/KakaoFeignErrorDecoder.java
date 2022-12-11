@@ -13,14 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class KakaoFeignErrorDecoder implements ErrorDecoder {
 
-	private final FeignResponseUtils feignResponseUtils;
+	private final FeignResponseEncoder feignResponseEncoder;
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
 		final String errorCode = "KAKAO_FEIGN_EXCEPTION";
 
-		String requestBody = feignResponseUtils.encodeRequestBody(response);
-		String responseBody = feignResponseUtils.encodeResponseBody(response);
+		String requestBody = feignResponseEncoder.encodeRequestBody(response);
+		String responseBody = feignResponseEncoder.encodeResponseBody(response);
+
+		log.info("{}", responseBody);
 
 		log.error("{} 요청이 성공하지 못했습니다. status: {} requestUrl: {}, requestBody: {}, responseBody: {}",
 			response.status(), methodKey, response.request().url(), requestBody, responseBody);

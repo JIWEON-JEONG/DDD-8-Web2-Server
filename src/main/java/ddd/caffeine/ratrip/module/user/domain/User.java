@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.module.user.domain;
 
-import ddd.caffeine.ratrip.jpa.AuditingTimeEntity;
+import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

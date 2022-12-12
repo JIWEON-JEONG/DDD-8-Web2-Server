@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.jpa;
+package ddd.caffeine.ratrip.common.jpa;
 
 import java.time.LocalDateTime;
 

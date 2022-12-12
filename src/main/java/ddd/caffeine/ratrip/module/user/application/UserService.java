@@ -12,11 +12,11 @@ import ddd.caffeine.ratrip.module.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
 	private final UserRepository userRepository;
 
-	@Transactional
 	public Long registerUser(RegisterUserDto request) {
 		validateUserNotExist(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 
@@ -27,7 +27,6 @@ public class UserService {
 		return user.getId();
 	}
 
-	@Transactional
 	public Long findUserBySocialIdAndSocialType(SignInUserDto request) {
 		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 		return user.getId();

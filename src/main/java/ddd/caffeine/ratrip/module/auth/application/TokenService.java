@@ -12,24 +12,22 @@ import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDt
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TokenService {
 	private final JwtRemover jwtRemover;
 	private final JwtProvider jwtProvider;
 	private final JwtUtil jwtUtil;
 
-	@Transactional
 	public TokenResponseDto createTokenInfo(Long userId) {
 		return jwtProvider.createTokenInfo(userId);
 	}
 
-	@Transactional
 	public TokenResponseDto reissueToken(TokenReissueDto request) {
 		Long userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
 		return jwtProvider.createTokenInfo(userId);
 	}
 
-	@Transactional
 	public Long deleteToken(SignOutDto signOutDto) {
 		Long userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
 		jwtRemover.deleteRefreshToken(userId);

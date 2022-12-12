@@ -19,6 +19,7 @@ import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class KakaoAuthService implements AuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
@@ -27,7 +28,6 @@ public class KakaoAuthService implements AuthService {
 	private final TokenService tokenService;
 
 	@Override
-	@Transactional
 	public SignInResponseDto signUp(SignUpDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
 		Long userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
@@ -37,7 +37,6 @@ public class KakaoAuthService implements AuthService {
 	}
 
 	@Override
-	@Transactional
 	public SignInResponseDto signIn(SignInDto request) {
 		KakaoProfileResponse response = getKakaoProfileResponse(request.getToken());
 		Long userId = userService.findUserBySocialIdAndSocialType(SignInUserDto.of(response.getId(), socialType));

@@ -29,14 +29,19 @@ public class UserService {
 
 	@Transactional
 	public Long findUserBySocialIdAndSocialType(SignInUserDto request) {
-		User user = userRepository.findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
-		UserServiceValidator.validateUserExist(user);
-
+		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 		return user.getId();
 	}
 
 	private void validateUserNotExist(SocialInfo socialInfo) {
 		User user = userRepository.findUserBySocialInfo(socialInfo);
 		UserServiceValidator.validateUserNotExist(user);
+	}
+
+	private User findUserBySocialInfo(SocialInfo socialInfo) {
+		User user = userRepository.findUserBySocialInfo(socialInfo);
+		UserServiceValidator.validateUserExist(user);
+
+		return user;
 	}
 }

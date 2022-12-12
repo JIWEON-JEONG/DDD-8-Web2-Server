@@ -11,8 +11,8 @@ import lombok.Getter;
 public enum ExceptionInformation {
 	;
 
-	private HttpStatus httpStatus;
-	private String message;
+	private final HttpStatus httpStatus;
+	private final String message;
 
 	ExceptionInformation(HttpStatus httpStatus, String message) {
 		this.httpStatus = httpStatus;

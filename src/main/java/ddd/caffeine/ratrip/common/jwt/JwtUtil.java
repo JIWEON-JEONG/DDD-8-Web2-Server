@@ -1,8 +1,11 @@
 package ddd.caffeine.ratrip.common.jwt;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import ddd.caffeine.ratrip.common.exception.CommonException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -37,11 +40,11 @@ public class JwtUtil {
 		Object refreshTokenFromDb = redisTemplate.opsForValue().get("RT:" + userId);
 
 		if (refreshTokenFromDb == null) {
-			throw new RuntimeException("NOT_FOUND_REFRESH_TOKEN_EXCEPTION");
+			throw new CommonException(NOT_FOUND_REFRESH_TOKEN_EXCEPTION);
 		}
 
 		if (!refreshToken.equals(refreshTokenFromDb)) {
-			throw new RuntimeException("WRONG_REFRESH_TOKEN_EXCEPTION");
+			throw new CommonException(DIFFERENT_REFRESH_TOKEN_EXCEPTION);
 		}
 	}
 
@@ -53,15 +56,15 @@ public class JwtUtil {
 				.parseClaimsJws(token)
 				.getBody();
 		} catch (SecurityException e) {
-			throw new SecurityException("INVALID_JWT_SIGNATURE_EXCEPTION");
+			throw new CommonException(INVALID_JWT_SIGNATURE_EXCEPTION);
 		} catch (MalformedJwtException e) {
-			throw new MalformedJwtException("INVALID_JWT_TOKEN_EXCEPTION");
+			throw new CommonException(INVALID_JWT_TOKEN_EXCEPTION);
 		} catch (ExpiredJwtException e) {
-			throw new RuntimeException("EXPIRED_JWT_TOKEN_EXCEPTION");
+			throw new CommonException(EXPIRED_JWT_TOKEN_EXCEPTION);
 		} catch (UnsupportedJwtException e) {
-			throw new UnsupportedJwtException("UNSUPPORTED_JWT_TOKEN_EXCEPTION");
+			throw new CommonException(UNSUPPORTED_JWT_TOKEN_EXCEPTION);
 		} catch (IllegalArgumentException e) {
-			throw new RuntimeException("NOT_FOUND_JWT_CLAIMS_EXCEPTION");
+			throw new CommonException(NOT_FOUND_JWT_CLAIMS_EXCEPTION);
 		}
 	}
 
@@ -73,7 +76,7 @@ public class JwtUtil {
 
 	private void validateExistUserIdFromAccessToken(Long userId) {
 		if (userId == null) {
-			throw new RuntimeException("NOT_FOUND_JWT_USERID_EXCEPTION");
+			throw new CommonException(NOT_FOUND_JWT_USERID_EXCEPTION);
 		}
 	}
 

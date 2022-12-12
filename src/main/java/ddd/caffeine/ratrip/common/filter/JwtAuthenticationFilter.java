@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.common.filter;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 import static ddd.caffeine.ratrip.common.util.HttpHeaderUtils.*;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import ddd.caffeine.ratrip.common.exception.CommonException;
 import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -44,13 +46,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private void validateHasText(String bearerToken) {
 		if (!StringUtils.hasText(bearerToken)) {
-			throw new RuntimeException("UNAUTHORIZED_EXCEPTION_EMPTY_HEADER");
+			throw new CommonException(EMPTY_HEADER_EXCEPTION);
 		}
 	}
 
 	private void validateStartWithBearer(String bearerToken) {
 		if (!bearerToken.startsWith(BEARER_PREFIX)) {
-			throw new RuntimeException("UNAUTHORIZED_EXCEPTION_INVALID_BEARER");
+			throw new CommonException(INVALID_BEARER_FORMAT_EXCEPTION);
 		}
 	}
 

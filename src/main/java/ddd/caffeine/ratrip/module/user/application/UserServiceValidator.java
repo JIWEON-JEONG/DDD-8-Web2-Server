@@ -1,17 +1,20 @@
 package ddd.caffeine.ratrip.module.user.application;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
+import ddd.caffeine.ratrip.common.exception.CommonException;
 import ddd.caffeine.ratrip.module.user.domain.User;
 
 public class UserServiceValidator {
 	public static void validateUserNotExist(User user) {
 		if (isUserAlreadyExist(user)) {
-			throw new RuntimeException("이미 존재하는 유저입니다.");
+			throw new CommonException(ALREADY_EXIST_USER_EXCEPTION);
 		}
 	}
 
 	public static void validateUserExist(User user) {
 		if (!isUserAlreadyExist(user)) {
-			throw new RuntimeException("존재하지 않는 유저입니다.");
+			throw new CommonException(NOT_FOUND_USER_EXCEPTION);
 		}
 	}
 

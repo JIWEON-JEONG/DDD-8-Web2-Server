@@ -11,14 +11,14 @@ import lombok.Getter;
 @Getter
 public class BaseException extends RuntimeException {
 
-	private HttpStatus httpStatus;
+	private final HttpStatus httpStatus;
 
 	/**
 	 * 프론트 개발자들과 상의 후 넣을지 안넣을지 결정.
 	 */
-	private String errorCode;
+	private final String errorCode;
 
-	private String message;
+	private final String message;
 
 	/**
 	 * ExceptionInformation Enum Type 활용 생성자

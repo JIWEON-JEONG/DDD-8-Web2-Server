@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.core.jwt;
+package ddd.caffeine.ratrip.common.jwt;
 
 import java.security.Key;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import ddd.caffeine.ratrip.core.util.YamlPropertySourceFactory;
+import ddd.caffeine.ratrip.common.util.YamlPropertySourceFactory;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 

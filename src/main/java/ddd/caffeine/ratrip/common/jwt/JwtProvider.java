@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.core.jwt;
+package ddd.caffeine.ratrip.common.jwt;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.core.jwt;
+package ddd.caffeine.ratrip.common.jwt;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

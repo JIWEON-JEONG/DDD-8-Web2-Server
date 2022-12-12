@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.auth.application.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.core.util.HttpHeaderUtils;
+import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
 import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignInDto;

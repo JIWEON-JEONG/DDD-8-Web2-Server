@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.core.util;
+package ddd.caffeine.ratrip.common.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

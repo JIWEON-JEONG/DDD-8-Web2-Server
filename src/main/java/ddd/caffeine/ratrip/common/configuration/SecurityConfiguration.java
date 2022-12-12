@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.core.configuration;
+package ddd.caffeine.ratrip.common.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import ddd.caffeine.ratrip.core.filter.JwtAuthenticationFilter;
-import ddd.caffeine.ratrip.core.jwt.JwtUtil;
+import ddd.caffeine.ratrip.common.filter.JwtAuthenticationFilter;
+import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

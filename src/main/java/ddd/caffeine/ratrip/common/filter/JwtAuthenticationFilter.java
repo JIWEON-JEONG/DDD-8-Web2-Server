@@ -1,6 +1,6 @@
-package ddd.caffeine.ratrip.core.filter;
+package ddd.caffeine.ratrip.common.filter;
 
-import static ddd.caffeine.ratrip.core.util.HttpHeaderUtils.*;
+import static ddd.caffeine.ratrip.common.util.HttpHeaderUtils.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ddd.caffeine.ratrip.core.jwt.JwtUtil;
+import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

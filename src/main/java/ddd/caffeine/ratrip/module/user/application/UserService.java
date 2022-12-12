@@ -18,8 +18,7 @@ public class UserService {
 
 	@Transactional
 	public Long registerUser(RegisterUserDto request) {
-		UserServiceUtils.validateExistUser(userRepository,
-			SocialInfo.of(request.getSocialId(), request.getSocialType()));
+		validateExistUser(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 
 		User user = userRepository.save(
 			User.of(request.getName(), request.getEmail(), UserStatus.ACTIVE, request.getSocialId(),
@@ -34,5 +33,10 @@ public class UserService {
 			SocialInfo.of(request.getSocialId(), request.getSocialType()));
 
 		return user.getId();
+	}
+
+	private void validateExistUser(SocialInfo socialInfo) {
+		User user = userRepository.findUserBySocialInfo(socialInfo);
+		UserServiceValidator.validateExistUser(user);
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import ddd.caffeine.ratrip.common.filter.JwtAuthenticationFilter;
+import ddd.caffeine.ratrip.common.filter.JwtExceptionFilter;
 import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +36,7 @@ public class SecurityConfiguration {
 			.httpStrictTransportSecurity().disable()
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
 			.build();
 	}
 

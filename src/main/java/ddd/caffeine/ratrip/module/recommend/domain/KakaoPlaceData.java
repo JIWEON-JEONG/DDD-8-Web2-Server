@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class KakaoFeignData {
+public class KakaoPlaceData {
 	private String categoryGroupName;
 	private String categoryName;
 	private String phone;
@@ -18,4 +18,10 @@ public class KakaoFeignData {
 	private String roadAddressName;
 	private String x;
 	private String y;
+
+	private NaverImageModel imageModel;
+
+	public void injectImageModel(NaverImageModel imageModel) {
+		this.imageModel = imageModel;
+	}
 }

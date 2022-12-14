@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class KakaoFeignModel {
-	List<KakaoFeignData> documents;
+	List<KakaoPlaceData> documents;
 	KakaoFeignMetaData meta;
 }

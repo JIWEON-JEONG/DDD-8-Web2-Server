@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.auth.presentation;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,8 +49,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/signout")
-	public ResponseEntity<Long> signOut(@Valid @RequestBody SignOutRequestDto request) {
-		Long userId = tokenService.deleteToken(request.toServiceDto());
+	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
+		UUID userId = tokenService.deleteToken(request.toServiceDto());
 		return ResponseEntity.ok(userId);
 	}
 }

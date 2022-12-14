@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.user.application;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 
-	public Long registerUser(RegisterUserDto request) {
+	public UUID registerUser(RegisterUserDto request) {
 		validateUserNotExist(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 
 		User user = userRepository.save(
@@ -27,7 +29,7 @@ public class UserService {
 		return user.getId();
 	}
 
-	public Long findUserBySocialIdAndSocialType(SignInUserDto request) {
+	public UUID findUserBySocialIdAndSocialType(SignInUserDto request) {
 		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 		return user.getId();
 	}

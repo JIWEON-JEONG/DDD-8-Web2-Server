@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.auth.application;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +21,17 @@ public class TokenService {
 	private final JwtProvider jwtProvider;
 	private final JwtUtil jwtUtil;
 
-	public TokenResponseDto createTokenInfo(Long userId) {
+	public TokenResponseDto createTokenInfo(UUID userId) {
 		return jwtProvider.createTokenInfo(userId);
 	}
 
 	public TokenResponseDto reissueToken(TokenReissueDto request) {
-		Long userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
+		UUID userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
 		return jwtProvider.createTokenInfo(userId);
 	}
 
-	public Long deleteToken(SignOutDto signOutDto) {
-		Long userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
+	public UUID deleteToken(SignOutDto signOutDto) {
+		UUID userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
 		jwtRemover.deleteRefreshToken(userId);
 		return userId;
 	}

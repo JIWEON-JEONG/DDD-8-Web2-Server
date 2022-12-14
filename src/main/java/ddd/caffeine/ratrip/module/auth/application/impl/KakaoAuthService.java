@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.auth.application.impl;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +32,7 @@ public class KakaoAuthService implements AuthService {
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
-		Long userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
+		UUID userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
@@ -39,7 +41,7 @@ public class KakaoAuthService implements AuthService {
 	@Override
 	public SignInResponseDto signIn(SignInDto request) {
 		KakaoProfileResponse response = getKakaoProfileResponse(request.getToken());
-		Long userId = userService.findUserBySocialIdAndSocialType(SignInUserDto.of(response.getId(), socialType));
+		UUID userId = userService.findUserBySocialIdAndSocialType(SignInUserDto.of(response.getId(), socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

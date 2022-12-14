@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.common.jwt;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
+import java.util.UUID;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class JwtUtil {
 	private final JwtSecretKeyProvider jwtSecretKeyProvider;
 	private final RedisTemplate<String, Object> redisTemplate;
 
-	public Long validateTokensAndGetUserId(String accessToken, String refreshToken) {
+	public UUID validateTokensAndGetUserId(String accessToken, String refreshToken) {
 		validateTokenClaims(refreshToken);
 		return getUserIdFromTokens(accessToken, refreshToken);
 	}
@@ -30,13 +32,13 @@ public class JwtUtil {
 		parseClaim(token);
 	}
 
-	private Long getUserIdFromTokens(String accessToken, String refreshToken) {
-		Long userId = getUserIdFromAccessToken(accessToken);
+	private UUID getUserIdFromTokens(String accessToken, String refreshToken) {
+		UUID userId = getUserIdFromAccessToken(accessToken);
 		validateExistRefreshToken(refreshToken, userId);
 		return userId;
 	}
 
-	private void validateExistRefreshToken(String refreshToken, Long userId) {
+	private void validateExistRefreshToken(String refreshToken, UUID userId) {
 		Object refreshTokenFromDb = redisTemplate.opsForValue().get("RT:" + userId);
 
 		if (refreshTokenFromDb == null) {
@@ -68,20 +70,20 @@ public class JwtUtil {
 		}
 	}
 
-	public Long getUserIdFromAccessToken(String accessToken) {
-		Long userId = parseClaim(accessToken).get(JwtConstants.USER_ID, Long.class);
+	public UUID getUserIdFromAccessToken(String accessToken) {
+		UUID userId = UUID.fromString(parseClaim(accessToken).get(JwtConstants.USER_ID, String.class));
 		validateExistUserIdFromAccessToken(userId);
 		return userId;
 	}
 
-	private void validateExistUserIdFromAccessToken(Long userId) {
+	private void validateExistUserIdFromAccessToken(UUID userId) {
 		if (userId == null) {
 			throw new CommonException(NOT_FOUND_JWT_USERID_EXCEPTION);
 		}
 	}
 
 	public void validateAccessToken(String accessToken) {
-		Long userId = parseClaim(accessToken).get(JwtConstants.USER_ID, Long.class);
+		UUID userId = UUID.fromString(parseClaim(accessToken).get(JwtConstants.USER_ID, String.class));
 		validateExistUserIdFromAccessToken(userId);
 	}
 }

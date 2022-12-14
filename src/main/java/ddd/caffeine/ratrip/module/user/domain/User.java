@@ -1,14 +1,17 @@
 package ddd.caffeine.ratrip.module.user.domain;
 
+import java.util.UUID;
+
+import com.fasterxml.uuid.Generators;
+
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends AuditingTimeEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(columnDefinition = "BINARY(16)")
+	private UUID id;
 
 	@Column(nullable = false)
 	private String name;
@@ -34,6 +37,21 @@ public class User extends AuditingTimeEntity {
 
 	@Embedded
 	private SocialInfo socialInfo;
+
+	@PrePersist
+	public void createUserUniqId() {
+		//sequential uuid 생성
+		UUID uuid = Generators.timeBasedGenerator().generate();
+		String[] uuidArr = uuid.toString().split("-");
+		String uuidStr = uuidArr[2] + uuidArr[1] + uuidArr[0] + uuidArr[3] + uuidArr[4];
+		StringBuffer sb = new StringBuffer(uuidStr);
+		sb.insert(8, "-");
+		sb.insert(13, "-");
+		sb.insert(18, "-");
+		sb.insert(23, "-");
+		uuid = UUID.fromString(sb.toString());
+		this.id = uuid;
+	}
 
 	@Builder(access = AccessLevel.PACKAGE)
 	private User(String name, String email, UserStatus status, String socialId, UserSocialType socialType) {

@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	private final UserRepository userRepository;
+	private final UserServiceValidator userServiceValidator;
 
 	public UUID registerUser(RegisterUserDto request) {
 		validateUserNotExist(SocialInfo.of(request.getSocialId(), request.getSocialType()));
@@ -36,12 +37,12 @@ public class UserService {
 
 	private void validateUserNotExist(SocialInfo socialInfo) {
 		User user = userRepository.findUserBySocialInfo(socialInfo);
-		UserServiceValidator.validateUserNotExist(user);
+		userServiceValidator.validateUserNotExist(user);
 	}
 
 	private User findUserBySocialInfo(SocialInfo socialInfo) {
 		User user = userRepository.findUserBySocialInfo(socialInfo);
-		UserServiceValidator.validateUserExist(user);
+		userServiceValidator.validateUserExist(user);
 
 		return user;
 	}

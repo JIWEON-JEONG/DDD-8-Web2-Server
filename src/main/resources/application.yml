@@ -13,5 +13,5 @@ springdoc:
   api-docs:
     path: /v1/api-docs
   default-produces-media-type: application/json
-  #override-with-generic-response: true
+  #override-with-generic-response: true #생성된 모든 응답에 @ControllerAdvice 응답을 자동으로 추가합니다.
   writer-with-default-pretty-printer: true

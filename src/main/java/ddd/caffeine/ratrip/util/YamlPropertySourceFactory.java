@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.util;
 
-import static ddd.caffeine.ratrip.exception.ExceptionInformation.*;
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.lang.Nullable;
 
-import ddd.caffeine.ratrip.exception.CoreException;
+import ddd.caffeine.ratrip.common.exception.domain.CoreException;
 
 public class YamlPropertySourceFactory implements PropertySourceFactory {
 	@Override

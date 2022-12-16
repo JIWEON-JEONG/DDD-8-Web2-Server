@@ -30,17 +30,13 @@ public class AuthController {
 	@PostMapping("/auth/signup")
 	public ResponseEntity<SignInResponseDto> signUp(@Valid @RequestBody SignUpRequestDto request) {
 		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-		SignInResponseDto responseDto = authService.signUp(request.toServiceDto());
-
-		return ResponseEntity.ok(responseDto);
+		return ResponseEntity.ok(authService.signUp(request.toServiceDto()));
 	}
 
 	@PostMapping("/auth/signin")
 	public ResponseEntity<SignInResponseDto> signIn(@Valid @RequestBody SignInRequestDto request) {
 		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-		SignInResponseDto responseDto = authService.signIn(request.toServiceDto());
-
-		return ResponseEntity.ok(responseDto);
+		return ResponseEntity.ok(authService.signIn(request.toServiceDto()));
 	}
 
 	@PostMapping("auth/reissue")
@@ -50,7 +46,6 @@ public class AuthController {
 
 	@PostMapping("/auth/signout")
 	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
-		UUID userId = tokenService.deleteToken(request.toServiceDto());
-		return ResponseEntity.ok(userId);
+		return ResponseEntity.ok(tokenService.deleteToken(request.toServiceDto()));
 	}
 }

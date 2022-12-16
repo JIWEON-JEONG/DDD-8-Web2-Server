@@ -1,6 +1,6 @@
-package ddd.caffeine.ratrip.exception;
+package ddd.caffeine.ratrip.common.exception;
 
-import static ddd.caffeine.ratrip.exception.ExceptionResponse.*;
+import static ddd.caffeine.ratrip.common.exception.ExceptionResponse.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -38,3 +38,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### TodoList ###
+/src/main/java/ddd/caffeine/ratrip/TodoList.md

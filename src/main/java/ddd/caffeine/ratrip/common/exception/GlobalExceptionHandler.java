@@ -24,7 +24,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(BaseException.class)
 	public ExceptionResponse handleExpectedException(BaseException e) {
-		log.error("BaseException", e);
+		log.error("code : {}, message : {}", e.getErrorCode(), e.getMessage());
 		return ExceptionResponse.builder()
 			.httpStatus(e.getHttpStatus())
 			.errorCode(e.getErrorCode())
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(RuntimeException.class)
 	public ExceptionResponse handleUnexpectedException(RuntimeException e) {
-		log.error("RuntimeException", e);
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
 		return ExceptionResponse.builder()
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 			.errorCode("UNEXPECTED_EXCEPTION")

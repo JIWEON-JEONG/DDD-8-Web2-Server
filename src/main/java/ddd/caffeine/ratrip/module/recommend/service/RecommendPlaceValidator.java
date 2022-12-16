@@ -17,7 +17,6 @@ public class RecommendPlaceValidator {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;
 		if (page < MIN_PAGE || page > MAX_PAGE) {
-			log.error(KAKAO_PAGE_NUMBER_EXCEPTION.getMessage());
 			throw new KakaoFeignException(KAKAO_PAGE_NUMBER_EXCEPTION);
 		}
 	}

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.recommend.presentation.dto.RecommendResponseDto;
-import ddd.caffeine.ratrip.module.recommend.service.RecommendPlaceUseCase;
+import ddd.caffeine.ratrip.module.recommend.service.RecommendPlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,14 +19,14 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/recommend")
 public class RecommendPlaceController {
-	private final RecommendPlaceUseCase recommendPlaceUseCase;
+	private final RecommendPlaceService recommendPlaceService;
 
 	@GetMapping(value = "place")
 	public ResponseEntity<RecommendResponseDto> callRecommendPlaceApi(@RequestParam String region,
 		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") int page
 	) {
 		RecommendResponseDto response = new RecommendResponseDto(
-			recommendPlaceUseCase.recommendPlaces(region, keyword, page));
+			recommendPlaceService.recommendPlaces(region, keyword, page));
 		return ResponseEntity.ok(response);
 	}
 }

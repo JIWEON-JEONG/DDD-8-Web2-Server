@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.configuration;
+package ddd.caffeine.ratrip.common.configuration;
 
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;

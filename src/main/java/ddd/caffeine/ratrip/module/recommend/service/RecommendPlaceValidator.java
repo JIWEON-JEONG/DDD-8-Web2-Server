@@ -1,8 +1,9 @@
 package ddd.caffeine.ratrip.module.recommend.service;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import org.springframework.stereotype.Component;
 
-import ddd.caffeine.ratrip.common.exception.ExceptionInformation;
 import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,8 +17,8 @@ public class RecommendPlaceValidator {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;
 		if (page < MIN_PAGE || page > MAX_PAGE) {
-			log.error(ExceptionInformation.KAKAO_PAGE_NUMBER_EXCEPTION.getMessage());
-			throw new KakaoFeignException(ExceptionInformation.KAKAO_PAGE_NUMBER_EXCEPTION);
+			log.error(KAKAO_PAGE_NUMBER_EXCEPTION.getMessage());
+			throw new KakaoFeignException(KAKAO_PAGE_NUMBER_EXCEPTION);
 		}
 	}
 }

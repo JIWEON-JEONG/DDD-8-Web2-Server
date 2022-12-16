@@ -28,7 +28,6 @@ public class AuthController {
 	private final TokenService tokenService;
 
 	@PostMapping("/auth/signup")
-	// @Schema(description = "회원가입 요청", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
 	public ResponseEntity<SignInResponseDto> signUp(@Valid @RequestBody SignUpRequestDto request) {
 		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
 		SignInResponseDto responseDto = authService.signUp(request.toServiceDto());

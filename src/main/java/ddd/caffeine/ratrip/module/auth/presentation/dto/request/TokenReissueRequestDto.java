@@ -3,10 +3,9 @@ package ddd.caffeine.ratrip.module.auth.presentation.dto.request;
 import ddd.caffeine.ratrip.module.auth.application.dto.TokenReissueDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class TokenReissueRequestDto {
 	@Schema(description = "엑세스 토큰", example = "eyJhbGciOiJIUzUxMiJ9.eyJVU0VSX0lEIjoiMTFlZDdjMmUtZGZlZi1hZWFkLTkxM2ItZWJkOWE1N2YwMjE3IiwiZXhwIjoxNjcxMDc5NTAwfQ.pEDYlZZwAykx1wpNNRK8scnaL1SGRTTlJZ4EKC--ja5ZBg8Vz4LiyFEvSy79W1-k9PJuRKY-VCnrG8KzO4IRrQ")
 	@NotBlank(message = "Access token must not be blank")

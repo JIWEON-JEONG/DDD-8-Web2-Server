@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * 실제 client 에게 response 될 클래스.
@@ -13,6 +14,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
+@ToString
 public class ExceptionResponse {
 
 	private HttpStatus httpStatus;
@@ -23,4 +25,12 @@ public class ExceptionResponse {
 	private String errorCode;
 
 	private String message;
+
+	public static ExceptionResponse of(HttpStatus httpStatus, String errorCode, String message) {
+		return ExceptionResponse.builder()
+			.httpStatus(httpStatus)
+			.errorCode(errorCode)
+			.message(message)
+			.build();
+	}
 }

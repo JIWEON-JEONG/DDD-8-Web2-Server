@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ddd.caffeine.ratrip.common.exception.domain.CoreException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class QueryStringArgumentResolver implements HandlerMethodArgumentResolve
 		try {
 			mappedObject = mapper.readValue(json, methodParameter.getParameterType());
 		} catch (JsonProcessingException e) {
-			throw new CoreException(JSON_TO_OBJECT_MAPPING_EXCEPTION);
+			throw new CommonException(JSON_TO_OBJECT_MAPPING_EXCEPTION);
 		}
 
 		return mappedObject;

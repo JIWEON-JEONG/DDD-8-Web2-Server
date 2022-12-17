@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ddd.caffeine.ratrip.common.exception.CommonException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

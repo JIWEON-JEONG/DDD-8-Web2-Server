@@ -15,9 +15,6 @@ public enum ExceptionInformation {
 	ILLEGAL_YML_PROPERTIES_EXCEPTION(BAD_REQUEST, "YML 파일을 읽어올 수 없습니다."),
 	KAKAO_PAGE_NUMBER_EXCEPTION(BAD_REQUEST, "Page 는 1 이상 45 이하 여야 합니다."),
 	JSON_TO_OBJECT_MAPPING_EXCEPTION(BAD_REQUEST, "JSON 을 객체로 변환 하지 못하였습니다."),
-	;
-
-	// 401 Unauthorized
 	INVALID_BEARER_FORMAT_EXCEPTION(BAD_REQUEST, "Bearer 토큰의 형식이 올바르지 않습니다."),
 
 	// 401 Unauthorized

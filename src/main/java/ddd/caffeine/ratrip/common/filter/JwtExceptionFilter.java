@@ -7,8 +7,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ddd.caffeine.ratrip.common.exception.CommonException;
 import ddd.caffeine.ratrip.common.exception.ExceptionResponse;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

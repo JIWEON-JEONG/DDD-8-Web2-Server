@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import ddd.caffeine.ratrip.common.exception.CommonException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

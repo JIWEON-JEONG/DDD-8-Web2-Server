@@ -13,12 +13,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
 @Slf4j
-@AllArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class JwtUtil {
 	private final JwtSecretKeyProvider jwtSecretKeyProvider;
 	private final RedisTemplate<String, Object> redisTemplate;

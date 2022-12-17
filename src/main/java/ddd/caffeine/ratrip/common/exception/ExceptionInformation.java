@@ -28,8 +28,8 @@ public enum ExceptionInformation {
 	NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "존재하지 않는 유저입니다."),
 	EMPTY_HEADER_EXCEPTION(NOT_FOUND, "헤더가 비어있습니다."),
 	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(NOT_FOUND, "DB에 존재하지 않는 리프레시 토큰입니다."),
-	NOT_FOUND_JWT_CLAIMS_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 클레임이 존재하지 않습니다."),
-	NOT_FOUND_JWT_USERID_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 userId가 비어 있습니다."),
+	NOT_FOUND_JWT_CLAIMS_EXCEPTION(NOT_FOUND, "JWT 토큰에 클레임이 존재하지 않습니다."),
+	NOT_FOUND_JWT_USERID_EXCEPTION(NOT_FOUND, "JWT 토큰에 userId가 비어 있습니다."),
 	NOT_FOUND_PUBLIC_KEY_EXCEPTION(NOT_FOUND, "일치하는 Public Key가 존재하지 않습니다"),
 
 	// 409 Conflict

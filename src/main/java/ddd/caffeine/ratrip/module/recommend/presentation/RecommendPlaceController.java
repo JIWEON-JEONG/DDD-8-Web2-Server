@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/recommend")
+@RequestMapping("v1/recommend")
 public class RecommendPlaceController {
 	private final RecommendPlaceService recommendPlaceService;
 

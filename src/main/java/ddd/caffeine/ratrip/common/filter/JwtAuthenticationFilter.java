@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	private static final List<String> whitelist = List.of("/auth");
+	private static final List<String> whitelist = List.of("/auth", "api");
 	private final JwtUtil jwtUtil;
 
 	@Override

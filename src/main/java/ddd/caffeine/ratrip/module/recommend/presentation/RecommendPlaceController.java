@@ -22,8 +22,10 @@ public class RecommendPlaceController {
 	private final RecommendPlaceService recommendPlaceService;
 
 	@GetMapping(value = "place")
-	public ResponseEntity<RecommendResponseDto> callRecommendPlaceApi(@RequestParam String region,
-		@RequestParam String keyword, @RequestParam(required = false, defaultValue = "1") int page
+	public ResponseEntity<RecommendResponseDto> callRecommendPlaceApi(
+		@RequestParam String region,
+		@RequestParam String keyword,
+		@RequestParam(required = false, defaultValue = "1") int page
 	) {
 		RecommendResponseDto response = new RecommendResponseDto(
 			recommendPlaceService.recommendPlaces(region, keyword, page));

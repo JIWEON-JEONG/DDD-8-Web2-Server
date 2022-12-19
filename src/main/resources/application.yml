@@ -1,4 +1,11 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: ratrip
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA}?serverTimezone=UTC&characterEncoding=UTF-8
     username: ${DB_USERNAME}
@@ -22,6 +29,16 @@ springdoc:
   override-with-generic-response: true #생성된 모든 응답에 @ControllerAdvice 응답을 자동으로 추가합니다.
   writer-with-default-pretty-printer: true
 
-logging.level:
-  org.hibernate.sql: debug
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 15000
+        loggerLevel: FULL
+
+logging:
+  level:
+    ddd.caffeine.ratrip: DEBUG
+
 

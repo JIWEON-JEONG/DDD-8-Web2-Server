@@ -4,7 +4,7 @@ import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import java.util.List;
 
-import ddd.caffeine.ratrip.common.exception.CommonException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.recommend.service;
 import java.util.Arrays;
 import java.util.Optional;
 
-import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class KakaoFeignErrorDecoder implements ErrorDecoder {
+public class FeignErrorDecoder implements ErrorDecoder {
 
 	private final FeignResponseEncoder feignResponseEncoder;
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		final String errorCode = "KAKAO_FEIGN_EXCEPTION";
+		final String errorCode = "FEIGN_EXCEPTION";
 
 		String requestBody = feignResponseEncoder.encodeRequestBody(response);
 		String responseBody = feignResponseEncoder.encodeResponseBody(response);
@@ -25,7 +25,7 @@ public class KakaoFeignErrorDecoder implements ErrorDecoder {
 		log.error("요청이 성공하지 못했습니다. status: {} requestUrl: {}, requestBody: {}, responseBody: {}",
 			response.status(), response.request().url(), requestBody, responseBody);
 
-		return new KakaoFeignException(response.status(), errorCode, extractExceptionMessage(responseBody));
+		return new FeignException(response.status(), errorCode, extractExceptionMessage(responseBody));
 	}
 
 	/**

@@ -1,10 +1,12 @@
 package ddd.caffeine.ratrip.module.recommend.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import feign.Response;
+import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,13 @@ public class FeignErrorDecoder implements ErrorDecoder {
 	@Override
 	public Exception decode(String methodKey, Response response) {
 		final String errorCode = "FEIGN_EXCEPTION";
+		final int retryStatus = 429;
 
+		if (response.status() == retryStatus) {
+			log.info("retry 를 시도합니다.");
+			throw new RetryableException(response.status(), response.reason(),
+				response.request().httpMethod(), new Date(System.currentTimeMillis()), response.request());
+		}
 		String requestBody = feignResponseEncoder.encodeRequestBody(response).toUpperCase();
 		String responseBody = feignResponseEncoder.encodeResponseBody(response).toUpperCase();
 

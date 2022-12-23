@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import ddd.caffeine.ratrip.module.recommend.service.FeignErrorDecoder;
 import ddd.caffeine.ratrip.module.recommend.service.FeignResponseEncoder;
 import feign.Logger;
+import feign.Retryer;
 
 @Configuration
 public class FeignConfig {
@@ -27,13 +28,13 @@ public class FeignConfig {
 	 * 재시도는 1초를 시작으로 최대 2초로 재시도 하고, 최대 3번으로 재시도.
 	 * @return
 	 */
-	// @Bean
-	// public Retryer retryer() {
-	// 	final long period = 1000L;
-	// 	final long maxPeriod = 2000L;
-	// 	final int maxAttempts = 3;
-	//
-	// 	return new Retryer.Default(period, maxPeriod, maxAttempts);
-	// }
+	@Bean
+	public Retryer retryer() {
+		final long period = 1000L;
+		final long maxPeriod = 2000L;
+		final int maxAttempts = 3;
+
+		return new Retryer.Default(period, maxPeriod, maxAttempts);
+	}
 
 }

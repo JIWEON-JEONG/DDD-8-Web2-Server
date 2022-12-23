@@ -1,6 +1,5 @@
 spring:
   profiles:
-    include: API-KEY
     active: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

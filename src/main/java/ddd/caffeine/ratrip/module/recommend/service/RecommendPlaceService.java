@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class RecommendPlaceService implements RecommendPlaceUseCase {
+public class RecommendPlaceService {
 
 	@Value("${KAKAO_API_KEY}")
 	private String KAKAO_API_KEY;
@@ -29,7 +29,6 @@ public class RecommendPlaceService implements RecommendPlaceUseCase {
 	private final NaverFeignClient naverFeignClient;
 	private final RecommendPlaceValidator recommendPlaceValidator;
 
-	@Override
 	public KakaoFeignModel recommendPlaces(String region, String keyword, int page) {
 		recommendPlaceValidator.validatePageSize(page);
 		KakaoFeignModel missingImagePlaces = readPlaces(region, keyword, page);

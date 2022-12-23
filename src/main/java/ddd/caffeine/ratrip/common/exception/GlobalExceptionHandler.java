@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.common.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -23,13 +24,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(BaseException.class)
-	public ExceptionResponse handleExpectedException(BaseException e) {
-		log.error("BaseException", e);
-		return ExceptionResponse.builder()
+	public ResponseEntity<ExceptionResponse> handleExpectedException(BaseException e) {
+		log.error("code : {}, message : {}", e.getErrorCode(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
 			.httpStatus(e.getHttpStatus())
 			.errorCode(e.getErrorCode())
 			.message(e.getMessage())
 			.build();
+
+		return new ResponseEntity(response, response.getHttpStatus());
 	}
 
 	/**
@@ -40,13 +43,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(RuntimeException.class)
-	public ExceptionResponse handleUnexpectedException(RuntimeException e) {
-		log.error("RuntimeException", e);
-		return ExceptionResponse.builder()
+	public ResponseEntity<ExceptionResponse> handleUnexpectedException(RuntimeException e) {
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 			.errorCode("UNEXPECTED_EXCEPTION")
 			.message(e.getMessage())
 			.build();
+
+		return new ResponseEntity(response, response.getHttpStatus());
 	}
 }
 

@@ -3,13 +3,14 @@ package ddd.caffeine.ratrip.module.recommend.domain;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import ddd.caffeine.ratrip.module.recommend.domain.naver.NaverImageModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class KakaoPlaceData {
+public class RecommendPlaceData {
 	private String categoryGroupName;
 	private String categoryName;
 	private String phone;

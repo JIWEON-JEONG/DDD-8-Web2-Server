@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.recommend.domain;
+package ddd.caffeine.ratrip.module.recommend.domain.kakao;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

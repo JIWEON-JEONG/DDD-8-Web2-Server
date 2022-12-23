@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ddd.caffeine.ratrip.common.configuration.FeignConfig;
-import ddd.caffeine.ratrip.module.recommend.domain.NaverImageModel;
+import ddd.caffeine.ratrip.module.recommend.domain.naver.NaverImageModel;
 
 @FeignClient(name = "NaverFeignClient", url = "https://openapi.naver.com", configuration = FeignConfig.class)
 public interface NaverFeignClient {

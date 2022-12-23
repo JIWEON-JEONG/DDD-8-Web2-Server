@@ -2,16 +2,16 @@ package ddd.caffeine.ratrip.module.recommend.presentation.dto;
 
 import java.util.List;
 
-import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignMetaData;
-import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
-import ddd.caffeine.ratrip.module.recommend.domain.KakaoPlaceData;
+import ddd.caffeine.ratrip.module.recommend.domain.RecommendPlaceData;
+import ddd.caffeine.ratrip.module.recommend.domain.kakao.KakaoFeignMetaData;
+import ddd.caffeine.ratrip.module.recommend.domain.kakao.KakaoFeignModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class RecommendResponseDto {
-	private List<KakaoPlaceData> documents;
+	private List<RecommendPlaceData> documents;
 	private KakaoFeignMetaData meta;
 
 	public RecommendResponseDto(KakaoFeignModel kakaoFeignModel) {

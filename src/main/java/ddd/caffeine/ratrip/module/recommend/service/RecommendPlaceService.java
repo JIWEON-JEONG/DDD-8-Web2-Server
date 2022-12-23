@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ddd.caffeine.ratrip.module.recommend.domain.kakao.KakaoFeignModel;
 import ddd.caffeine.ratrip.module.recommend.domain.RecommendPlaceData;
+import ddd.caffeine.ratrip.module.recommend.domain.kakao.KakaoFeignModel;
 import ddd.caffeine.ratrip.module.recommend.domain.naver.NaverImageModel;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -54,11 +54,6 @@ public class RecommendPlaceService {
 			NaverImageModel naverImageModel = naverFeignClient.readImageModelByPlaceName(
 				NAVER_ID, NAVER_SECRET, placeName, data_count, sort
 			);
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
 			documents.get(i).injectImageModel(naverImageModel);
 		}
 		return kakaoFeignModel;

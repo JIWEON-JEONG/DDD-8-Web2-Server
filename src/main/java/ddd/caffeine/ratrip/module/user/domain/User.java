@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.module.user.domain;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.uuid.Generators;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
@@ -10,6 +12,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import lombok.AccessLevel;
@@ -22,6 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends AuditingTimeEntity {
 	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 

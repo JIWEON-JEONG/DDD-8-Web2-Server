@@ -1,7 +1,14 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'ddd.caffeine'
@@ -31,11 +38,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    //querydsl
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
     // openfeign
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
@@ -44,7 +55,7 @@ dependencies {
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
 
     //IO
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-io:commons-io:2.11.0'
 
     // jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
@@ -58,7 +69,7 @@ dependencies {
     implementation "com.fasterxml.uuid:java-uuid-generator:4.0.1"
 
     //hibernate-spatial : 좌표를 다루기 위해 import
-    implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.1.0.Final'
+    implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '6.1.5.Final'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -75,4 +86,27 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+// JPA 사용 여부와 사용할 경로를 설정
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+// build 시 사용할 sourceSet 추가
+sourceSets {
+    main.java.srcDir querydslDir
+}
+// querydsl 컴파일시 사용할 옵션 설정
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+// querydsl 이 compileClassPath 를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
 }

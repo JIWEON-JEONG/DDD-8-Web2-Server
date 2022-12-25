@@ -2,13 +2,12 @@ package ddd.caffeine.ratrip.module.place.model;
 
 import java.util.UUID;
 
-import javax.persistence.Embedded;
-
 import org.geolatte.geom.Point;
 import org.hibernate.annotations.GenericGenerator;
 
 import ddd.caffeine.ratrip.module.place.model.address.Address;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

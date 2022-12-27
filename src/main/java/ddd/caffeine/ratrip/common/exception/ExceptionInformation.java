@@ -17,6 +17,8 @@ public enum ExceptionInformation {
 	JSON_TO_OBJECT_MAPPING_EXCEPTION(BAD_REQUEST, "JSON 을 객체로 변환 하지 못하였습니다."),
 	INVALID_BEARER_FORMAT_EXCEPTION(BAD_REQUEST, "Bearer 토큰의 형식이 올바르지 않습니다."),
 	INVALID_ID_TOKEN_EXCEPTION(BAD_REQUEST, "잘못된 애플 Id Token 입니다."),
+	EXPIRED_ID_TOKEN_EXCEPTION(BAD_REQUEST, "만료된 애플 Id Token 입니다."),
+	INVALID_PUBLIC_KEY_EXCEPTION(BAD_REQUEST, "잘못된 애플 Public Key 입니다."),
 
 	// 401 Unauthorized
 	DIFFERENT_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB의 리프레시 토큰과 일치하지 않습니다."),

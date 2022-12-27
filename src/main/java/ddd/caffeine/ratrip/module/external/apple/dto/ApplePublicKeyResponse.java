@@ -18,7 +18,7 @@ public class ApplePublicKeyResponse {
 		return keys.stream()
 			.filter(key -> key.getKid().equals(kid) && key.getAlg().equals(alg))
 			.findFirst()
-			.orElseThrow(() -> new CommonException(NOT_FOUND_PUBLIC_KEY_EXCEPTION)); //TODO - 도메인별 예외처리
+			.orElseThrow(() -> new CommonException(NOT_FOUND_PUBLIC_KEY_EXCEPTION));
 	}
 
 	@Getter

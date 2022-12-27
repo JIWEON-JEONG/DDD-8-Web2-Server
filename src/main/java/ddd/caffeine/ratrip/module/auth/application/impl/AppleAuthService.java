@@ -14,6 +14,7 @@ import ddd.caffeine.ratrip.module.external.apple.AppleTokenProvider;
 import ddd.caffeine.ratrip.module.external.apple.dto.AppleProfileResponse;
 import ddd.caffeine.ratrip.module.user.application.UserService;
 import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
+import ddd.caffeine.ratrip.module.user.application.dto.SignInUserDto;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +37,11 @@ public class AppleAuthService implements AuthService {
 
 	@Override
 	public SignInResponseDto signIn(SignInDto request) {
-		return null;
+		AppleProfileResponse appleProfileResponse = appleTokenProvider.getSocialIdFromIdToken(request.getToken());
+		UUID userId = userService.findUserBySocialIdAndSocialType(
+			SignInUserDto.of(appleProfileResponse.getId(), socialType));
+		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
+
+		return SignInResponseDto.of(userId, tokenResponseDto);
 	}
 }

@@ -32,7 +32,7 @@ public class KakaoAuthService implements AuthService {
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
+		UUID userId = userService.registerUser(RegisterUserDto.withKakakResponse(kakaoProfileResponse, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

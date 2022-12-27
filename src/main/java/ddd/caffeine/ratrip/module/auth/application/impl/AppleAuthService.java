@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.auth.application.impl;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
@@ -19,6 +20,7 @@ import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AppleAuthService implements AuthService {
 	private static final UserSocialType socialType = UserSocialType.APPLE;

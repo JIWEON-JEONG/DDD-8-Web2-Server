@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
-import ddd.caffeine.ratrip.module.user.application.dto.SignInUserDto;
 import ddd.caffeine.ratrip.module.user.domain.SocialInfo;
 import ddd.caffeine.ratrip.module.user.domain.User;
+import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import ddd.caffeine.ratrip.module.user.domain.UserStatus;
 import ddd.caffeine.ratrip.module.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ public class UserService {
 		return user.getId();
 	}
 
-	public UUID findUserBySocialIdAndSocialType(SignInUserDto request) {
-		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
+	public UUID findUserBySocialIdAndSocialType(String socialId, UserSocialType socialType) {
+		User user = findUserBySocialInfo(SocialInfo.of(socialId, socialType));
 		return user.getId();
 	}
 

@@ -15,6 +15,7 @@ import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDt
 import ddd.caffeine.ratrip.module.external.kakao.KakaoApiClient;
 import ddd.caffeine.ratrip.module.external.kakao.dto.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.user.application.UserService;
+import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +31,7 @@ public class KakaoAuthService implements AuthService {
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(request.toRegisterUserDto(kakaoProfileResponse.getId(), socialType));
+		UUID userId = userService.registerUser(RegisterUserDto.createUsedByKakaoAuth(kakaoProfileResponse, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

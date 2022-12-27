@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.user.application.dto;
 
+import ddd.caffeine.ratrip.module.external.kakao.dto.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,23 +23,20 @@ public class RegisterUserDto {
 		this.email = email;
 	}
 
-	// public static RegisterUserDto withKakaoResponse(KakaoProfileResponse kakaoProfileResponse,
-	// 	UserSocialType socialType) {
-	// 	return RegisterUserDto.builder()
-	// 		.socialId(kakaoProfileResponse.getId())
-	// 		.socialType(socialType)
-	// 		.build();
-	// }
-	//
-	// public static RegisterUserDto withAppleResponse(AppleProfileResponse appleProfileResponse,
-	// 	UserSocialType socialType) {
-	// 	return RegisterUserDto.builder()
-	// 		.socialId(appleProfileResponse.getId())
-	// 		.socialType(socialType)
-	// 		.build();
-	// }
+	public static RegisterUserDto createUsedByKakaoAuth(KakaoProfileResponse kakaoProfileResponse,
+		UserSocialType socialType) {
 
-	public static RegisterUserDto of(String socialId, String nickname, String email, UserSocialType socialType) {
+		return RegisterUserDto.builder()
+			.socialId(kakaoProfileResponse.getId())
+			.socialType(socialType)
+			.name(kakaoProfileResponse.getKakaoAccount().getProfile().getNickname())
+			.email(kakaoProfileResponse.getKakaoAccount().getEmail())
+			.build();
+	}
+
+	public static RegisterUserDto createUsedByAppleAuth(String socialId, String nickname, String email,
+		UserSocialType socialType) {
+
 		return RegisterUserDto.builder()
 			.socialId(socialId)
 			.socialType(socialType)

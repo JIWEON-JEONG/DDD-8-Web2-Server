@@ -21,7 +21,7 @@ public class SignUpDto {
 		return new SignUpDto(token, nickname, email, socialType);
 	}
 
-	public RegisterUserDto toRegisterUserDto(String socialId, UserSocialType socialType) {
-		return RegisterUserDto.of(socialId, nickname, email, socialType);
+	public RegisterUserDto createUsedByAppleAuth(String socialId, UserSocialType socialType) {
+		return RegisterUserDto.createUsedByAppleAuth(socialId, nickname, email, socialType);
 	}
 }

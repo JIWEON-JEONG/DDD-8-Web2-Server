@@ -28,7 +28,7 @@ public class AppleAuthService implements AuthService {
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
 		String socialId = getAppleProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(request.toRegisterUserDto(socialId, socialType));
+		UUID userId = userService.registerUser(request.createUsedByAppleAuth(socialId, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

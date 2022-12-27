@@ -16,6 +16,7 @@ public enum ExceptionInformation {
 	KAKAO_PAGE_NUMBER_EXCEPTION(BAD_REQUEST, "Page 는 1 이상 45 이하 여야 합니다."),
 	JSON_TO_OBJECT_MAPPING_EXCEPTION(BAD_REQUEST, "JSON 을 객체로 변환 하지 못하였습니다."),
 	INVALID_BEARER_FORMAT_EXCEPTION(BAD_REQUEST, "Bearer 토큰의 형식이 올바르지 않습니다."),
+	INVALID_ID_TOKEN_EXCEPTION(BAD_REQUEST, "잘못된 애플 Id Token 입니다."),
 
 	// 401 Unauthorized
 	DIFFERENT_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB의 리프레시 토큰과 일치하지 않습니다."),

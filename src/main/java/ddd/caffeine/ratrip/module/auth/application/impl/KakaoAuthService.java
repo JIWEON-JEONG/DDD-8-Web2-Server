@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KakaoAuthService implements AuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
-	private final KakaoApiClient kaKaoApiCaller;
+	private final KakaoApiClient kakaoApiClient;
 	private final UserService userService;
 	private final TokenService tokenService;
 
@@ -48,6 +48,6 @@ public class KakaoAuthService implements AuthService {
 	}
 
 	private KakaoProfileResponse getKakaoProfileResponse(String token) {
-		return kaKaoApiCaller.getProfileInfo(HttpHeaderUtils.concatWithBearerPrefix(token));
+		return kakaoApiClient.getProfileInfo(HttpHeaderUtils.concatWithBearerPrefix(token));
 	}
 }

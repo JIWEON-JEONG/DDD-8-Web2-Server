@@ -28,8 +28,8 @@ public class AppleAuthService implements AuthService {
 
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
-		AppleProfileResponse appleProfileResponse = appleTokenProvider.getSocialIdFromIdToken(request.getToken());
-		UUID userId = userService.registerUser(RegisterUserDto.withAppleResponse(appleProfileResponse, socialType));
+		AppleProfileResponse response = appleTokenProvider.getSocialIdFromIdToken(request.getToken());
+		UUID userId = userService.registerUser(RegisterUserDto.withAppleResponse(response, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
@@ -37,9 +37,9 @@ public class AppleAuthService implements AuthService {
 
 	@Override
 	public SignInResponseDto signIn(SignInDto request) {
-		AppleProfileResponse appleProfileResponse = appleTokenProvider.getSocialIdFromIdToken(request.getToken());
+		AppleProfileResponse response = appleTokenProvider.getSocialIdFromIdToken(request.getToken());
 		UUID userId = userService.findUserBySocialIdAndSocialType(
-			SignInUserDto.of(appleProfileResponse.getId(), socialType));
+			SignInUserDto.of(response.getId(), socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

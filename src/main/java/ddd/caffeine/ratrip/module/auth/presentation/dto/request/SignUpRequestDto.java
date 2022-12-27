@@ -15,11 +15,17 @@ public class SignUpRequestDto {
 	@NotBlank(message = "Token must not be blank")
 	private String token;
 
+	@Schema(description = "유저 이름", example = "홍길동")
+	private String name;
+
+	@Schema(description = "이메일", example = "example@email.com")
+	private String email;
+
 	@Schema(description = "소셜 타입", example = "KAKAO", allowableValues = {"KAKAO", "APPLE"})
 	@NotNull(message = "Social type must not be null")
 	private UserSocialType socialType;
 
 	public SignUpDto toServiceDto() {
-		return SignUpDto.of(token, socialType);
+		return SignUpDto.of(token, name, email, socialType);
 	}
 }

@@ -12,9 +12,7 @@ import ddd.caffeine.ratrip.module.auth.application.dto.SignUpDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import ddd.caffeine.ratrip.module.external.apple.AppleTokenProvider;
-import ddd.caffeine.ratrip.module.external.apple.dto.AppleProfileResponse;
 import ddd.caffeine.ratrip.module.user.application.UserService;
-import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
 import ddd.caffeine.ratrip.module.user.application.dto.SignInUserDto;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +28,8 @@ public class AppleAuthService implements AuthService {
 
 	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
-		AppleProfileResponse response = getAppleProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(RegisterUserDto.withAppleResponse(response, socialType));
+		String socialId = getAppleProfileResponse(request.getToken());
+		UUID userId = userService.registerUser(request.toRegisterUserDto(socialId, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
@@ -39,15 +37,15 @@ public class AppleAuthService implements AuthService {
 
 	@Override
 	public SignInResponseDto signIn(SignInDto request) {
-		AppleProfileResponse response = getAppleProfileResponse(request.getToken());
+		String socialId = getAppleProfileResponse(request.getToken());
 		UUID userId = userService.findUserBySocialIdAndSocialType(
-			SignInUserDto.of(response.getId(), socialType));
+			SignInUserDto.of(socialId, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
 	}
 
-	private AppleProfileResponse getAppleProfileResponse(String token) {
+	private String getAppleProfileResponse(String token) {
 		return appleTokenProvider.getSocialIdFromIdToken(token);
 	}
 }

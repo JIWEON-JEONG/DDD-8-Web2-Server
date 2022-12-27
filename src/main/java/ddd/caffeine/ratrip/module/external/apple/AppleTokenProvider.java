@@ -18,7 +18,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ddd.caffeine.ratrip.module.external.apple.dto.AppleProfileResponse;
 import ddd.caffeine.ratrip.module.external.apple.dto.ApplePublicKeyResponse;
 import ddd.caffeine.ratrip.module.external.exception.ExternalException;
 import io.jsonwebtoken.Claims;
@@ -33,7 +32,7 @@ public class AppleTokenProvider {
 	private final AppleApiClient appleApiClient;
 	private final ObjectMapper objectMapper;
 
-	public AppleProfileResponse getSocialIdFromIdToken(String idToken) {
+	public String getSocialIdFromIdToken(String idToken) {
 		String headerIdToken = idToken.split("\\.")[0];
 		try {
 			Map<String, String> header = objectMapper.readValue(
@@ -46,11 +45,7 @@ public class AppleTokenProvider {
 				.parseClaimsJws(idToken)
 				.getBody();
 
-			return AppleProfileResponse.builder()
-				.id(claims.getSubject())
-				.name(claims.get("name", String.class))
-				.email(claims.get("email", String.class))
-				.build();
+			return claims.getSubject();
 
 		} catch (JsonProcessingException | InvalidClaimException e) {
 			throw new ExternalException(INVALID_ID_TOKEN_EXCEPTION);

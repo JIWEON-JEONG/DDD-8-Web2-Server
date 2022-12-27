@@ -25,10 +25,10 @@ public class User extends AuditingTimeEntity {
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	@Column
+	@Column(nullable = false)
 	private String name;
 
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(nullable = false)

@@ -51,7 +51,7 @@ public class AppleTokenProvider {
 				.id(claims.getSubject())
 				.name(claims.get("name", String.class))
 				.email(claims.get("email", String.class))
-				.build(); // return socialId;
+				.build();
 
 		} catch (JsonProcessingException | InvalidClaimException e) {
 			throw new ExternalException(INVALID_ID_TOKEN_EXCEPTION);

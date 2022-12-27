@@ -46,7 +46,6 @@ public class AppleTokenProvider {
 				.parseClaimsJws(idToken)
 				.getBody();
 
-			claims.get("email");
 			return AppleProfileResponse.builder()
 				.id(claims.getSubject())
 				.name(claims.get("name", String.class))

@@ -41,12 +41,12 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/signin/kakao")
-	public ResponseEntity<SignInResponseDto> signIn(@Valid @RequestBody SignInWithKakaoRequestDto request) {
+	public ResponseEntity<SignInResponseDto> signInWithKakao(@Valid @RequestBody SignInWithKakaoRequestDto request) {
 		return ResponseEntity.ok(kakaoAuthService.signInWithKakao(request.toServiceDto()));
 	}
 
 	@PostMapping("/auth/signin/apple")
-	public ResponseEntity<SignInResponseDto> signIn(@Valid @RequestBody SignInWithAppleRequestDto request) {
+	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @RequestBody SignInWithAppleRequestDto request) {
 		return ResponseEntity.ok(appleAuthService.signInWithApple(request.toServiceDto()));
 	}
 

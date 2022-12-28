@@ -8,17 +8,15 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class SignUpDto {
+public class SignUpWithAppleDto {
 	private String token;
 
 	private String nickname;
 
 	private String email;
 
-	private UserSocialType socialType;
-
-	public static SignUpDto of(String token, String nickname, String email, UserSocialType socialType) {
-		return new SignUpDto(token, nickname, email, socialType);
+	public static SignUpWithAppleDto of(String token, String nickname, String email) {
+		return new SignUpWithAppleDto(token, nickname, email);
 	}
 
 	public RegisterUserDto createUsedByAppleAuth(String socialId, UserSocialType socialType) {

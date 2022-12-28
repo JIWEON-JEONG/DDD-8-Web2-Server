@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.auth.presentation.dto.request;
 
+import org.springframework.util.StringUtils;
+
 import ddd.caffeine.ratrip.module.auth.application.dto.SignUpWithAppleDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +23,13 @@ public class SignUpWithAppleRequestDto {
 	private String email;
 
 	public SignUpWithAppleDto toServiceDto() {
+		setDefaultNameIfNull();
 		return SignUpWithAppleDto.of(idToken, name, email);
+	}
+
+	private void setDefaultNameIfNull() {
+		if (!StringUtils.hasText(name)) {
+			name = "익명의 유저";
+		}
 	}
 }

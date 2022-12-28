@@ -17,6 +17,7 @@ public class SignUpWithAppleRequestDto {
 	private String name;
 
 	@Schema(description = "이메일", example = "example@email.com")
+	@NotBlank(message = "Email must not be blank")
 	private String email;
 
 	public SignUpWithAppleDto toServiceDto() {

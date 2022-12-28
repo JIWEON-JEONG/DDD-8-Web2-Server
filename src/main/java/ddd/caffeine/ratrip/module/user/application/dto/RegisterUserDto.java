@@ -23,7 +23,7 @@ public class RegisterUserDto {
 		this.email = email;
 	}
 
-	public static RegisterUserDto createUsedByKakaoAuth(KakaoProfileResponse kakaoProfileResponse,
+	public static RegisterUserDto registerUserUsedByKakaoAuth(KakaoProfileResponse kakaoProfileResponse,
 		UserSocialType socialType) {
 
 		return RegisterUserDto.builder()
@@ -34,7 +34,7 @@ public class RegisterUserDto {
 			.build();
 	}
 
-	public static RegisterUserDto createUsedByAppleAuth(String socialId, String nickname, String email,
+	public static RegisterUserDto registerUserUsedByAppleAuth(String socialId, String nickname, String email,
 		UserSocialType socialType) {
 
 		return RegisterUserDto.builder()

@@ -27,7 +27,7 @@ public class KakaoAuthService {
 
 	public SignInResponseDto signUpWithKakao(SignUpWithKakaoDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(request.createUsedByKakaoAuth(kakaoProfileResponse, socialType));
+		UUID userId = userService.registerUser(request.registerUserUsedByKakaoAuth(kakaoProfileResponse, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

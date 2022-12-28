@@ -19,7 +19,7 @@ public class SignUpWithAppleDto {
 		return new SignUpWithAppleDto(token, nickname, email);
 	}
 
-	public RegisterUserDto createUsedByAppleAuth(String socialId, UserSocialType socialType) {
-		return RegisterUserDto.createUsedByAppleAuth(socialId, nickname, email, socialType);
+	public RegisterUserDto registerUserUsedByAppleAuth(String socialId, UserSocialType socialType) {
+		return RegisterUserDto.registerUserUsedByAppleAuth(socialId, nickname, email, socialType);
 	}
 }

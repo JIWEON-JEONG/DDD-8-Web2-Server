@@ -16,7 +16,8 @@ public class SignUpWithKakaoDto {
 		return new SignUpWithKakaoDto(token);
 	}
 
-	public RegisterUserDto createUsedByKakaoAuth(KakaoProfileResponse kakaoProfileResponse, UserSocialType socialType) {
-		return RegisterUserDto.createUsedByKakaoAuth(kakaoProfileResponse, socialType);
+	public RegisterUserDto registerUserUsedByKakaoAuth(KakaoProfileResponse kakaoProfileResponse,
+		UserSocialType socialType) {
+		return RegisterUserDto.registerUserUsedByKakaoAuth(kakaoProfileResponse, socialType);
 	}
 }

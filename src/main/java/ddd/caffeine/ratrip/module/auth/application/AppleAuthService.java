@@ -25,7 +25,7 @@ public class AppleAuthService {
 
 	public SignInResponseDto signUpWithApple(SignUpWithAppleDto request) {
 		String socialId = getAppleProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(request.createUsedByAppleAuth(socialId, socialType));
+		UUID userId = userService.registerUser(request.registerUserUsedByAppleAuth(socialId, socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);

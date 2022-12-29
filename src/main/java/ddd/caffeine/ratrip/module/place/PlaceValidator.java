@@ -4,7 +4,7 @@ import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import org.springframework.stereotype.Component;
 
-import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ public class PlaceValidator {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;
 		if (page < MIN_PAGE || page > MAX_PAGE) {
-			throw new KakaoFeignException(KAKAO_PAGE_NUMBER_EXCEPTION);
+			throw new FeignException(KAKAO_PAGE_NUMBER_EXCEPTION);
 		}
 	}
 

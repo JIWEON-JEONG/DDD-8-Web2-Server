@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.KakaoFeignClient;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoData;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +47,9 @@ public class PlaceService {
 		placeValidator.validatePageSize(page);
 	}
 
-	private String readPlaceName(PlaceKakaoData kakaoPlaceData) {
-		return kakaoPlaceData.getPlaceName();
-	}
-
+	// final int DATA_COUNT = 1;
+	// final String SORT_TYPE = "sim";
+	// private String readPlaceName(PlaceKakaoData kakaoPlaceData) {
+	// 	return kakaoPlaceData.getPlaceName();
+	// }
 }

@@ -3,16 +3,16 @@ package ddd.caffeine.ratrip.module.place.model;
 import java.util.UUID;
 
 import org.geolatte.geom.Point;
-import org.hibernate.annotations.GenericGenerator;
 
+import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.model.address.Address;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +27,6 @@ import lombok.NoArgsConstructor;
 public class Place {
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
@@ -57,4 +55,10 @@ public class Place {
 
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String telephone;
+
+	@PrePersist
+	public void createPlacePrimaryKey() {
+		//sequential uuid 생성
+		this.id = SequentialUUIDGenerator.generate();
+	}
 }

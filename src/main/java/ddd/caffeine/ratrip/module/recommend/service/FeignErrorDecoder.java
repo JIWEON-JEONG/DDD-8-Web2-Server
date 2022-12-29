@@ -69,10 +69,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
 		String[] splitResponse = response.split(",");
 		Optional<String> message = Arrays.stream(splitResponse).filter(
 			split -> split.contains(keyword)).findFirst();
-		if (message.isEmpty()) {
-			return "";
-		}
-		return message.get();
-	}
 
+		return message.orElse("");
+	}
 }

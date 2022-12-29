@@ -15,8 +15,8 @@ public interface KakaoFeignClient {
 		@RequestHeader("Authorization") String header,
 		@RequestParam("query") String query,
 		@RequestParam("y") String latitude,
-		@RequestParam("y") String longitude,
-		@RequestParam("query") int radius,
+		@RequestParam("x") String longitude,
+		@RequestParam("radius") int radius,
 		@RequestParam("page") int page
 	);
 }

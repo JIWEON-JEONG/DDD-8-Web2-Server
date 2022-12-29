@@ -35,15 +35,15 @@ public class PlaceService {
 	private KakaoFeignModel readPlaces(String keyword, String latitude, String longitude, int page) {
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		//20KM (MAX)
-		final int PLACE_RADIUS = 20000;
+		final int PLACE_RADIUS = 5000;
 		return kakaoFeignClient.readPlacesByKeywordAndCategory(
 			KAKAO_REQUEST_HEADER, keyword, latitude, longitude, PLACE_RADIUS, page);
 	}
 
 	private void validateSearchRequestParameters(String latitude, String longitude, int page) {
-		placeValidator.validatePageSize(page);
 		placeValidator.validateRangeLatitude(latitude);
 		placeValidator.validateRangeLongitude(longitude);
+		placeValidator.validatePageSize(page);
 	}
 
 }

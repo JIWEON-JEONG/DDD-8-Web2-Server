@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.recommend.domain;
+package ddd.caffeine.ratrip.module.feign.domain.place.kakao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor
-public class KakaoFeignModel {
-	List<KakaoFeignData> documents;
+public class PlaceKakaoModel {
+	List<PlaceKakaoData> documents;
 	KakaoFeignMetaData meta;
 
 	public PlaceSearchResponseDto mapByPlaceSearchResponseDto() {
 		List<PlaceSearchModel> searchModels = new ArrayList<>();
-		for (KakaoFeignData document : documents) {
+		for (PlaceKakaoData document : documents) {
 			PlaceSearchModel model = PlaceSearchModel.builder()
 				.placeName(document.getPlaceName())
 				.longitude(document.getX())

@@ -3,9 +3,10 @@ package ddd.caffeine.ratrip.module.place;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.KakaoFeignClient;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoData;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
-import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignClient;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -22,17 +23,18 @@ public class PlaceService {
 
 	@Value("${KAKAO_API_KEY}")
 	private String KAKAO_API_KEY;
+
 	private final KakaoFeignClient kakaoFeignClient;
 	private final PlaceValidator placeValidator;
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
 		validateSearchRequestParameters(latitude, longitude, page);
-		KakaoFeignModel kakaoFeignModel = readPlaces(keyword, latitude, longitude, page);
+		PlaceKakaoModel placeKakaoModel = readPlaces(keyword, latitude, longitude, page);
 
-		return kakaoFeignModel.mapByPlaceSearchResponseDto();
+		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}
 
-	private KakaoFeignModel readPlaces(String keyword, String latitude, String longitude, int page) {
+	private PlaceKakaoModel readPlaces(String keyword, String latitude, String longitude, int page) {
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		//20KM (MAX)
 		final int PLACE_RADIUS = 5000;
@@ -44,6 +46,10 @@ public class PlaceService {
 		placeValidator.validateRangeLatitude(latitude);
 		placeValidator.validateRangeLongitude(longitude);
 		placeValidator.validatePageSize(page);
+	}
+
+	private String readPlaceName(PlaceKakaoData kakaoPlaceData) {
+		return kakaoPlaceData.getPlaceName();
 	}
 
 }

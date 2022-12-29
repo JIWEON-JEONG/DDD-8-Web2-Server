@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.recommend.domain.naver;
+package ddd.caffeine.ratrip.module.feign.domain.place.naver;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.LowerCaseStrategy.class)
-public class Item {
+public class ImageItem {
 	private String link;
 	private String thumbnail;
 	private String sizeHeight;

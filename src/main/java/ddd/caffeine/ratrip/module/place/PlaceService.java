@@ -1,7 +1,10 @@
 package ddd.caffeine.ratrip.module.place;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
+import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignClient;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -15,5 +18,23 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
+
+	@Value("${KAKAO_API_KEY}")
+	private String KAKAO_API_KEY;
+	private final KakaoFeignClient kakaoFeignClient;
+	private final PlaceValidator placeValidator;
+
+	public KakaoFeignModel searchPlaces(String keyword, String latitude, String longitude, int page) {
+		placeValidator.validatePageSize(page);
+		return readPlaces(keyword, page);
+	}
+
+	private KakaoFeignModel readPlaces(String keyword, String latitude, String longitude, int page) {
+		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
+		//20KM (MAX)
+		final int PLACE_RADIUS = 20000;
+		return kakaoFeignClient.readPlacesByKeywordAndCategory(
+			KAKAO_REQUEST_HEADER, keyword, latitude, longitude, PLACE_RADIUS, page);
+	}
 
 }

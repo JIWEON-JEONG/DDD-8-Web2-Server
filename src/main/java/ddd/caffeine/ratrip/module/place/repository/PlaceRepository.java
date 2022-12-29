@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.place.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +10,5 @@ import ddd.caffeine.ratrip.module.place.model.Place;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, UUID>, PlaceQueryRepository {
-
+	Optional<Place> findByKakaoId(Long kakaoId);
 }

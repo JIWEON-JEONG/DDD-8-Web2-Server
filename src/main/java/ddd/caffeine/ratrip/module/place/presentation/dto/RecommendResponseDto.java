@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.recommend.presentation.dto;
+package ddd.caffeine.ratrip.module.place.presentation.dto;
 
 import java.util.List;
 

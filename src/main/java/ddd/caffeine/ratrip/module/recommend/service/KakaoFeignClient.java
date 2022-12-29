@@ -14,6 +14,9 @@ public interface KakaoFeignClient {
 	KakaoFeignModel readPlacesByKeywordAndCategory(
 		@RequestHeader("Authorization") String header,
 		@RequestParam("query") String query,
+		@RequestParam("y") String latitude,
+		@RequestParam("y") String longitude,
+		@RequestParam("query") int radius,
 		@RequestParam("page") int page
 	);
 }

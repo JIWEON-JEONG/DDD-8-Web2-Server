@@ -32,7 +32,7 @@ public class Place {
 
 	@NotNull
 	@Column
-	private long kakaoId;
+	private Long kakaoId;
 
 	@NotNull
 	@Column(columnDefinition = "VARCHAR(100)")

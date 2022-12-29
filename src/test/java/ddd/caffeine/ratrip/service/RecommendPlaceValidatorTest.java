@@ -8,18 +8,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
-import ddd.caffeine.ratrip.module.recommend.service.RecommendPlaceValidator;
+import ddd.caffeine.ratrip.module.place.PlaceValidator;
 
 /**
  * RecommendPlaceService 의 단위테스트 구현
  */
 class RecommendPlaceValidatorTest {
 
-	RecommendPlaceValidator recommendPlaceValidator;
+	PlaceValidator recommendPlaceValidator;
 
 	@BeforeEach
 	void init() {
-		recommendPlaceValidator = new RecommendPlaceValidator();
+		recommendPlaceValidator = new PlaceValidator();
 	}
 
 	@ParameterizedTest

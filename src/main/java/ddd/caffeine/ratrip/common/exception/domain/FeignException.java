@@ -5,13 +5,13 @@ import ddd.caffeine.ratrip.common.exception.ExceptionInformation;
 import lombok.Getter;
 
 @Getter
-public class KakaoFeignException extends BaseException {
+public class FeignException extends BaseException {
 
-	public KakaoFeignException(int status, String errorCode, String message) {
+	public FeignException(int status, String errorCode, String message) {
 		super(status, errorCode, message);
 	}
 
-	public KakaoFeignException(ExceptionInformation information) {
+	public FeignException(ExceptionInformation information) {
 		super(information);
 	}
 }

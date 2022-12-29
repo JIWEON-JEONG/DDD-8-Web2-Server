@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ddd.caffeine.ratrip.common.configuration.FeignConfig;
-import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
+import ddd.caffeine.ratrip.module.recommend.domain.kakao.KakaoFeignModel;
 
 @FeignClient(name = "KakaoFeignClient", url = "https://dapi.kakao.com", configuration = FeignConfig.class)
 public interface KakaoFeignClient {

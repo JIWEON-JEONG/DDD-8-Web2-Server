@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.module.recommend.service.RecommendPlaceValidator;
 
 /**
@@ -29,7 +29,7 @@ class RecommendPlaceValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			recommendPlaceValidator.validatePageSize(pageSize))
-			.isInstanceOf(KakaoFeignException.class)
+			.isInstanceOf(FeignException.class)
 			.hasMessage("Page 는 1 이상 45 이하 여야 합니다.");
 	}
 }

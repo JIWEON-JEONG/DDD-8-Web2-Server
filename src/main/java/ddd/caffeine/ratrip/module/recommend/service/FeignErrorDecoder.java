@@ -1,35 +1,45 @@
 package ddd.caffeine.ratrip.module.recommend.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
-import ddd.caffeine.ratrip.common.exception.domain.KakaoFeignException;
+import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import feign.Response;
+import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class KakaoFeignErrorDecoder implements ErrorDecoder {
+public class FeignErrorDecoder implements ErrorDecoder {
 
 	private final FeignResponseEncoder feignResponseEncoder;
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		final String errorCode = "KAKAO_FEIGN_EXCEPTION";
+		final String errorCode = "FEIGN_EXCEPTION";
+		final int retryStatus = 429;
 
-		String requestBody = feignResponseEncoder.encodeRequestBody(response);
-		String responseBody = feignResponseEncoder.encodeResponseBody(response);
+		if (response.status() == retryStatus) {
+			log.info("retry 를 시도합니다.");
+			throw new RetryableException(response.status(), response.reason(),
+				response.request().httpMethod(), new Date(System.currentTimeMillis()), response.request());
+		}
+		String requestBody = feignResponseEncoder.encodeRequestBody(response).toUpperCase();
+		String responseBody = feignResponseEncoder.encodeResponseBody(response).toUpperCase();
 
 		log.error("요청이 성공하지 못했습니다. status: {} requestUrl: {}, requestBody: {}, responseBody: {}",
 			response.status(), response.request().url(), requestBody, responseBody);
 
-		return new KakaoFeignException(response.status(), errorCode, extractExceptionMessage(responseBody));
+		String errorMessage = extractExceptionMessage(responseBody);
+		return new FeignException(response.status(), errorCode, errorMessage);
 	}
 
 	/**
-	 * responseBody 예시 - "{errorType:InvalidArgument,message:page is more than max}";
+	 * naver responseBody : {"errorMessage":"Rate limit exceeded. (속도 제한을 초과했습니다.)", "errorCode":"012"}
+	 * kakao responseBody : "{errorType:InvalidArgument, message:page is more than max}"
 	 * 이부분에서 message 만 추출 하기 위한 메서드.
 	 *
 	 * @param response
@@ -49,18 +59,17 @@ public class KakaoFeignErrorDecoder implements ErrorDecoder {
 		return message.replaceAll("\"", "");
 	}
 
+	// JSON 중괄호를 삭제하기 위한 메서드.
 	private String removeMiddleBracket(String response) {
 		return response.substring(1, response.length() - 1);
 	}
 
 	private String extractMessageBlock(String response) {
+		final String keyword = "MESSAGE";
 		String[] splitResponse = response.split(",");
 		Optional<String> message = Arrays.stream(splitResponse).filter(
-			split -> split.contains("message")).findFirst();
-		if (message.isEmpty()) {
-			return "";
-		}
-		return message.get();
-	}
+			split -> split.contains(keyword)).findFirst();
 
+		return message.orElse("");
+	}
 }

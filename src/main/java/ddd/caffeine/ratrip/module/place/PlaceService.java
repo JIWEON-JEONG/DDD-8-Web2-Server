@@ -26,7 +26,8 @@ public class PlaceService {
 
 	public KakaoFeignModel searchPlaces(String keyword, String latitude, String longitude, int page) {
 		placeValidator.validatePageSize(page);
-		return readPlaces(keyword, page);
+		// return readPlaces(keyword, page);
+		return null;
 	}
 
 	private KakaoFeignModel readPlaces(String keyword, String latitude, String longitude, int page) {

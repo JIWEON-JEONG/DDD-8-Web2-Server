@@ -29,18 +29,18 @@ public class PlaceValidator {
 		}
 	}
 
+	public void validateRangeLongitude(String lng) {
+		double longitude = typeCastStringToDouble(lng);
+		if (!(-180 <= longitude && longitude <= 180)) {
+			throw new PlaceException(INVALID_LONGITUDE_RANGE_EXCEPTION);
+		}
+	}
+
 	private double typeCastStringToDouble(String param) {
 		try {
 			return Double.parseDouble(param);
 		} catch (NumberFormatException e) {
 			throw new PlaceException(INVALID_COORDINATE_EXCEPTION);
-		}
-	}
-
-	public void validateRangeLongitude(String lng) {
-		double longitude = typeCastStringToDouble(lng);
-		if (!(-180 <= longitude && longitude <= 180)) {
-			throw new PlaceException(INVALID_LONGITUDE_RANGE_EXCEPTION);
 		}
 	}
 }

@@ -13,9 +13,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create
+    properties:
+      hibernate:
+        non_contextual_creation: true
+        format_sql: true
 
   data:
     redis:

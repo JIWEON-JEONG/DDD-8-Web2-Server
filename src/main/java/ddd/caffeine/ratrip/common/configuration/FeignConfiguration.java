@@ -9,7 +9,7 @@ import feign.Logger;
 import feign.Retryer;
 
 @Configuration
-public class FeignConfig {
+public class FeignConfiguration {
 
 	/**
 	 * FULL: request, response의 headers, body 그리고 metaData를 모두 로깅.

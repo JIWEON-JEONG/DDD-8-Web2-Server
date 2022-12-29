@@ -45,14 +45,14 @@ public class RecommendPlaceService {
 	 * Naver API - 너무 많은 요청 Error
 	 */
 	private KakaoFeignModel injectImageModelEachPlace(KakaoFeignModel kakaoFeignModel) {
-		final int data_count = 1;
-		final String sort = "sim";
+		final int DATA_COUNT = 1;
+		final String SORT_TYPE = "sim";
 
 		List<RecommendPlaceData> documents = kakaoFeignModel.getDocuments();
 		for (int i = 0; i < documents.size(); i++) {
 			String placeName = readPlaceName(documents.get(i));
 			NaverImageModel naverImageModel = naverFeignClient.readImageModelByPlaceName(
-				NAVER_ID, NAVER_SECRET, placeName, data_count, sort
+				NAVER_ID, NAVER_SECRET, placeName, DATA_COUNT, SORT_TYPE
 			);
 			documents.get(i).injectImageModel(naverImageModel);
 		}

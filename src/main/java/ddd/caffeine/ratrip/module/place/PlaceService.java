@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.place;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.recommend.domain.KakaoFeignModel;
 import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,11 @@ public class PlaceService {
 	private final KakaoFeignClient kakaoFeignClient;
 	private final PlaceValidator placeValidator;
 
-	public KakaoFeignModel searchPlaces(String keyword, String latitude, String longitude, int page) {
-		placeValidator.validatePageSize(page);
-		// return readPlaces(keyword, page);
-		return null;
+	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
+		validateSearchRequestParameters(latitude, longitude, page);
+		KakaoFeignModel kakaoFeignModel = readPlaces(keyword, latitude, longitude, page);
+
+		return kakaoFeignModel.mapByPlaceSearchResponseDto();
 	}
 
 	private KakaoFeignModel readPlaces(String keyword, String latitude, String longitude, int page) {
@@ -36,6 +38,12 @@ public class PlaceService {
 		final int PLACE_RADIUS = 20000;
 		return kakaoFeignClient.readPlacesByKeywordAndCategory(
 			KAKAO_REQUEST_HEADER, keyword, latitude, longitude, PLACE_RADIUS, page);
+	}
+
+	private void validateSearchRequestParameters(String latitude, String longitude, int page) {
+		placeValidator.validatePageSize(page);
+		placeValidator.validateRangeLatitude(latitude);
+		placeValidator.validateRangeLongitude(longitude);
 	}
 
 }

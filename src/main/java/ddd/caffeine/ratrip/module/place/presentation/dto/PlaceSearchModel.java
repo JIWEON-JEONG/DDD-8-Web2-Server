@@ -1,13 +1,13 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
-@AllArgsConstructor
-public class SearchPlaceResponseDto {
+public class PlaceSearchModel {
 	private String placeName;
 	private String address;
-	private double latitude;
-	private double longitude;
+	private String latitude;
+	private String longitude;
 }

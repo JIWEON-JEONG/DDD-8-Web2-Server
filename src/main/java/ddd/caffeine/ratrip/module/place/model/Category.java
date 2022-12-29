@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.module.place.model;
 
 /**
  * 장소에 대한 카테고리를 나타내는 enum 클래스.
+ *
+ * @Todo : 카테고리 코드 없을 가능성 생각.
  */
 public enum Category {
 	CAFE("CE7"),

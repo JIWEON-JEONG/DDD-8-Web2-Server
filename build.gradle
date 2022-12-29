@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'ddd.caffeine'
@@ -81,4 +82,21 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+//querydsl 생성 폴더 설정
+def generatedClassesPath = "build/generated/source/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = generatedClassesPath
+}
+
+def queryDslOutput = file(generatedClassesPath)
+sourceSets {
+    main {
+        java {
+            srcDir queryDslOutput
+        }
+    }
 }

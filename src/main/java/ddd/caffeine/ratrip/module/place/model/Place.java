@@ -31,6 +31,10 @@ public class Place {
 	private UUID id;
 
 	@NotNull
+	@Column
+	private long kakaoId;
+
+	@NotNull
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String name;
 

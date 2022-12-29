@@ -8,7 +8,7 @@ import ddd.caffeine.ratrip.module.recommend.service.KakaoFeignErrorDecoder;
 import feign.Logger;
 
 @Configuration
-public class FeignConfig {
+public class FeignConfiguration {
 
 	/**
 	 * FULL: request, response의 headers, body 그리고 metaData를 모두 로깅.

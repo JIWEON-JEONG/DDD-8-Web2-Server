@@ -10,5 +10,5 @@ import ddd.caffeine.ratrip.module.place.model.Place;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, UUID>, PlaceQueryRepository {
-	Optional<Place> findByKakaoId(Long kakaoId);
+	Optional<Place> findByKakaoId(String kakaoId);
 }

@@ -1,11 +1,10 @@
 package ddd.caffeine.ratrip.module.place.model;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
-import org.geolatte.geom.Point;
-
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.model.address.Address;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -14,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +32,7 @@ public class Place {
 
 	@NotNull
 	@Column
-	private Long kakaoId;
+	private String kakaoId;
 
 	@NotNull
 	@Column(columnDefinition = "VARCHAR(100)")
@@ -46,9 +46,8 @@ public class Place {
 	private Address address;
 
 	@NotNull
-	@Column(columnDefinition = "POINT")
-	//Point pnt = (Point) JTS.to( Wkt.fromWkt( "POINT Z( 3.41127795 8.11062269 2.611)", Wkt.Dialect.SFA_1_2_1 ) );
-	private Point location;
+	@Embedded
+	private Location location;
 
 	@NotNull
 	@Column(name = "is_deleted", columnDefinition = "TINYINT(1)")
@@ -64,5 +63,32 @@ public class Place {
 	public void createPlacePrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
+	}
+
+	public void injectImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
+
+	public void createLocation(double latitude, double longitude) {
+		this.location = new Location(latitude, longitude);
+	}
+
+	public void createAddress(String address) {
+		this.address = new Address(address);
+	}
+
+	public void injectPlaceCategory(String categoryCode) {
+		Optional<Category> optionalCategory = Arrays.stream(Category.values())
+			.filter((category) -> category.getCode().equals(categoryCode))
+			.findFirst();
+
+		this.category = optionalCategory.orElse(Category.기타);
+	}
+
+	@Builder
+	public Place(String kakaoId, String name, String telephone) {
+		this.kakaoId = kakaoId;
+		this.name = name;
+		this.telephone = telephone;
 	}
 }

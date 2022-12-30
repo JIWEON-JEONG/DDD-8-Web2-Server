@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place;
+package ddd.caffeine.ratrip.module.place.service;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 

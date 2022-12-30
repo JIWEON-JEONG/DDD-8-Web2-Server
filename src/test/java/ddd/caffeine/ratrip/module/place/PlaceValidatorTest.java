@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
+import ddd.caffeine.ratrip.module.place.service.PlaceValidator;
 
 class PlaceValidatorTest {
 

@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.feign.domain.place.kakao;
 import java.util.ArrayList;
 import java.util.List;
 
+import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class PlaceKakaoModel {
 		List<PlaceSearchModel> searchModels = new ArrayList<>();
 		for (PlaceKakaoData document : documents) {
 			PlaceSearchModel model = PlaceSearchModel.builder()
+				.placeKakaoId(document.getId())
 				.placeName(document.getPlaceName())
 				.longitude(document.getX())
 				.latitude(document.getY())
@@ -30,6 +32,12 @@ public class PlaceKakaoModel {
 			searchModels.add(model);
 		}
 		return new PlaceSearchResponseDto(searchModels);
+	}
+
+	public Place mapByPlaceEntity() {
+		final int PLACE_INDEX = 0;
+		PlaceKakaoData placeKakaoData = this.documents.get(PLACE_INDEX);
+		return placeKakaoData.mapByPlaceEntity();
 	}
 
 }

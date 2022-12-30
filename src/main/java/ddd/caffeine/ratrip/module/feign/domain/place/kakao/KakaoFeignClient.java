@@ -10,12 +10,19 @@ import ddd.caffeine.ratrip.common.configuration.FeignConfiguration;
 @FeignClient(name = "KakaoFeignClient", url = "https://dapi.kakao.com", configuration = FeignConfiguration.class)
 public interface KakaoFeignClient {
 	@GetMapping(value = "v2/local/search/keyword.json")
-	PlaceKakaoModel readPlacesByKeywordAndCategory(
+	PlaceKakaoModel readPlacesByKeywordInRadius(
 		@RequestHeader("Authorization") String header,
 		@RequestParam("query") String query,
 		@RequestParam("y") String latitude,
 		@RequestParam("x") String longitude,
 		@RequestParam("radius") int radius,
 		@RequestParam("page") int page
+	);
+
+	@GetMapping(value = "v2/local/search/keyword.json")
+	PlaceKakaoModel readPlaceByKeyword(
+		@RequestHeader("Authorization") String header,
+		@RequestParam("query") String query,
+		@RequestParam("size") int size
 	);
 }

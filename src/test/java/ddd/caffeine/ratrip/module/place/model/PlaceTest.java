@@ -12,8 +12,8 @@ class PlaceTest {
 	}
 
 	@Test
-	@DisplayName("injectCategory 메서드 정상 동작 테스트")
-	void injectCategoryTest() {
+	@DisplayName("setPlaceCategory 메서드 정상 동작 테스트")
+	void setPlaceCategoryTest() {
 		//given
 		String cafeCategoryCode = "CE7";
 		String 기타CategoryCode = "관리 하지 않는 카테고리 코드";
@@ -21,8 +21,8 @@ class PlaceTest {
 		Place placeNoCategory = new Place();
 
 		//when
-		placeCafe.injectPlaceCategory(cafeCategoryCode);
-		placeNoCategory.injectPlaceCategory(기타CategoryCode);
+		placeCafe.setPlaceCategory(cafeCategoryCode);
+		placeNoCategory.setPlaceCategory(기타CategoryCode);
 
 		//then
 		Assertions.assertThat(placeCafe.getCategory()).isEqualTo(Category.CAFE);
@@ -30,8 +30,8 @@ class PlaceTest {
 	}
 
 	@Test
-	@DisplayName("createAddress 메서드 정상 동작 테스트")
-	void createAddressTest() {
+	@DisplayName("setAddress 메서드 정상 동작 테스트")
+	void setAddressTest() {
 		//given
 		String 제주Address = "제주특별자치도 제주시 외도일동 640-2";
 		String 기타Address = "XX도 제주시 외도일동 640-2";
@@ -39,8 +39,8 @@ class PlaceTest {
 		Place 기타Place = new Place();
 
 		//when
-		제주Place.createAddress(제주Address);
-		기타Place.createAddress(기타Address);
+		제주Place.setAddress(제주Address);
+		기타Place.setAddress(기타Address);
 
 		//then
 		Address 제주 = 제주Place.getAddress();

@@ -21,6 +21,7 @@ public class PlaceKakaoModel {
 	public PlaceSearchResponseDto mapByPlaceSearchResponseDto() {
 		List<PlaceSearchModel> searchModels = new ArrayList<>();
 		for (PlaceKakaoData document : documents) {
+
 			PlaceSearchModel model = PlaceSearchModel.builder()
 				.placeKakaoId(document.getId())
 				.placeName(document.getPlaceName())
@@ -35,9 +36,13 @@ public class PlaceKakaoModel {
 	}
 
 	public Place mapByPlaceEntity() {
-		final int PLACE_INDEX = 0;
-		PlaceKakaoData placeKakaoData = this.documents.get(PLACE_INDEX);
+		PlaceKakaoData placeKakaoData = readPlaceDataIndexZero();
 		return placeKakaoData.mapByPlaceEntity();
+	}
+
+	public PlaceKakaoData readPlaceDataIndexZero() {
+		final int PLACE_INDEX = 0;
+		return this.documents.get(PLACE_INDEX);
 	}
 
 }

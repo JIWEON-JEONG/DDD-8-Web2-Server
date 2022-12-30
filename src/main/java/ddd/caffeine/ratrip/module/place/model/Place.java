@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoData;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -53,6 +54,10 @@ public class Place {
 	@Column(name = "is_deleted", columnDefinition = "TINYINT(1)")
 	private boolean isDeleted = false;
 
+	@NotNull
+	@Column(name = "is_updated", columnDefinition = "TINYINT(1)")
+	private boolean isUpdated = false;
+
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String imageLink;
 
@@ -69,20 +74,43 @@ public class Place {
 		this.imageLink = imageLink;
 	}
 
-	public void createLocation(double latitude, double longitude) {
+	public void setLocation(double latitude, double longitude) {
 		this.location = new Location(latitude, longitude);
 	}
 
-	public void createAddress(String address) {
+	public void setAddress(String address) {
 		this.address = new Address(address);
 	}
 
-	public void injectPlaceCategory(String categoryCode) {
+	public void setPlaceCategory(String categoryCode) {
 		Optional<Category> optionalCategory = Arrays.stream(Category.values())
 			.filter((category) -> category.getCode().equals(categoryCode))
 			.findFirst();
 
 		this.category = optionalCategory.orElse(Category.기타);
+	}
+
+	/**
+	 * 장소에 대한 데이터를 업데이트 해야하는지 확인 하는 메서드.
+	 */
+	public boolean checkNeedsUpdate(String address, String placeName) {
+		Address checkSample = new Address(address);
+		if (this.name.equals(placeName) || this.address.equals(checkSample)) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	public void update(PlaceKakaoData data) {
+		this.isUpdated = Boolean.TRUE;
+
+		this.kakaoId = data.getId();
+		this.name = data.getPlaceName();
+		this.telephone = data.getPhone();
+
+		setPlaceCategory(data.getCategoryGroupCode());
+		setAddress(data.getAddressName());
+		setLocation(Double.parseDouble(data.getY()), Double.parseDouble(data.getX()));
 	}
 
 	@Builder

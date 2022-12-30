@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,16 @@ public class PlaceController {
 
 		PlaceSearchResponseDto response = placeService.searchPlaces(keyword, latitude, longitude, page);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApi(
+		@RequestParam String placeId,
+		@RequestParam String placeName,
+		@RequestParam String address) {
+
+		PlaceDetailsResponseDto response = placeService.readPlaceDetails(placeId, address, placeName);
 		return ResponseEntity.ok(response);
 	}
 }

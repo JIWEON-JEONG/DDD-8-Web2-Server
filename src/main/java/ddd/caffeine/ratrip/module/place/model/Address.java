@@ -26,10 +26,10 @@ public class Address {
 
 	//예시 : "제주특별자치도 제주시 외도일동 640-2"
 	public Address(String address) {
-		createAddress(address);
+		setAddress(address);
 	}
 
-	private void createAddress(String address) {
+	private void setAddress(String address) {
 		String[] split = address.split(" ");
 		this.region = createRegion(split[0]);
 		this.detailed = address.replace(split[0] + " ", "");

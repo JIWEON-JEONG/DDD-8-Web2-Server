@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.KakaoFeignClient;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoModel;
+import ddd.caffeine.ratrip.module.feign.domain.place.naver.ImageNaverModel;
 import ddd.caffeine.ratrip.module.feign.domain.place.naver.NaverFeignClient;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
@@ -38,7 +39,6 @@ public class PlaceService {
 	private final KakaoFeignClient kakaoFeignClient;
 	private final NaverFeignClient naverFeignClient;
 	private final PlaceValidator placeValidator;
-
 	private final PlaceRepository placeRepository;
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
@@ -49,18 +49,40 @@ public class PlaceService {
 	}
 
 	public PlaceDetailsResponseDto readPlaceDetails(String kakaoId, String address, String placeName) {
-		Optional<Place> place = placeRepository.findByKakaoId(kakaoId);
+		Optional<Place> optionalPlace = placeRepository.findByKakaoId(kakaoId);
+		if (optionalPlace.isEmpty()) {
+			Place place = readPlaceEntity(address, placeName);
+			placeRepository.save(place);
+			return new PlaceDetailsResponseDto(place);
+		}
 
-		return new PlaceDetailsResponseDto();
+		Place place = optionalPlace.get();
+		handlePlaceUpdate(place, address, placeName);
+		return new PlaceDetailsResponseDto(place);
 	}
 
-	private Place createPlaceEntity(String address, String placeName) {
+	private void handlePlaceUpdate(Place place, String address, String placeName) {
+		if (place.checkNeedsUpdate(address, placeName)) {
+			PlaceKakaoModel placeKakaoModel = readOnePlace(address, placeName);
+			place.update(placeKakaoModel.readPlaceDataIndexZero());
+		}
+	}
+
+	private Place readPlaceEntity(String address, String placeName) {
+		PlaceKakaoModel placeKakaoModel = readOnePlace(address, placeName);
+		Place place = placeKakaoModel.mapByPlaceEntity();
+
+		place.injectImageLink(readImageModel(placeName));
+
+		return place;
+	}
+
+	private PlaceKakaoModel readOnePlace(String address, String placeName) {
 		String keyword = address + " " + placeName;
 		final int DATA_COUNT = 1;
-		PlaceKakaoModel placeKakaoModel = kakaoFeignClient.readPlaceByKeyword(KAKAO_REQUEST_HEADER, keyword,
-			DATA_COUNT);
 
-		return placeKakaoModel.mapByPlaceEntity();
+		return kakaoFeignClient.readPlaceByKeyword(KAKAO_REQUEST_HEADER, keyword,
+			DATA_COUNT);
 	}
 
 	/**
@@ -79,9 +101,15 @@ public class PlaceService {
 		placeValidator.validatePageSize(page);
 	}
 
-	// final int DATA_COUNT = 1;
-	// final String SORT_TYPE = "sim";
-	// private String readPlaceName(PlaceKakaoData kakaoPlaceData) {
-	// 	return kakaoPlaceData.getPlaceName();
-	// }
+	private String readImageModel(String keyword) {
+		final int DATA_COUNT = 1;
+		final String SORT_TYPE = "sim";
+		final int DATA_INDEX = 0;
+
+		ImageNaverModel imageModel = naverFeignClient.readImageModelByPlaceName(
+			NAVER_ID, NAVER_SECRET, keyword, DATA_COUNT, SORT_TYPE
+		);
+
+		return imageModel.readImageLinkByIndex(DATA_INDEX);
+	}
 }

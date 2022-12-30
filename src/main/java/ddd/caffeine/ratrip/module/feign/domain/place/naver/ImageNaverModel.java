@@ -9,4 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageNaverModel {
 	private List<ImageItem> items;
+
+	public String readImageLinkByIndex(int index) {
+		ImageItem imageItem = this.items.get(index);
+		return imageItem.getLink();
+	}
 }

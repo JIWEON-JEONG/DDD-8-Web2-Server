@@ -30,9 +30,9 @@ public class PlaceKakaoData {
 			.telephone(this.phone)
 			.build();
 
-		place.injectPlaceCategory(this.categoryGroupCode);
-		place.createAddress(addressName);
-		place.createLocation(Double.parseDouble(y), Double.parseDouble(x));
+		place.setPlaceCategory(this.categoryGroupCode);
+		place.setAddress(addressName);
+		place.setLocation(Double.parseDouble(y), Double.parseDouble(x));
 
 		return place;
 	}

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place;
+package ddd.caffeine.ratrip.module.place.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
-import ddd.caffeine.ratrip.module.place.service.PlaceValidator;
 
 class PlaceValidatorTest {
 

@@ -32,7 +32,7 @@ public class Address {
 	private void createAddress(String address) {
 		String[] split = address.split(" ");
 		this.region = createRegion(split[0]);
-		this.detailed = address.replace(split[0], "");
+		this.detailed = address.replace(split[0] + " ", "");
 	}
 
 	private Region createRegion(String keyword) {

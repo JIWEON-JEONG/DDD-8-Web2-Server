@@ -19,10 +19,10 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		final String errorCode = "FEIGN_EXCEPTION";
-		final int retryStatus = 429;
+		final String EXCEPTION_CODE = "FEIGN_EXCEPTION";
+		final int RETRY_STATUS = 429;
 
-		if (response.status() == retryStatus) {
+		if (response.status() == RETRY_STATUS) {
 			log.info("retry 를 시도합니다.");
 			throw new RetryableException(response.status(), response.reason(),
 				response.request().httpMethod(), new Date(System.currentTimeMillis()), response.request());
@@ -34,7 +34,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
 			response.status(), response.request().url(), requestBody, responseBody);
 
 		String errorMessage = extractExceptionMessage(responseBody);
-		return new FeignException(response.status(), errorCode, errorMessage);
+		return new FeignException(response.status(), EXCEPTION_CODE, errorMessage);
 	}
 
 	/**
@@ -65,10 +65,10 @@ public class FeignErrorDecoder implements ErrorDecoder {
 	}
 
 	private String extractMessageBlock(String response) {
-		final String keyword = "MESSAGE";
+		final String KEYWORD = "MESSAGE";
 		String[] splitResponse = response.split(",");
 		Optional<String> message = Arrays.stream(splitResponse).filter(
-			split -> split.contains(keyword)).findFirst();
+			split -> split.contains(KEYWORD)).findFirst();
 
 		return message.orElse("");
 	}

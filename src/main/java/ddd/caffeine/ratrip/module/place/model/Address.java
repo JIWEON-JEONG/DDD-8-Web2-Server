@@ -22,7 +22,7 @@ public class Address {
 
 	@NotNull
 	@Column(name = "detailed_address", columnDefinition = "VARCHAR(100)")
-	String detailed;
+	private String detailed;
 
 	//예시 : "제주특별자치도 제주시 외도일동 640-2"
 	public Address(String address) {
@@ -37,7 +37,7 @@ public class Address {
 
 	private Region createRegion(String keyword) {
 		Optional<Region> optionalRegion = Arrays.stream(Region.values())
-			.filter((region) -> region.getKeyword().equals(keyword))
+			.filter((region) -> region.name().contains(keyword))
 			.findFirst();
 
 		return optionalRegion.orElse(Region.기타);

@@ -20,7 +20,7 @@ public enum Region {
 	경상북도("경북"),
 	경상남도("경남"),
 	제주특별자치도("제주"),
-	기타("");
+	기타("기타");
 
 	private String keyword;
 

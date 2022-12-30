@@ -46,10 +46,4 @@ public class PlaceService {
 		placeValidator.validateRangeLongitude(longitude);
 		placeValidator.validatePageSize(page);
 	}
-
-	// final int DATA_COUNT = 1;
-	// final String SORT_TYPE = "sim";
-	// private String readPlaceName(PlaceKakaoData kakaoPlaceData) {
-	// 	return kakaoPlaceData.getPlaceName();
-	// }
 }

@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.KakaoFeignClient;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.feign.domain.place.naver.ImageNaverModel;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.feign.domain.place.naver.NaverFeignClient;
+import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
 import lombok.RequiredArgsConstructor;
 
 @Service

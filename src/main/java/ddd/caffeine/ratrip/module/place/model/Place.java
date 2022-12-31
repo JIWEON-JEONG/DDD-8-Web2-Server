@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoData;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoData;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

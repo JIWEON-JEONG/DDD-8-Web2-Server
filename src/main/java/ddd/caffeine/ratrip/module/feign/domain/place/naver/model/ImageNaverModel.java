@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign.domain.place.naver;
+package ddd.caffeine.ratrip.module.feign.domain.place.naver.model;
 
 import java.util.List;
 

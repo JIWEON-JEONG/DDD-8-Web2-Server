@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.feign.domain.place.naver.ImageNaverModel;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
+import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.recommend.service;
+package ddd.caffeine.ratrip.module.feign;
 
 import static java.lang.String.*;
 

@@ -26,7 +26,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Place {
-
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;

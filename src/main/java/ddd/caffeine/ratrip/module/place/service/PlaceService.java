@@ -30,6 +30,8 @@ public class PlaceService {
 
 	public PlaceDetailsResponseDto readPlaceDetails(String kakaoId, String address, String placeName) {
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(kakaoId);
+
+		//이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
 		if (optionalPlace.isEmpty()) {
 			Place place = readPlaceEntity(address, placeName);
 			placeRepository.save(place);

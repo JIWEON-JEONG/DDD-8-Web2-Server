@@ -29,6 +29,10 @@ public class Address {
 		setAddress(address);
 	}
 
+	public String toString() {
+		return this.region.name() + " " + detailed;
+	}
+
 	private void setAddress(String address) {
 		String[] split = address.split(" ");
 		this.region = createRegion(split[0]);

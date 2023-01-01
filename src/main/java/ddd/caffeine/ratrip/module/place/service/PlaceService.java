@@ -8,8 +8,10 @@ import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponse;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +22,14 @@ public class PlaceService {
 	private final PlaceFeignService placeFeignService;
 	private final PlaceValidator placeValidator;
 	private final PlaceRepository placeRepository;
+
+	public PopularPlaceResponse readPopularPlaces(String keyword) {
+		final int PLACE_COUNT = 10;
+		Region region = Region.createOptionalRegionIfNotExistReturnNull(keyword);
+		placeRepository.findPopularPlace(region, PLACE_COUNT);
+
+		return new PopularPlaceResponse();
+	}
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
 		validateSearchRequestParameters(latitude, longitude, page);

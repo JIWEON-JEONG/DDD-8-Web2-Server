@@ -1,5 +1,8 @@
 package ddd.caffeine.ratrip.module.place.model;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import lombok.Getter;
 
 @Getter
@@ -27,4 +30,17 @@ public enum Region {
 	Region(String keyword) {
 		this.keyword = keyword;
 	}
+
+	public static Region createRegionIfNotExistReturnEtc(String keyword) {
+		Optional<Region> region = Arrays.stream(values()).filter(r -> r.name().contains(keyword))
+			.findFirst();
+
+		return region.orElse(Region.기타);
+	}
+
+	public static Region createOptionalRegionIfNotExistReturnNull(String keyword) {
+		return Arrays.stream(values()).filter(r -> r.name().contains(keyword))
+			.findFirst().get();
+	}
+
 }

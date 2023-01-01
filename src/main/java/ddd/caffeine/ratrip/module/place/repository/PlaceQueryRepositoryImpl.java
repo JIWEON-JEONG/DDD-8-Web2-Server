@@ -16,16 +16,16 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
 
-	public List<Place> findPopularPlace(Region region, Integer limit) {
+	public List<Place> findPopularPlacesInRegions(List<Region> regions, Integer limit) {
 		return jpaQueryFactory
 			.selectFrom(place)
-			.where(regionEq(region))
+			.where(regionsIn(regions))
 			.orderBy(place.numberOfTrips.desc())
 			.limit(limit)
 			.fetch();
 	}
 
-	private BooleanExpression regionEq(Region region) {
-		return region != null ? place.address.region.eq(region) : null;
+	private BooleanExpression regionsIn(List<Region> region) {
+		return region.isEmpty() ? null : place.address.region.in(region);
 	}
 }

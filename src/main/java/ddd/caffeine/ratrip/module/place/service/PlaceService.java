@@ -25,9 +25,10 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	public PopularPlaceResponse readPopularPlaces(List<String> regions) {
-		final int PLACE_COUNT = 10;
-		placeRepository.findPopularPlacesInRegions(Region.createRegions(regions), PLACE_COUNT);
-		return new PopularPlaceResponse();
+		final int POPULAR_PLACE_COUNT = 10;
+		List<Place> popularPlaces = placeRepository.findPopularPlacesInRegions(Region.createRegions(regions),
+			POPULAR_PLACE_COUNT);
+		return new PopularPlaceResponse(popularPlaces);
 	}
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {

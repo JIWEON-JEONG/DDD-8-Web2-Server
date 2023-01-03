@@ -4,7 +4,7 @@ import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import org.springframework.stereotype.Component;
 
-import ddd.caffeine.ratrip.common.exception.CommonException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 import ddd.caffeine.ratrip.module.user.domain.User;
 
 @Component

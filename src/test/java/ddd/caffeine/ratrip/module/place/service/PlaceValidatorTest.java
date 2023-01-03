@@ -31,7 +31,6 @@ class PlaceValidatorTest {
 	@DisplayName("올바른 도로명 주소 일때 정상 동작 테스트")
 	@ValueSource(strings = {"경기 양평군 양서면 북한강로89번길 16", "인천 중구 마시란로 163", "경기 광주시 남한산성면 검복길 82"})
 	void validateRoadNameAddressTest(String address) {
-
 		//then
 		recommendPlaceValidator.validateRoadNameAddress(address);
 	}

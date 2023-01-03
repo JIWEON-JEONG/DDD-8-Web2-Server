@@ -14,6 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class PlaceValidator {
+
+	public void validateIsNumber(String number) {
+		try {
+			Long.parseLong(number);
+		} catch (NumberFormatException e) {
+			throw new PlaceException(INVALID_THIRD_PARTY_ID_EXCEPTION);
+		}
+	}
+
 	public void validatePageSize(int page) {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;
@@ -23,20 +32,20 @@ public class PlaceValidator {
 	}
 
 	public void validateRangeLatitude(String lat) {
-		double latitude = typeCastStringToDouble(lat);
+		double latitude = validateTypeCastDouble(lat);
 		if (!(-90 <= latitude && latitude <= 90)) {
 			throw new PlaceException(INVALID_LATITUDE_RANGE_EXCEPTION);
 		}
 	}
 
 	public void validateRangeLongitude(String lng) {
-		double longitude = typeCastStringToDouble(lng);
+		double longitude = validateTypeCastDouble(lng);
 		if (!(-180 <= longitude && longitude <= 180)) {
 			throw new PlaceException(INVALID_LONGITUDE_RANGE_EXCEPTION);
 		}
 	}
 
-	private double typeCastStringToDouble(String param) {
+	private double validateTypeCastDouble(String param) {
 		try {
 			return Double.parseDouble(param);
 		} catch (NumberFormatException e) {

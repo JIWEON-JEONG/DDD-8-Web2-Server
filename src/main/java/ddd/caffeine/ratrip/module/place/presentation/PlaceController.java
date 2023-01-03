@@ -47,9 +47,9 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping
+	@GetMapping(value = "recommend")
 	public ResponseEntity<PopularPlaceResponse> callPopularPlacesApi(
-		@RequestParam(name = "region") List<String> regions) {
+		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions) {
 
 		PopularPlaceResponse response = placeService.readPopularPlaces(regions);
 		return ResponseEntity.ok(response);

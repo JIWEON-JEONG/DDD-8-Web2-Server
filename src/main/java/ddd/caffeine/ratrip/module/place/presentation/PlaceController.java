@@ -32,18 +32,28 @@ public class PlaceController {
 		@RequestParam String longitude,
 		@RequestParam(required = false, defaultValue = "1") int page) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(keyword, latitude, longitude, page);
+		PlaceSearchResponseDto response = placeService.searchPlaces(
+			keyword, latitude, longitude, page);
 
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping
-	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApi(
-		@RequestParam String placeId,
+	@GetMapping(value = "third-party-id")
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
+		@RequestParam String id,
 		@RequestParam String placeName,
 		@RequestParam String address) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetails(placeId, address, placeName);
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
+			id, address, placeName);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
+		@RequestParam String placeId) {
+
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(placeId);
 		return ResponseEntity.ok(response);
 	}
 

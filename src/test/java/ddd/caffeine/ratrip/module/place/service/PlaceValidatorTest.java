@@ -20,11 +20,20 @@ class PlaceValidatorTest {
 	}
 
 	@ParameterizedTest
-	@DisplayName("올바른 주소 일때 정상 동작 테스트")
-	@ValueSource(strings = {"서울 서초구 고무래로8길 5", "서울 서초구 잠원동 35-17"})
-	void validateAddressFormTest(String address) {
+	@DisplayName("올바른 지번 주소 일때 정상 동작 테스트")
+	@ValueSource(strings = {"잠원동 35-17"})
+	void validateLotNumberAddressTest(String address) {
 		//then
-		recommendPlaceValidator.validateAddressForm(address);
+		recommendPlaceValidator.validateLotNumberAddress(address);
+	}
+
+	@ParameterizedTest
+	@DisplayName("올바른 도로명 주소 일때 정상 동작 테스트")
+	@ValueSource(strings = {"경기 양평군 양서면 북한강로89번길 16", "인천 중구 마시란로 163", "경기 광주시 남한산성면 검복길 82"})
+	void validateRoadNameAddressTest(String address) {
+
+		//then
+		recommendPlaceValidator.validateRoadNameAddress(address);
 	}
 
 	@ParameterizedTest

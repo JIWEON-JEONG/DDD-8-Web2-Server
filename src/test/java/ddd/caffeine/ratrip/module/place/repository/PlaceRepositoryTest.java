@@ -44,6 +44,32 @@ class PlaceRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("여러 지역의 장소 찾기 정상 동작 테스트")
+	void findPlacesInRegionsTest() {
+		//given
+		Place seoulFamousPlace = createPlace("testId", "서면 스타벅스", "부산 서면 스타벅스 까페", "CF7", 1, 1,
+			"testLink",
+			"testPhoneNumber");
+		Place seoulPlace = createPlace("testId", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1,
+			"testLink",
+			"testPhoneNumber");
+		Place incheonPlace = createPlace("testId", "부평 스타벅스", "인천 부평 스타벅스 까페", "CF7", 1, 1,
+			"testLink",
+			"testPhoneNumber");
+
+		placeRepository.save(seoulFamousPlace);
+		placeRepository.save(seoulPlace);
+		placeRepository.save(incheonPlace);
+
+		//when
+		List<Region> 특정지역 = List.of(Region.서울특별시, Region.부산광역시, Region.인천광역시);
+		List<Place> places = placeRepository.findPopularPlacesInRegions(특정지역, 5);
+
+		//then
+		assertThat(places.size()).isEqualTo(3);
+	}
+
+	@Test
 	@DisplayName("특정 지역이 빈 리스트 일때 모든 지역 불러오는지 정상 작동 테스트")
 	void findPopularPlacesIfEmptyListTest() {
 		//given

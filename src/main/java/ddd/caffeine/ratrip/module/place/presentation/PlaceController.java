@@ -34,13 +34,14 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping
-	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApi(
-		@RequestParam String placeId,
+	@GetMapping(value = "third-party-id")
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
+		@RequestParam String id,
 		@RequestParam String placeName,
 		@RequestParam String address) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetails(placeId, address, placeName);
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
+			id, address, placeName);
 		return ResponseEntity.ok(response);
 	}
 }

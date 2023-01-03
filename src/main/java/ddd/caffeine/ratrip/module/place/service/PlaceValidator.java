@@ -16,11 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class PlaceValidator {
-	public void validateAddressForm(String address) {
-		final Pattern pattern = Pattern.compile(
-			"/(([가-힣A-Za-z·\\d~\\-\\.]{2,}(로|길).\\d+)|([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)\\d+)/");
 
-		if (!(pattern.matcher(address).matches())) {
+	public void validateLotNumberAddress(String address) {
+		final Pattern LOT_NUMBER_PATTERN = Pattern.compile(
+			"/(([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)[\\d-]+)|(([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)\\d[^시]+)/");
+		if (!(LOT_NUMBER_PATTERN.matcher(address).matches())) {
+			throw new PlaceException(INVALID_ADDRESS_EXCEPTION);
+		}
+	}
+
+	public void validateRoadNameAddress(String address) {
+		final Pattern ROAD_NAME_ADDRESS = Pattern.compile("/(([가-힣A-Za-z·\\d~\\-\\.]{2,}(로|길).\\d+))/");
+		if (!(ROAD_NAME_ADDRESS.matcher(address).matches())) {
 			throw new PlaceException(INVALID_ADDRESS_EXCEPTION);
 		}
 	}

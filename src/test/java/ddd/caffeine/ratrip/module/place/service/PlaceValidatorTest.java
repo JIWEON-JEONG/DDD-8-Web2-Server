@@ -20,6 +20,14 @@ class PlaceValidatorTest {
 	}
 
 	@ParameterizedTest
+	@DisplayName("올바른 주소 일때 정상 동작 테스트")
+	@ValueSource(strings = {"서울 서초구 고무래로8길 5", "서울 서초구 잠원동 35-17"})
+	void validateAddressFormTest(String address) {
+		//then
+		recommendPlaceValidator.validateAddressForm(address);
+	}
+
+	@ParameterizedTest
 	@DisplayName("페이징 사이즈 유효성 검사 테스트")
 	@ValueSource(ints = {-1, 0, 46, 1000000})
 	void validatePageSizeTest(int pageSize) {

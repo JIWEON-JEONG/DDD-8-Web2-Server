@@ -49,14 +49,6 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping
-	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
-		@RequestParam String placeId) {
-
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(placeId);
-		return ResponseEntity.ok(response);
-	}
-
 	@GetMapping(value = "recommend")
 	public ResponseEntity<PopularPlaceResponse> callPopularPlacesApi(
 		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions) {

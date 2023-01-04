@@ -1,0 +1,28 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Ratrip_CI
+on:
+  pull_request: # main branch에 pull request가 발생할 때
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # 우분투 최신 버전에서 테스트 진행
+
+    steps:
+      - uses: actions/checkout@v3 # CI 서버로 내려받은 후에 특정 브랜치로 전환
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: clean build

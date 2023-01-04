@@ -7,9 +7,6 @@
 
 name: Ratrip_CI
 on:
-  push: # main branch에 push가 발생할 때
-    branches: [ "main" ]
-
   pull_request: # main branch에 pull request가 발생할 때
     branches: [ "main" ]
 

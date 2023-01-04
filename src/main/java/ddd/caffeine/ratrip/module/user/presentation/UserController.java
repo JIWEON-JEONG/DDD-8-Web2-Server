@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-	@GetMapping("/test")
+	@GetMapping("/")
 	public String test() {
 		return "health check";
 	}

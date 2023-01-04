@@ -14,6 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class PlaceValidator {
+
+	public void validateUUIDForm(String uuid) {
+
+	}
+
 	public void validatePageSize(int page) {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;

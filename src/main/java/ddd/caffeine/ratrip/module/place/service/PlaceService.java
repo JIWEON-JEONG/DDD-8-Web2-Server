@@ -1,10 +1,14 @@
 package ddd.caffeine.ratrip.module.place.service;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
@@ -36,6 +40,13 @@ public class PlaceService {
 		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlaces(keyword, latitude, longitude, page);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
+	}
+
+	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
+		Optional<Place> optionalPlace = placeRepository.findById(UUID.fromString(uuid));
+		optionalPlace.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
+
+		return new PlaceDetailsResponseDto(optionalPlace.get());
 	}
 
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(String thirdPartyId, String address,

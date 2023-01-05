@@ -12,7 +12,7 @@ import ddd.caffeine.ratrip.module.auth.application.dto.SignInDto;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignUpDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
-import ddd.caffeine.ratrip.module.external.KakaoApiClient;
+import ddd.caffeine.ratrip.module.external.KakaoUserApiClient;
 import ddd.caffeine.ratrip.module.external.dto.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.user.application.UserService;
 import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KakaoAuthService implements AuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
-	private final KakaoApiClient kaKaoApiCaller;
+	private final KakaoUserApiClient kaKaoApiCaller;
 	private final UserService userService;
 	private final TokenService tokenService;
 

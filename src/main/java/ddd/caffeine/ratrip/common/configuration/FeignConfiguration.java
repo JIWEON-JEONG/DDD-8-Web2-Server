@@ -26,6 +26,7 @@ public class FeignConfiguration {
 
 	/**
 	 * 재시도는 1초를 시작으로 최대 2초로 재시도 하고, 최대 3번으로 재시도.
+	 *
 	 * @return
 	 */
 	@Bean

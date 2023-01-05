@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Todo 프론트 및 디자이너 분들과 추후 필드 추가 및 삭제에 관한 논의
- *
+ * <p>
  * Naver API 를 통해 받아오는 이미지 객체.
  */
 @Getter

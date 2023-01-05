@@ -2,18 +2,19 @@ package ddd.caffeine.ratrip.module.place.model;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
+
 import org.geolatte.geom.Point;
 
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.model.address.Address;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

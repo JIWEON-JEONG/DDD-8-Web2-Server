@@ -21,7 +21,7 @@ class PlaceValidatorTest {
 
 	@ParameterizedTest
 	@DisplayName("올바른 지번 주소 일때 정상 동작 테스트")
-	@ValueSource(strings = {"잠원동 35-17"})
+	@ValueSource(strings = {"충남 천안시 서북구 쌍용동 541-4", "경기 화성시 장지동 479", "충북 단양군 가곡면 사평리 246-33"})
 	void validateLotNumberAddressTest(String address) {
 		//then
 		recommendPlaceValidator.validateLotNumberAddress(address);

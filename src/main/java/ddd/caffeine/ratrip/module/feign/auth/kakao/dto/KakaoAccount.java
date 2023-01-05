@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.external.dto;
+package ddd.caffeine.ratrip.module.feign.auth.kakao.dto;
 
 import lombok.Getter;
 

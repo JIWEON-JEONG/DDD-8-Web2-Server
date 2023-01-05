@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.module.user.application.dto;
 
-import ddd.caffeine.ratrip.module.external.dto.KakaoProfileResponse;
+import ddd.caffeine.ratrip.module.feign.auth.kakao.dto.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.AccessLevel;
 import lombok.Builder;

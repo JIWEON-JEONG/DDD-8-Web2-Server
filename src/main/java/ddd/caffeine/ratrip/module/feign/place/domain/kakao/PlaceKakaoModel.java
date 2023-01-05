@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign.domain.place.kakao;
+package ddd.caffeine.ratrip.module.feign.place.domain.kakao;
 
 import java.util.ArrayList;
 import java.util.List;

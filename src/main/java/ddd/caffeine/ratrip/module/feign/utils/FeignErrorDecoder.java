@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign;
+package ddd.caffeine.ratrip.module.feign.utils;
 
 import java.util.Arrays;
 import java.util.Date;

@@ -21,8 +21,8 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.authorizeRequests()
-			.requestMatchers().permitAll() //auth 관련 요청은 인증 없이 접근을 허용한다. ->
+		return http
+			.authorizeRequests().antMatchers("/**").permitAll()//auth 관련 요청은 인증 없이 접근을 허용한다. ->
 			.and()
 			.httpBasic().disable() //사용자 인증방법인 HTTP Basic Authentication을 사용하지 않는다.
 			.formLogin().disable() //formLogin 검증 방법은 사용하지 않겠다.

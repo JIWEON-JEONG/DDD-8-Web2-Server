@@ -1,11 +1,10 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
   application:
     name: ratrip
-  profiles:
-    active: dev
+
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA}?serverTimezone=UTC&characterEncoding=UTF-8
     username: ${DB_USERNAME}
@@ -16,7 +15,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         non_contextual_creation: true

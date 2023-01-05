@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.module.auth.presentation;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +19,6 @@ import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignUpRequestDto
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController

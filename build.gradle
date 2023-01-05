@@ -85,6 +85,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
 // QueryDSL
 def querydslDir = "$buildDir/generated/'querydsl'"
 

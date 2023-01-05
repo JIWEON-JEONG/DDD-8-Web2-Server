@@ -13,10 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
-import org.geolatte.geom.Point;
-
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.model.address.Address;
+import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoData;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

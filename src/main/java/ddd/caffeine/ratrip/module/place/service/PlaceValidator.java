@@ -20,6 +20,7 @@ public class PlaceValidator {
 	public void validateLotNumberAddress(String address) {
 		final Pattern LOT_NUMBER_PATTERN = Pattern.compile(
 			"(([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)[\\d-]+)|(([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)\\d[^시]+)");
+		System.out.println(extractAddressKeyword(address));
 		if (!(LOT_NUMBER_PATTERN.matcher(extractAddressKeyword(address)).matches())) {
 			throw new PlaceException(INVALID_ADDRESS_EXCEPTION);
 		}
@@ -76,7 +77,7 @@ public class PlaceValidator {
 	 */
 	private String extractAddressKeyword(String address) {
 		String[] keywords = address.split(" ");
-		return keywords[keywords.length - 2] + keywords[keywords.length - 1];
+		return keywords[keywords.length - 2] + " " + keywords[keywords.length - 1];
 	}
 }
 

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.auth.application.impl;
+package ddd.caffeine.ratrip.module.auth.application;
 
 import java.util.UUID;
 
@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
-import ddd.caffeine.ratrip.module.auth.application.AuthService;
-import ddd.caffeine.ratrip.module.auth.application.TokenService;
-import ddd.caffeine.ratrip.module.auth.application.dto.SignInDto;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignUpDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
@@ -23,13 +20,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class KakaoAuthService implements AuthService {
+public class KakaoAuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
 	private final KakaoUserApiClient kaKaoApiCaller;
 	private final UserService userService;
 	private final TokenService tokenService;
 
-	@Override
 	public SignInResponseDto signUp(SignUpDto request) {
 		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
 		UUID userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
@@ -38,9 +34,8 @@ public class KakaoAuthService implements AuthService {
 		return SignInResponseDto.of(userId, tokenResponseDto);
 	}
 
-	@Override
-	public SignInResponseDto signIn(SignInDto request) {
-		KakaoProfileResponse response = getKakaoProfileResponse(request.getToken());
+	public SignInResponseDto signIn() {
+		KakaoProfileResponse response = getKakaoProfileResponse();
 		UUID userId = userService.findUserBySocialIdAndSocialType(SignInUserDto.of(response.getId(), socialType));
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 

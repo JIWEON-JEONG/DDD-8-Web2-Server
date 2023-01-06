@@ -93,7 +93,7 @@ public class Place {
 			.filter((category) -> category.getCode().equals(categoryCode))
 			.findFirst();
 
-		this.category = optionalCategory.orElse(Category.기타);
+		this.category = optionalCategory.orElse(Category.ETC);
 	}
 
 	/**

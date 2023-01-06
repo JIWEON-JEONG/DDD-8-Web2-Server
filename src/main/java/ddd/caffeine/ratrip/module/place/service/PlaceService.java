@@ -13,7 +13,7 @@ import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponse;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -26,11 +26,11 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PopularPlaceResponse readPopularPlaces(List<String> regions) {
+	public PopularPlaceResponseDto readPopularPlaces(List<String> regions) {
 		final int POPULAR_PLACE_COUNT = 10;
 		List<Place> popularPlaces = placeRepository.findPopularPlacesInRegions(Region.createRegions(regions),
 			POPULAR_PLACE_COUNT);
-		return new PopularPlaceResponse(popularPlaces);
+		return new PopularPlaceResponseDto(popularPlaces);
 	}
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {

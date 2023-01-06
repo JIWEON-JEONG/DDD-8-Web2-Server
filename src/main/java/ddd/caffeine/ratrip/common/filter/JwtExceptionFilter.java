@@ -2,6 +2,11 @@ package ddd.caffeine.ratrip.common.filter;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,10 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ddd.caffeine.ratrip.common.exception.ExceptionResponse;
 import ddd.caffeine.ratrip.common.exception.domain.CommonException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtExceptionFilter extends OncePerRequestFilter {
 

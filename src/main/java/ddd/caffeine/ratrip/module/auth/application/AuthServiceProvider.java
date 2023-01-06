@@ -3,11 +3,12 @@ package ddd.caffeine.ratrip.module.auth.application;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Component;
 
 import ddd.caffeine.ratrip.module.auth.application.impl.KakaoAuthService;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

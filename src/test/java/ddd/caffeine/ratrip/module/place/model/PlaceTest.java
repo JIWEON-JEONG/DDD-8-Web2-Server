@@ -36,7 +36,7 @@ class PlaceTest {
 		placeNoCategory.setPlaceCategory(기타CategoryCode);
 
 		//then
-		Assertions.assertThat(placeNoCategory.getCategory()).isEqualTo(Category.기타);
+		Assertions.assertThat(placeNoCategory.getCategory()).isEqualTo(Category.ETC);
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PopularPlaceResponseDto {
-	List<PopularPlaceModel> popularPlaceModels;
+	private List<PopularPlaceModel> popularPlaceModels;
 
 	public PopularPlaceResponseDto(List<Place> places) {
 		create(places);

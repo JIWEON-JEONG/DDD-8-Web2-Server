@@ -1,11 +1,15 @@
 package ddd.caffeine.ratrip.module.place.service;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
@@ -39,6 +43,15 @@ public class PlaceService {
 			longitude, page);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
+	}
+
+	@Transactional(readOnly = true)
+	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
+		validateReadPlaceDetailsByUUIDParameters(uuid);
+		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
+		place.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
+
+		return new PlaceDetailsResponseDto(place.get());
 	}
 
 	@Transactional
@@ -87,5 +100,9 @@ public class PlaceService {
 		placeValidator.validateRangeLatitude(latitude);
 		placeValidator.validateRangeLongitude(longitude);
 		placeValidator.validatePageSize(page);
+	}
+
+	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {
+		placeValidator.validateUUIDForm(uuid);
 	}
 }

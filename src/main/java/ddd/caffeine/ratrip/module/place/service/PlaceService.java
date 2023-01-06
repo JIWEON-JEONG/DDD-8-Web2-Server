@@ -31,7 +31,7 @@ public class PlaceService {
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(String thirdPartyId, String address,
 		String placeName) {
 
-		validatePlaceDetailsByThirdPartyIdParameters(thirdPartyId);
+		validatePlaceDetailsByThirdPartyIdParameters(thirdPartyId, address);
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(thirdPartyId);
 
 		// @TODO 이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
@@ -77,7 +77,8 @@ public class PlaceService {
 		placeValidator.validatePageSize(page);
 	}
 
-	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId) {
+	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
 		placeValidator.validateIsNumber(thirdPartyId);
+		//@Todo : 지번주소인지 도로명주소인지 정하기.
 	}
 }

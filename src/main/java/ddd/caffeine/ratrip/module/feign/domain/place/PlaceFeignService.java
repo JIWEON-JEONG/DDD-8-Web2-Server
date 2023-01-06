@@ -26,7 +26,7 @@ public class PlaceFeignService {
 	/**
 	 * 주소와 장소이름을 토대로 하나의 장소를 읽어옵니다.
 	 */
-	public PlaceKakaoModel readOnePlace(String address, String placeName) {
+	public PlaceKakaoModel readPlacesByAddressAndPlaceName(String address, String placeName) {
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		String keyword = address + " " + placeName;
 		final int DATA_COUNT = 1;
@@ -39,7 +39,9 @@ public class PlaceFeignService {
 	 * keyword 를 토대로 주변 5km 내의 장소들을 읽어옵니다.
 	 * @Todo : 반경 몇 km 까지 할 것인지 프론트 개발자님들과 상의.
 	 */
-	public PlaceKakaoModel readPlaces(String keyword, String latitude, String longitude, int page) {
+	public PlaceKakaoModel readPlacesByKeywordAndCoordinate(
+		String keyword, String latitude, String longitude, int page) {
+
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		final int PLACE_RADIUS = 5000;
 

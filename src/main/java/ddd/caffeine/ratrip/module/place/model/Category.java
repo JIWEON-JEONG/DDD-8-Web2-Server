@@ -27,7 +27,7 @@ public enum Category {
 	BROKERAGE("AG2"),
 	SUPERMARKET("MT1"),
 	CONVENIENCE_STORE("CS2"),
-	기타("");
+	ETC("ETC");
 
 	private String code;
 

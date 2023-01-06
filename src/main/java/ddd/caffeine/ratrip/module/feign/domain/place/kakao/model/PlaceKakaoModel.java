@@ -1,8 +1,11 @@
 package ddd.caffeine.ratrip.module.feign.domain.place.kakao.model;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
@@ -36,12 +39,15 @@ public class PlaceKakaoModel {
 	}
 
 	public Place mapByPlaceEntity() {
-		PlaceKakaoData placeKakaoData = readPlaceDataIndexZero();
+		PlaceKakaoData placeKakaoData = readOne();
 		return placeKakaoData.mapByPlaceEntity();
 	}
 
-	public PlaceKakaoData readPlaceDataIndexZero() {
+	public PlaceKakaoData readOne() {
 		final int PLACE_INDEX = 0;
+		if (this.documents.isEmpty()) {
+			throw new PlaceException(NOT_FOUND_PLACE_EXCEPTION);
+		}
 		return this.documents.get(PLACE_INDEX);
 	}
 

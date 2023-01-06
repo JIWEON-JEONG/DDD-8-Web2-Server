@@ -2,10 +2,15 @@ package ddd.caffeine.ratrip.module.place.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import com.fasterxml.uuid.Generators;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
@@ -17,6 +22,15 @@ class PlaceValidatorTest {
 	@BeforeEach
 	void init() {
 		recommendPlaceValidator = new PlaceValidator();
+	}
+
+	@Test
+	@DisplayName("UUID 형식 정상 검증 테스트")
+	void validateUUIDFormTest() {
+		//given
+		String uuid = generateUUID();
+		//then
+		recommendPlaceValidator.validateUUIDForm(uuid);
 	}
 
 	@ParameterizedTest
@@ -62,4 +76,17 @@ class PlaceValidatorTest {
 			.isInstanceOf(PlaceException.class)
 			.hasMessage("좌표는 숫자여야합니다.");
 	}
+
+	private String generateUUID() {
+		UUID uuid = Generators.timeBasedGenerator().generate();
+		String[] uuidArr = uuid.toString().split("-");
+		String uuidStr = uuidArr[2] + uuidArr[1] + uuidArr[0] + uuidArr[3] + uuidArr[4];
+		StringBuilder sb = new StringBuilder(uuidStr);
+		sb.insert(8, "-");
+		sb.insert(13, "-");
+		sb.insert(18, "-");
+		sb.insert(23, "-");
+		return sb.toString();
+	}
+
 }

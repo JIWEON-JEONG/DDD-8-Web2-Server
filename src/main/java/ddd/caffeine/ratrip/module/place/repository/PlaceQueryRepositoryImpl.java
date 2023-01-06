@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.place.repository;
 
+import static ddd.caffeine.ratrip.module.place.model.QPlace.*;
+
 import java.util.List;
 
 import com.querydsl.core.types.dsl.BooleanExpression;

@@ -20,9 +20,20 @@ class PlaceValidatorTest {
 	}
 
 	@ParameterizedTest
-	@DisplayName("올바른 지번 주소 일때 정상 동작 테스트")
+	@DisplayName("올바르지 않은 지번주소(도로명주소) 일 때 예외 동작 테스트")
+	@ValueSource(strings = {"경기 양평군 양서면 북한강로89번길 16", "인천 중구 마시란로 163", "경기 광주시 남한산성면 검복길 82"})
+	void validateLotNumberAddressThrowException(String address) {
+		//then
+		assertThatThrownBy(() ->
+			recommendPlaceValidator.validateLotNumberAddress(address))
+			.isInstanceOf(PlaceException.class)
+			.hasMessage("올바르지 않은 주소 형식입니다.");
+	}
+
+	@ParameterizedTest
+	@DisplayName("올바르지 않은 도로명 주소(지번주소) 일 때 예외 동작 테스트")
 	@ValueSource(strings = {"충남 천안시 서북구 쌍용동 541-4", "경기 화성시 장지동 479", "충북 단양군 가곡면 사평리 246-33"})
-	void validateLotNumberAddressTest(String address) {
+	void validateLotNumberAddress(String address) {
 		//then
 		recommendPlaceValidator.validateLotNumberAddress(address);
 	}
@@ -33,6 +44,17 @@ class PlaceValidatorTest {
 	void validateRoadNameAddressTest(String address) {
 		//then
 		recommendPlaceValidator.validateRoadNameAddress(address);
+	}
+
+	@ParameterizedTest
+	@DisplayName("올바르지 않은 도로명주소(지번주소) 일 때 예외 동작 테스트")
+	@ValueSource(strings = {"충남 천안시 서북구 쌍용동 541-4", "경기 화성시 장지동 479", "충북 단양군 가곡면 사평리 246-33"})
+	void validateRoadNameAddressThrowException(String address) {
+		//then
+		assertThatThrownBy(() ->
+			recommendPlaceValidator.validateRoadNameAddress(address))
+			.isInstanceOf(PlaceException.class)
+			.hasMessage("올바르지 않은 주소 형식입니다.");
 	}
 
 	@ParameterizedTest

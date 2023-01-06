@@ -36,11 +36,11 @@ public class PlaceKakaoModel {
 	}
 
 	public Place mapByPlaceEntity() {
-		PlaceKakaoData placeKakaoData = readPlaceDataIndexZero();
+		PlaceKakaoData placeKakaoData = readOne();
 		return placeKakaoData.mapByPlaceEntity();
 	}
 
-	public PlaceKakaoData readPlaceDataIndexZero() {
+	public PlaceKakaoData readOne() {
 		final int PLACE_INDEX = 0;
 		return this.documents.get(PLACE_INDEX);
 	}

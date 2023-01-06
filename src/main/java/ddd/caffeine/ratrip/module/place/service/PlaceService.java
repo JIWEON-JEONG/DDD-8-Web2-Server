@@ -35,7 +35,8 @@ public class PlaceService {
 
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
 		validateSearchRequestParameters(latitude, longitude, page);
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlaces(keyword, latitude, longitude, page);
+		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(keyword, latitude,
+			longitude, page);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}
@@ -62,8 +63,8 @@ public class PlaceService {
 	 */
 	private void handlePlaceUpdate(Place place, String address, String placeName) {
 		if (place.checkNeedsUpdate(address, placeName)) {
-			PlaceKakaoModel placeKakaoModel = placeFeignService.readOnePlace(address, placeName);
-			place.update(placeKakaoModel.readPlaceDataIndexZero());
+			PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(address, placeName);
+			place.update(placeKakaoModel.readOne());
 		}
 	}
 
@@ -73,7 +74,7 @@ public class PlaceService {
 	private Place readPlaceEntity(String address, String placeName) {
 		final int DATA_INDEX = 0;
 
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readOnePlace(address, placeName);
+		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(address, placeName);
 		Place place = placeKakaoModel.mapByPlaceEntity();
 
 		ImageNaverModel imageModel = placeFeignService.readImageModel(placeName);

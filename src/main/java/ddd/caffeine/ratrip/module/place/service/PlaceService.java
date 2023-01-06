@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
 import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
@@ -24,6 +25,7 @@ public class PlaceService {
 	private final PlaceValidator placeValidator;
 	private final PlaceRepository placeRepository;
 
+	@Transactional(readOnly = true)
 	public PopularPlaceResponse readPopularPlaces(List<String> regions) {
 		final int POPULAR_PLACE_COUNT = 10;
 		List<Place> popularPlaces = placeRepository.findPopularPlacesInRegions(Region.createRegions(regions),
@@ -38,6 +40,7 @@ public class PlaceService {
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}
 
+	@Transactional
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(String thirdPartyId, String address,
 		String placeName) {
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(thirdPartyId);

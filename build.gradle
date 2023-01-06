@@ -16,12 +16,17 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 ext {
-    set('springCloudVersion', "2022.0.0-M5")
+    set('springCloudVersion', "2021.0.4")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
 dependencies {
@@ -62,7 +67,7 @@ dependencies {
     implementation "com.fasterxml.uuid:java-uuid-generator:4.0.1"
 
     //hibernate-spatial : 좌표를 다루기 위해 import
-    implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '6.1.5.Final'
+    implementation group: 'org.hibernate', name: 'hibernate-spatial'
 
     //mysql
     implementation 'mysql:mysql-connector-java'
@@ -76,16 +81,13 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
 // QueryDSL
 def querydslDir = "$buildDir/generated/'querydsl'"
 

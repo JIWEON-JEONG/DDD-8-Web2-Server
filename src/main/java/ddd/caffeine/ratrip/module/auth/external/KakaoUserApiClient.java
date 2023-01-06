@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import ddd.caffeine.ratrip.module.auth.external.dto.KakaoProfileResponse;
 
-@FeignClient(name = "kakaoApiClient", url = "https://kapi.kakao.com")
+@FeignClient(name = "kakaoUserApiClient", url = "https://kapi.kakao.com")
 public interface KakaoUserApiClient {
 
 	@GetMapping("/v2/user/me")

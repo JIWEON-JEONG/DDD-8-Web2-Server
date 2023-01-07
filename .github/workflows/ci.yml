@@ -10,8 +10,6 @@ on:
   pull_request: # main branch에 pull request가 발생할 때
     branches: [ "main" ]
 
-permissions: write-all
-
 jobs:
   test:
     runs-on: ubuntu-latest # 우분투 최신 버전에서 테스트 진행
@@ -25,32 +23,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup MySQL
-        uses: samin/mysql-action@v1
-        with:
-          character set server: 'utf8'
-          mysql database: 'ratrip_test'
-          mysql user: ${{secrets.DATABASE_USER}}
-          mysql password: ${{secrets.DATABASE_PASSWORD}}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
-          arguments: build
-
-      - name: Build with Gradle
-        run: ./gradlew clean build
-
-      - name: Test with Gradle
-        run: ./gradlew test
-
-#
-#      - name: Build with Gradle
-#        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-#        with:
-#          arguments: clean build
+          arguments: clean build
 
 

@@ -10,6 +10,8 @@ on:
   pull_request: # main branch에 pull request가 발생할 때
     branches: [ "main" ]
 
+permissions: write-all
+
 jobs:
   test:
     runs-on: ubuntu-latest # 우분투 최신 버전에서 테스트 진행

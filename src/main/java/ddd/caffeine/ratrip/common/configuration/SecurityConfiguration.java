@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import ddd.caffeine.ratrip.common.filter.JwtAuthenticationFilter;
 import ddd.caffeine.ratrip.common.filter.JwtExceptionFilter;
@@ -38,6 +41,21 @@ public class SecurityConfiguration {
 			.addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
 			.build();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.addAllowedOriginPattern("https://ddd-web2-map.web.app");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
 	}
 
 }

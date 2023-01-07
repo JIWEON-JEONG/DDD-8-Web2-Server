@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	private final JwtUtil jwtUtil;
+	private final CorsConfigurationSource corsConfigurationSource;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -31,7 +32,8 @@ public class SecurityConfiguration {
 			.formLogin().disable() //formLogin 검증 방법은 사용하지 않겠다.
 			.logout().disable() //logout 방식은 사용하지 않는다.
 			.csrf().disable()
-			.cors().disable()
+			.cors().configurationSource(corsConfigurationSource)
+			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.headers()

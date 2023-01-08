@@ -9,22 +9,22 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegisterUserDto {
+public class SignUpUserDto {
 	private String socialId;
 	private UserSocialType socialType;
 	private String name;
 	private String email;
 
 	@Builder(access = AccessLevel.PRIVATE)
-	private RegisterUserDto(String socialId, UserSocialType socialType, String name, String email) {
+	private SignUpUserDto(String socialId, UserSocialType socialType, String name, String email) {
 		this.socialId = socialId;
 		this.socialType = socialType;
 		this.name = name;
 		this.email = email;
 	}
 
-	public static RegisterUserDto of(KakaoProfileResponse kakaoProfileResponse, UserSocialType socialType) {
-		return RegisterUserDto.builder()
+	public static SignUpUserDto of(KakaoProfileResponse kakaoProfileResponse, UserSocialType socialType) {
+		return SignUpUserDto.builder()
 			.socialId(kakaoProfileResponse.getId())
 			.socialType(socialType)
 			.name(kakaoProfileResponse.getKakaoAccount().getProfile().getNickname())

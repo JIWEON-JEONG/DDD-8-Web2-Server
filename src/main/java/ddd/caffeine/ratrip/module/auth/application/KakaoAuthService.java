@@ -2,18 +2,20 @@ package ddd.caffeine.ratrip.module.auth.application;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
-import ddd.caffeine.ratrip.module.auth.application.dto.SignUpDto;
+import ddd.caffeine.ratrip.module.auth.external.KakaoAuthorizeApiClient;
+import ddd.caffeine.ratrip.module.auth.external.KakaoUserApiClient;
+import ddd.caffeine.ratrip.module.auth.external.dto.request.KakaoBearerTokenRequest;
+import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoBearerTokenResponse;
+import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
-import ddd.caffeine.ratrip.module.feign.auth.kakao.user.KakaoUserApiClient;
-import ddd.caffeine.ratrip.module.feign.auth.kakao.user.dto.KakaoProfileResponse;
 import ddd.caffeine.ratrip.module.user.application.UserService;
-import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
-import ddd.caffeine.ratrip.module.user.application.dto.SignInUserDto;
+import ddd.caffeine.ratrip.module.user.application.dto.SignUpUserDto;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.RequiredArgsConstructor;
 
@@ -22,27 +24,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KakaoAuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
-	private final KakaoUserApiClient kaKaoApiCaller;
+	@Value("${kakao.client-id}")
+	private final String kakaoClientId;
+	@Value("${kakao.redirect-uri}")
+	private final String kakaoRedirectUri;
+	private final KakaoAuthorizeApiClient kakaoAuthorizeApiClient;
+	private final KakaoUserApiClient kakaoUserApiClient;
 	private final UserService userService;
 	private final TokenService tokenService;
 
-	public SignInResponseDto signUp(SignUpDto request) {
-		KakaoProfileResponse kakaoProfileResponse = getKakaoProfileResponse(request.getToken());
-		UUID userId = userService.registerUser(RegisterUserDto.of(kakaoProfileResponse, socialType));
+	public SignInResponseDto signIn(String code) {
+		String accessToken = getKakaoAccessToken(code);
+		KakaoProfileResponse response = getKakaoProfileResponse(accessToken);
+
+		UUID userId = findUserBySocialIdAndSocialType(response);
+
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
 	}
 
-	public SignInResponseDto signIn() {
-		KakaoProfileResponse response = getKakaoProfileResponse();
-		UUID userId = userService.findUserBySocialIdAndSocialType(SignInUserDto.of(response.getId(), socialType));
-		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
-
-		return SignInResponseDto.of(userId, tokenResponseDto);
+	private String getKakaoAccessToken(String code) {
+		KakaoBearerTokenResponse kakaoBearerTokenResponse = kakaoAuthorizeApiClient.getBearerToken(
+			KakaoBearerTokenRequest.of(kakaoClientId, kakaoRedirectUri, code));
+		return kakaoBearerTokenResponse.getAccessToken();
 	}
 
 	private KakaoProfileResponse getKakaoProfileResponse(String token) {
-		return kaKaoApiCaller.getProfileInfo(HttpHeaderUtils.concatWithBearerPrefix(token));
+		return kakaoUserApiClient.getProfileInfo(HttpHeaderUtils.concatWithBearerPrefix(token));
+	}
+
+	private UUID findUserBySocialIdAndSocialType(KakaoProfileResponse response) {
+		return userService.findUserIdBySocialIdAndSocialType(SignUpUserDto.of(response, socialType));
 	}
 }

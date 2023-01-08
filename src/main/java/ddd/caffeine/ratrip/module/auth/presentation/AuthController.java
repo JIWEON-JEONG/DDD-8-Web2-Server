@@ -5,11 +5,14 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.module.auth.application.KakaoAuthService;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
@@ -21,11 +24,12 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class AuthController {
+	private final KakaoAuthService kakaoAuthService;
 	private final TokenService tokenService;
 
-	@PostMapping("/auth/signin/kakao")
-	public ResponseEntity<SignInResponseDto> signInWithKakao() {
-		return ResponseEntity.ok();
+	@GetMapping("/auth/signin/kakao")
+	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestHeader("code") String code) {
+		return ResponseEntity.ok(kakaoAuthService.signIn(code));
 	}
 
 	@PostMapping("/auth/reissue")

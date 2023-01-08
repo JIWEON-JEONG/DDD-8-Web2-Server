@@ -25,20 +25,20 @@ import lombok.extern.log4j.Log4j2;
 public class PlaceController {
 	private final PlaceService placeService;
 
-	@GetMapping(value = "search")
+	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
 		@RequestParam String keyword,
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam(required = false, defaultValue = "1") int page) {
-
+		
 		PlaceSearchResponseDto response = placeService.searchPlaces(
 			keyword, latitude, longitude, page);
 
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "third-party-id")
+	@GetMapping("third-party-id")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
 		@RequestParam String id,
 		@RequestParam String placeName,
@@ -46,6 +46,7 @@ public class PlaceController {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
 			id, address, placeName);
+
 		return ResponseEntity.ok(response);
 	}
 

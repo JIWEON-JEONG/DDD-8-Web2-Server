@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign.domain.place.naver;
+package ddd.caffeine.ratrip.module.place.feign.naver.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

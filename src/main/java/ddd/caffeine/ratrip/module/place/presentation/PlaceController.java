@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.place.PlaceService;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -21,7 +22,7 @@ import lombok.extern.log4j.Log4j2;
 public class PlaceController {
 	private final PlaceService placeService;
 
-	@GetMapping(value = "search")
+	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
 		@RequestParam String keyword,
 		@RequestParam String latitude,
@@ -30,6 +31,17 @@ public class PlaceController {
 
 		PlaceSearchResponseDto response = placeService.searchPlaces(keyword, latitude, longitude, page);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("third-party-id")
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
+		@RequestParam String id,
+		@RequestParam String placeName,
+		@RequestParam String address) {
+
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
+			id, address, placeName);
 		return ResponseEntity.ok(response);
 	}
 }

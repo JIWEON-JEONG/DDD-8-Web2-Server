@@ -46,6 +46,7 @@ public class PlaceController {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
 			id, address, placeName);
+
 		return ResponseEntity.ok(response);
 	}
 

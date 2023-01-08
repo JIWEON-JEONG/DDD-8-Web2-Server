@@ -37,10 +37,11 @@ public class PlaceService {
 		return new PopularPlaceResponseDto(popularPlaces);
 	}
 
+	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
 		validateSearchRequestParameters(latitude, longitude, page);
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(keyword, latitude,
-			longitude, page);
+		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
+			keyword, latitude, longitude, page);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}
@@ -57,6 +58,8 @@ public class PlaceService {
 	@Transactional
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(String thirdPartyId, String address,
 		String placeName) {
+
+		validatePlaceDetailsByThirdPartyIdParameters(thirdPartyId, address);
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(thirdPartyId);
 
 		// @TODO 이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
@@ -76,7 +79,8 @@ public class PlaceService {
 	 */
 	private void handlePlaceUpdate(Place place, String address, String placeName) {
 		if (place.checkNeedsUpdate(address, placeName)) {
-			PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(address, placeName);
+			PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(
+				address, placeName);
 			place.update(placeKakaoModel.readOne());
 		}
 	}
@@ -102,7 +106,8 @@ public class PlaceService {
 		placeValidator.validatePageSize(page);
 	}
 
-	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {
-		placeValidator.validateUUIDForm(uuid);
+	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
+		placeValidator.validateIsNumber(thirdPartyId);
+		//@Todo : 지번주소인지 도로명주소인지 정하기.
 	}
 }

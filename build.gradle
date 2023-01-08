@@ -69,8 +69,9 @@ dependencies {
     //hibernate-spatial : 좌표를 다루기 위해 import
     implementation group: 'org.hibernate', name: 'hibernate-spatial'
 
-    //mysql
+    //db_connection
     implementation 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
 
     //warning: unknown enum constant When.MAYBE 이슈 안뜨게 하는 라이브러리.
     implementation 'com.google.code.findbugs:jsr305:3.0.2'

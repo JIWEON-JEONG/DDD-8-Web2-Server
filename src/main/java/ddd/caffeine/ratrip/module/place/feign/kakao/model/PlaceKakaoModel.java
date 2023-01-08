@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign.domain.place.kakao.model;
+package ddd.caffeine.ratrip.module.place.feign.kakao.model;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 

@@ -1,12 +1,12 @@
-package ddd.caffeine.ratrip.module.feign.domain.place;
+package ddd.caffeine.ratrip.module.place.feign;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.KakaoFeignClient;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.feign.domain.place.naver.NaverFeignClient;
-import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
+import ddd.caffeine.ratrip.module.place.feign.kakao.KakaoFeignClient;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.NaverFeignClient;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import lombok.RequiredArgsConstructor;
 
 @Service

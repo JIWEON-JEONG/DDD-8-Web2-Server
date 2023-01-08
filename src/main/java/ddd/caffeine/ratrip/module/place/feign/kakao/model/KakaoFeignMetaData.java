@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.feign.domain.place.kakao.model;
+package ddd.caffeine.ratrip.module.place.feign.kakao.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

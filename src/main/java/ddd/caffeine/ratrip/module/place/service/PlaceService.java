@@ -1,11 +1,15 @@
 package ddd.caffeine.ratrip.module.place.service;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
@@ -40,6 +44,15 @@ public class PlaceService {
 			keyword, latitude, longitude, page);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
+	}
+
+	@Transactional(readOnly = true)
+	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
+		validateReadPlaceDetailsByUUIDParameters(uuid);
+		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
+		place.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
+
+		return new PlaceDetailsResponseDto(place.get());
 	}
 
 	@Transactional
@@ -96,5 +109,9 @@ public class PlaceService {
 	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
 		placeValidator.validateIsNumber(thirdPartyId);
 		//@Todo : 지번주소인지 도로명주소인지 정하기.
+	}
+
+	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {
+		placeValidator.validateUUIDForm(uuid);
 	}
 }

@@ -41,6 +41,13 @@ public class PlaceValidator {
 		}
 	}
 
+	public void validateUUIDForm(String uuid) {
+		final Pattern UUID_PATTERN = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+		if (!(UUID_PATTERN.matcher(uuid).matches())) {
+			throw new PlaceException(INVALID_UUID_FORM_EXCEPTION);
+		}
+	}
+
 	public void validatePageSize(int page) {
 		final int MIN_PAGE = 1;
 		final int MAX_PAGE = 45;

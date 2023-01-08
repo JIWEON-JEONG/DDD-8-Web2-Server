@@ -31,7 +31,7 @@ public class PlaceController {
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam(required = false, defaultValue = "1") int page) {
-		
+
 		PlaceSearchResponseDto response = placeService.searchPlaces(
 			keyword, latitude, longitude, page);
 
@@ -47,6 +47,14 @@ public class PlaceController {
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
 			id, address, placeName);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
+		@RequestParam String placeId) {
+
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(placeId);
 		return ResponseEntity.ok(response);
 	}
 

@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.day_schedule;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,9 @@ public class DaySchedulePlace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column
+	private int order;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)")

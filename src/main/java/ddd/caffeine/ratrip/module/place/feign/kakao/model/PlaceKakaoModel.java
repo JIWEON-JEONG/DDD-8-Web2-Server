@@ -1,8 +1,12 @@
-package ddd.caffeine.ratrip.module.feign.place.domain.kakao;
+package ddd.caffeine.ratrip.module.place.feign.kakao.model;
+
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
+import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import lombok.Getter;
@@ -20,7 +24,9 @@ public class PlaceKakaoModel {
 	public PlaceSearchResponseDto mapByPlaceSearchResponseDto() {
 		List<PlaceSearchModel> searchModels = new ArrayList<>();
 		for (PlaceKakaoData document : documents) {
+
 			PlaceSearchModel model = PlaceSearchModel.builder()
+				.placeKakaoId(document.getId())
 				.placeName(document.getPlaceName())
 				.longitude(document.getX())
 				.latitude(document.getY())
@@ -30,6 +36,19 @@ public class PlaceKakaoModel {
 			searchModels.add(model);
 		}
 		return new PlaceSearchResponseDto(searchModels);
+	}
+
+	public Place mapByPlaceEntity() {
+		PlaceKakaoData placeKakaoData = readOne();
+		return placeKakaoData.mapByPlaceEntity();
+	}
+
+	public PlaceKakaoData readOne() {
+		final int PLACE_INDEX = 0;
+		if (this.documents.isEmpty()) {
+			throw new PlaceException(NOT_FOUND_PLACE_EXCEPTION);
+		}
+		return this.documents.get(PLACE_INDEX);
 	}
 
 }

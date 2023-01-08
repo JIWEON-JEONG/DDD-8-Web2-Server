@@ -1,10 +1,13 @@
 package ddd.caffeine.ratrip.module.place.model;
 
+import lombok.Getter;
+
 /**
  * 장소에 대한 카테고리를 나타내는 enum 클래스.
  *
  * @Todo : 카테고리 코드 없을 가능성 생각.
  */
+@Getter
 public enum Category {
 	CAFE("CE7"),
 	RESTAURANT("FD6"),
@@ -23,7 +26,8 @@ public enum Category {
 	CULTURAL_FACILITIES("CT1"),
 	BROKERAGE("AG2"),
 	SUPERMARKET("MT1"),
-	CONVENIENCE_STORE("CS2");
+	CONVENIENCE_STORE("CS2"),
+	ETC("ETC");
 
 	private String code;
 

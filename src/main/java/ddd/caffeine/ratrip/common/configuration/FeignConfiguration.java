@@ -3,8 +3,8 @@ package ddd.caffeine.ratrip.common.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ddd.caffeine.ratrip.module.feign.utils.FeignErrorDecoder;
-import ddd.caffeine.ratrip.module.feign.utils.FeignResponseEncoder;
+import ddd.caffeine.ratrip.common.util.FeignErrorDecoder;
+import ddd.caffeine.ratrip.common.util.FeignResponseEncoder;
 import feign.Logger;
 import feign.Retryer;
 

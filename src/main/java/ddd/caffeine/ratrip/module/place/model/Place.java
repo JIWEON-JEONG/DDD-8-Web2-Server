@@ -52,17 +52,24 @@ public class Place {
 
 	@NotNull
 	@Column(name = "is_deleted", columnDefinition = "TINYINT(1)")
-	private boolean isDeleted = false;
+	private boolean isDeleted;
 
 	@NotNull
 	@Column(name = "is_updated", columnDefinition = "TINYINT(1)")
-	private boolean isUpdated = false;
+	private boolean isUpdated;
 
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String imageLink;
 
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String telephone;
+
+	@Column
+	private int numberOfTrips;
+
+	public void travelCome() {
+		this.numberOfTrips++;
+	}
 
 	@PrePersist
 	public void createPlacePrimaryKey() {
@@ -87,7 +94,7 @@ public class Place {
 			.filter((category) -> category.getCode().equals(categoryCode))
 			.findFirst();
 
-		this.category = optionalCategory.orElse(Category.기타);
+		this.category = optionalCategory.orElse(Category.ETC);
 	}
 
 	/**
@@ -118,5 +125,8 @@ public class Place {
 		this.kakaoId = kakaoId;
 		this.name = name;
 		this.telephone = telephone;
+		this.isDeleted = false;
+		this.isUpdated = false;
+		this.numberOfTrips = 0;
 	}
 }

@@ -1,8 +1,5 @@
 package ddd.caffeine.ratrip.module.place.model;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -41,10 +38,6 @@ public class Address {
 	}
 
 	private Region createRegion(String keyword) {
-		Optional<Region> optionalRegion = Arrays.stream(Region.values())
-			.filter((region) -> region.name().contains(keyword))
-			.findFirst();
-
-		return optionalRegion.orElse(Region.기타);
+		return Region.createRegionIfNotExistReturnEtc(keyword);
 	}
 }

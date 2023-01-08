@@ -7,6 +7,9 @@ import ddd.caffeine.ratrip.module.place.model.Place;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Todo : 추후 필요시 distance 추가
+ */
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

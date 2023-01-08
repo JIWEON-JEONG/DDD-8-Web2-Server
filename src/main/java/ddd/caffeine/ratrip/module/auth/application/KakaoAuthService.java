@@ -11,7 +11,7 @@ import ddd.caffeine.ratrip.module.auth.external.KakaoAuthorizeApiClient;
 import ddd.caffeine.ratrip.module.auth.external.KakaoUserApiClient;
 import ddd.caffeine.ratrip.module.auth.external.dto.request.KakaoBearerTokenRequest;
 import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoBearerTokenResponse;
-import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfileResponse;
+import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfile;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import ddd.caffeine.ratrip.module.user.application.UserService;
@@ -35,10 +35,8 @@ public class KakaoAuthService {
 
 	public SignInResponseDto signIn(String code) {
 		String accessToken = getKakaoAccessToken(code);
-		KakaoProfileResponse response = getKakaoProfileResponse(accessToken);
-
-		UUID userId = findUserBySocialIdAndSocialType(response);
-
+		KakaoProfile kakaoProfile = getKakaoProfile(accessToken);
+		UUID userId = findUserBySocialIdAndSocialType(kakaoProfile);
 		TokenResponseDto tokenResponseDto = tokenService.createTokenInfo(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
@@ -50,11 +48,11 @@ public class KakaoAuthService {
 		return kakaoBearerTokenResponse.getAccessToken();
 	}
 
-	private KakaoProfileResponse getKakaoProfileResponse(String token) {
-		return kakaoUserApiClient.getProfileInfo(HttpHeaderUtils.concatWithBearerPrefix(token));
+	private KakaoProfile getKakaoProfile(String token) {
+		return kakaoUserApiClient.getKakaoProfile(HttpHeaderUtils.concatWithBearerPrefix(token));
 	}
 
-	private UUID findUserBySocialIdAndSocialType(KakaoProfileResponse response) {
-		return userService.findUserIdBySocialIdAndSocialType(SignUpUserDto.of(response, socialType));
+	private UUID findUserBySocialIdAndSocialType(KakaoProfile kakaoProfile) {
+		return userService.findUserIdBySocialIdAndSocialType(SignUpUserDto.of(kakaoProfile, socialType));
 	}
 }

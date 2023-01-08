@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class KakaoProfileResponse {
+public class KakaoProfile {
 	private String id;
 	private KakaoAccount kakaoAccount;
 }

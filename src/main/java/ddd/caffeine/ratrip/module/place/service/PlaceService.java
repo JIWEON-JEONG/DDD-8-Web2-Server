@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
-import ddd.caffeine.ratrip.module.feign.domain.place.PlaceFeignService;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.feign.domain.place.naver.model.ImageNaverModel;
+import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
@@ -109,5 +109,9 @@ public class PlaceService {
 	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
 		placeValidator.validateIsNumber(thirdPartyId);
 		//@Todo : 지번주소인지 도로명주소인지 정하기.
+	}
+
+	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {
+		placeValidator.validateUUIDForm(uuid);
 	}
 }

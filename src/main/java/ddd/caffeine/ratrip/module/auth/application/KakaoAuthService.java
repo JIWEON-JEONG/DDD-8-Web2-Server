@@ -24,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KakaoAuthService {
 	private static final UserSocialType socialType = UserSocialType.KAKAO;
-	@Value("${kakao.client-id}")
-	private final String kakaoClientId;
-	@Value("${kakao.redirect-uri}")
-	private final String kakaoRedirectUri;
+	@Value("${KAKAO_API_KEY}")
+	private String kakaoClientId;
+	@Value("${KAKAO_REDIRECT_URI}")
+	private String kakaoRedirectUri;
 	private final KakaoAuthorizeApiClient kakaoAuthorizeApiClient;
 	private final KakaoUserApiClient kakaoUserApiClient;
 	private final UserService userService;

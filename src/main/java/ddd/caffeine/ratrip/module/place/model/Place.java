@@ -14,7 +14,7 @@ import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.feign.domain.place.kakao.model.PlaceKakaoData;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoData;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -28,5 +28,4 @@ public class DaySchedule {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
 	private TravelPlan travelPlan;
-
 }

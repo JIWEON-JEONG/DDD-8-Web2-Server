@@ -6,10 +6,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import ddd.caffeine.ratrip.module.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +26,4 @@ public class TravelPlan {
 	 */
 	@Transient
 	private List<User> users;
-
-	@OneToMany(mappedBy = "day_schedule")
-	List<DaySchedule> schedules;
 }

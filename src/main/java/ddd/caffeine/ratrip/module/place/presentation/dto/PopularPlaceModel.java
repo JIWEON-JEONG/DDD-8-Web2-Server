@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto;
 
+import ddd.caffeine.ratrip.module.place.model.Address;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,12 @@ public class PopularPlaceModel {
 	private String placeName;
 	private String category;
 	private String imageLink;
+	private Address address;
 
 	public PopularPlaceModel(Place place) {
 		this.placeName = place.getName();
 		this.category = place.getCategory().name();
 		this.imageLink = place.getImageLink();
+		this.address = place.getAddress();
 	}
 }

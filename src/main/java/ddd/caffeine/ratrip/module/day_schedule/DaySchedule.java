@@ -25,6 +25,7 @@ public class DaySchedule {
 	@Column(columnDefinition = "DATE")
 	private LocalDate date;
 
+	//Todo : 타입 고민.
 	@Column(columnDefinition = "VARCHAR(255)")
 	private String memo;
 

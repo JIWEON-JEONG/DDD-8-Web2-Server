@@ -25,6 +25,9 @@ public class DaySchedule {
 	@Column(columnDefinition = "DATE")
 	private LocalDate date;
 
+	@Column(columnDefinition = "VARCHAR(255)")
+	private String memo;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
 	private TravelPlan travelPlan;

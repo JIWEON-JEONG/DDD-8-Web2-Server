@@ -29,7 +29,6 @@ public class AuthController {
 
 	@GetMapping("/auth/signin/kakao")
 	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestHeader("code") String code) {
-		System.out.println("controller 통과");
 		return ResponseEntity.ok(kakaoAuthService.signIn(code));
 	}
 

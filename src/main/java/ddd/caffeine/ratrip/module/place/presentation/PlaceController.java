@@ -2,12 +2,16 @@ package ddd.caffeine.ratrip.module.place.presentation;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.module.place.presentation.dto.CallPlaceSearchApiRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
@@ -27,14 +31,10 @@ public class PlaceController {
 
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
-		@RequestParam String keyword,
-		@RequestParam String latitude,
-		@RequestParam String longitude,
-		@RequestParam(required = false, defaultValue = "1") int page) {
+		@Valid @ModelAttribute CallPlaceSearchApiRequestDto request) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(
-			keyword, latitude, longitude, page);
-
+		PlaceSearchResponseDto response = placeService.searchPlaces(request.getKeyword(), request.getLatitude(),
+			request.getLongitude(), request.getPage());
 		return ResponseEntity.ok(response);
 	}
 

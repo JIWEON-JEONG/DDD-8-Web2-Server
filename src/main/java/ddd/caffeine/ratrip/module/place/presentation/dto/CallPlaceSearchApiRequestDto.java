@@ -16,17 +16,17 @@ public class CallPlaceSearchApiRequestDto {
 	@NotBlank
 	private String longitude;
 
-	private int page;
+	private Integer page;
 
-	public CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, int page) {
+	public CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, Integer page) {
 		this.keyword = keyword;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.page = initializePageValue(page);
 	}
 
-	private int initializePageValue(int page) {
-		if (page == 0) {
+	private int initializePageValue(Integer page) {
+		if (page == null) {
 			return 1;
 		}
 		return page;

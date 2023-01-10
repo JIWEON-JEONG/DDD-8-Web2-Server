@@ -23,11 +23,13 @@ public class KakaoAuthService {
 	private final KakaoAuthorizeApiClient kakaoAuthorizeApiClient;
 	private final KakaoUserApiClient kakaoUserApiClient;
 
+	@Transactional(readOnly = true)
 	public KakaoProfile getKakaoProfile(String authorizationCode) {
 		String accessToken = getKakaoAccessToken(authorizationCode);
 		return kakaoUserApiClient.getKakaoProfile(HttpHeaderUtils.concatWithBearerPrefix(accessToken));
 	}
 
+	@Transactional(readOnly = true)
 	public String getKakaoAccessToken(String authorizationCode) {
 		KakaoBearerTokenResponse kakaoBearerTokenResponse = kakaoAuthorizeApiClient.getBearerToken(
 			KakaoBearerTokenRequest.of(kakaoClientId, kakaoRedirectUri, authorizationCode));

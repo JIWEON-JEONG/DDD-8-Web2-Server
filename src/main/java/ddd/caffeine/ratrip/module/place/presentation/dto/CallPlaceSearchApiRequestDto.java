@@ -8,15 +8,15 @@ import lombok.Getter;
 @Getter
 public class CallPlaceSearchApiRequestDto {
 	@NotBlank
-	private String keyword;
+	private final String keyword;
 
 	@NotBlank
-	private String latitude;
+	private final String latitude;
 
 	@NotBlank
-	private String longitude;
+	private final String longitude;
 
-	private Integer page;
+	private final Integer page;
 
 	private CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, Integer page) {
 		this.keyword = keyword;

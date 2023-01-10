@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
+import ddd.caffeine.ratrip.module.Region;
+import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TravelPlanStartRequestDto {
-	@NotNull
+	@NotEmpty
 	private String region;
 
 	@NotEmpty(message = "날짜는 하루 이상 선택 하셔야합니다.")
@@ -23,5 +24,10 @@ public class TravelPlanStartRequestDto {
 	public TravelPlanStartRequestDto(String region, List<TravelDate> travelDates) {
 		this.region = region;
 		this.travelDates = travelDates;
+	}
+
+	public TravelPlan mapByTravelPlan() {
+		Region region = Region.createRegionIfNotExistReturnEtc(this.region);
+		return new TravelPlan(region, travelDates.size());
 	}
 }

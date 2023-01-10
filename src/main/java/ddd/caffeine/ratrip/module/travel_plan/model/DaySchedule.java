@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.day_schedule;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +32,10 @@ public class DaySchedule {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
 	private TravelPlan travelPlan;
+
+	@Builder
+	public DaySchedule(LocalDate date, TravelPlan travelPlan) {
+		this.date = date;
+		this.travelPlan = travelPlan;
+	}
 }

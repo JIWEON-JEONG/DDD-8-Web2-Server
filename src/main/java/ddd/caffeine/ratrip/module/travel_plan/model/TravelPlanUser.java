@@ -31,4 +31,9 @@ public class TravelPlanUser {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)")
 	private User user;
+
+	public TravelPlanUser(TravelPlan travelPlan, User user) {
+		this.travelPlan = travelPlan;
+		this.user = user;
+	}
 }

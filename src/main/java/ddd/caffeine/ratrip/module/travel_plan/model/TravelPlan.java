@@ -27,4 +27,9 @@ public class TravelPlan {
 
 	@Column
 	private int travelDays;
+
+	public TravelPlan(Region region, int travelDays) {
+		this.region = region;
+		this.travelDays = travelDays;
+	}
 }

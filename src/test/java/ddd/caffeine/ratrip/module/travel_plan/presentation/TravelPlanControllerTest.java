@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -69,6 +70,26 @@ class TravelPlanControllerTest {
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content("{\"region\":\"서울\",\"travelDates\":[{\"date\":" + date + "}]}"));
+
+		//then
+		resultActions
+			.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	@DisplayName("RequestBody TravelDate 리스트가 Empty 일 경우 예외 동작 확인")
+	public void localDateValidateIfEmptyTest() throws Exception {
+		//given
+		String url = "/v1/travel-plan/";
+		List<TravelDate> emptyDates = new ArrayList<>();
+		String content = mapper.writeValueAsString(new TravelPlanStartRequestDto("서울", emptyDates));
+
+		//when
+		ResultActions resultActions = this.mockMvc.perform(
+			post(url)
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(content));
 
 		//then
 		resultActions

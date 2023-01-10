@@ -4,9 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 import ddd.caffeine.ratrip.module.place.service.dto.CallPlaceSearchApiDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
 public class CallPlaceSearchApiRequestDto {
 	@NotBlank

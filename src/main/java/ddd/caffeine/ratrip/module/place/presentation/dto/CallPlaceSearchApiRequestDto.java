@@ -7,13 +7,13 @@ import lombok.Getter;
 
 @Getter
 public class CallPlaceSearchApiRequestDto {
-	@NotBlank
+	@NotBlank(message = "Keyword must not be blank")
 	private final String keyword;
 
-	@NotBlank
+	@NotBlank(message = "Latitude must not be blank")
 	private final String latitude;
 
-	@NotBlank
+	@NotBlank(message = "Longitude must not be blank")
 	private final String longitude;
 
 	private final Integer page;

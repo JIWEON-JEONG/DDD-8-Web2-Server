@@ -19,6 +19,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.place.service.dto.CallPlaceSearchApiDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -38,10 +39,10 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceSearchResponseDto searchPlaces(String keyword, String latitude, String longitude, int page) {
-		validateSearchRequestParameters(latitude, longitude, page);
+	public PlaceSearchResponseDto searchPlaces(CallPlaceSearchApiDto request) {
+		validateSearchRequestParameters(request);
 		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
-			keyword, latitude, longitude, page);
+			request);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}
@@ -100,10 +101,10 @@ public class PlaceService {
 		return place;
 	}
 
-	private void validateSearchRequestParameters(String latitude, String longitude, int page) {
-		placeValidator.validateRangeLatitude(latitude);
-		placeValidator.validateRangeLongitude(longitude);
-		placeValidator.validatePageSize(page);
+	private void validateSearchRequestParameters(CallPlaceSearchApiDto request) {
+		placeValidator.validateRangeLatitude(request.getLatitude());
+		placeValidator.validateRangeLongitude(request.getLongitude());
+		placeValidator.validatePageSize(request.getPage());
 	}
 
 	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {

@@ -33,8 +33,7 @@ public class PlaceController {
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
 		@Valid @ModelAttribute CallPlaceSearchApiRequestDto request) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(request.getKeyword(), request.getLatitude(),
-			request.getLongitude(), request.getPage());
+		PlaceSearchResponseDto response = placeService.searchPlaces(request.toServiceDto());
 		return ResponseEntity.ok(response);
 	}
 

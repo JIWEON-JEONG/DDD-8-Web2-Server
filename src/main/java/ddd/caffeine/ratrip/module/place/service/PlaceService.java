@@ -40,7 +40,6 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(CallPlaceSearchApiDto request) {
-		validateSearchRequestParameters(request);
 		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
 			request);
 
@@ -99,12 +98,6 @@ public class PlaceService {
 		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 
 		return place;
-	}
-
-	private void validateSearchRequestParameters(CallPlaceSearchApiDto request) {
-		placeValidator.validateRangeLatitude(request.getLatitude());
-		placeValidator.validateRangeLongitude(request.getLongitude());
-		placeValidator.validatePageSize(request.getPage());
 	}
 
 	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {

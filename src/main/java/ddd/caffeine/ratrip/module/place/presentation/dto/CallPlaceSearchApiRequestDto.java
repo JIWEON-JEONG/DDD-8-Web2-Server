@@ -18,7 +18,7 @@ public class CallPlaceSearchApiRequestDto {
 
 	private Integer page;
 
-	public CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, Integer page) {
+	private CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, Integer page) {
 		this.keyword = keyword;
 		this.latitude = latitude;
 		this.longitude = longitude;

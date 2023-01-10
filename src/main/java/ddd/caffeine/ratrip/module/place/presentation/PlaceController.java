@@ -13,12 +13,10 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 /**
  * 장소 추천 API
  */
-@Log4j2
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/place")

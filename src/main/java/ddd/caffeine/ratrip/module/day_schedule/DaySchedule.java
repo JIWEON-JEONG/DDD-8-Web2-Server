@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import ddd.caffeine.ratrip.module.travel_plan.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -26,6 +26,7 @@ spring:
   sql:
     init:
       mode: always
+      platform: develop
 
   redis:
     host: ${REDIS_HOST}

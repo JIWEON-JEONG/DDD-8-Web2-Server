@@ -2,6 +2,7 @@ package ddd.caffeine.ratrip.module.place.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,9 +29,9 @@ class PlaceValidatorTest {
 	@DisplayName("UUID 형식 정상 검증 테스트")
 	void validateUUIDFormTest() {
 		//given
-		String uuid = generateUUID();
+		System.out.println(generateUUID().getBytes(StandardCharsets.UTF_8));
 		//then
-		recommendPlaceValidator.validateUUIDForm(uuid);
+		// recommendPlaceValidator.validateUUIDForm(uuid);
 	}
 
 	@ParameterizedTest

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-	@GetMapping("/")
+	@GetMapping("/health-check")
 	public ResponseEntity<String> test() {
 		return ResponseEntity.ok("health check success");
 	}

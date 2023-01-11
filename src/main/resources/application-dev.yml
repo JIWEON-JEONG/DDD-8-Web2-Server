@@ -16,15 +16,15 @@ spring:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     hibernate:
       ddl-auto: create
+    show-sql: true
     properties:
       hibernate:
         non_contextual_creation: true
         format_sql: true
 
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 springdoc:
   api-docs:

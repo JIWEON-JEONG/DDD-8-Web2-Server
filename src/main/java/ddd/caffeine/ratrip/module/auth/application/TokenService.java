@@ -21,13 +21,13 @@ public class TokenService {
 	private final JwtProvider jwtProvider;
 	private final JwtUtil jwtUtil;
 
-	public TokenResponseDto createTokenInfo(UUID userId) {
-		return jwtProvider.createTokenInfo(userId);
+	public TokenResponseDto createJwtToken(UUID userId) {
+		return jwtProvider.createJwtToken(userId);
 	}
 
 	public TokenResponseDto reissueToken(TokenReissueDto request) {
 		UUID userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
-		return jwtProvider.createTokenInfo(userId);
+		return jwtProvider.createJwtToken(userId);
 	}
 
 	public UUID deleteToken(SignOutDto signOutDto) {

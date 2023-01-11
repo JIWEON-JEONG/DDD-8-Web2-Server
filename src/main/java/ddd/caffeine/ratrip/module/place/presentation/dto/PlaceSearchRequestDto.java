@@ -6,7 +6,7 @@ import ddd.caffeine.ratrip.module.place.service.dto.CallPlaceSearchApiDto;
 import lombok.Getter;
 
 @Getter
-public class CallPlaceSearchApiRequestDto {
+public class PlaceSearchRequestDto {
 	@NotBlank(message = "Keyword must not be blank")
 	private final String keyword;
 
@@ -18,7 +18,7 @@ public class CallPlaceSearchApiRequestDto {
 
 	private final Integer page;
 
-	private CallPlaceSearchApiRequestDto(String keyword, String latitude, String longitude, Integer page) {
+	private PlaceSearchRequestDto(String keyword, String latitude, String longitude, Integer page) {
 		this.keyword = keyword;
 		this.latitude = latitude;
 		this.longitude = longitude;

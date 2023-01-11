@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
@@ -31,7 +31,7 @@ public class PlaceController {
 
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
-		@Valid @ModelAttribute PlaceSearchRequestDto request) {
+		@Valid @ModelAttribute PlaceSearchRequestModel request) {
 
 		PlaceSearchResponseDto response = placeService.searchPlaces(request.toServiceDto());
 		return ResponseEntity.ok(response);

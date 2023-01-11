@@ -19,9 +19,6 @@ public class RedisConfiguration {
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
-		System.out.println("호스트 = " + redisProperties.getHost());
-		System.out.println("포트 = " + redisProperties.getPort());
-
 		return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
 	}
 

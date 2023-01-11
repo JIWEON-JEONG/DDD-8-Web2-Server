@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
 @ConstructorBinding
 @ConfigurationProperties(prefix = "secret")
@@ -14,6 +13,22 @@ public final class SecretKeyConstructorProperties {
 	private final String jwt;
 	private final Kakao kakao;
 	private final Naver naver;
+
+	public String getKakaoRestApiKey() {
+		return kakao.getRestApiKey();
+	}
+
+	public String getKakaoRedirectUri() {
+		return kakao.getRedirectUri();
+	}
+
+	public String getNaverClientKey() {
+		return naver.getClientKey();
+	}
+
+	public String getNaverSecretKey() {
+		return naver.getSecretKey();
+	}
 
 	@Getter
 	@RequiredArgsConstructor

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @ConstructorBinding
 @ConfigurationProperties(prefix = "secret")
-public final class SecretKeyConstructorProperties {
+public final class SecretKeyManager {
 	private final String jwt;
 	private final Kakao kakao;
 	private final Naver naver;

@@ -27,10 +27,10 @@ spring:
     init:
       mode: always
 
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
 
 springdoc:
   api-docs:

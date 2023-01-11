@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,9 +31,10 @@ public class PlaceController {
 
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
-		@Valid @ModelAttribute PlaceSearchRequestModel request) {
+		@Valid @ModelAttribute PlaceSearchRequestDto request,
+		@RequestParam(required = false, defaultValue = "1") int page) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(request.toServiceDto());
+		PlaceSearchResponseDto response = placeService.searchPlaces(request.mapByThirdPartySearchOption(page));
 		return ResponseEntity.ok(response);
 	}
 

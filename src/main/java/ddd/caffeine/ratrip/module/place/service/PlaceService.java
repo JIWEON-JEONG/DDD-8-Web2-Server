@@ -15,11 +15,11 @@ import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
+import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
-import ddd.caffeine.ratrip.module.place.service.dto.CallPlaceSearchApiDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,9 +39,9 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceSearchResponseDto searchPlaces(CallPlaceSearchApiDto request) {
+	public PlaceSearchResponseDto searchPlaces(ThirdPartySearchOption searchOption) {
 		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
-			request);
+			searchOption);
 
 		return placeKakaoModel.mapByPlaceSearchResponseDto();
 	}

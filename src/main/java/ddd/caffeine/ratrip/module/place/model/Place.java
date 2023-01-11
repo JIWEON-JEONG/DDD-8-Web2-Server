@@ -58,7 +58,7 @@ public class Place {
 	@Column(name = "is_updated", columnDefinition = "TINYINT(1)")
 	private boolean isUpdated;
 
-	@Column(columnDefinition = "VARCHAR(100)")
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String imageLink;
 
 	@Column(columnDefinition = "VARCHAR(100)")

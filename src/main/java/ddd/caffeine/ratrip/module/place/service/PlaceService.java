@@ -102,7 +102,7 @@ public class PlaceService {
 
 	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
 		placeValidator.validateIsNumber(thirdPartyId);
-		//@Todo : 지번주소인지 도로명주소인지 정하기.
+		//@ToDo : 지번주소인지 도로명주소인지 정하기.
 	}
 
 	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {

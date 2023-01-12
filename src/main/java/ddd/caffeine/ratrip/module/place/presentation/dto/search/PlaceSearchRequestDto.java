@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.search;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-import ddd.caffeine.ratrip.common.validator.RequestValidator;
+import ddd.caffeine.ratrip.common.validator.RequestDataValidator;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
 import lombok.Getter;
 
@@ -38,9 +38,9 @@ public class PlaceSearchRequestDto {
 	}
 
 	private void validateParameters(String latitude, String longitude, int page) {
-		RequestValidator.validateRangeLatitude(latitude);
-		RequestValidator.validateRangeLongitude(longitude);
-		RequestValidator.validatePageSize(page);
+		RequestDataValidator.validateRangeLatitude(latitude);
+		RequestDataValidator.validateRangeLongitude(longitude);
+		RequestDataValidator.validatePageSize(page);
 	}
 
 	private void initPage(Integer page) {

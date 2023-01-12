@@ -14,8 +14,8 @@ import com.fasterxml.uuid.Generators;
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 
-class RequestValidatorTest {
-	RequestValidator requestValidator;
+class RequestDataValidatorTest {
+	RequestDataValidator requestValidator;
 
 	@Test
 	@DisplayName("UUID 형식 정상 검증 테스트")

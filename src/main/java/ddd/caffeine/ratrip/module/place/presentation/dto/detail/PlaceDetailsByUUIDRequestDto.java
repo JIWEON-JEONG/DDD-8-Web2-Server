@@ -2,7 +2,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
 import javax.validation.constraints.NotBlank;
 
-import ddd.caffeine.ratrip.common.validator.RequestValidator;
+import ddd.caffeine.ratrip.common.validator.RequestDataValidator;
 import lombok.Getter;
 
 @Getter
@@ -16,6 +16,6 @@ public class PlaceDetailsByUUIDRequestDto {
 	}
 
 	private void validateParameters(String id) {
-		RequestValidator.validateUUIDForm(id);
+		RequestDataValidator.validateUUIDForm(id);
 	}
 }

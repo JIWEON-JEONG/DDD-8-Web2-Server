@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 
-public class RequestValidator {
+public class RequestDataValidator {
 	public static void validateLotNumberAddress(String address) {
 		final Pattern LOT_NUMBER_ADDRESS = Pattern.compile("(.+[가-힣A-Za-z·\\d\\-\\.]{2,}(읍|면|동|리).[\\d\\-]+)");
 

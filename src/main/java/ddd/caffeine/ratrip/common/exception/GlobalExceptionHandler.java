@@ -4,6 +4,7 @@ import java.net.BindException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -69,6 +70,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ExceptionResponse response = ExceptionResponse.builder()
 			.httpStatus(HttpStatus.BAD_REQUEST)
 			.errorCode("BIND_EXCEPTION")
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
+	/**
+	 * 400 Bad Request
+	 * JSON 형식이 잘못되었을 때 발생하는 예외. (Postman에서 테스트할 때 Json이 아닌 Text로 보내면 발생)
+	 *
+	 * @param e HttpMessageNotReadableException
+	 * @return ErrorResponse
+	 */
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
+			.httpStatus(HttpStatus.BAD_REQUEST)
+			.errorCode("HTTP_MESSAGE_NOT_READABLE_EXCEPTION")
 			.message(e.getMessage())
 			.build();
 

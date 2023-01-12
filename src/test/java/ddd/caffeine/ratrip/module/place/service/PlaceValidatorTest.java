@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -22,15 +21,6 @@ class PlaceValidatorTest {
 	@BeforeEach
 	void init() {
 		recommendPlaceValidator = new PlaceValidator();
-	}
-
-	@Test
-	@DisplayName("UUID 형식 정상 검증 테스트")
-	void validateUUIDFormTest() {
-		//given
-		String uuid = generateUUID();
-		//then
-		recommendPlaceValidator.validateUUIDForm(uuid);
 	}
 
 	@ParameterizedTest

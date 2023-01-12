@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByUUIDRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
@@ -51,9 +52,9 @@ public class PlaceController {
 
 	@GetMapping
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
-		@RequestParam String placeId) {
+		@Valid @ModelAttribute PlaceDetailsByUUIDRequestDto request) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(placeId);
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(request.getId());
 		return ResponseEntity.ok(response);
 	}
 

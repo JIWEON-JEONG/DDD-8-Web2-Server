@@ -27,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 public class PlaceService {
 
 	private final PlaceFeignService placeFeignService;
-	private final PlaceValidator placeValidator;
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
@@ -48,7 +47,6 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
-		validateReadPlaceDetailsByUUIDParameters(uuid);
 		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
 		place.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
 
@@ -97,9 +95,5 @@ public class PlaceService {
 		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 
 		return place;
-	}
-
-	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {
-		placeValidator.validateUUIDForm(uuid);
 	}
 }

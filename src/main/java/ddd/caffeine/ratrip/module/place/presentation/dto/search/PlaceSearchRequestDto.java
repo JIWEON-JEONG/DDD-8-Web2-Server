@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.search;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.validator.RequestValidator;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
@@ -19,14 +18,14 @@ public class PlaceSearchRequestDto {
 	@NotEmpty(message = "Longitude must not be blank")
 	private String longitude;
 
-	@NotNull(message = "page must not be null")
 	private Integer page;
 
 	private PlaceSearchRequestDto(String keyword, String latitude, String longitude, Integer page) {
+		initPage(page);
+		validateParameters(latitude, longitude, this.page);
 		this.keyword = keyword;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.page = page;
 	}
 
 	public ThirdPartySearchOption mapByThirdPartySearchOption() {
@@ -42,5 +41,14 @@ public class PlaceSearchRequestDto {
 		RequestValidator.validateRangeLatitude(latitude);
 		RequestValidator.validateRangeLongitude(longitude);
 		RequestValidator.validatePageSize(page);
+	}
+
+	private void initPage(Integer page) {
+		final int DEFAULT_PAGE = 1;
+		if (page == null) {
+			this.page = DEFAULT_PAGE;
+			return;
+		}
+		this.page = page;
 	}
 }

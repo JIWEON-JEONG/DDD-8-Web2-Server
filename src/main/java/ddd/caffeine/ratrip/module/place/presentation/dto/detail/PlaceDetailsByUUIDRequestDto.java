@@ -4,10 +4,8 @@ import javax.validation.constraints.NotBlank;
 
 import ddd.caffeine.ratrip.common.validator.RequestValidator;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class PlaceDetailsByUUIDRequestDto {
 	@NotBlank(message = "Id must not be blank")
 	private String id;

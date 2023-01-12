@@ -33,10 +33,9 @@ public class PlaceController {
 
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
-		@Valid @ModelAttribute PlaceSearchRequestDto request,
-		@RequestParam(required = false, defaultValue = "1") int page) {
+		@Valid @ModelAttribute PlaceSearchRequestDto request) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(request.mapByThirdPartySearchOption(page));
+		PlaceSearchResponseDto response = placeService.searchPlaces(request.mapByThirdPartySearchOption());
 		return ResponseEntity.ok(response);
 	}
 

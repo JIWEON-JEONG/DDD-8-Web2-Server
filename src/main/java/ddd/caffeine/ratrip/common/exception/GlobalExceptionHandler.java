@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.common.exception;
 
+import java.net.BindException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,7 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.message(e.getMessage())
 			.build();
 
-		return new ResponseEntity(response, response.getHttpStatus());
+		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 
 	/**
@@ -51,7 +53,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.message(e.getMessage())
 			.build();
 
-		return new ResponseEntity(response, response.getHttpStatus());
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
+	/**
+	 * 400 Bad Request
+	 * Spring Validation 에서 발생하는 예외 처리.
+	 *
+	 * @param e BindException
+	 * @return ErrorResponse
+	 */
+	@ExceptionHandler(BindException.class)
+	public ResponseEntity<ExceptionResponse> handleBindException(BindException e) {
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
+			.httpStatus(HttpStatus.BAD_REQUEST)
+			.errorCode("BIND_EXCEPTION")
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 }
 

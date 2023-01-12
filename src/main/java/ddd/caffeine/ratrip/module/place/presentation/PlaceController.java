@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
@@ -40,12 +41,10 @@ public class PlaceController {
 
 	@GetMapping("third-party-id")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
-		@RequestParam String id,
-		@RequestParam String placeName,
-		@RequestParam String address) {
+		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
-			id, address, placeName);
+			request.getId(), request.getAddress(), request.getPlaceName());
 
 		return ResponseEntity.ok(response);
 	}

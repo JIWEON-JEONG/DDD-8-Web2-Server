@@ -16,7 +16,7 @@ import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
@@ -59,7 +59,6 @@ public class PlaceService {
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(String thirdPartyId, String address,
 		String placeName) {
 
-		validatePlaceDetailsByThirdPartyIdParameters(thirdPartyId, address);
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(thirdPartyId);
 
 		// @TODO 이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
@@ -98,11 +97,6 @@ public class PlaceService {
 		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 
 		return place;
-	}
-
-	private void validatePlaceDetailsByThirdPartyIdParameters(String thirdPartyId, String address) {
-		placeValidator.validateIsNumber(thirdPartyId);
-		//@ToDo : 지번주소인지 도로명주소인지 정하기.
 	}
 
 	private void validateReadPlaceDetailsByUUIDParameters(String uuid) {

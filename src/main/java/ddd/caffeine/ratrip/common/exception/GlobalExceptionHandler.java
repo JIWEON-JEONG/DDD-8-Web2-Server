@@ -34,10 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-	public GlobalExceptionHandler() {
-		super();
-	}
-
 	/**
 	 * BaseException 으로 throw 한 예외들 처리 하는 메서드.
 	 *
@@ -70,6 +66,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 			.errorCode("UNEXPECTED_EXCEPTION")
 			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
+	/**
+	 * @param ex      the exception
+	 * @param body    the body for the response
+	 * @param headers the headers for the response
+	 * @param status  the response status
+	 * @param request the current request
+	 * @return
+	 */
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+		HttpStatus status, WebRequest request) {
+
+		log.error("cause : {}, message : {}", ex.getCause(), ex.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
+			.httpStatus(status)
+			.errorCode(ex.getClass().getSimpleName())
+			.message(ex.getMessage())
 			.build();
 
 		return new ResponseEntity<>(response, response.getHttpStatus());
@@ -163,12 +181,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
 		return super.handleAsyncRequestTimeoutException(ex, headers, status, webRequest);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-		HttpStatus status, WebRequest request) {
-		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
 }
 

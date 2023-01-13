@@ -38,6 +38,43 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		super();
 	}
 
+	/**
+	 * BaseException 으로 throw 한 예외들 처리 하는 메서드.
+	 *
+	 * @param e BaseException
+	 * @return ErrorResponse
+	 */
+	@ExceptionHandler(BaseException.class)
+	protected ResponseEntity<ExceptionResponse> handleExpectedException(BaseException e) {
+		log.error("code : {}, message : {}", e.getErrorCode(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
+			.httpStatus(e.getHttpStatus())
+			.errorCode(e.getErrorCode())
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
+	/**
+	 * 예상하지 못한 예외들 처리.
+	 * 즉 throw 하지 못한 예외들. Runtime 중에 발생하는 모든 예외들 처리.
+	 *
+	 * @param e RuntimeException
+	 * @return ErrorResponse
+	 */
+	@ExceptionHandler(RuntimeException.class)
+	protected ResponseEntity<ExceptionResponse> handleUnexpectedException(RuntimeException e) {
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
+		ExceptionResponse response = ExceptionResponse.builder()
+			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+			.errorCode("UNEXPECTED_EXCEPTION")
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -132,43 +169,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 		HttpStatus status, WebRequest request) {
 		return super.handleExceptionInternal(ex, body, headers, status, request);
-	}
-
-	/**
-	 * BaseException 으로 throw 한 예외들 처리 하는 메서드.
-	 *
-	 * @param e BaseException
-	 * @return ErrorResponse
-	 */
-	@ExceptionHandler(BaseException.class)
-	public ResponseEntity<ExceptionResponse> handleExpectedException(BaseException e) {
-		log.error("code : {}, message : {}", e.getErrorCode(), e.getMessage());
-		ExceptionResponse response = ExceptionResponse.builder()
-			.httpStatus(e.getHttpStatus())
-			.errorCode(e.getErrorCode())
-			.message(e.getMessage())
-			.build();
-
-		return new ResponseEntity<>(response, response.getHttpStatus());
-	}
-
-	/**
-	 * 예상하지 못한 예외들 처리.
-	 * 즉 throw 하지 못한 예외들. Runtime 중에 발생하는 모든 예외들 처리.
-	 *
-	 * @param e RuntimeException
-	 * @return ErrorResponse
-	 */
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<ExceptionResponse> handleUnexpectedException(RuntimeException e) {
-		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
-		ExceptionResponse response = ExceptionResponse.builder()
-			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-			.errorCode("UNEXPECTED_EXCEPTION")
-			.message(e.getMessage())
-			.build();
-
-		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 }
 

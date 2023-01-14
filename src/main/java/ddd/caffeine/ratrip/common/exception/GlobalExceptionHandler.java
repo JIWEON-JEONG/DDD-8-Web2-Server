@@ -215,7 +215,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * Dispatcher Servlet의 throwExceptionIfNoHandlerFound 값이 true인 경우 발생하는 예외
 	 */
 	@Override
-	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders head외ers,
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
 		HttpStatus status, WebRequest request) {
 		return super.handleNoHandlerFoundException(ex, headers, status, request);
 	}

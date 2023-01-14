@@ -24,12 +24,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DaySchedulePlace extends AuditingTimeEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
-	@Column
+	@Column(name = "order_number")
 	private int order;
 
 	@ManyToOne(fetch = FetchType.LAZY)

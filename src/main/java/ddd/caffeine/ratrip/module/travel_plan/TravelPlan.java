@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.Region;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

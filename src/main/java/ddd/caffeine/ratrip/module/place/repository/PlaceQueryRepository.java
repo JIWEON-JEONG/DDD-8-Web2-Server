@@ -2,7 +2,7 @@ package ddd.caffeine.ratrip.module.place.repository;
 
 import java.util.List;
 
-import ddd.caffeine.ratrip.module.Region;
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.model.Place;
 
 public interface PlaceQueryRepository {

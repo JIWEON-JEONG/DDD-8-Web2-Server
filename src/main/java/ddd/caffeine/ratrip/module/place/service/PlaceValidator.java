@@ -2,12 +2,15 @@ package ddd.caffeine.ratrip.module.place.service;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
+import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor //TODO - 지원이랑 얘기
 public class PlaceValidator {
+	private final PlaceRepository placeRepository;
 
 	public void validateLotNumberAddress(String address) {
 		final Pattern LOT_NUMBER_ADDRESS = Pattern.compile("(.+[가-힣A-Za-z·\\d\\-\\.]{2,}(읍|면|동|리).[\\d\\-]+)");
@@ -68,6 +73,16 @@ public class PlaceValidator {
 		if (!(-180 <= longitude && longitude <= 180)) {
 			throw new PlaceException(INVALID_LONGITUDE_RANGE_EXCEPTION);
 		}
+	}
+
+	public void validateExistPlace(UUID placeId) {
+		if (!isPlaceExist(placeId)) {
+			throw new PlaceException(NOT_FOUND_PLACE_EXCEPTION);
+		}
+	}
+
+	private boolean isPlaceExist(UUID placeId) {
+		return placeRepository.existsById(placeId);
 	}
 
 	private double validateTypeCastDouble(String param) {

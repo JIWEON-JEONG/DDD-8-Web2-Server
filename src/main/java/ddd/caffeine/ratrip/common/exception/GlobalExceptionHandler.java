@@ -93,90 +93,136 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 
+	/**
+	 * 요청 경로는 있으나 지원하지 않는 Method인 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
 	}
 
+	/**
+	 * 요청의 Content Type을 핸들러가 지원하지 않는 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleHttpMediaTypeNotSupported(ex, headers, status, request);
 	}
 
+	/**
+	 * 핸들러가 Client가 요청한 Type으로 응답을 내려줄 수 없는 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleHttpMediaTypeNotAcceptable(ex, headers, status, request);
 	}
 
+	/**
+	 * 핸들러가 URL에서 기대한 Path Variable을 찾지 못한 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,
 		HttpStatus status, WebRequest request) {
 		return super.handleMissingPathVariable(ex, headers, status, request);
 	}
 
+	/**
+	 * 핸들러가 기대한 요청 Parameter를 찾지 못한 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleMissingServletRequestParameter(ex, headers, status, request);
 	}
 
+	/**
+	 * 바인딩 예외를 복구할 수 없는 것으로 처리하려는 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleServletRequestBindingException(ex, headers, status, request);
 	}
 
+	/**
+	 * bean property로 요청 내용을 변경하기 위한 editor 혹은 converter를 찾지 못한 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleConversionNotSupported(ex, headers, status, request);
 	}
 
+	/**
+	 * bean property로 값을 변경할 때, 핸들러가 예상한 class로 변경할 수 없는 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 		HttpStatus status, WebRequest request) {
 		return super.handleTypeMismatch(ex, headers, status, request);
 	}
 
+	/**
+	 * HttpMessageConverter에서 발생하며 read 메서드가 실패한 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleHttpMessageNotReadable(ex, headers, status, request);
 	}
 
+	/**
+	 * HttpMessageConverter에서 발생하며 write 메서드가 실패한 경우 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleHttpMessageNotWritable(ex, headers, status, request);
 	}
 
+	/**
+	 * @RequestBody 사용시 @Valid가 붙은 파라미터에 대해 검증 실패시 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleMethodArgumentNotValid(ex, headers, status, request);
 	}
 
+	/**
+	 * multipart/form-data 요청의 일부가 손실(can’t be found)되었을 때 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return super.handleMissingServletRequestPart(ex, headers, status, request);
 	}
 
+	/**
+	 * @ModelAttribute 사용시 @Valid가 붙은 파라미터에 대해 검증 실패시 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 		WebRequest request) {
 		return super.handleBindException(ex, headers, status, request);
 	}
 
+	/**
+	 * Dispatcher Servlet에서 핸들러를 찾지 못한 경우 기본적으로 404 응답을 내리지만
+	 * Dispatcher Servlet의 throwExceptionIfNoHandlerFound 값이 true인 경우 발생하는 예외
+	 */
 	@Override
-	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders head외ers,
 		HttpStatus status, WebRequest request) {
 		return super.handleNoHandlerFoundException(ex, headers, status, request);
 	}
 
+	/**
+	 * 비동기 요청의 응답시간이 초과될 때 발생하는 예외
+	 */
 	@Override
 	protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest webRequest) {

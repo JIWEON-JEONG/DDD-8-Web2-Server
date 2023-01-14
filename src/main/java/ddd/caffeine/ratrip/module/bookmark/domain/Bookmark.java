@@ -40,4 +40,11 @@ public class Bookmark extends AuditingTimeEntity {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}
+
+	public static Bookmark of(User user, Place place) {
+		Bookmark bookmark = new Bookmark();
+		bookmark.user = user;
+		bookmark.place = place;
+		return bookmark;
+	}
 }

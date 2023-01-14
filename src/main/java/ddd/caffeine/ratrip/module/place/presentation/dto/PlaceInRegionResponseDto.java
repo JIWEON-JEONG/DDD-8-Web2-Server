@@ -9,17 +9,19 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PopularPlaceResponseDto {
-	private List<PopularPlaceModel> popularPlaceModels;
+public class PlaceInRegionResponseDto {
+	private List<PlaceInRegionModel> placeInRegionModels;
+	private boolean isEnd;
 
-	public PopularPlaceResponseDto(List<Place> places) {
+	public PlaceInRegionResponseDto(List<Place> places, boolean isEnd) {
 		create(places);
+		this.isEnd = isEnd;
 	}
 
 	private void create(List<Place> places) {
-		this.popularPlaceModels = new ArrayList<>();
+		this.placeInRegionModels = new ArrayList<>();
 		for (Place place : places) {
-			popularPlaceModels.add(new PopularPlaceModel(place));
+			placeInRegionModels.add(new PlaceInRegionModel(place));
 		}
 	}
 }

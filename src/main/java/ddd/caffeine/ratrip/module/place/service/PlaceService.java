@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +18,8 @@ import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +32,9 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PopularPlaceResponseDto readPopularPlaces(List<String> regions) {
-		final int POPULAR_PLACE_COUNT = 10;
-		List<Place> popularPlaces = placeRepository.findPopularPlacesInRegions(Region.createRegions(regions),
-			POPULAR_PLACE_COUNT);
-		return new PopularPlaceResponseDto(popularPlaces);
+	public PlaceInRegionResponseDto readPlacesInRegionsApi(List<String> regions, Pageable page) {
+		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
+		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
 
 	@Transactional(readOnly = true)

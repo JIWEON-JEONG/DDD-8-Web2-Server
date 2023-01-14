@@ -62,13 +62,14 @@ public class PlaceController {
 	}
 
 	/**
-	 * Todo : offset 정하기.
-	 * ex) v1/place/regions/region=XX&region=XX&
+	 * default page = 0
+	 * Todo : default size 정하기.
 	 */
 	@GetMapping(value = "regions")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
 		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions,
-		@PageableDefault(page = 1, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
+		@PageableDefault(
+			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
 		PlaceInRegionResponseDto response = placeService.readPlacesInRegionsApi(regions, pageable);
 		return ResponseEntity.ok(response);
 	}

@@ -27,15 +27,14 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 
 	@Override
 	public Slice<Place> findPlacesInRegions(List<Region> regions, Pageable pageable) {
-		int page = QuerydslUtils.readPage(pageable.getPageSize());
 		List<Place> contents = jpaQueryFactory
 			.selectFrom(place)
 			.where(regionsIn(regions))
 			.orderBy(readOrderSpecifiers(pageable).stream().toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
-			.limit(page)
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
-
+		
 		return QuerydslUtils.toSlice(contents, pageable);
 	}
 

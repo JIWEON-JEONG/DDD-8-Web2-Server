@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlaceInRegionResponseDto {
 	private List<PlaceInRegionModel> placeInRegionModels;
-	private boolean isEnd;
+	private boolean hasNext;
 
-	public PlaceInRegionResponseDto(List<Place> places, boolean isEnd) {
+	public PlaceInRegionResponseDto(List<Place> places, boolean hasNext) {
 		create(places);
-		this.isEnd = isEnd;
+		this.hasNext = hasNext;
 	}
 
 	private void create(List<Place> places) {

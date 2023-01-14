@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
@@ -27,6 +28,7 @@ public class DaySchedule extends AuditingTimeEntity {
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
+	@NotNull
 	@Column(columnDefinition = "DATE")
 	private LocalDate date;
 

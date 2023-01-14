@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.model.Region;
@@ -26,10 +27,12 @@ public class TravelPlan extends AuditingTimeEntity {
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
+	@NotNull
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
+	@NotNull
 	@Column
 	private int travelDays;
 

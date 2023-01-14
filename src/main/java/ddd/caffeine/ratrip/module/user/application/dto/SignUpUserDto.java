@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.module.user.application.dto;
 
-import ddd.caffeine.ratrip.module.external.dto.KakaoProfileResponse;
+import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfile;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,26 +9,26 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegisterUserDto {
+public class SignUpUserDto {
 	private String socialId;
 	private UserSocialType socialType;
 	private String name;
 	private String email;
 
 	@Builder(access = AccessLevel.PRIVATE)
-	private RegisterUserDto(String socialId, UserSocialType socialType, String name, String email) {
+	private SignUpUserDto(String socialId, UserSocialType socialType, String name, String email) {
 		this.socialId = socialId;
 		this.socialType = socialType;
 		this.name = name;
 		this.email = email;
 	}
 
-	public static RegisterUserDto of(KakaoProfileResponse kakaoProfileResponse, UserSocialType socialType) {
-		return RegisterUserDto.builder()
-			.socialId(kakaoProfileResponse.getId())
+	public static SignUpUserDto of(KakaoProfile kakaoProfile, UserSocialType socialType) {
+		return SignUpUserDto.builder()
+			.socialId(kakaoProfile.getId())
 			.socialType(socialType)
-			.name(kakaoProfileResponse.getKakaoAccount().getProfile().getNickname())
-			.email(kakaoProfileResponse.getKakaoAccount().getEmail())
+			.name(kakaoProfile.getKakaoAccount().getProfile().getNickname())
+			.email(kakaoProfile.getKakaoAccount().getEmail())
 			.build();
 	}
 }

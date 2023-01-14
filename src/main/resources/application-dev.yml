@@ -5,6 +5,10 @@ spring:
   application:
     name: ratrip
 
+  config:
+    activate:
+      on-profile: "dev"
+
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA}?serverTimezone=UTC&characterEncoding=UTF-8
     username: ${DB_USERNAME}
@@ -50,5 +54,18 @@ feign:
 logging:
   level:
     ddd.caffeine.ratrip: DEBUG
+
+secret:
+  jwt-secret: ${JWT_SECRET_KEY}
+
+  kakao:
+    rest-api-key: ${KAKAO_API_KEY}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
+
+  naver:
+    client-key: ${NAVER_CLIENT_KEY}
+    secret-key: ${NAVER_SECRET_KEY}
+
+
 
 

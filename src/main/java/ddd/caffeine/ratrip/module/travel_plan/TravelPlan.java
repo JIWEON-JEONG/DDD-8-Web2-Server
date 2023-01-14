@@ -29,6 +29,10 @@ public class TravelPlan extends AuditingTimeEntity {
 
 	@NotNull
 	@Column
+	private String title;
+
+	@NotNull
+	@Column
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
@@ -43,7 +47,8 @@ public class TravelPlan extends AuditingTimeEntity {
 	}
 
 	@Builder(access = AccessLevel.PACKAGE)
-	public TravelPlan(Region region, int travelDays) {
+	public TravelPlan(String title, Region region, int travelDays) {
+		this.title = title;
 		this.region = region;
 		this.travelDays = travelDays;
 	}

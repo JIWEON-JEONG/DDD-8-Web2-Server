@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
+import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import lombok.AccessLevel;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TravelPlan {
+public class TravelPlan extends AuditingTimeEntity {
 
 	@Id
 	@Column(columnDefinition = "BINARY(16)")

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import ddd.caffeine.ratrip.common.exception.domain.FeignException;
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
+import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,14 +76,9 @@ public class PlaceValidator {
 		}
 	}
 
-	public void validateExistPlace(UUID placeId) {
-		if (!isPlaceExist(placeId)) {
-			throw new PlaceException(NOT_FOUND_PLACE_EXCEPTION);
-		}
-	}
-
-	private boolean isPlaceExist(UUID placeId) {
-		return placeRepository.existsById(placeId);
+	public Place validateIsExistAndGetPlace(UUID placeId) {
+		return placeRepository.findById(placeId)
+			.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
 	}
 
 	private double validateTypeCastDouble(String param) {

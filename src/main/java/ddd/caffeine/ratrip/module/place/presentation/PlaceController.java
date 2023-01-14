@@ -44,7 +44,7 @@ public class PlaceController {
 		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
-			request.getId(), request.getAddress(), request.getPlaceName());
+			request.mapByThirdPartyDetailSearchOption());
 
 		return ResponseEntity.ok(response);
 	}

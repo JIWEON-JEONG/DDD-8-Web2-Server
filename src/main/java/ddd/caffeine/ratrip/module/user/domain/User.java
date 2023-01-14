@@ -39,7 +39,7 @@ public class User extends AuditingTimeEntity {
 	private SocialInfo socialInfo;
 
 	@PrePersist
-	public void createUserUniqId() {
+	public void createUserPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}

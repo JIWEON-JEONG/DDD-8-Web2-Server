@@ -7,14 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
+import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.Region;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelPlan {
 
 	@Id
@@ -27,4 +31,16 @@ public class TravelPlan {
 
 	@Column
 	private int travelDays;
+
+	@PrePersist
+	public void createPrimaryKey() {
+		//sequential uuid 생성
+		this.id = SequentialUUIDGenerator.generate();
+	}
+
+	@Builder(access = AccessLevel.PACKAGE)
+	public TravelPlan(Region region, int travelDays) {
+		this.region = region;
+		this.travelDays = travelDays;
+	}
 }

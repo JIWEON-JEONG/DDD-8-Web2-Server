@@ -72,7 +72,7 @@ public class Place {
 	}
 
 	@PrePersist
-	public void createPlacePrimaryKey() {
+	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}

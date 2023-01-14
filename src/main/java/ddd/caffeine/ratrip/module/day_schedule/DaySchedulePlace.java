@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import ddd.caffeine.ratrip.module.place.model.Place;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +19,8 @@ import lombok.NoArgsConstructor;
  * DaySchedule 과 Place 의 N:M 관계를 해소하기 위한 매핑 테이블 입니다.
  */
 @Getter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DaySchedulePlace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +36,11 @@ public class DaySchedulePlace {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)")
 	private Place place;
+
+	@Builder(access = AccessLevel.PACKAGE)
+	public DaySchedulePlace(int order, DaySchedule daySchedule, Place place) {
+		this.order = order;
+		this.daySchedule = daySchedule;
+		this.place = place;
+	}
 }

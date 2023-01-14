@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import ddd.caffeine.ratrip.module.user.domain.User;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,8 +18,8 @@ import lombok.NoArgsConstructor;
  * TravelPlan 과 User 의 N:M 관계를 해소하기 위한 매핑 테이블 입니다.
  */
 @Getter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelPlanUser {
 
 	@Id
@@ -31,4 +33,10 @@ public class TravelPlanUser {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)")
 	private User user;
+
+	@Builder(access = AccessLevel.PACKAGE)
+	public TravelPlanUser(TravelPlan travelPlan, User user) {
+		this.travelPlan = travelPlan;
+		this.user = user;
+	}
 }

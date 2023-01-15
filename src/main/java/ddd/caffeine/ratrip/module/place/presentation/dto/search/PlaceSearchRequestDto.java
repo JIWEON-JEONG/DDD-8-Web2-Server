@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.search;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -18,6 +19,7 @@ public class PlaceSearchRequestDto {
 	@NotEmpty(message = "Longitude must not be blank")
 	private String longitude;
 
+	@Min(1)
 	private Integer page;
 
 	private PlaceSearchRequestDto(String keyword, String latitude, String longitude, Integer page) {

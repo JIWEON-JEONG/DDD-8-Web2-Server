@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.model;
+package ddd.caffeine.ratrip.module.travel_plan;
 
 import java.util.UUID;
 
@@ -8,35 +8,47 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
+import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.Region;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
-public class TravelPlan {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class TravelPlan extends AuditingTimeEntity {
 
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
+	@NotNull
+	@Column
+	private String title;
+
+	@NotNull
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
+	@NotNull
 	@Column
 	private int travelDays;
 
 	@PrePersist
-	public void createTravelPlanPrimaryKey() {
+	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	public TravelPlan(Region region, int travelDays) {
+	@Builder(access = AccessLevel.PACKAGE)
+	public TravelPlan(String title, Region region, int travelDays) {
+		this.title = title;
 		this.region = region;
 		this.travelDays = travelDays;
 	}

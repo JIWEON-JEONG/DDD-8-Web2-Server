@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module;
+package ddd.caffeine.ratrip.common.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

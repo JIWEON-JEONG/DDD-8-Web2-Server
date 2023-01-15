@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import ddd.caffeine.ratrip.TestConfig;
-import ddd.caffeine.ratrip.module.Region;
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.model.Place;
 
 @DataJpaTest

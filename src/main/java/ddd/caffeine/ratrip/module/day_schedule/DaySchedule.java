@@ -48,7 +48,7 @@ public class DaySchedule extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	@Builder(access = AccessLevel.PACKAGE)
+	@Builder
 	public DaySchedule(LocalDate date, TravelPlan travelPlan) {
 		this.date = date;
 		this.travelPlan = travelPlan;

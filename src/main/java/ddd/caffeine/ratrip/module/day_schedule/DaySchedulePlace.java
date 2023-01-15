@@ -47,7 +47,7 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)")
 	private Place place;
 
-	@Builder(access = AccessLevel.PACKAGE)
+	@Builder
 	public DaySchedulePlace(int order, String memo, DaySchedule daySchedule, Place place) {
 		this.memo = memo;
 		this.order = order;

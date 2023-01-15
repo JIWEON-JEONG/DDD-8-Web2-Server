@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.travel_plan;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -14,7 +15,6 @@ import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,16 +40,20 @@ public class TravelPlan extends AuditingTimeEntity {
 	@Column
 	private int travelDays;
 
+	@NotNull
+	@Column(columnDefinition = "DATE")
+	private LocalDate startDate;
+
 	@PrePersist
 	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	@Builder(access = AccessLevel.PACKAGE)
-	public TravelPlan(String title, Region region, int travelDays) {
+	public TravelPlan(String title, Region region, int travelDays, LocalDate startDate) {
 		this.title = title;
 		this.region = region;
 		this.travelDays = travelDays;
+		this.startDate = startDate;
 	}
 }

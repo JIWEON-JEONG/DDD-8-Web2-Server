@@ -11,11 +11,21 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.uuid.Generators;
 
-import ddd.caffeine.ratrip.common.exception.domain.FeignException;
-import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
 
 class RequestDataValidatorTest {
 	RequestDataValidator requestValidator;
+
+	@ParameterizedTest
+	@DisplayName("올바르지 않은 DATE 타입 일 때 예외 동작 테스트")
+	@ValueSource(strings = {"", "2021-10-10-22-10", "20231-32-32", "-10-200"})
+	void validateDateFormThrowException(String address) {
+		//then
+		assertThatThrownBy(() ->
+			requestValidator.validateLocalDateForm(address))
+			.isInstanceOf(CommonException.class)
+			.hasMessage("올바른 DATE 형식이 아닙니다.");
+	}
 
 	@Test
 	@DisplayName("UUID 형식 정상 검증 테스트")
@@ -33,7 +43,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validateLotNumberAddress(address))
-			.isInstanceOf(PlaceException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("올바르지 않은 주소 형식입니다.");
 	}
 
@@ -60,7 +70,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validateRoadNameAddress(address))
-			.isInstanceOf(PlaceException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("올바르지 않은 주소 형식입니다.");
 	}
 
@@ -71,7 +81,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validatePageSize(pageSize))
-			.isInstanceOf(FeignException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("Page 는 1 이상 45 이하 여야 합니다.");
 	}
 
@@ -82,7 +92,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validateRangeLatitude(latitude))
-			.isInstanceOf(PlaceException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("위도는 -90 ~ 90 까지 범위안에 존재해야합니다.");
 	}
 
@@ -93,7 +103,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validateRangeLongitude(longitude))
-			.isInstanceOf(PlaceException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("경도는 -180 ~ 180 까지 범위안에 존재해야합니다.");
 	}
 
@@ -104,7 +114,7 @@ class RequestDataValidatorTest {
 		//then
 		assertThatThrownBy(() ->
 			requestValidator.validateRangeLatitude(coordinate))
-			.isInstanceOf(PlaceException.class)
+			.isInstanceOf(CommonException.class)
 			.hasMessage("좌표는 숫자여야합니다.");
 	}
 

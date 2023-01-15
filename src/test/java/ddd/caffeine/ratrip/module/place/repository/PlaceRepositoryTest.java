@@ -30,8 +30,8 @@ class PlaceRepositoryTest {
 	void findByKakaoIdTest() {
 		//given
 		Place testPlace = createPlace("testId", "testName", "testAddress", "testCategoryCode", 120.365, 34.678,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
+		
 		placeRepository.save(testPlace);
 
 		//when
@@ -48,14 +48,11 @@ class PlaceRepositoryTest {
 	void findPlacesInRegionsTest() {
 		//given
 		Place seoulFamousPlace = createPlace("testId", "서면 스타벅스", "부산 서면 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 		Place seoulPlace = createPlace("testId", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 		Place incheonPlace = createPlace("testId", "부평 스타벅스", "인천 부평 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 
 		placeRepository.save(seoulFamousPlace);
 		placeRepository.save(seoulPlace);
@@ -74,11 +71,10 @@ class PlaceRepositoryTest {
 	void findPopularPlacesIfEmptyListTest() {
 		//given
 		Place testPlace기타 = createPlace("testId", "testName", "testAddress", "testCategoryCode", 120.365, 34.678,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
+
 		Place testPlace양재 = createPlace("testId", "testName", "서울 양재동 스타벅스", "testCategoryCode", 120.365, 34.678,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 
 		placeRepository.save(testPlace기타);
 		placeRepository.save(testPlace양재);
@@ -98,14 +94,12 @@ class PlaceRepositoryTest {
 	void findPopularPlacesInRegionsTest() {
 		//given
 		Place seoulFamousPlace = createPlace("testId", "강남 스타벅스", "서울 강남 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
+
 		Place seoulPlace = createPlace("testId", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 		Place incheonPlace = createPlace("testId", "부평 스타벅스", "인천 부평 스타벅스 까페", "CF7", 1, 1,
-			"testLink",
-			"testPhoneNumber");
+			"testLink", "testLink", "testPhoneNumber");
 
 		seoulFamousPlace.travelCome();
 		placeRepository.save(seoulFamousPlace);
@@ -131,10 +125,11 @@ class PlaceRepositoryTest {
 	 * place 엔티티 생성 메서드.
 	 */
 	private Place createPlace(String kakaoId, String name, String address, String categoryCode,
-		double x, double y, String imageLink, String telephone) {
+		double x, double y, String imageLink, String additionalInfoLink, String telephone) {
 		Place place = Place.builder()
 			.kakaoId(kakaoId)
 			.name(name)
+			.additionalInfoLink(additionalInfoLink)
 			.telephone(telephone)
 			.build();
 

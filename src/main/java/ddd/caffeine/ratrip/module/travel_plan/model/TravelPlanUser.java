@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.model;
+package ddd.caffeine.ratrip.module.travel_plan;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +34,6 @@ public class TravelPlanUser extends AuditingTimeEntity {
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)")
 	private User user;
 
-	@Builder
 	public TravelPlanUser(TravelPlan travelPlan, User user) {
 		this.travelPlan = travelPlan;
 		this.user = user;

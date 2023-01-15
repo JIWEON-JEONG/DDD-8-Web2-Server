@@ -32,9 +32,11 @@ public class DaySchedule extends AuditingTimeEntity {
 	@Column(columnDefinition = "DATE")
 	private LocalDate date;
 
-	//Todo : 타입 고민.
-	@Column(columnDefinition = "VARCHAR(255)")
-	private String memo;
+	/**
+	 * Todo : figma 답글 달리는 것 보고 결정
+	 */
+	// @Column(columnDefinition = "VARCHAR(255)")
+	// private String memo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
@@ -47,9 +49,8 @@ public class DaySchedule extends AuditingTimeEntity {
 	}
 
 	@Builder(access = AccessLevel.PACKAGE)
-	public DaySchedule(LocalDate date, String memo, TravelPlan travelPlan) {
+	public DaySchedule(LocalDate date, TravelPlan travelPlan) {
 		this.date = date;
-		this.memo = memo;
 		this.travelPlan = travelPlan;
 	}
 }

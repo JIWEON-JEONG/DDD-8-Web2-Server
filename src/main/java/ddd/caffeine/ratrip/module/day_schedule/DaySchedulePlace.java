@@ -33,6 +33,12 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	@Column(name = "order_number")
 	private int order;
 
+	/*
+	영어, 한글 글자 모두 255 글자 가능 합니다.
+	 */
+	@Column(columnDefinition = "VARCHAR(255)")
+	private String memo;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "day_schedule_id", columnDefinition = "BINARY(16)")
 	private DaySchedule daySchedule;
@@ -42,7 +48,8 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	private Place place;
 
 	@Builder(access = AccessLevel.PACKAGE)
-	public DaySchedulePlace(int order, DaySchedule daySchedule, Place place) {
+	public DaySchedulePlace(int order, String memo, DaySchedule daySchedule, Place place) {
+		this.memo = memo;
 		this.order = order;
 		this.daySchedule = daySchedule;
 		this.place = place;

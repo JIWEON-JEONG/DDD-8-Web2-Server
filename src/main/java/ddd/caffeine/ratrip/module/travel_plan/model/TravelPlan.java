@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,6 +15,7 @@ import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,6 +51,7 @@ public class TravelPlan extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
+	@Builder
 	public TravelPlan(String title, Region region, int travelDays, LocalDate startDate) {
 		this.title = title;
 		this.region = region;

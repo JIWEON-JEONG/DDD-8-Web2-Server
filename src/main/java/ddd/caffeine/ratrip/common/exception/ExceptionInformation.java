@@ -33,12 +33,12 @@ public enum ExceptionInformation {
 	EMPTY_HEADER_EXCEPTION(UNAUTHORIZED, "헤더가 비어있습니다."),
 	NOT_FOUND_JWT_CLAIMS_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 클레임이 존재하지 않습니다."),
 	NOT_FOUND_JWT_USERID_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 userId가 비어 있습니다."),
+	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB에 존재하지 않는 리프레시 토큰입니다."),
 
 	// 403 Forbidden
 
 	// 404 Not Found
 	NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "존재하지 않는 유저입니다."),
-	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(NOT_FOUND, "DB에 존재하지 않는 리프레시 토큰입니다."),
 	NOT_FOUND_PLACE_EXCEPTION(NOT_FOUND, "존재하지 않는 장소입니다."),
 
 	// 409 Conflict

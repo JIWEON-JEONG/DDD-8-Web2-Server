@@ -1,7 +1,0 @@
-api:
-  key:
-    kakao: ${KAKAO_API_KEY}
-    naver_client: ${NAVER_ID}
-    naver_secret: ${NAVER_SECRET}
-
-

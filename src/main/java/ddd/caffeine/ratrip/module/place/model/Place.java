@@ -58,8 +58,11 @@ public class Place {
 	@Column(name = "is_updated", columnDefinition = "TINYINT(1)")
 	private boolean isUpdated;
 
-	@Column(columnDefinition = "VARCHAR(100)")
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String imageLink;
+
+	@Column(columnDefinition = "VARCHAR(255)")
+	private String additionalInfoLink;
 
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String telephone;
@@ -113,6 +116,7 @@ public class Place {
 
 		this.kakaoId = data.getId();
 		this.name = data.getPlaceName();
+		this.additionalInfoLink = data.getPlaceUrl();
 		this.telephone = data.getPhone();
 
 		setPlaceCategory(data.getCategoryGroupCode());
@@ -121,9 +125,10 @@ public class Place {
 	}
 
 	@Builder
-	public Place(String kakaoId, String name, String telephone) {
+	public Place(String kakaoId, String name, String additionalInfoLink, String telephone) {
 		this.kakaoId = kakaoId;
 		this.name = name;
+		this.additionalInfoLink = additionalInfoLink;
 		this.telephone = telephone;
 		this.isDeleted = false;
 		this.isUpdated = false;

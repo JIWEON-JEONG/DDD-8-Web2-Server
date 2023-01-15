@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto;
+package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
 import java.util.UUID;
 
@@ -28,6 +28,8 @@ public class PlaceDetailsResponseDto {
 
 	private String imageLink;
 
+	private String additionalInfoLink;
+
 	private String telephone;
 
 	public PlaceDetailsResponseDto(Place place) {
@@ -39,6 +41,7 @@ public class PlaceDetailsResponseDto {
 		this.location = place.getLocation();
 		this.isUpdated = place.isUpdated();
 		this.imageLink = place.getImageLink();
+		this.additionalInfoLink = place.getAdditionalInfoLink();
 		this.telephone = place.getTelephone();
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import ddd.caffeine.ratrip.module.Region;
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +28,6 @@ public class TravelPlanStartRequestDto {
 
 	public TravelPlan mapByTravelPlan() {
 		Region region = Region.createRegionIfNotExistReturnEtc(this.region);
-		return new TravelPlan(region, travelDates.size());
+		return TravelPlan.builder().build();
 	}
 }

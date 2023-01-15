@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +35,7 @@ public class TravelPlanUser extends AuditingTimeEntity {
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)")
 	private User user;
 
-	@Builder(access = AccessLevel.PACKAGE)
+	@Builder
 	public TravelPlanUser(TravelPlan travelPlan, User user) {
 		this.travelPlan = travelPlan;
 		this.user = user;

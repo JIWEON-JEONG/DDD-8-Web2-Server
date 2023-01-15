@@ -26,7 +26,11 @@ class DayScheduleRepositoryTest {
 	@DisplayName("saveAll DB connection 1번 정상 작동 확인")
 	public void saveAllTest() {
 		//given
-		List<DaySchedule> daySchedules = List.of(new DaySchedule(), new DaySchedule(), new DaySchedule());
+		List<DaySchedule> daySchedules = List.of(
+			DaySchedule.builder().build(),
+			DaySchedule.builder().build(),
+			DaySchedule.builder().build()
+		);
 
 		//when
 		dayScheduleRepository.saveAll(daySchedules);

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import java.util.UUID;
 
@@ -46,7 +46,7 @@ public class TravelPlan extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	@Builder(access = AccessLevel.PACKAGE)
+	@Builder
 	public TravelPlan(String title, Region region, int travelDays) {
 		this.title = title;
 		this.region = region;

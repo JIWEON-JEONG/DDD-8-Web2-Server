@@ -8,8 +8,9 @@ import lombok.Getter;
 
 @Getter
 public class PlaceDetailsByThirdPartyRequestDto {
+
 	@NotBlank(message = "Id must not be blank")
-	private String id;
+	private String thirdPartyId;
 
 	@NotBlank(message = "PlaceName must not be blank")
 	private String placeName;
@@ -17,16 +18,17 @@ public class PlaceDetailsByThirdPartyRequestDto {
 	@NotBlank(message = "Address must not be blank")
 	private String address;
 
-	public PlaceDetailsByThirdPartyRequestDto(String id, String placeName, String address) {
-		validateParameters(id, address);
-		this.id = id;
+	public PlaceDetailsByThirdPartyRequestDto(String thirdPartyId, String placeName,
+		String address) {
+		validateParameters(thirdPartyId, address);
+		this.thirdPartyId = thirdPartyId;
 		this.placeName = placeName;
 		this.address = address;
 	}
 
 	public ThirdPartyDetailSearchOption mapByThirdPartyDetailSearchOption() {
 		return ThirdPartyDetailSearchOption.builder()
-			.id(this.id)
+			.id(this.thirdPartyId)
 			.placeName(this.placeName)
 			.address(this.address)
 			.build();
@@ -36,5 +38,4 @@ public class PlaceDetailsByThirdPartyRequestDto {
 		RequestDataValidator.validateIsNumber(id);
 		//@ToDo : 지번주소인지 도로명주소인지 정하기 -> 01.11 회의 추후 정해서 알려주신다고 함.
 	}
-
 }

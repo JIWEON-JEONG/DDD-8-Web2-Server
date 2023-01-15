@@ -7,6 +7,8 @@ import ddd.caffeine.ratrip.module.place.feign.kakao.KakaoFeignClient;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.NaverFeignClient;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
+import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
+import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -36,13 +38,15 @@ public class PlaceFeignService {
 	 * @Todo : 반경 몇 km 까지 할 것인지 프론트 개발자님들과 상의.
 	 */
 	public PlaceKakaoModel readPlacesByKeywordAndCoordinate(
-		String keyword, String latitude, String longitude, int page) {
+		ThirdPartySearchOption option) {
 		final String KAKAO_API_KEY = secretKeyManager.getKakaoRestApiKey();
+
 		final String KAKAO_REQUEST_HEADER = "KakaoAK " + KAKAO_API_KEY;
 		final int PLACE_RADIUS = 5000;
 
 		return kakaoFeignClient.readPlacesByKeywordInRadius(
-			KAKAO_REQUEST_HEADER, keyword, latitude, longitude, PLACE_RADIUS, page);
+			KAKAO_REQUEST_HEADER, option.getKeyword(), option.getLatitude(), option.getLongitude(), PLACE_RADIUS,
+			option.getPage());
 	}
 
 	/**

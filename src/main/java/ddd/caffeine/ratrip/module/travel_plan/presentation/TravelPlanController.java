@@ -13,19 +13,17 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartRe
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import lombok.RequiredArgsConstructor;
 
-/**
- * 장소 추천 API
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/travel-plan")
 public class TravelPlanController {
 
-	private TravelPlanService travelPlanService;
+	private final TravelPlanService travelPlanService;
 
 	@PostMapping
 	public ResponseEntity<TravelPlanStartResponseDto> makeTravelPlanApi
 		(@Valid @RequestBody TravelPlanStartRequestDto request) {
+		travelPlanService.makeTravelPlan(request.mapByTravelPlan());
 		return ResponseEntity.ok(new TravelPlanStartResponseDto());
 	}
 }

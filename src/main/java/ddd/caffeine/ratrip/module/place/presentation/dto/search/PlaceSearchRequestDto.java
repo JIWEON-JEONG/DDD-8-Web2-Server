@@ -45,7 +45,7 @@ public class PlaceSearchRequestDto {
 
 	private void initPage(Integer page) {
 		final int DEFAULT_PAGE = 1;
-		if (page == null) {
+		if (page == null || page < DEFAULT_PAGE) {
 			this.page = DEFAULT_PAGE;
 			return;
 		}

@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.place.presentation;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -46,7 +47,7 @@ public class PlaceController {
 
 	@GetMapping("third-party-id/{third-party-id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
-		@PathVariable("third-party-id") @Number String id,
+		@PathVariable("third-party-id") @Number @NotEmpty String id,
 		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
@@ -55,9 +56,9 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
-		@PathVariable @UUID String id) {
+		@PathVariable @UUID @NotEmpty String id) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(id);
 		return ResponseEntity.ok(response);

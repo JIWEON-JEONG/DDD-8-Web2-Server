@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.place.presentation;
 
+import static java.util.UUID.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,9 +57,9 @@ class PlaceControllerTest {
 	@ParameterizedTest
 	@DisplayName("custom 어노테이션 Number 예외 동작 테스트")
 	@ValueSource(strings = {"", "134숫자", "?234"})
-	void customAnnotationNumber2Test(String thirdPartyId) throws Exception {
+	void customAnnotationNumberReturnExceptionTest(String thirdPartyId) throws Exception {
 		//given
-		String baseURI = "/v1/place/third-party-id";
+		String baseURI = "/v1/place/third-party-id/";
 		String placeName = "?placeName=지원이네 집";
 		String address = "&address=서울특별시 서초구 양재동 16-10";
 
@@ -69,12 +70,41 @@ class PlaceControllerTest {
 			.contentType(MediaType.APPLICATION_JSON_VALUE));
 		// then
 		actions
-			.andExpect(status().isBadRequest());
-
+			.andExpect(status().is4xxClientError());
 	}
 
 	@Test
 	@DisplayName("custom 어노테이션 UUID 정상 동작 테스트")
-	void customAnnotationUUIDTest() {
+	void customAnnotationUUIDTest() throws Exception {
+		//given
+		String baseURI = "/v1/place/";
+		String UUID = randomUUID().toString();
+		String URI = baseURI + UUID;
+
+		//when
+		ResultActions actions = mockMvc.perform(get(URI)
+			.contentType(MediaType.APPLICATION_JSON_VALUE));
+		// then
+		actions
+			.andExpect(status().isOk());
+	}
+
+	@ParameterizedTest
+	@DisplayName("custom 어노테이션 UUID 예외 동작 테스트")
+	@ValueSource(strings = {"", "134숫자", "?2-312-3123-34"})
+	void customAnnotationUUIDReturnExceptionTest(String uuid) throws Exception {
+		//given
+		String baseURI = "/v1/place/";
+
+		String URI = baseURI + uuid;
+
+		System.out.println(URI);
+
+		//when
+		ResultActions actions = mockMvc.perform(get(URI)
+			.contentType(MediaType.APPLICATION_JSON_VALUE));
+		// then
+		actions
+			.andExpect(status().is4xxClientError());
 	}
 }

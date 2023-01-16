@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 
-@Target(ElementType.FIELD)
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NumberValidator.class)
+@Constraint(validatedBy = UUIDValidator.class)
 public @interface UUID {
 	String message() default "올바른 UUID 형식이 아닙니다.";
 

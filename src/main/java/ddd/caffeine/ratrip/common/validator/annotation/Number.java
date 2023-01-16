@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 
-@Target(ElementType.FIELD)
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NumberValidator.class)
 public @interface Number {

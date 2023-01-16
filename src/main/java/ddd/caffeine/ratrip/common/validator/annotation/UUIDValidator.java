@@ -10,9 +10,6 @@ public class UUIDValidator implements ConstraintValidator<Number, String> {
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		final Pattern UUID_PATTERN = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
 
-		if (!(UUID_PATTERN.matcher(value).matches())) {
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
+		return UUID_PATTERN.matcher(value).matches();
 	}
 }

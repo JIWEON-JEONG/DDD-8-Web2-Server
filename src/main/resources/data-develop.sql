@@ -35,19 +35,19 @@ insert into place
 values (UNHEX(REPLACE("11ed918a-19bf-11e4-b4ea-8f0c7fcaa607", "-", "")), "http://place.map.kakao.com/16711942",
         "서울 관악구 봉천동 36-20", "서울특별시", "RESTAURANT",
         "http://post.phinf.naver.net/MjAxODAyMjdfMjgg/MDAxNTE5NzE5ODUzNjEz.6PMlGLC5P9IVhOpCtnlIpH-zqGvlCNqSPZa627QX2_kg.ZCD-SEjHuV3gH-PKwQhnJkAyXOeAlY0L5pWM7VFFZAAg.PNG/IvPxspXhdCZZVrRZ1-U5XIDOmWV0.jpg",
-        false, false, "16711942", 37.485419798945, 126.956523232034, "남도음식전문점", 1, "02-884-5458");
+        false, false, "16711942", 37.485419798945, 126.956523232034, "남도음식전문점", 3, "02-884-5458");
 
 
 insert into place
 values (UNHEX(REPLACE("11ed918a-19be-ead3-b4ea-81ce536b4207", "-", "")), "http://place.map.kakao.com/12576887",
         "서울 마포구 용강동 45-15", "서울특별시", "TOURIST_ATTRACTION",
         "https://mp-seoul-image-production-s3.mangoplate.com/47290/bm8jg27x8j6ukd.jpg?fit=around%7C512:512&crop=512:512;*,*&output-format=jpg&output-quality=80",
-        false, false, "12576887", 37.5415853568029, 126.941201488128, "마포음식문화거리", 1, "");
+        false, false, "12576887", 37.5415853568029, 126.941201488128, "마포음식문화거리", 5, "");
 
 insert into place
 values (UNHEX(REPLACE("11ed918a-19be-ead2-b4ea-cd00d9d3cbe7", "-", "")), "http://place.map.kakao.com/25985341",
         "서울 서초구 양재동 14-4", "서울특별시", "CAFE",
         "http://image-logo.alba.kr/%2Fdata_image2%2Fcomlogo%2F202110%2F2021101910473675292_0_m.jpg",
-        false, false, "25985341", 37.4822865420713, 127.036849465801, "스타벅스 양재역점", 1, "1522-3232");
+        false, false, "25985341", 37.4822865420713, 127.036849465801, "스타벅스 양재역점", 10, "1522-3232");
 
 

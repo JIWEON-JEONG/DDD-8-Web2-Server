@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByUUIDRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.popular.PopularPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
@@ -22,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 장소 추천 API
+ * 장소 API
  */
 @Log4j2
 @RestController
@@ -57,11 +60,16 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "recommend")
-	public ResponseEntity<PopularPlaceResponseDto> callPopularPlacesApi(
-		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions) {
-
-		PopularPlaceResponseDto response = placeService.readPopularPlaces(regions);
+	/**
+	 * default page = 0
+	 * Todo : default size 정하기.
+	 */
+	@GetMapping(value = "regions")
+	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
+		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions,
+		@PageableDefault(
+			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
+		PlaceInRegionResponseDto response = placeService.readPlacesInRegionsApi(regions, pageable);
 		return ResponseEntity.ok(response);
 	}
 }

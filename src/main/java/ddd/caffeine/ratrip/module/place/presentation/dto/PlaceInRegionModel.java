@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto.popular;
+package ddd.caffeine.ratrip.module.place.presentation.dto;
 
 import ddd.caffeine.ratrip.module.place.model.Location;
 import ddd.caffeine.ratrip.module.place.model.Place;
@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor
-public class PopularPlaceModel {
+public class PlaceInRegionModel {
 	private String placeName;
 	private String category;
 	private String imageLink;
 	private Location location;
 
-	public PopularPlaceModel(Place place) {
+	public PlaceInRegionModel(Place place) {
 		this.placeName = place.getName();
 		this.category = place.getCategory().name();
 		this.imageLink = place.getImageLink();

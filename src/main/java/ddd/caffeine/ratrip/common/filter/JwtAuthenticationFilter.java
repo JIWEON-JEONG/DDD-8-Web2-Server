@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		if (!isWhiteList(request.getRequestURI())) {
+		if (!isAllowList(request.getRequestURI())) {
 			String bearerToken = request.getHeader(AUTHORIZATION_HEADER_PREFIX);
 			UUID userId = validateHeaderAndGetUserId(bearerToken);
 			setAuthentication(userId);
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	private boolean isWhiteList(String requestURI) {
+	private boolean isAllowList(String requestURI) {
 		return allowList.stream().anyMatch(requestURI::contains);
 	}
 

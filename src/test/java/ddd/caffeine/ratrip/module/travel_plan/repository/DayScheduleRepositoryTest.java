@@ -2,6 +2,7 @@ package ddd.caffeine.ratrip.module.travel_plan.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +28,9 @@ class DayScheduleRepositoryTest {
 	public void saveAllTest() {
 		//given
 		List<DaySchedule> daySchedules = List.of(
-			DaySchedule.builder().build(),
-			DaySchedule.builder().build(),
-			DaySchedule.builder().build()
+			DaySchedule.builder().date(LocalDate.of(2023, 1, 16)).build(),
+			DaySchedule.builder().date(LocalDate.of(2023, 1, 17)).build(),
+			DaySchedule.builder().date(LocalDate.of(2023, 1, 18)).build()
 		);
 
 		//when

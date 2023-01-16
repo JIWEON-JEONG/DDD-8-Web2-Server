@@ -5,9 +5,13 @@ import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 import java.util.UUID;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import ddd.caffeine.ratrip.common.exception.domain.CommonException;
+import ddd.caffeine.ratrip.module.user.application.UserService;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtUtil {
 	private final JwtSecretKeyProvider jwtSecretKeyProvider;
+	private final UserService userService;
 	private final RedisTemplate<String, Object> redisTemplate;
 
 	public UUID validateTokensAndGetUserId(String accessToken, String refreshToken) {
@@ -82,8 +87,14 @@ public class JwtUtil {
 		}
 	}
 
-	public void validateAccessToken(String accessToken) {
+	public UUID validateAccessToken(String accessToken) {
 		UUID userId = UUID.fromString(parseClaim(accessToken).get(JwtConstants.USER_ID, String.class));
 		validateExistUserIdFromAccessToken(userId);
+		return userId;
+	}
+
+	public Authentication getAuthentication(UUID userId) {
+		User user = userService.loadUserByUsername(String.valueOf(userId));
+		return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 	}
 }

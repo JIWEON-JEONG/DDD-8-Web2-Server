@@ -2,24 +2,30 @@ package ddd.caffeine.ratrip.module.place.presentation;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByUUIDRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 장소 추천 API
+ * 장소 API
  */
 @Log4j2
 @RestController
@@ -30,34 +36,27 @@ public class PlaceController {
 
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
-		@RequestParam String keyword,
-		@RequestParam String latitude,
-		@RequestParam String longitude,
-		@RequestParam(required = false, defaultValue = "1") int page) {
+		@Valid @ModelAttribute PlaceSearchRequestDto request) {
 
-		PlaceSearchResponseDto response = placeService.searchPlaces(
-			keyword, latitude, longitude, page);
-
+		PlaceSearchResponseDto response = placeService.searchPlaces(request.mapByThirdPartySearchOption());
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("third-party-id")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
-		@RequestParam String id,
-		@RequestParam String placeName,
-		@RequestParam String address) {
+		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
-			id, address, placeName);
+			request.mapByThirdPartyDetailSearchOption());
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
-		@RequestParam String placeId) {
+		@Valid @ModelAttribute PlaceDetailsByUUIDRequestDto request) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(placeId);
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(request.getId());
 		return ResponseEntity.ok(response);
 	}
 

@@ -30,6 +30,7 @@ public class PlaceKakaoData {
 		Place place = Place.builder()
 			.kakaoId(this.id)
 			.name(this.placeName)
+			.additionalInfoLink(this.placeUrl)
 			.telephone(this.phone)
 			.build();
 

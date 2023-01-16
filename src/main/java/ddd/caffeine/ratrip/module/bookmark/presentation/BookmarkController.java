@@ -26,8 +26,9 @@ public class BookmarkController {
 	}
 
 	@DeleteMapping("/{placeId}")
-	public ResponseEntity<UUID> deleteBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(bookmarkService.deleteBookmark(placeId, user));
+	public ResponseEntity<Void> deleteBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
+		bookmarkService.deleteBookmark(placeId, user);
+		return ResponseEntity.ok().build();
 	}
 
 	//북마크 조회 기능도 구현해야함

@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.travel_plan.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TravelPlan extends AuditingTimeEntity {
+public class TravelPlan extends AuditingTimeEntity implements Serializable {
 
 	@Id
 	@Column(columnDefinition = "BINARY(16)")

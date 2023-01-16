@@ -28,6 +28,7 @@ public class TravelPlanStartRequestDto {
 		return TravelPlan.builder()
 			//Todo : title UI 에 대해서 디자인 물어보기. (임시 적용)
 			.title(region + " " + "여행")
+			.region(region)
 			.startDate(travelStartDate)
 			.travelDays(travelDays)
 			.build();

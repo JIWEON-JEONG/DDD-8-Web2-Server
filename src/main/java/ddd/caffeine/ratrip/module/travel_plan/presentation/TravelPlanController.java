@@ -25,7 +25,8 @@ public class TravelPlanController {
 	@PostMapping
 	public ResponseEntity<TravelPlanStartResponseDto> makeTravelPlanApi
 		(@AuthenticationPrincipal User user, @Valid @RequestBody TravelPlanStartRequestDto request) {
-		travelPlanService.makeTravelPlan(request.mapByTravelPlan(), user);
-		return ResponseEntity.ok(new TravelPlanStartResponseDto());
+		TravelPlanStartResponseDto response = travelPlanService.makeTravelPlan(
+			request.mapByTravelPlan(), user);
+		return ResponseEntity.ok(response);
 	}
 }

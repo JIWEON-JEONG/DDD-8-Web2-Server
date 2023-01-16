@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.module.travel_plan;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlanUser;
@@ -14,6 +15,7 @@ public class TravelPlanUserService {
 
 	private final TravelPlanUserRepository travelPlanUserRepository;
 
+	@Transactional
 	public void saveTravelPlanWithUser(TravelPlan travelPlan, User user) {
 		TravelPlanUser travelPlanUser = new TravelPlanUser(travelPlan, user);
 		travelPlanUserRepository.save(travelPlanUser);

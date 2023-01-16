@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
@@ -20,6 +21,7 @@ public class TravelPlanService {
 	private final DayScheduleService dayScheduleService;
 	private final TravelPlanRepository travelPlanRepository;
 
+	@Transactional
 	public TravelPlanStartResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
 		//TravelPlan 생성 및 저장
 		travelPlanRepository.save(travelPlan);

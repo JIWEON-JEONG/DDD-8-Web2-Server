@@ -24,4 +24,10 @@ public class BookmarkService {
 		Bookmark bookmark = bookmarkRepository.save(Bookmark.of(user, place));
 		return bookmark.getId();
 	}
+
+	public UUID deleteBookmark(final UUID placeId, final User user) {
+		Place place = placeService.findPlaceById(placeId);
+		Bookmark bookmark = bookmarkRepository.deleteByUserAndPlace(user, place);
+		return bookmark.getId();
+	}
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,16 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkController {
 	private final BookmarkService bookmarkService;
 
-	/**
-	 * POST는 데이터 값 혹은 상태를 변경하는데 사용됨
-	 *
-	 * @PathVariable은 resource를 식별할 때 사용되고, 정렬이나 필터링을 한다면 Query Parameter
-	 */
 	@PostMapping("/{placeId}")
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(bookmarkService.addBookmark(placeId, user));
 	}
+
+	@DeleteMapping("/{placeId}")
+	public ResponseEntity<UUID> deleteBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(bookmarkService.deleteBookmark(placeId, user));
+	}
+
+	//북마크 조회 기능도 구현해야함
+	//헤더 스웨거 추가
 }

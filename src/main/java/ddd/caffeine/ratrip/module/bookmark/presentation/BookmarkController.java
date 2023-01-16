@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookmarkController {
 	private final BookmarkService bookmarkService;
+
+	@GetMapping("/{placeId}")
+	public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
+	}
 
 	@PostMapping("/{placeId}")
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {

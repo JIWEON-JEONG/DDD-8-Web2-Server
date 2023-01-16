@@ -4,6 +4,7 @@ import static ddd.caffeine.ratrip.module.bookmark.domain.QBookmark.*;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,12 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 		return jpaQueryFactory.delete(bookmark)
 			.where(bookmark.user.eq(user), bookmark.place.eq(place))
 			.execute();
+	}
+
+	@Override
+	public Bookmark findByPlaceAndUser(User user, Place place) {
+		return jpaQueryFactory.selectFrom(bookmark)
+			.where(bookmark.user.eq(user), bookmark.place.eq(place))
+			.fetchOne();
 	}
 }

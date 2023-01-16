@@ -19,6 +19,13 @@ public class BookmarkService {
 	private final PlaceService placeService;
 	private final BookmarkRepository bookmarkRepository;
 
+	public Boolean isBookmarked(final UUID placeId, final User user) {
+		Place place = placeService.findPlaceById(placeId);
+		Bookmark bookmark = bookmarkRepository.findByPlaceAndUser(user, place);
+
+		return bookmark != null;
+	}
+
 	public UUID addBookmark(final UUID placeId, final User user) {
 		Place place = placeService.findPlaceById(placeId);
 		Bookmark bookmark = bookmarkRepository.save(Bookmark.of(user, place));

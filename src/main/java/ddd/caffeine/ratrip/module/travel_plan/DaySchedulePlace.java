@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.day_schedule;
+package ddd.caffeine.ratrip.module.travel_plan;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

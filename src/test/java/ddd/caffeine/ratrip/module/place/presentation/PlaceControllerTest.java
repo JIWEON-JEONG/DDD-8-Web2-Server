@@ -1,21 +1,80 @@
 package ddd.caffeine.ratrip.module.place.presentation;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ddd.caffeine.ratrip.module.place.service.PlaceService;
 
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(controllers = PlaceController.class,
 	excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 class PlaceControllerTest {
 
+	@Autowired
+	private MockMvc mockMvc;
+
+	@MockBean
+	PlaceService placeService;
+
+	@Autowired
+	private ObjectMapper mapper;
+
 	@Test
-	void callPlaceDetailsApiByThirdPartyId() {
+	@DisplayName("custom 어노테이션 Number 정상 동작 테스트")
+	void customAnnotationNumberTest() throws Exception {
+		//given
+		String baseURI = "/v1/place/third-party-id";
+		String thirdPartyId = "/12345";
+		String placeName = "?placeName=지원이네 집";
+		String address = "&address=서울특별시 서초구 양재동 16-10";
+
+		String URI = baseURI + thirdPartyId + placeName + address;
+
+		//when
+		ResultActions actions = mockMvc.perform(get(URI)
+			.contentType(MediaType.APPLICATION_JSON_VALUE));
+		// then
+		actions
+			.andExpect(status().isOk());
+	}
+
+	@ParameterizedTest
+	@DisplayName("custom 어노테이션 Number 예외 동작 테스트")
+	@ValueSource(strings = {"", "134숫자", "?234"})
+	void customAnnotationNumber2Test(String thirdPartyId) throws Exception {
+		//given
+		String baseURI = "/v1/place/third-party-id";
+		String placeName = "?placeName=지원이네 집";
+		String address = "&address=서울특별시 서초구 양재동 16-10";
+
+		String URI = baseURI + thirdPartyId + placeName + address;
+
+		//when
+		ResultActions actions = mockMvc.perform(get(URI)
+			.contentType(MediaType.APPLICATION_JSON_VALUE));
+		// then
+		actions
+			.andExpect(status().isBadRequest());
+
 	}
 
 	@Test
-	void callPlaceDetailsApiByUUID() {
+	@DisplayName("custom 어노테이션 UUID 정상 동작 테스트")
+	void customAnnotationUUIDTest() {
 	}
 }

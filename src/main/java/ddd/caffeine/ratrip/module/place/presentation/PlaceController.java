@@ -25,12 +25,10 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchReque
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 /**
  * 장소 API
  */
-@Log4j2
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -57,7 +55,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
 		@PathVariable @UUID String id) {
 

@@ -1,5 +1,8 @@
 package ddd.caffeine.ratrip.common.exception;
 
+import javax.validation.ConstraintDefinitionException;
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -36,9 +39,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
 	 * BaseException 으로 throw 한 예외들 처리 하는 메서드.
-	 *
-	 * @param e BaseException
-	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(BaseException.class)
 	protected ResponseEntity<ExceptionResponse> handleExpectedException(BaseException e) {
@@ -55,9 +55,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * 예상하지 못한 예외들 처리.
 	 * 즉 throw 하지 못한 예외들. Runtime 중에 발생하는 모든 예외들 처리.
-	 *
-	 * @param e RuntimeException
-	 * @return ErrorResponse
 	 */
 	@ExceptionHandler(RuntimeException.class)
 	protected ResponseEntity<ExceptionResponse> handleUnexpectedException(RuntimeException e) {
@@ -72,13 +69,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	/**
-	 * @param ex      the exception
-	 * @param body    the body for the response
-	 * @param headers the headers for the response
-	 * @param status  the response status
-	 * @param request the current request
-	 * @return
+	 * Custom Annotation 예외 처리 핸들러.
 	 */
+	@ExceptionHandler(ConstraintDefinitionException.class)
+	public ResponseEntity<ExceptionResponse> handleConstraintDefinitionException(ConstraintDefinitionException e) {
+
+		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
+
+		ExceptionResponse response = ExceptionResponse.builder()
+			.errorCode(e.toString())
+			.httpStatus(HttpStatus.BAD_REQUEST)
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
+	/**
+	 * @Validated 어노테이션으로 잡히는 예외 핸들러.
+	 */
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException e) {
+
+		e.getConstraintViolations().stream().peek(exception -> log.error(exception.getMessage()));
+
+		ExceptionResponse response = ExceptionResponse.builder()
+			.errorCode(e.toString())
+			.httpStatus(HttpStatus.BAD_REQUEST)
+			.message(e.getMessage())
+			.build();
+
+		return new ResponseEntity<>(response, response.getHttpStatus());
+	}
+
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 		HttpStatus status, WebRequest request) {

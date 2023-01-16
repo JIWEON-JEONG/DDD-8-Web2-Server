@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	private static final List<String> allowList = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check");
+	private static final List<String> ALLOW_LIST = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check");
 	private final JwtUtil jwtUtil;
 
 	@Override
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isAllowList(String requestURI) {
-		return allowList.stream().anyMatch(requestURI::contains);
+		return ALLOW_LIST.stream().anyMatch(requestURI::contains);
 	}
 
 	private UUID validateHeaderAndGetUserId(String bearerToken) {

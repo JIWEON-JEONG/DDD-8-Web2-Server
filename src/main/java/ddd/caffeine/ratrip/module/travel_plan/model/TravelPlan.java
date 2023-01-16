@@ -51,6 +51,10 @@ public class TravelPlan extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
+	public UUID readUUID() {
+		return this.id;
+	}
+
 	@Builder
 	public TravelPlan(String title, Region region, int travelDays, LocalDate startDate) {
 		this.title = title;

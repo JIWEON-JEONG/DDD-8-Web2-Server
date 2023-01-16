@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.repository.TravelPlanRepository;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,14 +20,15 @@ public class TravelPlanService {
 	private final DayScheduleService dayScheduleService;
 	private final TravelPlanRepository travelPlanRepository;
 
-	public TravelPlanStartResponseDto makeTravelPlan(TravelPlan travelPlan) {
+	public TravelPlanStartResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
 		//TravelPlan 생성 및 저장
 		travelPlanRepository.save(travelPlan);
 		//TravelPlan 및 User 저장.
+		travelPlanUserService.saveTravelPlanWithUser(travelPlan, user);
 		//daySchedule 생성 및 저장.
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
-		return new TravelPlanStartResponseDto();
+		return new TravelPlanStartResponseDto(travelPlan.readUUID());
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {
@@ -37,5 +39,4 @@ public class TravelPlanService {
 		}
 		return dates;
 	}
-
 }

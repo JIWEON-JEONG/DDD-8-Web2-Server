@@ -3,12 +3,14 @@ package ddd.caffeine.ratrip.module.bookmark.presentation;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,7 +25,7 @@ public class BookmarkController {
 	 * @PathVariable은 resource를 식별할 때 사용되고, 정렬이나 필터링을 한다면 Query Parameter
 	 */
 	@PostMapping("/{placeId}")
-	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId) { //UUID로 받을 수 있는지 테스트
-		return ResponseEntity.ok(bookmarkService.addBookmark(placeId));
+	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(bookmarkService.addBookmark(placeId, user));
 	}
 }

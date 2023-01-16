@@ -2,10 +2,12 @@ package ddd.caffeine.ratrip.module.place.repository;
 
 import java.util.List;
 
-import ddd.caffeine.ratrip.common.model.Region;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+
 import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.model.Region;
 
 public interface PlaceQueryRepository {
-	List<Place> findPopularPlacesInRegions(List<Region> regions, Integer limit);
-
+	Slice<Place> findPlacesInRegions(List<Region> regions, Pageable pageable);
 }

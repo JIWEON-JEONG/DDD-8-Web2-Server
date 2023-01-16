@@ -5,12 +5,14 @@ import static ddd.caffeine.ratrip.common.util.HttpHeaderUtils.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,29 +22,30 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	private static final List<String> whitelist = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check");
+	private static final List<String> ALLOW_LIST = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check");
 	private final JwtUtil jwtUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		if (!isWhiteList(request.getRequestURI())) {
+		if (!isAllowList(request.getRequestURI())) {
 			String bearerToken = request.getHeader(AUTHORIZATION_HEADER_PREFIX);
-			validateHeader(bearerToken);
+			UUID userId = validateHeaderAndGetUserId(bearerToken);
+			setAuthentication(userId);
 		}
 
 		filterChain.doFilter(request, response);
 	}
 
-	private boolean isWhiteList(String requestURI) {
-		return whitelist.stream().anyMatch(requestURI::contains);
+	private boolean isAllowList(String requestURI) {
+		return ALLOW_LIST.stream().anyMatch(requestURI::contains);
 	}
 
-	private void validateHeader(String bearerToken) {
+	private UUID validateHeaderAndGetUserId(String bearerToken) {
 		validateHasText(bearerToken);
 		validateStartWithBearer(bearerToken);
-		validateAccessToken(getAccessTokenFromBearer(bearerToken));
+		return validateAccessToken(getAccessTokenFromBearer(bearerToken));
 	}
 
 	private void validateHasText(String bearerToken) {
@@ -57,11 +60,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private void validateAccessToken(String accessToken) {
-		jwtUtil.validateAccessToken(accessToken);
+	private UUID validateAccessToken(String accessToken) {
+		return jwtUtil.validateAccessToken(accessToken);
 	}
 
 	private String getAccessTokenFromBearer(String bearerToken) {
 		return bearerToken.substring(BEARER_PREFIX.length());
+	}
+
+	private void setAuthentication(UUID userId) {
+		SecurityContextHolder.getContext().setAuthentication(jwtUtil.getAuthentication(userId));
 	}
 }

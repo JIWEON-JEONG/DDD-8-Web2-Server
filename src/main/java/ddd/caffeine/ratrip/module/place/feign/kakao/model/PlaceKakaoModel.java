@@ -35,7 +35,7 @@ public class PlaceKakaoModel {
 
 			searchModels.add(model);
 		}
-		return new PlaceSearchResponseDto(searchModels);
+		return new PlaceSearchResponseDto(searchModels, this.meta);
 	}
 
 	public Place mapByPlaceEntity() {

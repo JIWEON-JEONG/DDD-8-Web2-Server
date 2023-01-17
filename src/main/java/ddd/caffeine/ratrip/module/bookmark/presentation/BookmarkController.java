@@ -34,11 +34,11 @@ public class BookmarkController {
 		@PageableDefault(size = 3, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) { //TODO - direction = Sort.Direction.DESC이 뭐지
 		return ResponseEntity.ok(bookmarkService.getBookmarks(user, categories, pageable));
 	}
-
-	@GetMapping("/{placeId}") //TODO - 삭제해야 됨
-	public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
-	}
+	//
+	// @GetMapping("/{placeId}") //TODO - 지원이가 로직 추가하면 삭제해야 됨
+	// public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
+	// 	return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
+	// }
 
 	@PostMapping("/{placeId}") //TODO - 없는지 체크해야 됨 -> 주안님이랑 상의
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {

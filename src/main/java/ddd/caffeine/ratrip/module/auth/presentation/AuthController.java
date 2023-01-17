@@ -18,6 +18,7 @@ import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDt
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,16 +28,19 @@ public class AuthController {
 	private final AuthService authService;
 	private final TokenService tokenService;
 
+	@Operation(summary = "카카오 로그인")
 	@GetMapping("/auth/signin/kakao")
 	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestParam("code") String code) {
 		return ResponseEntity.ok(authService.signInWithKakao(code));
 	}
 
+	@Operation(summary = "엑세스 토큰 재발급")
 	@PostMapping("/auth/reissue")
 	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
 		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
 	}
 
+	@Operation(summary = "로그아웃")
 	@PostMapping("/auth/signout")
 	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
 		return ResponseEntity.ok(tokenService.deleteToken(request.toServiceDto()));

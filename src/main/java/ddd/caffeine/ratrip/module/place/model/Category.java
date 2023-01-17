@@ -14,7 +14,6 @@ import lombok.Getter;
  */
 @Getter
 public enum Category {
-	ALL("전체"),
 	CAFE("CE7"),
 	RESTAURANT("FD6"),
 	TOURIST_ATTRACTION("AT4"),

@@ -42,7 +42,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	@Override
 	public Slice<Place> findPlacesInCategories(List<Category> categories, Pageable pageable) {
 		List<Place> contents = jpaQueryFactory
-			.selectFrom(place)
+			.selectFrom(place) //TODO - Dto로 받을 수 있을까
 			.where(categoriesIn(categories))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())

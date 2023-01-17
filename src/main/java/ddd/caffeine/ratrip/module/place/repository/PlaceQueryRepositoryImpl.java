@@ -5,6 +5,7 @@ import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -16,6 +17,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
+import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import lombok.RequiredArgsConstructor;
@@ -30,16 +32,33 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 		List<Place> contents = jpaQueryFactory
 			.selectFrom(place)
 			.where(regionsIn(regions))
-			.orderBy(readOrderSpecifiers(pageable).stream().toArray(OrderSpecifier[]::new))
+			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
-		
+
+		return QuerydslUtils.toSlice(contents, pageable);
+	}
+
+	@Override
+	public Slice<Place> findPlacesInCategories(Set<Category> categories, Pageable pageable) {
+		List<Place> contents = jpaQueryFactory
+			.selectFrom(place)
+			.where(categoriesIn(categories))
+			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
+
 		return QuerydslUtils.toSlice(contents, pageable);
 	}
 
 	private BooleanExpression regionsIn(List<Region> region) {
 		return region.isEmpty() ? null : place.address.region.in(region);
+	}
+
+	private BooleanExpression categoriesIn(Set<Category> categories) {
+		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
 	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {
@@ -54,6 +73,11 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 						OrderSpecifier<?> numberOfTrips = QuerydslUtils
 							.getSortedColumn(direction, place, "numberOfTrips");
 						orders.add(numberOfTrips);
+						break;
+					case "createdAt":
+						OrderSpecifier<?> createdAt = QuerydslUtils
+							.getSortedColumn(direction, place, "createdAt");
+						orders.add(createdAt);
 						break;
 					default:
 						break;

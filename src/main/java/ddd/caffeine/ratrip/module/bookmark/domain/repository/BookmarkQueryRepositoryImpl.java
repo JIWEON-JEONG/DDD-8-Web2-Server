@@ -64,7 +64,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
-	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {
+	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) { //TODO - 리팩토링 고려 / Switch문인데 어떻게 여러 조건을 처리하지?
 		List<OrderSpecifier> orders = new ArrayList<>();
 
 		if (!isEmpty(pageable.getSort())) {
@@ -72,9 +72,9 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 				Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
 
 				switch (order.getProperty()) {
-					case "name": //TODO - createdAt으로 변경
+					case "createdAt":
 						OrderSpecifier<?> createdAt = QuerydslUtils
-							.getSortedColumn(direction, place, "name");
+							.getSortedColumn(direction, place, "createdAt");
 						orders.add(createdAt);
 						break;
 					default:

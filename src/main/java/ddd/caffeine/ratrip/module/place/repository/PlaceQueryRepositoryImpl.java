@@ -5,7 +5,6 @@ import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -41,7 +40,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	}
 
 	@Override
-	public Slice<Place> findPlacesInCategories(Set<Category> categories, Pageable pageable) {
+	public Slice<Place> findPlacesInCategories(List<Category> categories, Pageable pageable) {
 		List<Place> contents = jpaQueryFactory
 			.selectFrom(place)
 			.where(categoriesIn(categories))
@@ -57,7 +56,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 		return region.isEmpty() ? null : place.address.region.in(region);
 	}
 
-	private BooleanExpression categoriesIn(Set<Category> categories) {
+	private BooleanExpression categoriesIn(List<Category> categories) {
 		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
@@ -74,9 +73,9 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 							.getSortedColumn(direction, place, "numberOfTrips");
 						orders.add(numberOfTrips);
 						break;
-					case "createdAt":
+					case "name":
 						OrderSpecifier<?> createdAt = QuerydslUtils
-							.getSortedColumn(direction, place, "createdAt");
+							.getSortedColumn(direction, place, "name");
 						orders.add(createdAt);
 						break;
 					default:

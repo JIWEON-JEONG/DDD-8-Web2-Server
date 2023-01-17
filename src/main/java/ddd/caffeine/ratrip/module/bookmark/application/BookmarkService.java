@@ -1,11 +1,12 @@
 package ddd.caffeine.ratrip.module.bookmark.application;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.bookmark.application.dto.BookmarkListDto;
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
 import ddd.caffeine.ratrip.module.place.model.Place;
@@ -39,7 +40,8 @@ public class BookmarkService {
 		bookmarkRepository.deleteByUserAndPlace(user, place);
 	}
 
-	public PlaceInCategoryResponseDto getBookmarks(final BookmarkListDto request) {
-		return placeService.findPlacesInCategories(request.getCategories(), request.getPageable());
+	public PlaceInCategoryResponseDto getBookmarks(final User user, final List<String> categories,
+		final Pageable page) {
+		return placeService.findPlacesInCategories(categories, page);
 	}
 }

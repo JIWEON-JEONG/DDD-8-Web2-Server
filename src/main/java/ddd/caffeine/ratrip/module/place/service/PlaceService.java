@@ -5,7 +5,6 @@ import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -83,8 +82,9 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceInCategoryResponseDto findPlacesInCategories(Set<Category> categories, Pageable page) {
-		Slice<Place> places = placeRepository.findPlacesInCategories(categories, page);
+	public PlaceInCategoryResponseDto findPlacesInCategories(List<String> categories, Pageable page) {
+		Slice<Place> places = placeRepository.findPlacesInCategories(Category.typeCastStringToCategory(categories),
+			page);
 		return new PlaceInCategoryResponseDto(places.getContent(), places.hasNext());
 	}
 

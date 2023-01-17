@@ -2,11 +2,16 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
 import javax.validation.constraints.NotBlank;
 
+import ddd.caffeine.ratrip.common.validator.annotation.Number;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartyDetailSearchOption;
 import lombok.Getter;
 
 @Getter
 public class PlaceDetailsByThirdPartyRequestDto {
+
+	@Number
+	@NotBlank(message = "ThirdPartyId must not be blank")
+	private String thirdPartyId;
 
 	@NotBlank(message = "PlaceName must not be blank")
 	private String placeName;
@@ -21,9 +26,9 @@ public class PlaceDetailsByThirdPartyRequestDto {
 		this.address = address;
 	}
 
-	public ThirdPartyDetailSearchOption mapByThirdPartyDetailSearchOption(String thirdPartyId) {
+	public ThirdPartyDetailSearchOption mapByThirdPartyDetailSearchOption() {
 		return ThirdPartyDetailSearchOption.builder()
-			.id(thirdPartyId)
+			.id(this.thirdPartyId)
 			.placeName(this.placeName)
 			.address(this.address)
 			.build();

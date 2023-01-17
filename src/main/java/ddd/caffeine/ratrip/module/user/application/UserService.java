@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.user.application;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,11 +26,6 @@ public class UserService implements UserDetailsService {
 	public UUID findUserIdBySocialIdAndSocialType(SignUpUserDto request) {
 		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
 		return signUpUserIfAbsentAndGetUserId(request, user);
-	}
-
-	public User findUserById(UUID userId) {
-		Optional<User> user = userRepository.findById(userId);
-		return userValidator.validateExistUser(user);
 	}
 
 	private User findUserBySocialInfo(SocialInfo socialInfo) {

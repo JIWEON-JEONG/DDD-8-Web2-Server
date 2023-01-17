@@ -9,6 +9,4 @@ import ddd.caffeine.ratrip.module.user.domain.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 	User findUserBySocialInfo(SocialInfo socialInfo);
-
-	User findUserById(UUID id); //TEST METHOD
 }

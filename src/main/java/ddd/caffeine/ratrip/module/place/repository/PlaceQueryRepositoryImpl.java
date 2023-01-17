@@ -55,11 +55,6 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 							.getSortedColumn(direction, place, "numberOfTrips");
 						orders.add(numberOfTrips);
 						break;
-					case "name":
-						OrderSpecifier<?> createdAt = QuerydslUtils
-							.getSortedColumn(direction, place, "name");
-						orders.add(createdAt);
-						break;
 					default:
 						break;
 				}

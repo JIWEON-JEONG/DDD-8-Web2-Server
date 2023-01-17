@@ -43,6 +43,7 @@ public class BookmarkService {
 		bookmarkRepository.deleteByUserAndPlace(user, place);
 	}
 
+	@Transactional(readOnly = true)
 	public BookmarksResponseDto getBookmarks(final User user, final List<String> categories,
 		final Pageable page) {
 		Slice<BookmarkPlaceDto> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(

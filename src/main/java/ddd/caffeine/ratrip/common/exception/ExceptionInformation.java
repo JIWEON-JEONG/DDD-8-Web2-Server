@@ -42,6 +42,7 @@ public enum ExceptionInformation {
 
 	// 409 Conflict
 	ALREADY_EXIST_USER_EXCEPTION(CONFLICT, "이미 존재하는 유저입니다."),
+	ALREADY_EXIST_BOOKMARK_EXCEPTION(CONFLICT, "이미 북마크에 추가된 장소입니다."),
 
 	// 500 Internal Server Error
 	;

@@ -1,6 +1,5 @@
 package ddd.caffeine.ratrip.common.exception;
 
-import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.ConversionNotSupportedException;
@@ -62,23 +61,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ExceptionResponse response = ExceptionResponse.builder()
 			.httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 			.errorCode("UNEXPECTED_EXCEPTION")
-			.message(e.getMessage())
-			.build();
-
-		return new ResponseEntity<>(response, response.getHttpStatus());
-	}
-
-	/**
-	 * Custom Annotation 예외 처리 핸들러.
-	 */
-	@ExceptionHandler(ConstraintDefinitionException.class)
-	public ResponseEntity<ExceptionResponse> handleConstraintDefinitionException(ConstraintDefinitionException e) {
-
-		log.error("cause : {}, message : {}", e.getCause(), e.getMessage());
-
-		ExceptionResponse response = ExceptionResponse.builder()
-			.errorCode(e.toString())
-			.httpStatus(HttpStatus.BAD_REQUEST)
 			.message(e.getMessage())
 			.build();
 

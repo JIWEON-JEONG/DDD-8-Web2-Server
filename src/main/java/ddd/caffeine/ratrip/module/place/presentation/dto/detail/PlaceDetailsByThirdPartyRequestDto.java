@@ -22,6 +22,7 @@ public class PlaceDetailsByThirdPartyRequestDto {
 	public PlaceDetailsByThirdPartyRequestDto(String thirdPartyId, String placeName,
 		String address) {
 		validateParameters(address);
+		this.thirdPartyId = thirdPartyId;
 		this.placeName = placeName;
 		this.address = address;
 	}

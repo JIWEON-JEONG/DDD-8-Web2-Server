@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -17,9 +19,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TravelPlanService {
 
+	private final PlaceService placeService;
 	private final TravelPlanUserService travelPlanUserService;
 	private final DayScheduleService dayScheduleService;
 	private final TravelPlanRepository travelPlanRepository;
+
+	@Transactional(readOnly = true)
+	public TravelPlanResponseDto readTravelPlanByUUID(User user, String travelPlanUUID) {
+		//이 유저가 여행을 읽을 수 있는지 검증
+		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
+		//
+		return new TravelPlanResponseDto();
+	}
 
 	@Transactional
 	public TravelPlanStartResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
@@ -31,6 +42,13 @@ public class TravelPlanService {
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
 		return new TravelPlanStartResponseDto(travelPlan.readUUID());
+	}
+
+	@Transactional(readOnly = true)
+	public TravelPlanStartResponseDto readScheduleByDay(User user, String travelPlanUUID, int day) {
+		//이 유저가 여행을 읽을 수 있는지 검증
+		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
+		//
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

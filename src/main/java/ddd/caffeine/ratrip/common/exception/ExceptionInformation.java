@@ -35,6 +35,7 @@ public enum ExceptionInformation {
 	NOT_FOUND_JWT_CLAIMS_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 클레임이 존재하지 않습니다."),
 	NOT_FOUND_JWT_USERID_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 userId가 비어 있습니다."),
 	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB에 존재하지 않는 리프레시 토큰입니다."),
+	UNAUTHORIZED_ACCESS_TRAVEL_PLAN(UNAUTHORIZED, "해당 여행 계획에 접근 할 수 없습니다."),
 
 	// 403 Forbidden
 

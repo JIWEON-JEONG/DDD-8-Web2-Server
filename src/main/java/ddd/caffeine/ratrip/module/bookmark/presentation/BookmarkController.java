@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.PlaceInCategoryResponseDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class BookmarkController {
 	private final BookmarkService bookmarkService;
 
 	@GetMapping("")
-	public ResponseEntity<PlaceInCategoryResponseDto> getBookmarks(@AuthenticationPrincipal User user,
+	public ResponseEntity<BookmarksResponseDto> getBookmarks(@AuthenticationPrincipal User user,
 		@RequestParam(name = "category", required = false) List<String> categories,
 		//TODO - 인자를 Enum 타입으로 받는 법 알아보기
 		@PageableDefault(size = 3, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) { //TODO - direction = Sort.Direction.DESC이 뭐지
@@ -40,12 +40,12 @@ public class BookmarkController {
 		return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
 	}
 
-	@PostMapping("/{placeId}")
+	@PostMapping("/{placeId}") //TODO - 없는지 체크해야 됨 -> 주안님이랑 상의
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(bookmarkService.addBookmark(placeId, user));
 	}
 
-	@DeleteMapping("/{placeId}")
+	@DeleteMapping("/{placeId}") //TODO - 있는지 체크해야 됨 -> 주안님이랑 상의
 	public ResponseEntity<Void> deleteBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		bookmarkService.deleteBookmark(placeId, user);
 		return ResponseEntity.ok().build();

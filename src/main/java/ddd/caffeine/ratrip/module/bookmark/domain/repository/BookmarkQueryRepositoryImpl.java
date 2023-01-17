@@ -18,6 +18,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.QBookmarkPlaceDto;
 import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -42,10 +44,14 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public Slice<Place> findBookmarkPlacesInCategories(List<Category> categories, User user, Pageable pageable) {
-		List<Place> contents = jpaQueryFactory
-			.selectFrom(place) //TODO - Dto로 받을 수 있을까
-			.where(categoriesIn(categories))
+	public Slice<BookmarkPlaceDto> findBookmarkPlacesInCategories(List<Category> categories, User user,
+		Pageable pageable) {
+		List<BookmarkPlaceDto> contents = jpaQueryFactory
+			.select(new QBookmarkPlaceDto(bookmark.id, place.name, place.address.detailed, place.imageLink,
+				place.category)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
+			.from(bookmark)
+			.join(bookmark.place, place)
+			.where(bookmark.user.eq(user), categoriesIn(categories))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)

@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.PlaceInCategoryResponseDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
@@ -42,12 +43,12 @@ public class BookmarkService {
 		bookmarkRepository.deleteByUserAndPlace(user, place);
 	}
 
-	public PlaceInCategoryResponseDto getBookmarks(final User user, final List<String> categories,
+	public BookmarksResponseDto getBookmarks(final User user, final List<String> categories,
 		final Pageable page) {
-		Slice<Place> places = bookmarkRepository.findBookmarkPlacesInCategories(
+		Slice<BookmarkPlaceDto> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(
 			Category.typeCastStringToCategory(categories),
 			user, page);
 
-		return new PlaceInCategoryResponseDto(places.getContent(), places.hasNext());
+		return new BookmarksResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
 	}
 }

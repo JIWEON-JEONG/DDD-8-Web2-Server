@@ -8,7 +8,7 @@ import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
 import lombok.Getter;
 
 @Getter
-public class TravelPlanStartResponseDto {
+public class TravelPlanInitResponseDto {
 	private UUID planUUID;
 
 	private String title;
@@ -19,7 +19,7 @@ public class TravelPlanStartResponseDto {
 
 	private int travelDays;
 
-	public TravelPlanStartResponseDto(TravelPlan travelPlan) {
+	public TravelPlanInitResponseDto(TravelPlan travelPlan) {
 		this.planUUID = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();

@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUID;
 import ddd.caffeine.ratrip.module.travel_plan.TravelPlanService;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -38,9 +38,9 @@ public class TravelPlanController {
 	}
 
 	@PostMapping
-	public ResponseEntity<TravelPlanStartResponseDto> makeTravelPlanApi
-		(@AuthenticationPrincipal User user, @Valid @RequestBody TravelPlanStartRequestDto request) {
-		TravelPlanStartResponseDto response = travelPlanService.makeTravelPlan(
+	public ResponseEntity<TravelPlanInitResponseDto> makeTravelPlanApi
+		(@AuthenticationPrincipal User user, @Valid @RequestBody TravelPlanInitRequestDto request) {
+		TravelPlanInitResponseDto response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
 		return ResponseEntity.ok(response);
 	}

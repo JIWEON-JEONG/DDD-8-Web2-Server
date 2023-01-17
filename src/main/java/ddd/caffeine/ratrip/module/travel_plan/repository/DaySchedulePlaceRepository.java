@@ -9,4 +9,5 @@ import ddd.caffeine.ratrip.module.travel_plan.model.DaySchedule;
 
 @Repository
 public interface DaySchedulePlaceRepository extends JpaRepository<DaySchedule, UUID> {
+	
 }

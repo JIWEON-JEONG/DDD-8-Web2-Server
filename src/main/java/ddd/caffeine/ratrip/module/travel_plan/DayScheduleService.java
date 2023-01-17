@@ -19,19 +19,6 @@ public class DayScheduleService {
 	private final DayScheduleRepository dayScheduleRepository;
 	private final DaySchedulePlaceService daySchedulePlaceService;
 
-	@Transactional(readOnly = true)
-	public void (TravelPlan travelPlan, List<LocalDate> dates) {
-		List<DaySchedule> daySchedules = new ArrayList<>();
-		for (LocalDate date : dates) {
-			DaySchedule daySchedule = DaySchedule.builder()
-				.travelPlan(travelPlan)
-				.date(date)
-				.build();
-			daySchedules.add(daySchedule);
-		}
-		dayScheduleRepository.saveAll(daySchedules);
-	}
-
 	@Transactional
 	public void initTravelPlan(TravelPlan travelPlan, List<LocalDate> dates) {
 		List<DaySchedule> daySchedules = new ArrayList<>();

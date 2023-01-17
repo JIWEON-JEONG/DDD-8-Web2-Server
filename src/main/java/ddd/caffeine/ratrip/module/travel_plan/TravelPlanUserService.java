@@ -2,6 +2,7 @@ package ddd.caffeine.ratrip.module.travel_plan;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class TravelPlanUserService {
 	public void saveTravelPlanWithUser(TravelPlan travelPlan, User user) {
 		TravelPlanUser travelPlanUser = new TravelPlanUser(travelPlan, user);
 		travelPlanUserRepository.save(travelPlanUser);
+	}
+
+	@Transactional(readOnly = true)
+	public Optional<TravelPlanUser> readByUserUnfinishedTravel(User user) {
+		return travelPlanUserRepository.findByUserUnfinishedTravel(user);
 	}
 
 	@Transactional(readOnly = true)

@@ -5,7 +5,9 @@ import static ddd.caffeine.ratrip.module.place.model.Category.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import ddd.caffeine.ratrip.module.bookmark.application.dto.BookmarkListDto;
 import ddd.caffeine.ratrip.module.place.model.Category;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.Getter;
 
 @Getter
@@ -25,5 +27,9 @@ public class BookmarkListRequestDto {
 
 	private boolean isCategoryAll(Set<Category> categories) {
 		return categories.isEmpty() || categories.contains(ALL);
+	}
+
+	public BookmarkListDto toServiceDto(User user) {
+		return BookmarkListDto.of(categories, user);
 	}
 }

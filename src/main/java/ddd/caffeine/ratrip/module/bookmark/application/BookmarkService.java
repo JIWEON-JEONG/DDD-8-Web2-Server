@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.bookmark.application.dto.BookmarkListDto;
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkListResponseDto;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -35,5 +37,9 @@ public class BookmarkService {
 	public void deleteBookmark(final UUID placeId, final User user) {
 		Place place = placeService.findPlaceById(placeId);
 		bookmarkRepository.deleteByUserAndPlace(user, place);
+	}
+
+	public BookmarkListResponseDto getBookmarks(final BookmarkListDto request) {
+		return null;
 	}
 }

@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.module.bookmark.presentation;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.request.BookmarkListRequestDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkListResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkController {
 	private final BookmarkService bookmarkService;
 
-	@GetMapping("/{placeId}")
+	@GetMapping("/{placeId}") //TODO - 삭제해야 됨
 	public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
 	}
@@ -37,6 +41,10 @@ public class BookmarkController {
 		return ResponseEntity.ok().build();
 	}
 
-	//북마크 조회 기능도 구현해야함
+	@GetMapping("/")
+	public ResponseEntity<BookmarkListResponseDto> getBookmarks(@AuthenticationPrincipal User user,
+		@Valid BookmarkListRequestDto request) {
+		return ResponseEntity.ok(bookmarkService.getBookmarks(request.toServiceDto(user)));
+	}
 	//헤더 스웨거 추가
 }

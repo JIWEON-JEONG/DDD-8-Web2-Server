@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto;
+package ddd.caffeine.ratrip.module.bookmark.presentation.dto.response;
 
 import java.util.ArrayList;
 import java.util.List;

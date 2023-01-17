@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto;
+package ddd.caffeine.ratrip.module.bookmark.presentation.dto.response;
 
 import ddd.caffeine.ratrip.module.place.model.Place;
 import lombok.Getter;

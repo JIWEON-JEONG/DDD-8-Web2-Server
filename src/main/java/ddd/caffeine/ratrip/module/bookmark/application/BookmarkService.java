@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.PlaceInCategoryResponseDto;
+import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInCategoryResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,10 @@ public class BookmarkService {
 
 	public PlaceInCategoryResponseDto getBookmarks(final User user, final List<String> categories,
 		final Pageable page) {
-		return placeService.findPlacesInCategories(categories, page);
+		Slice<Place> places = bookmarkRepository.findBookmarkPlacesInCategories(
+			Category.typeCastStringToCategory(categories),
+			user, page);
+
+		return new PlaceInCategoryResponseDto(places.getContent(), places.hasNext());
 	}
 }

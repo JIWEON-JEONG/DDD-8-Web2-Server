@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInCategoryResponseDto;
+import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.PlaceInCategoryResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 

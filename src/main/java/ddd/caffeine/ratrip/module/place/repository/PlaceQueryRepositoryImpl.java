@@ -16,7 +16,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import lombok.RequiredArgsConstructor;
@@ -39,25 +38,8 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 		return QuerydslUtils.toSlice(contents, pageable);
 	}
 
-	@Override
-	public Slice<Place> findPlacesInCategories(List<Category> categories, Pageable pageable) {
-		List<Place> contents = jpaQueryFactory
-			.selectFrom(place) //TODO - Dto로 받을 수 있을까
-			.where(categoriesIn(categories))
-			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize() + 1)
-			.fetch();
-
-		return QuerydslUtils.toSlice(contents, pageable);
-	}
-
 	private BooleanExpression regionsIn(List<Region> region) {
 		return region.isEmpty() ? null : place.address.region.in(region);
-	}
-
-	private BooleanExpression categoriesIn(List<Category> categories) {
-		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
 	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {

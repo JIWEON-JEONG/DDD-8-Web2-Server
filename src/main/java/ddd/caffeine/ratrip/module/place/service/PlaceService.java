@@ -16,12 +16,10 @@ import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
-import ddd.caffeine.ratrip.module.place.model.Category;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.place.model.Region;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInCategoryResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
@@ -79,13 +77,6 @@ public class PlaceService {
 	public Place findPlaceById(UUID id) {
 		Optional<Place> place = placeRepository.findById(id);
 		return placeValidator.validateExistPlace(place);
-	}
-
-	@Transactional(readOnly = true)
-	public PlaceInCategoryResponseDto findPlacesInCategories(List<String> categories, Pageable page) {
-		Slice<Place> places = placeRepository.findPlacesInCategories(Category.typeCastStringToCategory(categories),
-			page);
-		return new PlaceInCategoryResponseDto(places.getContent(), places.hasNext());
 	}
 
 	/**

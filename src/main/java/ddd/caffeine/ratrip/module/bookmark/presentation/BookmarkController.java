@@ -40,12 +40,12 @@ public class BookmarkController {
 	// 	return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
 	// }
 
-	@PostMapping("/{placeId}") //TODO - 없는지 체크해야 됨 -> 주안님이랑 상의
+	@PostMapping("/{placeId}")
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(bookmarkService.addBookmark(placeId, user));
 	}
 
-	@DeleteMapping("/{placeId}") //TODO - 있는지 체크해야 됨 -> 주안님이랑 상의
+	@DeleteMapping("/{placeId}")
 	public ResponseEntity<Void> deleteBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		bookmarkService.deleteBookmark(placeId, user);
 		return ResponseEntity.ok().build();

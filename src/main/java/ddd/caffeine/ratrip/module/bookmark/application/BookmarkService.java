@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkService {
 	private final PlaceService placeService;
 	private final BookmarkRepository bookmarkRepository;
+	private final BookmarkValidator bookmarkValidator;
 
 	public Boolean isBookmarked(final UUID placeId, final User user) {
 		Place place = placeService.findPlaceById(placeId);
@@ -34,8 +35,11 @@ public class BookmarkService {
 
 	public UUID addBookmark(final UUID placeId, final User user) {
 		Place place = placeService.findPlaceById(placeId);
-		Bookmark bookmark = bookmarkRepository.save(Bookmark.of(user, place));
-		return bookmark.getId();
+
+		Bookmark bookmark = findBookmarkById(user, place);
+		bookmarkValidator.validateExistBookmark(bookmark);
+
+		return bookmarkRepository.save(Bookmark.of(user, place)).getId();
 	}
 
 	public void deleteBookmark(final UUID placeId, final User user) {
@@ -51,5 +55,10 @@ public class BookmarkService {
 			user, page);
 
 		return new BookmarksResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
+	}
+
+	@Transactional(readOnly = true)
+	public Bookmark findBookmarkById(final User user, final Place place) {
+		return bookmarkRepository.findByPlaceAndUser(user, place);
 	}
 }

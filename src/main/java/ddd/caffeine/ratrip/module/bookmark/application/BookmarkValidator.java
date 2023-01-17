@@ -16,4 +16,10 @@ public class BookmarkValidator {
 		}
 	}
 
+	public void validateNotExistBookmark(Bookmark bookmark) {
+		if (bookmark == null) {
+			throw new BookmarkException(NOT_FOUND_BOOKMARK_EXCEPTION);
+		}
+	}
+
 }

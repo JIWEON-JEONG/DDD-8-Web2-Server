@@ -44,6 +44,10 @@ public class BookmarkService {
 
 	public void deleteBookmark(final UUID placeId, final User user) {
 		Place place = placeService.findPlaceById(placeId);
+
+		Bookmark bookmark = findBookmarkById(user, place);
+		bookmarkValidator.validateNotExistBookmark(bookmark);
+
 		bookmarkRepository.deleteByUserAndPlace(user, place);
 	}
 

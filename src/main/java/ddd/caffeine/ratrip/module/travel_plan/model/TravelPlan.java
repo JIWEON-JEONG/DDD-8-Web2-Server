@@ -46,6 +46,14 @@ public class TravelPlan extends AuditingTimeEntity implements Serializable {
 	@Column(columnDefinition = "DATE")
 	private LocalDate startDate;
 
+	@NotNull
+	@Column(name = "is_end", columnDefinition = "TINYINT(1)")
+	private boolean isEnd = Boolean.FALSE;
+
+	public void endTheTrip(boolean end) {
+		isEnd = end;
+	}
+
 	@PrePersist
 	public void createPrimaryKey() {
 		//sequential uuid 생성

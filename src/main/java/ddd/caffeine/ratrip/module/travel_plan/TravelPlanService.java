@@ -25,7 +25,7 @@ public class TravelPlanService {
 	private final TravelPlanRepository travelPlanRepository;
 
 	@Transactional(readOnly = true)
-	public TravelPlanResponseDto readTravelPlanByUUID(User user, String travelPlanUUID) {
+	public TravelPlanResponseDto readTravelPlanByUUID(User user) {
 		//이 유저가 여행을 읽을 수 있는지 검증
 		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
 		//

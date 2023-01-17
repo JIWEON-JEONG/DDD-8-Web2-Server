@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ddd.caffeine.ratrip.module.bookmark.application.dto.BookmarkListDto;
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkListResponseDto;
 import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInCategoryResponseDto;
 import ddd.caffeine.ratrip.module.place.service.PlaceService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class BookmarkService {
 		bookmarkRepository.deleteByUserAndPlace(user, place);
 	}
 
-	public BookmarkListResponseDto getBookmarks(final BookmarkListDto request) {
-		return null;
+	public PlaceInCategoryResponseDto getBookmarks(final BookmarkListDto request) {
+		return placeService.findPlacesInCategories(request.getCategories(), request.getPageable());
 	}
 }

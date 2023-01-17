@@ -41,7 +41,7 @@ public class TravelPlanService {
 		//daySchedule 생성 및 저장.
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
-		return new TravelPlanStartResponseDto(travelPlan.readUUID());
+		return new TravelPlanStartResponseDto(travelPlan);
 	}
 
 	@Transactional(readOnly = true)

@@ -15,9 +15,9 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.model.Place;
-import ddd.caffeine.ratrip.module.place.model.Region;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
-		
+
 		return QuerydslUtils.toSlice(contents, pageable);
 	}
 

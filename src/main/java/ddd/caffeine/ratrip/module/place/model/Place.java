@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
+import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoData;
 import lombok.Builder;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Place {
+public class Place extends AuditingTimeEntity {
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
@@ -75,7 +76,7 @@ public class Place {
 	}
 
 	@PrePersist
-	public void createPlacePrimaryKey() {
+	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
 	}

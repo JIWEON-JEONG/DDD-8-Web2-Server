@@ -27,6 +27,14 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkController {
 	private final BookmarkService bookmarkService;
 
+	@GetMapping("")
+	public ResponseEntity<PlaceInCategoryResponseDto> getBookmarks(@AuthenticationPrincipal User user,
+		@RequestParam(name = "category", required = false) List<String> categories,
+		//TODO - 인자를 Enum 타입으로 받는 법 알아보기
+		@PageableDefault(size = 3, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) { //TODO - direction = Sort.Direction.DESC이 뭐지
+		return ResponseEntity.ok(bookmarkService.getBookmarks(user, categories, pageable));
+	}
+
 	@GetMapping("/{placeId}") //TODO - 삭제해야 됨
 	public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
@@ -43,12 +51,5 @@ public class BookmarkController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<PlaceInCategoryResponseDto> getBookmarks(@AuthenticationPrincipal User user,
-		@RequestParam(name = "category", required = false) List<String> categories,
-		//TODO - 인자를 Enum 타입으로 받는 법 알아보기
-		@PageableDefault(size = 3, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) { //TODO - direction = Sort.Direction.DESC이 뭐지
-		return ResponseEntity.ok(bookmarkService.getBookmarks(user, categories, pageable));
-	}
 	//헤더 스웨거 추가
 }

@@ -15,6 +15,7 @@ import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.model.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,10 +41,16 @@ public class Bookmark extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
+	@Builder
+	private Bookmark(User user, Place place) {
+		this.user = user;
+		this.place = place;
+	}
+
 	public static Bookmark of(User user, Place place) {
-		Bookmark bookmark = new Bookmark();
-		bookmark.user = user;
-		bookmark.place = place;
-		return bookmark;
+		return Bookmark.builder()
+			.user(user)
+			.place(place)
+			.build();
 	}
 }

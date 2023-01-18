@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.model;
+package ddd.caffeine.ratrip.module.travel_plan.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;

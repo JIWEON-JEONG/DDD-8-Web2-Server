@@ -1,6 +1,6 @@
-package ddd.caffeine.ratrip.module.place.repository;
+package ddd.caffeine.ratrip.module.place.domain.repository;
 
-import static ddd.caffeine.ratrip.module.place.model.QPlace.*;
+import static ddd.caffeine.ratrip.module.place.domain.QPlace.*;
 import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

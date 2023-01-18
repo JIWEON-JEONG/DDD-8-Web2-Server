@@ -1,11 +1,11 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlan;
-import ddd.caffeine.ratrip.module.travel_plan.model.TravelPlanUser;
-import ddd.caffeine.ratrip.module.travel_plan.repository.TravelPlanUserRepository;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
+import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanUserRepository;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 

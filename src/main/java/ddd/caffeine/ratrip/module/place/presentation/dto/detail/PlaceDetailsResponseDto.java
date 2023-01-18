@@ -2,8 +2,8 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.model.Location;
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Location;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import lombok.Getter;
 
 /**
@@ -32,7 +32,9 @@ public class PlaceDetailsResponseDto {
 
 	private String telephone;
 
-	public PlaceDetailsResponseDto(Place place) {
+	private boolean isBookMarked;
+
+	public PlaceDetailsResponseDto(Place place, boolean isBookMarked) {
 		this.id = place.getId();
 		this.kakaoId = place.getKakaoId();
 		this.name = place.getName();
@@ -43,5 +45,6 @@ public class PlaceDetailsResponseDto {
 		this.imageLink = place.getImageLink();
 		this.additionalInfoLink = place.getAdditionalInfoLink();
 		this.telephone = place.getTelephone();
+		this.isBookMarked = isBookMarked;
 	}
 }

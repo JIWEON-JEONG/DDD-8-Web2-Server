@@ -12,9 +12,9 @@ import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
 import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
 import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
 import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
-import ddd.caffeine.ratrip.module.place.model.Category;
-import ddd.caffeine.ratrip.module.place.model.Place;
-import ddd.caffeine.ratrip.module.place.service.PlaceService;
+import ddd.caffeine.ratrip.module.place.application.PlaceService;
+import ddd.caffeine.ratrip.module.place.domain.Category;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +31,7 @@ public class BookmarkService {
 	}
 
 	public UUID addBookmark(final UUID placeId, final User user) {
-		Place place = placeService.findPlaceById(placeId);
+		Place place = placeService.readPlaceById(placeId);
 
 		Bookmark bookmark = findBookmarkById(user, place);
 		bookmarkValidator.validateExistBookmark(bookmark);
@@ -40,7 +40,7 @@ public class BookmarkService {
 	}
 
 	public void deleteBookmark(final UUID placeId, final User user) {
-		Place place = placeService.findPlaceById(placeId);
+		Place place = placeService.readPlaceById(placeId);
 
 		Bookmark bookmark = findBookmarkById(user, place);
 		bookmarkValidator.validateNotExistBookmark(bookmark);

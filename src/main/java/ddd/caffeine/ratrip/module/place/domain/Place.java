@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.model;
+package ddd.caffeine.ratrip.module.place.domain;
 
 import java.util.Arrays;
 import java.util.Optional;

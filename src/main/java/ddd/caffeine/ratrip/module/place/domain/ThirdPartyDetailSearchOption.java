@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.model;
+package ddd.caffeine.ratrip.module.place.domain;
 
 import java.util.HashMap;
 import java.util.Map;

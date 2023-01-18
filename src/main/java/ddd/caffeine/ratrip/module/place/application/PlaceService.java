@@ -1,6 +1,4 @@
-package ddd.caffeine.ratrip.module.place.service;
-
-import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
 import java.util.Map;
@@ -12,18 +10,19 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.common.model.Region;
+import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
+import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
+import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
+import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
-import ddd.caffeine.ratrip.module.place.model.Place;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartyDetailSearchOption;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,6 +33,7 @@ public class PlaceService {
 	private final PlaceFeignService placeFeignService;
 	private final PlaceRepository placeRepository;
 	private final PlaceValidator placeValidator;
+	private final BookmarkService bookmarkService;
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegionsApi(List<String> regions, Pageable page) {
@@ -50,31 +50,35 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
+	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
 		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
-		place.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
+		placeValidator.validateExistPlace(place);
 
-		return new PlaceDetailsResponseDto(place.get());
+		boolean isBookmarked = bookmarkService.isBookmarked(place.get().getId(), user.getId());
+		return new PlaceDetailsResponseDto(place.get(), isBookmarked);
 	}
 
 	@Transactional
-	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption) {
+	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption,
+		User user) {
+
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(searchOption.readThirdPartyId());
 
-		// @TODO 이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
 		if (optionalPlace.isEmpty()) {
 			Place place = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(place);
-			return new PlaceDetailsResponseDto(place);
+			return new PlaceDetailsResponseDto(place, false);
 		}
 
 		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		return new PlaceDetailsResponseDto(place);
+		boolean isBookmarked = bookmarkService.isBookmarked(optionalPlace.get().getId(), user.getId());
+
+		return new PlaceDetailsResponseDto(place, isBookmarked);
 	}
 
 	@Transactional(readOnly = true)
-	public Place findPlaceById(UUID id) {
+	public Place readPlaceById(UUID id) {
 		Optional<Place> place = placeRepository.findById(id);
 		return placeValidator.validateExistPlace(place);
 	}

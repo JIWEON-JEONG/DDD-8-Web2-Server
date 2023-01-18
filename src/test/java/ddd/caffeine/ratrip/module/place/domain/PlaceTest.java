@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.model;
+package ddd.caffeine.ratrip.module.place.domain;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUID;
+import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.service.PlaceService;
+import ddd.caffeine.ratrip.module.user.domain.User;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -46,19 +49,21 @@ public class PlaceController {
 
 	@GetMapping("third-party")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
-			request.mapByThirdPartyDetailSearchOption());
+			request.mapByThirdPartyDetailSearchOption(), user);
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUID @NotEmpty String id) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(id);
+		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(id, user);
 		return ResponseEntity.ok(response);
 	}
 

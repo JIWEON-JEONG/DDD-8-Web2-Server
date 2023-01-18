@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.travel_plan.presentation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.travel_plan.DayScheduleService;
+import ddd.caffeine.ratrip.module.travel_plan.application.DayScheduleService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

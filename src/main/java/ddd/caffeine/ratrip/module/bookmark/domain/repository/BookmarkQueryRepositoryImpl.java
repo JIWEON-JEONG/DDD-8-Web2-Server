@@ -6,6 +6,7 @@ import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -37,7 +38,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public Bookmark findByPlaceAndUser(User user, Place place) {
+	public Bookmark findByUserAndPlace(User user, Place place) {
 		return jpaQueryFactory.selectFrom(bookmark)
 			.where(bookmark.user.eq(user), bookmark.place.eq(place))
 			.fetchOne();
@@ -58,6 +59,13 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.fetch();
 
 		return QuerydslUtils.toSlice(contents, pageable);
+	}
+
+	@Override
+	public boolean findByUserIdAndPlaceId(UUID userId, UUID placeId) {
+		return jpaQueryFactory.selectFrom(bookmark)
+			.where(bookmark.user.id.eq(userId), bookmark.place.id.eq(placeId))
+			.fetchFirst() != null;
 	}
 
 	private BooleanExpression categoriesIn(List<Category> categories) {

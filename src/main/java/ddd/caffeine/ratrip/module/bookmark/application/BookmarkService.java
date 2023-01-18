@@ -26,11 +26,8 @@ public class BookmarkService {
 	private final BookmarkRepository bookmarkRepository;
 	private final BookmarkValidator bookmarkValidator;
 
-	public Boolean isBookmarked(final UUID placeId, final User user) {
-		Place place = placeService.findPlaceById(placeId);
-		Bookmark bookmark = bookmarkRepository.findByPlaceAndUser(user, place);
-
-		return bookmark != null;
+	public boolean isBookmarked(final UUID placeId, final UUID userId) {
+		return bookmarkRepository.findByUserIdAndPlaceId(userId, placeId);
 	}
 
 	public UUID addBookmark(final UUID placeId, final User user) {
@@ -63,6 +60,6 @@ public class BookmarkService {
 
 	@Transactional(readOnly = true)
 	public Bookmark findBookmarkById(final User user, final Place place) {
-		return bookmarkRepository.findByPlaceAndUser(user, place);
+		return bookmarkRepository.findByUserAndPlace(user, place);
 	}
 }

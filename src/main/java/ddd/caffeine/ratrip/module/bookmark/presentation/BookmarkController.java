@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
 import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkController {
 	private final BookmarkService bookmarkService;
 
+	@Operation(summary = "[인증] 북마크 추가")
 	@GetMapping("")
 	public ResponseEntity<BookmarksResponseDto> getBookmarks(@AuthenticationPrincipal User user,
 		@RequestParam(name = "category", required = false) List<String> categories,
@@ -34,11 +36,6 @@ public class BookmarkController {
 		@PageableDefault(size = 3, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) { //TODO - direction = Sort.Direction.DESC이 뭐지
 		return ResponseEntity.ok(bookmarkService.getBookmarks(user, categories, pageable));
 	}
-	//
-	// @GetMapping("/{placeId}") //TODO - 지원이가 로직 추가하면 삭제해야 됨
-	// public ResponseEntity<Boolean> isBookmarked(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {
-	// 	return ResponseEntity.ok(bookmarkService.isBookmarked(placeId, user));
-	// }
 
 	@PostMapping("/{placeId}")
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId, @AuthenticationPrincipal User user) {

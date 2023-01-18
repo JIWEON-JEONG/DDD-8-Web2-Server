@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.module.bookmark.domain.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -14,7 +15,9 @@ import ddd.caffeine.ratrip.module.user.domain.User;
 public interface BookmarkQueryRepository {
 	long deleteByUserAndPlace(User user, Place place);
 
-	Bookmark findByPlaceAndUser(User user, Place place);
+	Bookmark findByUserAndPlace(User user, Place place);
+
+	boolean findByUserIdAndPlaceId(UUID userId, UUID placeId);
 
 	Slice<BookmarkPlaceDto> findBookmarkPlacesInCategories(List<Category> categories, User user, Pageable pageable);
 }

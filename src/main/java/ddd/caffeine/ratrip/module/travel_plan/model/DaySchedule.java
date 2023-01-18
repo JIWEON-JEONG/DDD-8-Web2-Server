@@ -1,48 +1,39 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
-import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TravelPlan extends AuditingTimeEntity {
-
+public class DaySchedule extends AuditingTimeEntity {
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@NotNull
-	@Column
-	private String title;
-
-	@NotNull
-	@Column
-	@Enumerated(EnumType.STRING)
-	private Region region;
-
-	@NotNull
-	@Column
-	private int travelDays;
-
-	@NotNull
 	@Column(columnDefinition = "DATE")
-	private LocalDate startDate;
+	private LocalDate date;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
+	private TravelPlan travelPlan;
 
 	@PrePersist
 	public void createPrimaryKey() {
@@ -50,10 +41,9 @@ public class TravelPlan extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	public TravelPlan(String title, Region region, int travelDays, LocalDate startDate) {
-		this.title = title;
-		this.region = region;
-		this.travelDays = travelDays;
-		this.startDate = startDate;
+	@Builder
+	public DaySchedule(LocalDate date, TravelPlan travelPlan) {
+		this.date = date;
+		this.travelPlan = travelPlan;
 	}
 }

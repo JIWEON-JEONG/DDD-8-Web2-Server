@@ -48,6 +48,7 @@ dependencies {
 
     // openfeign
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation 'org.ow2.petals.dsb:dsb-kernel-notificationservice:1.0.0'
 
     // 외부 API 통신 테스트 위한 라이브러리
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")

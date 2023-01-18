@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.domain.repository;
+package ddd.caffeine.ratrip.module.place.domain.repository.bookmark;
 
 import static ddd.caffeine.ratrip.module.bookmark.domain.QBookmark.*;
 import static ddd.caffeine.ratrip.module.place.domain.QPlace.*;

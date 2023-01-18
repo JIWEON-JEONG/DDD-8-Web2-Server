@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.application;
+package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,8 +8,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.bookmark.application.BookmarkValidator;
 import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
-import ddd.caffeine.ratrip.module.bookmark.domain.repository.BookmarkRepository;
+import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.BookmarkRepository;
 import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
 import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
@@ -30,19 +31,14 @@ public class BookmarkService {
 		return bookmarkRepository.findByUserIdAndPlaceId(userId, placeId);
 	}
 
-	public UUID addBookmark(final UUID placeId, final User user) {
-		Place place = placeService.readPlaceById(placeId);
-
-		Bookmark bookmark = findBookmarkById(user, place);
-		bookmarkValidator.validateExistBookmark(bookmark);
-
-		return bookmarkRepository.save(Bookmark.of(user, place)).getId();
+	public UUID addBookmark(final Place place, final User user) {
+		Bookmark bookmark = Bookmark.of(user, place);
+		return bookmarkRepository.save(bookmark).getId();
 	}
 
-	public void deleteBookmark(final UUID placeId, final User user) {
+	public void deleteBookmark(final String placeId, final User user) {
 		Place place = placeService.readPlaceById(placeId);
 
-		Bookmark bookmark = findBookmarkById(user, place);
 		bookmarkValidator.validateNotExistBookmark(bookmark);
 
 		bookmarkRepository.deleteByUserAndPlace(user, place);
@@ -59,7 +55,7 @@ public class BookmarkService {
 	}
 
 	@Transactional(readOnly = true)
-	public Bookmark findBookmarkById(final User user, final Place place) {
+	public Bookmark readBookmark(final User user, final Place place) {
 		return bookmarkRepository.findByUserAndPlace(user, place);
 	}
 }

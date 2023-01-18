@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.module.bookmark.application.BookmarkService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
@@ -109,4 +108,13 @@ public class PlaceService {
 
 		return place;
 	}
+
+	public UUID addBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		UUID bookmarkID = bookmarkService.addBookmark(place.get(), user);
+
+		return bookmarkID;
+	}
+
 }

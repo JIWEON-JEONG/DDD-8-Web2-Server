@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.domain.repository;
+package ddd.caffeine.ratrip.module.place.domain.repository.bookmark;
 
 import java.util.List;
 import java.util.UUID;

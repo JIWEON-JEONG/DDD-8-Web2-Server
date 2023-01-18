@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.notification;
+package ddd.caffeine.ratrip.module.notification.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

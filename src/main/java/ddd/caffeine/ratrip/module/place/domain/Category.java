@@ -41,14 +41,14 @@ public enum Category {
 	}
 
 	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
-	public static List<Category> typeCastStringToCategory(List<String> categories) {
-		List<Category> categoryList = new ArrayList<>();
+	public static List<Category> createCategories(List<String> categories) {
+		List<Category> response = new ArrayList<>();
 		for (String category : categories) {
-			Optional<Category> tmp = Arrays.stream(values()).filter(c -> c.name().equals(category))
-				.findFirst();
+			Optional<Category> optionalCategory = Arrays.stream(values()).filter(
+				c -> c.name().equals(category)).findFirst();
 
-			tmp.ifPresent(categoryList::add);
+			optionalCategory.ifPresent(c -> response.add(c));
 		}
-		return categoryList;
+		return response;
 	}
 }

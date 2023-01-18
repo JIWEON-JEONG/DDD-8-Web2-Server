@@ -19,6 +19,7 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -76,6 +77,29 @@ public class PlaceService {
 		return new PlaceDetailsResponseDto(place, isBookmarked);
 	}
 
+	@Transactional
+	public UUID addBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		UUID bookmarkID = bookmarkService.addBookmark(user, place.get());
+
+		return bookmarkID;
+	}
+
+	@Transactional
+	public UUID deleteBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		bookmarkService.deleteBookmark(user, place.get());
+
+		return UUID.randomUUID();
+	}
+
+	@Transactional(readOnly = true)
+	public BookmarksResponseDto readBookmarks(User user, List<String> categories, Pageable pageable) {
+		return bookmarkService.getBookmarks(user, categories, pageable);
+	}
+
 	/**
 	 * 장소 데이터 업데이트 처리 메서드.
 	 */
@@ -103,19 +127,4 @@ public class PlaceService {
 		return place;
 	}
 
-	public UUID addBookMark(UUID placeId, User user) {
-		Optional<Place> place = placeRepository.findById(placeId);
-		placeValidator.validateExistPlace(place);
-		UUID bookmarkID = bookmarkService.addBookmark(user, place.get());
-
-		return bookmarkID;
-	}
-
-	public UUID deleteBookMark(UUID placeId, User user) {
-		Optional<Place> place = placeRepository.findById(placeId);
-		placeValidator.validateExistPlace(place);
-		bookmarkService.deleteBookmark(user, place.get());
-
-		return UUID.randomUUID();
-	}
 }

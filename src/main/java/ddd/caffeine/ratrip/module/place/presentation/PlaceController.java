@@ -3,7 +3,6 @@ package ddd.caffeine.ratrip.module.place.presentation;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.common.validator.annotation.UUID;
+import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "v1/place")
+@RequestMapping(value = "v1/places")
 public class PlaceController {
 	private final PlaceService placeService;
 
@@ -65,7 +65,7 @@ public class PlaceController {
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@PathVariable @UUID @NotEmpty String id) {
+		@PathVariable @UUIDFormat String id) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(id, user);
 		return ResponseEntity.ok(response);
@@ -89,7 +89,7 @@ public class PlaceController {
 	@PostMapping("/{id}/bookmarks")
 	public ResponseEntity<java.util.UUID> callAddBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@PathVariable @UUID @NotEmpty String id) {
+		@PathVariable @UUIDFormat String id) {
 		java.util.UUID response = placeService.addBookMark(java.util.UUID.fromString(id), user);
 
 		return ResponseEntity.ok(response);
@@ -98,10 +98,20 @@ public class PlaceController {
 	@Operation(summary = "[인증] 북마크 삭제")
 	@DeleteMapping("/{id}/bookmarks")
 	public ResponseEntity<String> callDeleteBookmarkApi(
-		@PathVariable @UUID @NotEmpty String id,
+		@PathVariable @UUIDFormat String id,
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
 		placeService.deleteBookMark(java.util.UUID.fromString(id), user);
 		return ResponseEntity.ok("SUCCESS TO DELETE");
 	}
 
+	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
+	@Operation(summary = "[인증] 북마크 리스트 조회")
+	@GetMapping("/bookmarks")
+	public ResponseEntity<BookmarksResponseDto> getBookmarks(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@RequestParam(name = "category", defaultValue = "모든 카테고리", required = false) List<String> categories,
+		@PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		BookmarksResponseDto response = placeService.readBookmarks(user, categories, pageable);
+		return ResponseEntity.ok(response);
+	}
 }

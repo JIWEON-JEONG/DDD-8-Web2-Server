@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 @Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UUIDValidator.class)
-public @interface UUID {
+public @interface UUIDFormat {
 	String message() default "올바른 UUID 형식이 아닙니다.";
 
 	Class[] groups() default {};

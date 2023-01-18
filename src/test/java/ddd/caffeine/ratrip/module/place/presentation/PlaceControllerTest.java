@@ -98,9 +98,7 @@ class PlaceControllerTest {
 		String baseURI = "/v1/place/";
 
 		String URI = baseURI + uuid;
-
-		System.out.println(URI);
-
+		
 		//when
 		ResultActions actions = mockMvc.perform(get(URI)
 			.contentType(MediaType.APPLICATION_JSON_VALUE));

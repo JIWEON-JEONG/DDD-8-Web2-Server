@@ -21,6 +21,7 @@ import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksRe
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,6 +41,7 @@ public class BookmarkController {
 	}
 
 	@Operation(summary = "[인증] 북마크 추가")
+	@ApiResponse(description = "북마크 추가 성공 시, 북마크 ID 반환")
 	@PostMapping("/{placeId}")
 	public ResponseEntity<UUID> addBookmark(@PathVariable UUID placeId,
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {

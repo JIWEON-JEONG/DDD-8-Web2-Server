@@ -14,6 +14,7 @@ import ddd.caffeine.ratrip.module.travel_plan.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 @Validated
@@ -26,7 +27,8 @@ public class TravelPlanController {
 
 	@PostMapping
 	public ResponseEntity<TravelPlanStartResponseDto> makeTravelPlanApi
-		(@AuthenticationPrincipal User user, @Valid @RequestBody TravelPlanStartRequestDto request) {
+		(@Parameter(hidden = true) @AuthenticationPrincipal User user,
+			@Valid @RequestBody TravelPlanStartRequestDto request) {
 		TravelPlanStartResponseDto response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
 		return ResponseEntity.ok(response);

@@ -8,14 +8,12 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.bookmark.application.BookmarkValidator;
-import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
-import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.BookmarkRepository;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
-import ddd.caffeine.ratrip.module.place.application.PlaceService;
+import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.BookmarkRepository;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookmarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -23,39 +21,38 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class BookmarkService {
-	private final PlaceService placeService;
 	private final BookmarkRepository bookmarkRepository;
 	private final BookmarkValidator bookmarkValidator;
 
-	public boolean isBookmarked(final UUID placeId, final UUID userId) {
-		return bookmarkRepository.findByUserIdAndPlaceId(userId, placeId);
+	public boolean isBookmarked(User user, Place place) {
+		return bookmarkRepository.existsByUserIdAndPlaceId(place.getId(), user.getId());
 	}
 
-	public UUID addBookmark(final Place place, final User user) {
+	public UUID addBookmark(User user, Place place) {
 		Bookmark bookmark = Bookmark.of(user, place);
 		return bookmarkRepository.save(bookmark).getId();
 	}
 
-	public void deleteBookmark(final String placeId, final User user) {
-		Place place = placeService.readPlaceById(placeId);
-
-		bookmarkValidator.validateNotExistBookmark(bookmark);
-
-		bookmarkRepository.deleteByUserAndPlace(user, place);
+	public void deleteBookmark(User user, Place place) {
+		Bookmark bookmark = readBookmark(user, place);
+		bookmarkValidator.validateExistBookmark(bookmark);
+		bookmarkRepository.delete(bookmark);
 	}
 
 	@Transactional(readOnly = true)
-	public BookmarksResponseDto getBookmarks(final User user, final List<String> categories,
-		final Pageable page) {
-		Slice<BookmarkPlaceDto> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(
+	public BookmarksResponseDto getBookmarks(User user, List<String> categories,
+		Pageable page) {
+		Slice<BookmarkPlaceDao> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(
 			Category.typeCastStringToCategory(categories),
 			user, page);
 
 		return new BookmarksResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
 	}
 
-	@Transactional(readOnly = true)
-	public Bookmark readBookmark(final User user, final Place place) {
-		return bookmarkRepository.findByUserAndPlace(user, place);
+	private Bookmark readBookmark(User user, Place place) {
+		Bookmark bookmark = bookmarkRepository.findByUserAndPlace(user, place);
+		bookmarkValidator.validateExistBookmark(bookmark);
+
+		return bookmark;
 	}
 }

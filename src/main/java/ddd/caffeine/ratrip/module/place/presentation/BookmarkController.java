@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.place.application.BookmarkService;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarksResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +29,7 @@ public class BookmarkController {
 	@GetMapping("")
 	public ResponseEntity<BookmarksResponseDto> getBookmarks(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@RequestParam(name = "category", required = false) List<String> categories,
+		@RequestParam(name = "category", defaultValue = "전국", required = false) List<String> categories,
 		//TODO - 인자를 Enum 타입으로 받는 법 알아보기
 		@PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		return ResponseEntity.ok(bookmarkService.getBookmarks(user, categories, pageable));

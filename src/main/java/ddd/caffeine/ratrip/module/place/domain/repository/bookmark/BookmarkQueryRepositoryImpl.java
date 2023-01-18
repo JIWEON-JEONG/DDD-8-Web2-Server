@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.module.place.domain.repository.bookmark;
 
-import static ddd.caffeine.ratrip.module.bookmark.domain.QBookmark.*;
+import static ddd.caffeine.ratrip.module.place.domain.QBookmark.*;
 import static ddd.caffeine.ratrip.module.place.domain.QPlace.*;
 import static org.springframework.util.ObjectUtils.*;
 
@@ -18,24 +18,17 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.bookmark.domain.Bookmark;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.BookmarkPlaceDto;
-import ddd.caffeine.ratrip.module.bookmark.presentation.dto.response.QBookmarkPlaceDto;
+import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookmarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.QBookmarkPlaceDao;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
-
-	@Override
-	public long deleteByUserAndPlace(User user, Place place) {
-		return jpaQueryFactory.delete(bookmark)
-			.where(bookmark.user.eq(user), bookmark.place.eq(place))
-			.execute();
-	}
 
 	@Override
 	public Bookmark findByUserAndPlace(User user, Place place) {
@@ -45,14 +38,17 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public Slice<BookmarkPlaceDto> findBookmarkPlacesInCategories(List<Category> categories, User user,
+	public Slice<BookmarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
 		Pageable pageable) {
-		List<BookmarkPlaceDto> contents = jpaQueryFactory
-			.select(new QBookmarkPlaceDto(bookmark.id, place.name, place.address.detailed, place.imageLink,
+		List<BookmarkPlaceDao> contents = jpaQueryFactory
+			.select(new QBookmarkPlaceDao(bookmark.id, place.name, place.address.detailed, place.imageLink,
 				place.category)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
 			.from(bookmark)
 			.join(bookmark.place, place)
-			.where(bookmark.user.eq(user), categoriesIn(categories))
+			.where(
+				bookmark.user.eq(user),
+				categoriesIn(categories)
+			)
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
@@ -62,7 +58,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public boolean findByUserIdAndPlaceId(UUID userId, UUID placeId) {
+	public boolean existsByUserIdAndPlaceId(UUID userId, UUID placeId) {
 		return jpaQueryFactory.selectFrom(bookmark)
 			.where(bookmark.user.id.eq(userId), bookmark.place.id.eq(placeId))
 			.fetchFirst() != null;
@@ -72,7 +68,8 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
-	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) { //TODO - 리팩토링 고려 / Switch문인데 어떻게 여러 조건을 처리하지?
+	//TODO - 리팩토링 고려 / Switch 문인데 어떻게 여러 조건을 처리하지?
+	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {
 		List<OrderSpecifier> orders = new ArrayList<>();
 
 		if (!isEmpty(pageable.getSort())) {

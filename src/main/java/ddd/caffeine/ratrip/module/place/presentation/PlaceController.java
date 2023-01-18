@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/place")
+@RequestMapping(value = "v1/place")
 public class PlaceController {
 	private final PlaceService placeService;
 
@@ -80,27 +80,28 @@ public class PlaceController {
 		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
-		PlaceInRegionResponseDto response = placeService.readPlacesInRegionsApi(regions, pageable);
+		PlaceInRegionResponseDto response = placeService.readPlacesInRegions(regions, pageable);
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "[인증] 북마크 추가")
 	@ApiResponse(description = "북마크 추가 성공 시, 북마크 ID 반환")
-	@PostMapping("/{id}/bookmark")
+	@PostMapping("/{id}/bookmarks")
 	public ResponseEntity<java.util.UUID> callAddBookmarkApi(
-		@PathVariable @UUID @NotEmpty String id,
-		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable @UUID @NotEmpty String id) {
 		java.util.UUID response = placeService.addBookMark(java.util.UUID.fromString(id), user);
 
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "[인증] 북마크 삭제")
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteBookmark(
+	@DeleteMapping("/{id}/bookmarks")
+	public ResponseEntity<String> callDeleteBookmarkApi(
 		@PathVariable @UUID @NotEmpty String id,
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-		return ResponseEntity.ok();
+		placeService.deleteBookMark(java.util.UUID.fromString(id), user);
+		return ResponseEntity.ok("SUCCESS TO DELETE");
 	}
 
 }

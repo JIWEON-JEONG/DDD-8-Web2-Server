@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.domain;
+package ddd.caffeine.ratrip.module.place.domain;
 
 import java.util.UUID;
 
@@ -12,7 +12,6 @@ import javax.persistence.PrePersist;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;

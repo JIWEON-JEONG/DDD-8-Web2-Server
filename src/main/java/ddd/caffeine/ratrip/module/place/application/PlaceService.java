@@ -30,12 +30,12 @@ import lombok.RequiredArgsConstructor;
 public class PlaceService {
 
 	private final PlaceFeignService placeFeignService;
-	private final PlaceRepository placeRepository;
 	private final PlaceValidator placeValidator;
 	private final BookmarkService bookmarkService;
+	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInRegionsApi(List<String> regions, Pageable page) {
+	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
 		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
 		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
@@ -53,7 +53,7 @@ public class PlaceService {
 		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
 		placeValidator.validateExistPlace(place);
 
-		boolean isBookmarked = bookmarkService.isBookmarked(place.get().getId(), user.getId());
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place.get());
 		return new PlaceDetailsResponseDto(place.get(), isBookmarked);
 	}
 
@@ -66,20 +66,14 @@ public class PlaceService {
 		if (optionalPlace.isEmpty()) {
 			Place place = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(place);
-			return new PlaceDetailsResponseDto(place, false);
+			return new PlaceDetailsResponseDto(place, Boolean.FALSE);
 		}
 
 		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		boolean isBookmarked = bookmarkService.isBookmarked(optionalPlace.get().getId(), user.getId());
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
 
 		return new PlaceDetailsResponseDto(place, isBookmarked);
-	}
-
-	@Transactional(readOnly = true)
-	public Place readPlaceById(UUID id) {
-		Optional<Place> place = placeRepository.findById(id);
-		return placeValidator.validateExistPlace(place);
 	}
 
 	/**
@@ -112,9 +106,16 @@ public class PlaceService {
 	public UUID addBookMark(UUID placeId, User user) {
 		Optional<Place> place = placeRepository.findById(placeId);
 		placeValidator.validateExistPlace(place);
-		UUID bookmarkID = bookmarkService.addBookmark(place.get(), user);
+		UUID bookmarkID = bookmarkService.addBookmark(user, place.get());
 
 		return bookmarkID;
 	}
 
+	public UUID deleteBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		bookmarkService.deleteBookmark(user, place.get());
+
+		return UUID.randomUUID();
+	}
 }

@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.presentation.dto.response;
+package ddd.caffeine.ratrip.module.place.domain.repository.dao;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import ddd.caffeine.ratrip.module.place.domain.Category;
 import lombok.Getter;
 
 @Getter
-public class BookmarkPlaceDto {
+public class BookmarkPlaceDao {
 	private final UUID id;
 	private final String name;
 	private final String detailAddress;
@@ -16,7 +16,7 @@ public class BookmarkPlaceDto {
 	private final Category category;
 
 	@QueryProjection
-	public BookmarkPlaceDto(UUID id, String name, String detailAddress, String imageUrl, Category category) {
+	public BookmarkPlaceDao(UUID id, String name, String detailAddress, String imageUrl, Category category) {
 		this.id = id;
 		this.name = name;
 		this.detailAddress = detailAddress;

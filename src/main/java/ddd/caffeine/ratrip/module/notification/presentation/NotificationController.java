@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/v1/nofiications")
+@RequestMapping("/v1/notifications")
 @RequiredArgsConstructor
 public class NotificationController {
 	private final NotificationService notificationService;

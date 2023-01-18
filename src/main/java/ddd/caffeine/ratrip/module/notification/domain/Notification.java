@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,17 @@ public class Notification extends AuditingTimeEntity {
 
 	@Column(columnDefinition = "VARCHAR(5000)")
 	private String content;
+
+	@Builder
+	private Notification(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+
+	public static Notification of(String title, String content) {
+		return Notification.builder()
+			.title(title)
+			.content(content)
+			.build();
+	}
 }

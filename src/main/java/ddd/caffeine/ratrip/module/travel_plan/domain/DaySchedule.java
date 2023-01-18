@@ -1,5 +1,6 @@
-package ddd.caffeine.ratrip.module.bookmark.domain;
+package ddd.caffeine.ratrip.module.travel_plan.domain;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -8,36 +9,41 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Bookmark extends AuditingTimeEntity {
+public class DaySchedule extends AuditingTimeEntity {
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
-	private User user;
+	@NotNull
+	@Column(columnDefinition = "DATE")
+	private LocalDate date;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)", nullable = false)
-	private Place place;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "travel_plan_id", columnDefinition = "BINARY(16)")
+	private TravelPlan travelPlan;
 
 	@PrePersist
-	public void createBookmarkPrimaryKey() {
+	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
+	}
+
+	@Builder
+	public DaySchedule(LocalDate date, TravelPlan travelPlan) {
+		this.date = date;
+		this.travelPlan = travelPlan;
 	}
 }

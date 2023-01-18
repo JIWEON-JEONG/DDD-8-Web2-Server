@@ -19,7 +19,8 @@ import org.springframework.data.domain.Sort;
 
 import ddd.caffeine.ratrip.TestConfig;
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 
 @DataJpaTest
 @Import(TestConfig.class)

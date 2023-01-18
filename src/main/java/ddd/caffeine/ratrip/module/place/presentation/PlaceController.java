@@ -23,7 +23,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByTh
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.service.PlaceService;
+import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import lombok.RequiredArgsConstructor;
 
 /**

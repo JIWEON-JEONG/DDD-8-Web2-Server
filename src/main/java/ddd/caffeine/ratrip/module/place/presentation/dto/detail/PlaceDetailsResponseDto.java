@@ -2,8 +2,8 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.model.Location;
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Location;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import lombok.Getter;
 
 /**

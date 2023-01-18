@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ddd.caffeine.ratrip.module.place.service.PlaceService;
+import ddd.caffeine.ratrip.module.place.application.PlaceService;
 
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(controllers = PlaceController.class,

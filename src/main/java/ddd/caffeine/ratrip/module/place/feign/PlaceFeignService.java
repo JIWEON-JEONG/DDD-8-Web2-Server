@@ -7,8 +7,7 @@ import ddd.caffeine.ratrip.module.place.feign.kakao.KakaoFeignClient;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.NaverFeignClient;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
+import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import lombok.RequiredArgsConstructor;
 
 @Service

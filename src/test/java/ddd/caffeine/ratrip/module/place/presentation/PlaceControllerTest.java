@@ -39,9 +39,9 @@ class PlaceControllerTest {
 	@DisplayName("custom 어노테이션 Number 정상 동작 테스트")
 	void customAnnotationNumberTest() throws Exception {
 		//given
-		String baseURI = "/v1/place/third-party-id";
-		String thirdPartyId = "/12345";
-		String placeName = "?placeName=지원이네 집";
+		String baseURI = "/v1/place/third-party/";
+		String thirdPartyId = "?thirdPartyId=12345";
+		String placeName = "&placeName=지원이네 집";
 		String address = "&address=서울특별시 서초구 양재동 16-10";
 
 		String URI = baseURI + thirdPartyId + placeName + address;
@@ -57,10 +57,11 @@ class PlaceControllerTest {
 	@ParameterizedTest
 	@DisplayName("custom 어노테이션 Number 예외 동작 테스트")
 	@ValueSource(strings = {"", "134숫자", "?234"})
-	void customAnnotationNumberReturnExceptionTest(String thirdPartyId) throws Exception {
+	void customAnnotationNumberReturnExceptionTest(String id) throws Exception {
 		//given
-		String baseURI = "/v1/place/third-party-id/";
-		String placeName = "?placeName=지원이네 집";
+		String baseURI = "/v1/place/third-party/";
+		String thirdPartyId = "?thirdPartyId=" + id;
+		String placeName = "&placeName=지원이네 집";
 		String address = "&address=서울특별시 서초구 양재동 16-10";
 
 		String URI = baseURI + thirdPartyId + placeName + address;

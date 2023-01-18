@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.common.validator.annotation.Number;
 import ddd.caffeine.ratrip.common.validator.annotation.UUID;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
@@ -45,13 +44,12 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("third-party-id/{third-party-id}")
+	@GetMapping("third-party")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
-		@PathVariable("third-party-id") @Number @NotEmpty String id,
 		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
-			request.mapByThirdPartyDetailSearchOption(id));
+			request.mapByThirdPartyDetailSearchOption());
 
 		return ResponseEntity.ok(response);
 	}

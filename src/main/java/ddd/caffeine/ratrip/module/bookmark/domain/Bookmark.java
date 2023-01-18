@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
@@ -31,7 +30,7 @@ public class Bookmark extends AuditingTimeEntity {
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
 	private User user;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)", nullable = false)
 	private Place place;
 

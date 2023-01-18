@@ -1,5 +1,10 @@
 package ddd.caffeine.ratrip.module.place.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import lombok.Getter;
 
 /**
@@ -33,5 +38,17 @@ public enum Category {
 
 	Category(String code) {
 		this.code = code;
+	}
+
+	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
+	public static List<Category> typeCastStringToCategory(List<String> categories) {
+		List<Category> categoryList = new ArrayList<>();
+		for (String category : categories) {
+			Optional<Category> tmp = Arrays.stream(values()).filter(c -> c.name().equals(category))
+				.findFirst();
+
+			tmp.ifPresent(categoryList::add);
+		}
+		return categoryList;
 	}
 }

@@ -30,7 +30,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 		List<Place> contents = jpaQueryFactory
 			.selectFrom(place)
 			.where(regionsIn(regions))
-			.orderBy(readOrderSpecifiers(pageable).stream().toArray(OrderSpecifier[]::new))
+			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();

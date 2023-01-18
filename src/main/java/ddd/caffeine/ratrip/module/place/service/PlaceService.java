@@ -28,10 +28,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class PlaceService {
 
 	private final PlaceFeignService placeFeignService;
 	private final PlaceRepository placeRepository;
+	private final PlaceValidator placeValidator;
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegionsApi(List<String> regions, Pageable page) {
@@ -69,6 +71,12 @@ public class PlaceService {
 		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
 		return new PlaceDetailsResponseDto(place);
+	}
+
+	@Transactional(readOnly = true)
+	public Place findPlaceById(UUID id) {
+		Optional<Place> place = placeRepository.findById(id);
+		return placeValidator.validateExistPlace(place);
 	}
 
 	/**

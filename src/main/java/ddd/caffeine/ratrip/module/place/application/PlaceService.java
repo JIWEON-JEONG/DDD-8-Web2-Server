@@ -1,7 +1,5 @@
 package ddd.caffeine.ratrip.module.place.application;
 
-import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,29 +10,33 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
+import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class PlaceService {
 
 	private final PlaceFeignService placeFeignService;
+	private final PlaceValidator placeValidator;
+	private final BookmarkService bookmarkService;
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInRegionsApi(List<String> regions, Pageable page) {
+	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
 		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
 		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
@@ -48,27 +50,54 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid) {
+	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
 		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
-		place.orElseThrow(() -> new PlaceException(NOT_FOUND_PLACE_EXCEPTION));
+		placeValidator.validateExistPlace(place);
 
-		return new PlaceDetailsResponseDto(place.get());
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place.get());
+		return new PlaceDetailsResponseDto(place.get(), isBookmarked);
 	}
 
 	@Transactional
-	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption) {
+	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption,
+		User user) {
+
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(searchOption.readThirdPartyId());
 
-		// @TODO 이부분 조금 더 깔끔하게 할 수 있을거같긴한데.. 잘 떠오르질 않음 -> 추후 좋은 방법 있을 경우 리팩토링.
 		if (optionalPlace.isEmpty()) {
 			Place place = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(place);
-			return new PlaceDetailsResponseDto(place);
+			return new PlaceDetailsResponseDto(place, Boolean.FALSE);
 		}
 
 		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		return new PlaceDetailsResponseDto(place);
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
+
+		return new PlaceDetailsResponseDto(place, isBookmarked);
+	}
+
+	@Transactional
+	public UUID addBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		UUID bookmarkID = bookmarkService.addBookmark(user, place.get());
+
+		return bookmarkID;
+	}
+
+	@Transactional
+	public UUID deleteBookMark(UUID placeId, User user) {
+		Optional<Place> place = placeRepository.findById(placeId);
+		placeValidator.validateExistPlace(place);
+		bookmarkService.deleteBookmark(user, place.get());
+
+		return UUID.randomUUID();
+	}
+
+	@Transactional(readOnly = true)
+	public BookmarksResponseDto readBookmarks(User user, List<String> categories, Pageable pageable) {
+		return bookmarkService.getBookmarks(user, categories, pageable);
 	}
 
 	/**
@@ -97,4 +126,5 @@ public class PlaceService {
 
 		return place;
 	}
+
 }

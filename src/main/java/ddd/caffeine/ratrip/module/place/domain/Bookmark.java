@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.bookmark.domain;
+package ddd.caffeine.ratrip.module.place.domain;
 
 import java.util.UUID;
 
@@ -8,14 +8,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +30,7 @@ public class Bookmark extends AuditingTimeEntity {
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
 	private User user;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)", nullable = false)
 	private Place place;
 
@@ -39,5 +38,18 @@ public class Bookmark extends AuditingTimeEntity {
 	public void createBookmarkPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
+	}
+
+	@Builder
+	private Bookmark(User user, Place place) {
+		this.user = user;
+		this.place = place;
+	}
+
+	public static Bookmark of(User user, Place place) {
+		return Bookmark.builder()
+			.user(user)
+			.place(place)
+			.build();
 	}
 }

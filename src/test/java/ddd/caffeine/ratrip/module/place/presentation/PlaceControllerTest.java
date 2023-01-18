@@ -39,7 +39,7 @@ class PlaceControllerTest {
 	@DisplayName("custom 어노테이션 Number 정상 동작 테스트")
 	void customAnnotationNumberTest() throws Exception {
 		//given
-		String baseURI = "/v1/place/third-party/";
+		String baseURI = "/v1/places/third-party/";
 		String thirdPartyId = "?thirdPartyId=12345";
 		String placeName = "&placeName=지원이네 집";
 		String address = "&address=서울특별시 서초구 양재동 16-10";
@@ -59,7 +59,7 @@ class PlaceControllerTest {
 	@ValueSource(strings = {"", "134숫자", "?234"})
 	void customAnnotationNumberReturnExceptionTest(String id) throws Exception {
 		//given
-		String baseURI = "/v1/place/third-party/";
+		String baseURI = "/v1/places/third-party/";
 		String thirdPartyId = "?thirdPartyId=" + id;
 		String placeName = "&placeName=지원이네 집";
 		String address = "&address=서울특별시 서초구 양재동 16-10";
@@ -78,7 +78,7 @@ class PlaceControllerTest {
 	@DisplayName("custom 어노테이션 UUID 정상 동작 테스트")
 	void customAnnotationUUIDTest() throws Exception {
 		//given
-		String baseURI = "/v1/place/";
+		String baseURI = "/v1/places/";
 		String UUID = randomUUID().toString();
 		String URI = baseURI + UUID;
 
@@ -95,11 +95,9 @@ class PlaceControllerTest {
 	@ValueSource(strings = {"", "134숫자", "?2-312-3123-34"})
 	void customAnnotationUUIDReturnExceptionTest(String uuid) throws Exception {
 		//given
-		String baseURI = "/v1/place/";
+		String baseURI = "/v1/places/";
 
 		String URI = baseURI + uuid;
-
-		System.out.println(URI);
 
 		//when
 		ResultActions actions = mockMvc.perform(get(URI)

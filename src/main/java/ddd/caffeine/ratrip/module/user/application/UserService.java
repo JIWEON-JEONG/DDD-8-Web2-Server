@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
+	private final UserValidator userValidator;
 
 	public UUID findUserIdBySocialIdAndSocialType(SignUpUserDto request) {
 		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
@@ -42,7 +43,7 @@ public class UserService implements UserDetailsService {
 		return user != null;
 	}
 
-	public UUID signUpUserAndGetUserId(SignUpUserDto request) {
+	private UUID signUpUserAndGetUserId(SignUpUserDto request) {
 		User user = userRepository.save(
 			User.of(request.getName(), request.getEmail(), UserStatus.ACTIVE, request.getSocialId(),
 				request.getSocialType()));

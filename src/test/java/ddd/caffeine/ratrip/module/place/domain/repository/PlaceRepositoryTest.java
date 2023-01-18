@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.repository;
+package ddd.caffeine.ratrip.module.place.domain.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import ddd.caffeine.ratrip.TestConfig;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 
 @DataJpaTest
 @Import(TestConfig.class)

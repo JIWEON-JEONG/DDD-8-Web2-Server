@@ -1,11 +1,15 @@
 package ddd.caffeine.ratrip.module.notification.application;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.notification.application.dto.CreateNotificationDto;
 import ddd.caffeine.ratrip.module.notification.domain.Notification;
 import ddd.caffeine.ratrip.module.notification.domain.respository.NotificationRepository;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDto;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationsResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,5 +21,10 @@ public class NotificationService {
 	public Long createNotification(CreateNotificationDto request) {
 		Notification notification = Notification.of(request.getTitle(), request.getContent());
 		return notificationRepository.save(notification).getId();
+	}
+
+	public NotificationsResponseDto getNotifications(final Pageable pageable) {
+		Slice<NotificationDto> notificationDtos = notificationRepository.findNotificationsUsingSlice(pageable);
+		return new NotificationsResponseDto(notificationDtos.getContent(), notificationDtos.hasNext());
 	}
 }

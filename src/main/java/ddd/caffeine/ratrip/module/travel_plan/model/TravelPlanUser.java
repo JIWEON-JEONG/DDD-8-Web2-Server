@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan;
+package ddd.caffeine.ratrip.module.travel_plan.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

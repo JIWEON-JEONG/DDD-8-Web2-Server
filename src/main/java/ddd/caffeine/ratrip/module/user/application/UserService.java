@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.exception.domain.UserException;
+import ddd.caffeine.ratrip.module.notification.application.dto.UpdateUserNameDto;
 import ddd.caffeine.ratrip.module.user.application.dto.SignUpUserDto;
 import ddd.caffeine.ratrip.module.user.domain.SocialInfo;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -30,6 +31,11 @@ public class UserService implements UserDetailsService {
 
 	public String findUserName(User user) {
 		return user.getName();
+	}
+
+	public String updateName(User user, UpdateUserNameDto request) {
+		user.updateName(request.getNewName());
+		return userRepository.save(user).getName();
 	}
 
 	private User findUserBySocialInfo(SocialInfo socialInfo) {

@@ -31,7 +31,7 @@ public class NotificationController {
 	@Operation(summary = "공지사항 전체 조회")
 	@GetMapping("")
 	public ResponseEntity<NotificationsResponseDto> getNotifications(
-		@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		@PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		return ResponseEntity.ok(notificationService.getNotifications(pageable));
 	}
 }

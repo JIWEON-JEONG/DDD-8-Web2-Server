@@ -30,7 +30,7 @@ public class NotificationQueryRepositoryImpl implements NotificationQueryReposit
 			.from(notification)
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
-			.limit(pageable.getOffset() + 1)
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
 
 		return QuerydslUtils.toSlice(contents, pageable);

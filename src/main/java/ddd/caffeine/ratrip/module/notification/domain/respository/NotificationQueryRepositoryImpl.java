@@ -27,7 +27,7 @@ public class NotificationQueryRepositoryImpl implements NotificationQueryReposit
 	@Override
 	public Slice<NotificationDto> findNotificationsUsingSlice(Pageable pageable) {
 		List<NotificationDto> contents = jpaQueryFactory.
-			select(new QNotificationDto(notification))
+			select(new QNotificationDto(notification.title))
 			.from(notification)
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())

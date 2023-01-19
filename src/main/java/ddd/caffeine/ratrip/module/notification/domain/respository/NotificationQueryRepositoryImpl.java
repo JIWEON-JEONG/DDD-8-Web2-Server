@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.notification.domain.respository;
 
 import static ddd.caffeine.ratrip.module.notification.domain.QNotification.*;
-import static ddd.caffeine.ratrip.module.place.model.QPlace.*;
 import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class NotificationQueryRepositoryImpl implements NotificationQueryReposit
 				switch (order.getProperty()) {
 					case "createdAt":
 						OrderSpecifier<?> createdAt = QuerydslUtils
-							.getSortedColumn(direction, place, "createdAt");
+							.getSortedColumn(direction, notification, "createdAt");
 						orders.add(createdAt);
 						break;
 					default:

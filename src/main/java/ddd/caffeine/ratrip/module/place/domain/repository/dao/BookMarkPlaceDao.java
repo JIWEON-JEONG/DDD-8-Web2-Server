@@ -8,7 +8,7 @@ import ddd.caffeine.ratrip.module.place.domain.Category;
 import lombok.Getter;
 
 @Getter
-public class BookmarkPlaceDao {
+public class BookMarkPlaceDao {
 	private final UUID id;
 	private final String name;
 	private final String detailAddress;
@@ -16,7 +16,7 @@ public class BookmarkPlaceDao {
 	private final Category category;
 
 	@QueryProjection
-	public BookmarkPlaceDao(UUID id, String name, String detailAddress, String imageUrl, Category category) {
+	public BookMarkPlaceDao(UUID id, String name, String detailAddress, String imageUrl, Category category) {
 		this.id = id;
 		this.name = name;
 		this.detailAddress = detailAddress;

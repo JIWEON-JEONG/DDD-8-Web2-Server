@@ -1,8 +1,10 @@
-package ddd.caffeine.ratrip.module.travel_plan.domain.repository;
+package ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.UUID;
 
-@Repository
-public interface DaySchedulePlaceQueryRepository {
-	// List<DaySchedulePlaceDao> findDaySchedulePlacesBy
+import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
+
+public interface DaySchedulePlaceRepositoryCustom {
+	List<DaySchedulePlaceDao> loadDaySchedulePlaces(UUID dayScheduleId);
 }

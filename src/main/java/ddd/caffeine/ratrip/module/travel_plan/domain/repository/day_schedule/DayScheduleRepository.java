@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.domain.repository;
+package ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule;
 
 import java.util.UUID;
 
@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 
 @Repository
-public interface DayScheduleRepository extends JpaRepository<DaySchedule, UUID> {
+public interface DayScheduleRepository extends JpaRepository<DaySchedule, UUID>, DayScheduleQueryRepository {
 
 }

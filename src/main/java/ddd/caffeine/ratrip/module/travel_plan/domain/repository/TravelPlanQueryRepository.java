@@ -2,11 +2,11 @@ package ddd.caffeine.ratrip.module.travel_plan.domain.repository;
 
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 
 @Repository
-public interface TravelPlanQueryRepository extends JpaRepository<TravelPlan, UUID> {
+public interface TravelPlanQueryRepository {
+	LocalDateDao findLocalDateById(UUID id);
 }

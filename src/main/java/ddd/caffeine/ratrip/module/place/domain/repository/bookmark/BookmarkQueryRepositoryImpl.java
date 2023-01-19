@@ -21,8 +21,8 @@ import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookmarkPlaceDao;
-import ddd.caffeine.ratrip.module.place.domain.repository.dao.QBookmarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.QBookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -38,10 +38,10 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public Slice<BookmarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
+	public Slice<BookMarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
 		Pageable pageable) {
-		List<BookmarkPlaceDao> contents = jpaQueryFactory
-			.select(new QBookmarkPlaceDao(bookmark.id, place.name, place.address.detailed, place.imageLink,
+		List<BookMarkPlaceDao> contents = jpaQueryFactory
+			.select(new QBookMarkPlaceDao(bookmark.id, place.name, place.address.detailed, place.imageLink,
 				place.category)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
 			.from(bookmark)
 			.join(bookmark.place, place)

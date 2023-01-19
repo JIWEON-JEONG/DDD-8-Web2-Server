@@ -1,16 +1,19 @@
-package ddd.caffeine.ratrip.module.travel_plan.presentation.dto;
+package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule;
 
 import java.util.List;
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class DayScheduleResponseDto {
-
 	private UUID dayScheduleUUID;
-	List<DaySchedulePlace> daySchedulePlaces;
+	List<DaySchedulePlaceDto> daySchedulePlaces;
+
+	@Builder
+	public DayScheduleResponseDto(UUID dayScheduleUUID, List<DaySchedulePlaceDto> daySchedulePlaces) {
+		this.dayScheduleUUID = dayScheduleUUID;
+		this.daySchedulePlaces = daySchedulePlaces;
+	}
 }

@@ -27,7 +27,6 @@ public class TravelPlanResponseDto {
 
 	@Builder
 	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {
-
 		this.planUUID = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();

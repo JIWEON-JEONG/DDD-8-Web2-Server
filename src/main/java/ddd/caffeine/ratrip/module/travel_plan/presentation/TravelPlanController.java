@@ -31,7 +31,7 @@ public class TravelPlanController {
 	private final TravelPlanService travelPlanService;
 
 	/**
-	 * todo : Uri 설계에 대해 고민.
+	 * todo : Uri 설계에 대해 고민 - 주안님께 상담요청.
 	 */
 	@GetMapping
 	public ResponseEntity<TravelPlanResponseDto> readOnGoingTravelPlanApi(
@@ -55,6 +55,7 @@ public class TravelPlanController {
 			@PathVariable("id") @UUIDFormat String travelPlanUUID,
 			@RequestParam(defaultValue = "1") @Min(1) int day) {
 
+		travelPlanService.readScheduleByDay(user, travelPlanUUID, day);
 		return ResponseEntity.ok(new TravelPlanResponseDto());
 	}
 

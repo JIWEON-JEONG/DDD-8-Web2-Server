@@ -30,7 +30,7 @@ public class NotificationService {
 		return new NotificationsResponseDto(notificationDtos.getContent(), notificationDtos.hasNext());
 	}
 
-	public NotificationDetailResponseDto getNotification(final Long id) {
+	public NotificationDetailResponseDto getNotificationDetail(final Long id) {
 		Notification notification = notificationRepository.findNotificationById(id);
 		notificationValidator.validateExistNotification(notification);
 

@@ -39,7 +39,7 @@ public class NotificationController {
 
 	@Operation(summary = "공지사항 세부 조회")
 	@GetMapping("/{id}")
-	public ResponseEntity<NotificationDetailResponseDto> getNotification(@PathVariable Long id) {
-		return ResponseEntity.ok(notificationService.getNotification(id));
+	public ResponseEntity<NotificationDetailResponseDto> getNotificationDetail(@PathVariable Long id) {
+		return ResponseEntity.ok(notificationService.getNotificationDetail(id));
 	}
 }

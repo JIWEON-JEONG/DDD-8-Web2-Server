@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

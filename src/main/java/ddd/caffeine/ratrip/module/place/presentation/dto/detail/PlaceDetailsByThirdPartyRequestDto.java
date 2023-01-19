@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 import javax.validation.constraints.NotBlank;
 
 import ddd.caffeine.ratrip.common.validator.annotation.Number;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartyDetailSearchOption;
+import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import lombok.Getter;
 
 @Getter

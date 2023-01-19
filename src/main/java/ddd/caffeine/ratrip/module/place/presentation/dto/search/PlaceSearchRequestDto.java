@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import ddd.caffeine.ratrip.common.validator.RequestDataValidator;
-import ddd.caffeine.ratrip.module.place.model.ThirdPartySearchOption;
+import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import lombok.Getter;
 
 @Getter

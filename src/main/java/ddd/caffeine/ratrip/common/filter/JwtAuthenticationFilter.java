@@ -22,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	private static final List<String> ALLOW_LIST = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check");
+	private static final List<String> ALLOW_LIST = List.of("/auth", "/swagger-ui", "/api-docs", "/health-check",
+		"/notifications");
 	private final JwtUtil jwtUtil;
 
 	@Override

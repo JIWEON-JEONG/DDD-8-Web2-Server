@@ -34,8 +34,7 @@ public class TravelPlanService {
 			return TravelPlanResponseDto.builder().hasPlan(Boolean.FALSE).build();
 		}
 		//작성중인 여행이 있을 경우,
-
-		return new TravelPlanResponseDto();
+		return TravelPlanResponseDto.builder().travelPlan(travelPlanUser.get().readTravelPlan()).build();
 	}
 
 	@Transactional

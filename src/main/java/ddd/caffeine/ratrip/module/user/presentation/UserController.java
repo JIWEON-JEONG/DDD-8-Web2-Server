@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.user.presentation;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class UserController {
 
 	@PatchMapping("/name")
 	public ResponseEntity<String> updateUserName(@AuthenticationPrincipal User user,
-		@RequestBody UpdateUserNameRequestDto request) {
+		@Valid @RequestBody UpdateUserNameRequestDto request) {
 		return ResponseEntity.ok(userService.updateName(user, request.toServiceDto()));
 	}
 

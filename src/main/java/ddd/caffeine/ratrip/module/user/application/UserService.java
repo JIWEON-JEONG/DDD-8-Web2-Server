@@ -28,6 +28,10 @@ public class UserService implements UserDetailsService {
 		return signUpUserIfAbsentAndGetUserId(request, user);
 	}
 
+	public String findUserName(User user) {
+		return user.getName();
+	}
+
 	private User findUserBySocialInfo(SocialInfo socialInfo) {
 		return userRepository.findUserBySocialInfo(socialInfo);
 	}

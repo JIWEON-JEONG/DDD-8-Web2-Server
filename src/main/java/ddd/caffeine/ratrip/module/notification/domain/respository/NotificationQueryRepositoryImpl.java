@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.notification.domain.respository;
 
+import static ddd.caffeine.ratrip.module.notification.domain.QNotification.*;
+import static ddd.caffeine.ratrip.module.place.model.QPlace.*;
 import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDto;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.QNotificationDto;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

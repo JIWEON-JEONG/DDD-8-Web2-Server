@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
-import ddd.caffeine.ratrip.module.place.model.Place;
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import lombok.Getter;

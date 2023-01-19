@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.travel_plan.TravelPlanService;
+import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanStartResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;

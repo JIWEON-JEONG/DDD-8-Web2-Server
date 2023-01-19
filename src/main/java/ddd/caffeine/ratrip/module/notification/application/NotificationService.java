@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ddd.caffeine.ratrip.module.notification.application.dto.CreateNotificationDto;
 import ddd.caffeine.ratrip.module.notification.domain.Notification;
 import ddd.caffeine.ratrip.module.notification.domain.respository.NotificationRepository;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDetailResponseDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NotificationService {
 	private final NotificationRepository notificationRepository;
+	private final NotificationValidator notificationValidator;
 
 	public Long createNotification(CreateNotificationDto request) {
 		Notification notification = Notification.of(request.getTitle(), request.getContent());
@@ -26,5 +28,13 @@ public class NotificationService {
 	public NotificationsResponseDto getNotifications(final Pageable pageable) {
 		Slice<NotificationDto> notificationDtos = notificationRepository.findNotificationsUsingSlice(pageable);
 		return new NotificationsResponseDto(notificationDtos.getContent(), notificationDtos.hasNext());
+	}
+
+	public NotificationDetailResponseDto getNotification(final Long id) {
+		Notification notification = notificationRepository.findNotificationById(id);
+		notificationValidator.validateExistNotification(notification);
+
+		return new NotificationDetailResponseDto(notification.getId(), notification.getTitle(),
+			notification.getContent());
 	}
 }

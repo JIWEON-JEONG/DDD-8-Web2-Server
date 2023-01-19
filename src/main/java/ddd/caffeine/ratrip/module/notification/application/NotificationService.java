@@ -20,7 +20,7 @@ public class NotificationService {
 
 	public Long createNotification(CreateNotificationDto request) {
 		Notification notification = Notification.of(request.getTitle(), request.getContent());
-		return notificationRepository.save(notification).getId();
+		return notificationRepository.save(notification).getId(); //TODO - 쿼리 최적화 필요 / 다른 save 문들 쿼리 확인해보기
 	}
 
 	public NotificationsResponseDto getNotifications(final Pageable pageable) {

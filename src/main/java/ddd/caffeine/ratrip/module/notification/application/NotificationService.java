@@ -25,11 +25,13 @@ public class NotificationService {
 		return notificationRepository.save(notification).getId(); //TODO - 쿼리 최적화 필요 / 다른 save 문들 쿼리 확인해보기
 	}
 
+	@Transactional(readOnly = true)
 	public NotificationsResponseDto getNotifications(final Pageable pageable) {
 		Slice<NotificationDto> notificationDtos = notificationRepository.findNotificationsUsingSlice(pageable);
 		return new NotificationsResponseDto(notificationDtos.getContent(), notificationDtos.hasNext());
 	}
 
+	@Transactional(readOnly = true)
 	public NotificationDetailResponseDto getNotificationDetail(final Long id) {
 		Notification notification = notificationRepository.findNotificationById(id);
 		notificationValidator.validateExistNotification(notification);

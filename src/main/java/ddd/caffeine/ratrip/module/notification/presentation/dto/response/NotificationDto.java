@@ -6,10 +6,12 @@ import lombok.Getter;
 
 @Getter
 public class NotificationDto {
+	private final Long id;
 	private final String title;
 
 	@QueryProjection
-	public NotificationDto(String title) {
+	public NotificationDto(Long id, String title) {
+		this.id = id;
 		this.title = title;
 	}
 }

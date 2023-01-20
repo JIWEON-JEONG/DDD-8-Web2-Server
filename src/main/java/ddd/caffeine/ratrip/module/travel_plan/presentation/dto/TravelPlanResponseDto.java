@@ -26,6 +26,11 @@ public class TravelPlanResponseDto {
 	private boolean hasPlan;
 
 	@Builder
+	public TravelPlanResponseDto(boolean hasPlan) {
+		this.hasPlan = hasPlan;
+	}
+	
+	@Builder
 	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {
 		this.planUUID = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();

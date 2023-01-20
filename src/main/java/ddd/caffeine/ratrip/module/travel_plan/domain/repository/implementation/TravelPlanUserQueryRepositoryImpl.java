@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.travel_plan.domain.repository.implementation;
 
 import static ddd.caffeine.ratrip.module.travel_plan.domain.QTravelPlanUser.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,7 +28,7 @@ public class TravelPlanUserQueryRepositoryImpl implements TravelPlanUserQueryRep
 			.fetchFirst() != null;
 	}
 
-	public Optional<TravelPlanUser> findByUserUnfinishedTravel(User user) {
+	public TravelPlanUser findByUserUnfinishedTravel(User user) {
 		TravelPlanUser response = jpaQueryFactory
 			.selectFrom(travelPlanUser)
 			.where(
@@ -37,8 +36,7 @@ public class TravelPlanUserQueryRepositoryImpl implements TravelPlanUserQueryRep
 				travelPlanUser.travelPlan.isEnd.isFalse()
 			)
 			.fetchOne();
-
-		return Optional.of(response);
+		return response;
 	}
 
 }

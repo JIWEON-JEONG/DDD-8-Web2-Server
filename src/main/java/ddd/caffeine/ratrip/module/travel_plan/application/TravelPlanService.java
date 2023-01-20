@@ -3,14 +3,12 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
-import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
@@ -28,20 +26,9 @@ public class TravelPlanService {
 
 	@Transactional(readOnly = true)
 	public TravelPlanResponseDto readTravelPlanByUser(User user) {
-		Optional<TravelPlanUser> travelPlanUser = travelPlanUserService.readByUserUnfinishedTravel(user);
-		//작성중인 여행이 없을 경우,
-		if (travelPlanUser.isEmpty()) {
-			return TravelPlanResponseDto.builder()
-				.hasPlan(Boolean.FALSE)
-				.build();
-		}
-		//작성중인 여행이 있을 경우,
-		return TravelPlanResponseDto.builder()
-			.travelPlan(travelPlanUser.get().readTravelPlan())
-			.hasPlan(Boolean.TRUE)
-			.build();
+		return travelPlanUserService.readByUserUnfinishedTravel(user);
 	}
-	
+
 	@Transactional
 	public TravelPlanInitResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
 		//TravelPlan 생성 및 저장

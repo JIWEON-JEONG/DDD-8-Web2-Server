@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import ddd.caffeine.ratrip.common.exception.domain.TravelPlanException;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanUserRepository;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -28,8 +28,19 @@ public class TravelPlanUserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<TravelPlanUser> readByUserUnfinishedTravel(User user) {
-		return travelPlanUserRepository.findByUserUnfinishedTravel(user);
+	public TravelPlanResponseDto readByUserUnfinishedTravel(User user) {
+		TravelPlanUser travelPlanUser = travelPlanUserRepository.findByUserUnfinishedTravel(user);
+		//작성중인 여행 없을 경우,
+		if (travelPlanUser == null) {
+			return TravelPlanResponseDto.builder()
+				.hasPlan(Boolean.FALSE)
+				.build();
+		}
+		//작성중인 여행이 있을 경우,
+		return TravelPlanResponseDto.builder()
+			.travelPlan(travelPlanUser.readTravelPlan())
+			.hasPlan(Boolean.TRUE)
+			.build();
 	}
 
 	@Transactional(readOnly = true)

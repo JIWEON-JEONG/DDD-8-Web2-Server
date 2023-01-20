@@ -17,6 +17,7 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanReposi
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -58,13 +59,16 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public UUID addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID, String memo) {
+	public DayScheduleAddPlaceResponseDto addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID,
+		String memo) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//장소 불러오기
 		Place place = placeService.readPlaceByUUID(UUID.fromString(placeUUID));
 		//저장하기
-		return dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
+		UUID dayScheduleUUID = dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
+
+		return new DayScheduleAddPlaceResponseDto(dayScheduleUUID);
 	}
 
 	@Transactional

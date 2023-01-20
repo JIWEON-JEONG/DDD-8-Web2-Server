@@ -7,13 +7,13 @@ import lombok.Getter;
 
 //Todo : Memo
 @Getter
-public class DayScheduleAddPlaceDto {
+public class DayScheduleAddPlaceRequestDto {
 	@UUIDFormat
 	private String placeUUID;
 	@Size(max = 255, message = "최대 글자수는 255자 입니다.")
 	private String memo;
 
-	public DayScheduleAddPlaceDto(String placeId, String memo) {
+	public DayScheduleAddPlaceRequestDto(String placeId, String memo) {
 		this.placeUUID = placeId;
 		this.memo = memo;
 	}

@@ -1,7 +1,5 @@
 package ddd.caffeine.ratrip.module.travel_plan.presentation;
 
-import java.util.UUID;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -23,7 +21,8 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -69,12 +68,12 @@ public class TravelPlanController {
 	 * @return : 하루 일정 UUID
 	 */
 	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
-	public ResponseEntity<UUID> addPlaceInDayScheduleApi
-		(@AuthenticationPrincipal User user,
-			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
-			@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-			@RequestBody DayScheduleAddPlaceDto request) {
-		UUID response = travelPlanService.addPlaceInDaySchedule(
+	public ResponseEntity<DayScheduleAddPlaceResponseDto> addPlaceInDayScheduleApi
+	(@AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@RequestBody DayScheduleAddPlaceRequestDto request) {
+		DayScheduleAddPlaceResponseDto response = travelPlanService.addPlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
 			request.getPlaceUUID(), request.getMemo());
 

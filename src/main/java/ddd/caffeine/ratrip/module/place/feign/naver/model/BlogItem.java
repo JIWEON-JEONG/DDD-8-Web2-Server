@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.place.feign.naver.model;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import ddd.caffeine.ratrip.module.place.domain.Blog;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,8 @@ import lombok.NoArgsConstructor;
 public class BlogItem {
 	private String title;
 	private String link;
+
+	public Blog mapByBlogEntity() {
+		return new Blog(title, link);
+	}
 }

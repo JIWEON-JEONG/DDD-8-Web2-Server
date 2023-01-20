@@ -17,6 +17,7 @@ import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
@@ -61,7 +62,6 @@ public class PlaceService {
 	@Transactional
 	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption,
 		User user) {
-
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(searchOption.readThirdPartyId());
 
 		if (optionalPlace.isEmpty()) {
@@ -108,6 +108,8 @@ public class PlaceService {
 			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 			place.update(feignPlaceModel.readOne());
+			injectImageLinkInPlace(place, place.getName());
+			injectBlogsInPlace(place, place.getName());
 		}
 	}
 
@@ -115,16 +117,26 @@ public class PlaceService {
 	 * 장소이름과 주소를 가지고 그에 맞는 Place Entity 생성해주는 메서드.
 	 */
 	private Place readPlaceEntity(Map<String, String> placeNameAndAddressMap) {
-		final int DATA_INDEX = 0;
-
 		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 		Place place = feignPlaceModel.mapByPlaceEntity();
 
-		FeignImageModel imageModel = placeFeignService.readImageModel(placeNameAndAddressMap.get("name"));
-		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+		injectImageLinkInPlace(place, place.getName());
+		injectBlogsInPlace(place, place.getName());
 
 		return place;
+	}
+
+	private void injectImageLinkInPlace(Place place, String keyword) {
+		final int DATA_INDEX = 0;
+
+		FeignImageModel imageModel = placeFeignService.readImageModel(keyword);
+		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+	}
+
+	private void injectBlogsInPlace(Place place, String keyword) {
+		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
+		//place domain 주입.
 	}
 
 }

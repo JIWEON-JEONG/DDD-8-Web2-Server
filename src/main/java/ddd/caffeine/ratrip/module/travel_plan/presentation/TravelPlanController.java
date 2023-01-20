@@ -30,11 +30,8 @@ public class TravelPlanController {
 
 	private final TravelPlanService travelPlanService;
 
-	/**
-	 * todo : Uri 설계에 대해 고민 - 주안님께 상담요청.
-	 */
-	@GetMapping
-	public ResponseEntity<TravelPlanResponseDto> readOnGoingTravelPlanApi(
+	@GetMapping("ongoing")
+	public ResponseEntity<TravelPlanResponseDto> readTravelPlanOngoingApi(
 		@AuthenticationPrincipal User user) {
 		TravelPlanResponseDto response = travelPlanService.readTravelPlanByUser(user);
 		return ResponseEntity.ok(response);

@@ -46,4 +46,13 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 			.fetch();
 	}
 
+	@Override
+	public Integer countPlacesByDayScheduleUUID(UUID dayScheduleUUID) {
+		return Math.toIntExact(jpaQueryFactory
+			.select(daySchedulePlace.count())
+			.from(daySchedulePlace)
+			.where(daySchedulePlace.daySchedule.id.eq(dayScheduleUUID))
+			.fetchFirst());
+	}
+
 }

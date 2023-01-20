@@ -24,4 +24,8 @@ public class DayScheduleAccessOption {
 	public UUID readDayScheduleUUID() {
 		return this.dayScheduleUUID;
 	}
+
+	public UUID readTravelPlanUUID() {
+		return this.travelPlanUUID;
+	}
 }

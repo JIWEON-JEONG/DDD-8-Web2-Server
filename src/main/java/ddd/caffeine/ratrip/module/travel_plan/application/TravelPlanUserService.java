@@ -3,7 +3,6 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.exception.domain.TravelPlanException;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
@@ -20,13 +19,11 @@ public class TravelPlanUserService {
 
 	private final TravelPlanUserRepository travelPlanUserRepository;
 
-	@Transactional
 	public void saveTravelPlanWithUser(TravelPlan travelPlan, User user) {
 		TravelPlanUser travelPlanUser = new TravelPlanUser(travelPlan, user);
 		travelPlanUserRepository.save(travelPlanUser);
 	}
 
-	@Transactional(readOnly = true)
 	public TravelPlanResponseDto readByUserUnfinishedTravel(User user) {
 		TravelPlanUser travelPlanUser = travelPlanUserRepository.findByUserUnfinishedTravel(user);
 		//작성중인 여행 없을 경우,
@@ -40,7 +37,6 @@ public class TravelPlanUserService {
 			.build();
 	}
 
-	@Transactional(readOnly = true)
 	public void validateAccessTravelPlan(TravelPlanAccessOption accessOption) {
 		if (travelPlanUserRepository.existByUserAndTravelPlanUUID(accessOption.readUser(),
 			accessOption.readTravelPlanUUID())) {

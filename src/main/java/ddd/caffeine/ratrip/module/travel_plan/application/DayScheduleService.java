@@ -3,10 +3,10 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
@@ -21,10 +21,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DayScheduleService {
 
-	private final DayScheduleRepository dayScheduleRepository;
 	private final DaySchedulePlaceService daySchedulePlaceService;
+	private final DayScheduleValidator dayScheduleValidator;
+	private final DayScheduleRepository dayScheduleRepository;
 
-	@Transactional
 	public void initTravelPlan(TravelPlan travelPlan, List<LocalDate> dates) {
 		List<DaySchedule> daySchedules = new ArrayList<>();
 		for (LocalDate date : dates) {
@@ -37,12 +37,12 @@ public class DayScheduleService {
 		dayScheduleRepository.saveAll(daySchedules);
 	}
 
-	@Transactional
 	public void addPlace(UUID dayScheduleUUID, Place place, String memo) {
-		daySchedulePlaceService.addPlace(dayScheduleUUID, place, memo);
+		Optional<DaySchedule> optionalDaySchedule = dayScheduleRepository.findById(dayScheduleUUID);
+		DaySchedule daySchedule = dayScheduleValidator.validateExistDaySchedule(optionalDaySchedule);
+		daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
-	@Transactional
 	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {
 		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
 

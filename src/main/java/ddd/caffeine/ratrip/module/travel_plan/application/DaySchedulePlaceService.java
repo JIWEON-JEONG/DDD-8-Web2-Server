@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule.DaySchedulePlaceRepository;
@@ -21,9 +22,14 @@ public class DaySchedulePlaceService {
 		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID);
 	}
 
-	public void addPlace(UUID dayScheduleUUID, Place place, String memo) {
-		// DaySchedulePlace daySchedulePlace = new DaySchedulePlace()
-		// daySchedulePlaceRepository.save()
+	public void addPlace(DaySchedule daySchedule, Place place, String memo) {
+		DaySchedulePlace daySchedulePlace = DaySchedulePlace.builder()
+			.daySchedule(daySchedule)
+			.place(place)
+			.sequence(readNextSequence(daySchedule.readPrimaryKey()))
+			.memo(memo)
+			.build();
+		daySchedulePlaceRepository.save(daySchedulePlace);
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
@@ -32,5 +38,10 @@ public class DaySchedulePlaceService {
 
 		DaySchedulePlace baseDaySchedulePlace = daySchedulePlaces.get(0);
 		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));
+	}
+
+	private int readNextSequence(UUID dayScheduleUUID) {
+		int total = daySchedulePlaceRepository.countPlacesByDayScheduleUUID(dayScheduleUUID);
+		return total + 1;
 	}
 }

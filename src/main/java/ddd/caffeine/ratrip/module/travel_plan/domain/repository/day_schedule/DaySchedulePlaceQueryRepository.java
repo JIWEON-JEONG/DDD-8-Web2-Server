@@ -11,4 +11,6 @@ public interface DaySchedulePlaceQueryRepository {
 
 	List<DaySchedulePlace> findByDayScheduleUUIDAndPlaceUUIDs(UUID dayScheduleUUID, UUID firstPlaceUUID,
 		UUID secondPlaceUUID);
+
+	Integer countPlacesByDayScheduleUUID(UUID dayScheduleUUID);
 }

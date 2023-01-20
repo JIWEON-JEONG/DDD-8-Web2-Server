@@ -2,13 +2,12 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.exception.domain.TravelPlanException;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanUserRepository;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
@@ -42,8 +41,9 @@ public class TravelPlanUserService {
 	}
 
 	@Transactional(readOnly = true)
-	public void validateAccessTravelPlan(User user, String travelPlanUUID) {
-		if (travelPlanUserRepository.existByUserAndTravelPlanUUID(user, UUID.fromString(travelPlanUUID))) {
+	public void validateAccessTravelPlan(TravelPlanAccessOption accessOption) {
+		if (travelPlanUserRepository.existByUserAndTravelPlanUUID(accessOption.readUser(),
+			accessOption.readTravelPlanUUID())) {
 			return;
 		}
 		throw new TravelPlanException(UNAUTHORIZED_ACCESS_TRAVEL_PLAN);

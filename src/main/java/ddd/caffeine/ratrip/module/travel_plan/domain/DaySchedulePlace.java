@@ -30,8 +30,8 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	private Long id;
 
 	@NotNull
-	@Column(name = "order_number")
-	private int order;
+	@Column
+	private int sequence;
 
 	/*
 	영어, 한글 글자 모두 255 글자 가능 합니다.
@@ -48,16 +48,16 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	private Place place;
 
 	@Builder
-	public DaySchedulePlace(int order, String memo, DaySchedule daySchedule, Place place) {
+	public DaySchedulePlace(int sequence, String memo, DaySchedule daySchedule, Place place) {
 		this.memo = memo;
-		this.order = order;
+		this.sequence = sequence;
 		this.daySchedule = daySchedule;
 		this.place = place;
 	}
 
 	public void exchangeOrder(DaySchedulePlace exchangeDaySchedulePlace) {
-		int exchangeOrder = exchangeDaySchedulePlace.order;
-		exchangeDaySchedulePlace.order = this.order;
-		this.order = exchangeOrder;
+		int exchangeOrder = exchangeDaySchedulePlace.sequence;
+		exchangeDaySchedulePlace.sequence = this.sequence;
+		this.sequence = exchangeOrder;
 	}
 }

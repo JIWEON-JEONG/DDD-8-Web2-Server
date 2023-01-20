@@ -8,7 +8,11 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.place.application.PlaceService;
+import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
@@ -22,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class TravelPlanService {
 	private final TravelPlanUserService travelPlanUserService;
 	private final DayScheduleService dayScheduleService;
+	private final PlaceService placeService;
 	private final TravelPlanRepository travelPlanRepository;
 
 	@Transactional(readOnly = true)
@@ -42,22 +47,32 @@ public class TravelPlanService {
 	}
 
 	@Transactional(readOnly = true)
-	public DayScheduleResponseDto readScheduleByDay(User user, String travelPlanUUID, int day) {
+	public DayScheduleResponseDto readScheduleByDay(TravelPlanAccessOption accessOption, int day) {
 		//접근 가능한 유저인지 확인
-		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
-		LocalDateDao startDate = travelPlanRepository.findLocalDateById(UUID.fromString(travelPlanUUID));
+		travelPlanUserService.validateAccessTravelPlan(accessOption);
+		LocalDateDao startDate = travelPlanRepository.findLocalDateById(
+			accessOption.readTravelPlanUUID());
 		LocalDate date = startDate.getLocalDate().plusDays(day - 1);
 
-		return dayScheduleService.readDaySchedule(UUID.fromString(travelPlanUUID), date);
+		return dayScheduleService.readDaySchedule(accessOption.readTravelPlanUUID(), date);
+	}
+
+	public void addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID, String memo) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
+		//장소 불러오기
+		Place place = placeService.readPlaceByUUID(UUID.fromString(placeUUID));
+		dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
+
 	}
 
 	@Transactional
-	public void exchangePlaceOrderInDaySchedule(User user, String travelPlanUUID, String dayScheduleUUID,
-		String firstPlaceUUID, String secondPlaceUUID) {
+	public void exchangePlaceSequenceInDaySchedule(DayScheduleAccessOption accessOption,
+		List<UUID> placeUUIDs) {
 		//접근 가능한 유저인지 확인
-		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//하루 일정 장소 순서 exchange
-		dayScheduleService.exchangePlaceOrder(dayScheduleUUID, firstPlaceUUID, secondPlaceUUID);
+		dayScheduleService.exchangePlaceSequence(accessOption.readDayScheduleUUID(), placeUUIDs);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

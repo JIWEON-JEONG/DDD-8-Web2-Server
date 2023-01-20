@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
+import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -53,22 +57,35 @@ public class TravelPlanController {
 			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 			@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
 
-		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(user, travelPlanUUID, day);
+		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(
+			new TravelPlanAccessOption(user, travelPlanUUID), day);
+
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/order")
-	public ResponseEntity<String> exchangePlaceOrderInDayScheduleApi
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
+	public ResponseEntity<String> addPlaceInDayScheduleApi
 		(@AuthenticationPrincipal User user,
 			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 			@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-			@RequestParam("first-place-id") @UUIDFormat String firstPlaceUUID,
-			@RequestParam("second-place-id") @UUIDFormat String secondPlaceUUID) {
-
-		travelPlanService.exchangePlaceOrderInDaySchedule(user, travelPlanUUID, dayScheduleUUID, firstPlaceUUID,
-			secondPlaceUUID);
+			@RequestBody DayScheduleAddPlaceDto request) {
+		travelPlanService.addPlaceInDaySchedule(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
+			request.getPlaceUUID(), request.getMemo());
 
 		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
 	}
 
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
+	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi
+		(@AuthenticationPrincipal User user,
+			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
+			@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+			@RequestBody DayScheduleExchangePlaceOrderDto request) {
+
+		travelPlanService.exchangePlaceSequenceInDaySchedule(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
+			request.readPlaceUUIDs());
+		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
+	}
 }

@@ -51,11 +51,9 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
-		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
-		placeValidator.validateExistPlace(place);
-
-		boolean isBookmarked = bookmarkService.isBookmarked(user, place.get());
-		return new PlaceDetailsResponseDto(place.get(), isBookmarked);
+		Place place = readPlaceByUUID(UUID.fromString(uuid));
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
+		return new PlaceDetailsResponseDto(place, isBookmarked);
 	}
 
 	@Transactional
@@ -75,6 +73,13 @@ public class PlaceService {
 		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
 
 		return new PlaceDetailsResponseDto(place, isBookmarked);
+	}
+
+	@Transactional(readOnly = true)
+	public Place readPlaceByUUID(UUID placeUUID) {
+		Optional<Place> place = placeRepository.findById(placeUUID);
+		placeValidator.validateExistPlace(place);
+		return place.get();
 	}
 
 	@Transactional
@@ -126,5 +131,4 @@ public class PlaceService {
 
 		return place;
 	}
-
 }

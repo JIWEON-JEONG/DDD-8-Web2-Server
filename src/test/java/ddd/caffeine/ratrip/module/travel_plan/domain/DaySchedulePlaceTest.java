@@ -12,17 +12,17 @@ class DaySchedulePlaceTest {
 	void exchangeOrderTest() {
 		//given
 		DaySchedulePlace baseDaySchedulePlace = DaySchedulePlace.builder()
-			.order(1)
+			.sequence(1)
 			.build();
 		DaySchedulePlace exchangeDaySchedulePlace = DaySchedulePlace.builder()
-			.order(2)
+			.sequence(2)
 			.build();
 
 		//when
 		baseDaySchedulePlace.exchangeOrder(exchangeDaySchedulePlace);
 
 		//then
-		assertThat(baseDaySchedulePlace.getOrder()).isEqualTo(2);
-		assertThat(exchangeDaySchedulePlace.getOrder()).isEqualTo(1);
+		assertThat(baseDaySchedulePlace.getSequence()).isEqualTo(2);
+		assertThat(exchangeDaySchedulePlace.getSequence()).isEqualTo(1);
 	}
 }

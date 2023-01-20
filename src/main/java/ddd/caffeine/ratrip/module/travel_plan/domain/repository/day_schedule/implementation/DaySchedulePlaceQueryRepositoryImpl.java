@@ -23,13 +23,13 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	public List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUID(UUID dayScheduleUUID) {
 		return jpaQueryFactory
 			.select(new QDaySchedulePlaceDao(place.id, place.name, place.category,
-				daySchedulePlace.memo, daySchedulePlace.order))
+				daySchedulePlace.memo, daySchedulePlace.sequence))
 			.from(daySchedulePlace)
 			.innerJoin(daySchedulePlace.place, place)
 			.where(
 				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID)
 			)
-			.orderBy(daySchedulePlace.order.asc())
+			.orderBy(daySchedulePlace.sequence.asc())
 			.fetch();
 	}
 

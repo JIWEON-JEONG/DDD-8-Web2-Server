@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
@@ -37,6 +38,11 @@ public class DayScheduleService {
 	}
 
 	@Transactional
+	public void addPlace(UUID dayScheduleUUID, Place place, String memo) {
+		daySchedulePlaceService.addPlace(dayScheduleUUID, place, memo);
+	}
+
+	@Transactional
 	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {
 		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
 
@@ -50,10 +56,8 @@ public class DayScheduleService {
 			.build();
 	}
 
-	public void exchangePlaceOrder(String dayScheduleUUID, String firstPlaceUUID, String secondPlaceUUID) {
-		daySchedulePlaceService.exchangePlaceOrder(
-			UUID.fromString(dayScheduleUUID), UUID.fromString(firstPlaceUUID),
-			UUID.fromString(secondPlaceUUID));
+	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
+		daySchedulePlaceService.exchangePlaceSequence(dayScheduleUUID, placeUUIDs);
 	}
 
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {

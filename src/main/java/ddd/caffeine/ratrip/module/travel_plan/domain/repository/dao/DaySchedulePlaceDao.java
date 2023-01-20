@@ -13,15 +13,15 @@ public class DaySchedulePlaceDao {
 	private String placeName;
 	private Category category;
 	private String memo;
-	private int order;
+	private int sequence;
 
 	@QueryProjection
 	public DaySchedulePlaceDao(UUID placeUUID, String placeName, Category category,
-		String memo, int order) {
+		String memo, int sequence) {
 		this.placeUUID = placeUUID;
 		this.placeName = placeName;
 		this.category = category;
 		this.memo = memo;
-		this.order = order;
+		this.sequence = sequence;
 	}
 }

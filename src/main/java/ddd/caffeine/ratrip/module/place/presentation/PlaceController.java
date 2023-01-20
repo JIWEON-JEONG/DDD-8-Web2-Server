@@ -43,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 public class PlaceController {
 	private final PlaceService placeService;
 
+	@Operation(summary = "장소 키워드 검색 API")
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
 		@Valid @ModelAttribute PlaceSearchRequestDto request) {
@@ -51,6 +52,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "카카오 정보를 통한 장소 상세 읽기 API")
 	@GetMapping("third-party")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
@@ -62,6 +64,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "장소 기본키(UUID)로 장소 상세 읽기 API")
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
@@ -75,6 +78,8 @@ public class PlaceController {
 	 * default page = 0
 	 * Todo : default size 정하기.
 	 */
+	@Operation(summary = "지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순) "
+		+ "!!! 옵션을 파라미터에 명시하면 덮어쓰기 가능")
 	@GetMapping(value = "regions")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
 		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions,

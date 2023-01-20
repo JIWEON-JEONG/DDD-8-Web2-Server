@@ -50,6 +50,12 @@ public class DayScheduleService {
 			.build();
 	}
 
+	public void exchangePlaceOrder(String dayScheduleUUID, String firstPlaceUUID, String secondPlaceUUID) {
+		daySchedulePlaceService.exchangePlaceOrder(
+			UUID.fromString(dayScheduleUUID), UUID.fromString(firstPlaceUUID),
+			UUID.fromString(secondPlaceUUID));
+	}
+
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {
 		List<DaySchedulePlaceDto> response = new ArrayList<>();
 		for (DaySchedulePlaceDao dao : daySchedulePlaceDaos) {

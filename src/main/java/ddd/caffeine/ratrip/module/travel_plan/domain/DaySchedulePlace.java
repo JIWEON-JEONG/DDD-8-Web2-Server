@@ -54,4 +54,10 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 		this.daySchedule = daySchedule;
 		this.place = place;
 	}
+
+	public void exchangeOrder(DaySchedulePlace exchangeDaySchedulePlace) {
+		int exchangeOrder = exchangeDaySchedulePlace.order;
+		exchangeDaySchedulePlace.order = this.order;
+		this.order = exchangeOrder;
+	}
 }

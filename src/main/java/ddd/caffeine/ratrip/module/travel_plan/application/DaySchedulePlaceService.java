@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule.DaySchedulePlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,13 @@ public class DaySchedulePlaceService {
 
 	public List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID dayScheduleUUID) {
 		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID);
+	}
+
+	public void exchangePlaceOrder(UUID dayScheduleUUID, UUID firstPlaceUUID, UUID secondPlaceUUID) {
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findByDayScheduleUUIDAndPlaceUUIDs(
+			dayScheduleUUID, firstPlaceUUID,
+			secondPlaceUUID);
+		DaySchedulePlace baseDaySchedulePlace = daySchedulePlaces.get(0);
+		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));
 	}
 }

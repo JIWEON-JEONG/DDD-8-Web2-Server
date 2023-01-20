@@ -51,6 +51,15 @@ public class TravelPlanService {
 		return dayScheduleService.readDaySchedule(UUID.fromString(travelPlanUUID), date);
 	}
 
+	@Transactional
+	public void exchangePlaceOrderInDaySchedule(User user, String travelPlanUUID, String dayScheduleUUID,
+		String firstPlaceUUID, String secondPlaceUUID) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(user, travelPlanUUID);
+		//하루 일정 장소 순서 exchange
+		dayScheduleService.exchangePlaceOrder(dayScheduleUUID, firstPlaceUUID, secondPlaceUUID);
+	}
+
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {
 		List<LocalDate> dates = new ArrayList<>();
 		for (int i = 0; i < travelDays; i++) {

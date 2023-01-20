@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.QDaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule.DaySchedulePlaceQueryRepository;
@@ -31,4 +32,18 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 			.orderBy(daySchedulePlace.order.asc())
 			.fetch();
 	}
+
+	@Override
+	public List<DaySchedulePlace> findByDayScheduleUUIDAndPlaceUUIDs(UUID dayScheduleUUID, UUID firstPlaceUUID,
+		UUID secondPlaceUUID) {
+		return jpaQueryFactory
+			.selectFrom(daySchedulePlace)
+			.where(
+				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),
+				daySchedulePlace.place.id.eq(firstPlaceUUID)
+					.or(daySchedulePlace.place.id.eq(secondPlaceUUID))
+			)
+			.fetch();
+	}
+
 }

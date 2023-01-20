@@ -47,14 +47,28 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/{id}/day-schedules")
+	@GetMapping("/{travel_plan_id}/day-schedules")
 	public ResponseEntity<DayScheduleResponseDto> ReadScheduleByDayApi
 		(@AuthenticationPrincipal User user,
-			@PathVariable("id") @UUIDFormat String travelPlanUUID,
+			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 			@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
 
 		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(user, travelPlanUUID, day);
 		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/order")
+	public ResponseEntity<String> exchangePlaceOrderInDayScheduleApi
+		(@AuthenticationPrincipal User user,
+			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
+			@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+			@RequestParam("first-place-id") @UUIDFormat String firstPlaceUUID,
+			@RequestParam("second-place-id") @UUIDFormat String secondPlaceUUID) {
+
+		travelPlanService.exchangePlaceOrderInDaySchedule(user, travelPlanUUID, dayScheduleUUID, firstPlaceUUID,
+			secondPlaceUUID);
+
+		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
 	}
 
 }

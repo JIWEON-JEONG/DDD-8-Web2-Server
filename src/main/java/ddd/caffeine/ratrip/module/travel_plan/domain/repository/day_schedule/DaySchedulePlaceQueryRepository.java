@@ -5,6 +5,6 @@ import java.util.UUID;
 
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
 
-public interface DaySchedulePlaceRepositoryCustom {
-	List<DaySchedulePlaceDao> loadDaySchedulePlaces(UUID dayScheduleId);
+public interface DaySchedulePlaceQueryRepository {
+	List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUID(UUID dayScheduleUUID);
 }

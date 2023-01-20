@@ -15,7 +15,7 @@ public class DaySchedulePlaceService {
 
 	private final DaySchedulePlaceRepository daySchedulePlaceRepository;
 
-	List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID travelPlanUUID) {
-		return daySchedulePlaceRepository.findDaySchedulePlaceDaosByDayScheduleUUID(travelPlanUUID);
+	public List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID dayScheduleUUID) {
+		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID);
 	}
 }

@@ -27,4 +27,8 @@ public class TravelPlanQueryRepositoryImpl implements TravelPlanQueryRepository 
 			.fetchOne();
 	}
 
+	@Override
+	public void test() {
+
+	}
 }

@@ -9,8 +9,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanUserQueryRepository;
-import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
-import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.QLocalDateDao;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -42,4 +40,5 @@ public class TravelPlanUserQueryRepositoryImpl implements TravelPlanUserQueryRep
 
 		return Optional.of(response);
 	}
+
 }

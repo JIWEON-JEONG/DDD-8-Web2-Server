@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.domain.repository.implementation.day_schedule;
+package ddd.caffeine.ratrip.module.travel_plan.domain.repository.day_schedule.implementation;
 
 import static ddd.caffeine.ratrip.module.travel_plan.domain.QDaySchedule.*;
 
@@ -17,10 +17,10 @@ public class DayScheduleQueryRepositoryImpl implements DayScheduleQueryRepositor
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public DaySchedule findByTravelPlanUUIDAndDate(UUID travelPlanUUID, LocalDate date) {
+	public DaySchedule findByTravelPlanIdAndDate(UUID travelPlanId, LocalDate date) {
 		return jpaQueryFactory.selectFrom(daySchedule)
 			.where(
-				daySchedule.travelPlan.id.eq(travelPlanUUID),
+				daySchedule.travelPlan.id.eq(travelPlanId),
 				daySchedule.date.eq(date)
 			)
 			.fetchOne();

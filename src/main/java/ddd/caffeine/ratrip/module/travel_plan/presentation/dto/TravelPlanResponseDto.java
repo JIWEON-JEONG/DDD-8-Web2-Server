@@ -23,7 +23,7 @@ public class TravelPlanResponseDto {
 
 	private int travelDays;
 
-	private boolean hasPlan = Boolean.TRUE;
+	private boolean hasPlan;
 
 	@Builder
 	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {

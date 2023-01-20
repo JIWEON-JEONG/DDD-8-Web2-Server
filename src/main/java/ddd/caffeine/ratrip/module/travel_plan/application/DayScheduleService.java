@@ -39,6 +39,7 @@ public class DayScheduleService {
 	@Transactional
 	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {
 		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
+
 		List<DaySchedulePlaceDao> daySchedulePlaces = daySchedulePlaceService.readDaySchedulePlaces(
 			daySchedule.getId());
 

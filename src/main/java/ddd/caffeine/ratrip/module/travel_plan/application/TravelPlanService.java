@@ -31,12 +31,17 @@ public class TravelPlanService {
 		Optional<TravelPlanUser> travelPlanUser = travelPlanUserService.readByUserUnfinishedTravel(user);
 		//작성중인 여행이 없을 경우,
 		if (travelPlanUser.isEmpty()) {
-			return TravelPlanResponseDto.builder().hasPlan(Boolean.FALSE).build();
+			return TravelPlanResponseDto.builder()
+				.hasPlan(Boolean.FALSE)
+				.build();
 		}
 		//작성중인 여행이 있을 경우,
-		return TravelPlanResponseDto.builder().travelPlan(travelPlanUser.get().readTravelPlan()).build();
+		return TravelPlanResponseDto.builder()
+			.travelPlan(travelPlanUser.get().readTravelPlan())
+			.hasPlan(Boolean.TRUE)
+			.build();
 	}
-
+	
 	@Transactional
 	public TravelPlanInitResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
 		//TravelPlan 생성 및 저장

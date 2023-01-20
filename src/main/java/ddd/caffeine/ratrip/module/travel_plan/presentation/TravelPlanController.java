@@ -19,6 +19,7 @@ import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -46,14 +47,14 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("v1/travel-plan/{id}/day-schedule")
-	public ResponseEntity<TravelPlanResponseDto> ReadScheduleByDayApi
+	@GetMapping("/{id}/day-schedules")
+	public ResponseEntity<DayScheduleResponseDto> ReadScheduleByDayApi
 		(@AuthenticationPrincipal User user,
 			@PathVariable("id") @UUIDFormat String travelPlanUUID,
-			@RequestParam(defaultValue = "1") @Min(1) int day) {
+			@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
 
-		travelPlanService.readScheduleByDay(user, travelPlanUUID, day);
-		return ResponseEntity.ok(new TravelPlanResponseDto());
+		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(user, travelPlanUUID, day);
+		return ResponseEntity.ok(response);
 	}
 
 }

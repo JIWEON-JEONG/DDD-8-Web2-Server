@@ -1,9 +1,5 @@
 package ddd.caffeine.ratrip;
 
-import java.util.TimeZone;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -20,11 +16,6 @@ public class RatripServerApplication {
 	@GetMapping("/health-check")
 	public ResponseEntity<String> test() {
 		return ResponseEntity.ok("health check success");
-	}
-
-	@PostConstruct
-	public void started() {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 
 	public static void main(String[] args) {

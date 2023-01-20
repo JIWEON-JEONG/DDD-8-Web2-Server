@@ -58,13 +58,13 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public void addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID, String memo) {
+	public UUID addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID, String memo) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//장소 불러오기
 		Place place = placeService.readPlaceByUUID(UUID.fromString(placeUUID));
 		//저장하기
-		dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
+		return dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
 	}
 
 	@Transactional

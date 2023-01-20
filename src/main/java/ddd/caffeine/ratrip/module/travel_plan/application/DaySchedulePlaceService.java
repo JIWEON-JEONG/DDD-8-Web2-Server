@@ -22,7 +22,7 @@ public class DaySchedulePlaceService {
 		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID);
 	}
 
-	public void addPlace(DaySchedule daySchedule, Place place, String memo) {
+	public UUID addPlace(DaySchedule daySchedule, Place place, String memo) {
 		DaySchedulePlace daySchedulePlace = DaySchedulePlace.builder()
 			.daySchedule(daySchedule)
 			.place(place)
@@ -30,6 +30,7 @@ public class DaySchedulePlaceService {
 			.memo(memo)
 			.build();
 		daySchedulePlaceRepository.save(daySchedulePlace);
+		return daySchedule.readPrimaryKey();
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {

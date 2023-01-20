@@ -37,10 +37,10 @@ public class DayScheduleService {
 		dayScheduleRepository.saveAll(daySchedules);
 	}
 
-	public void addPlace(UUID dayScheduleUUID, Place place, String memo) {
+	public UUID addPlace(UUID dayScheduleUUID, Place place, String memo) {
 		Optional<DaySchedule> optionalDaySchedule = dayScheduleRepository.findById(dayScheduleUUID);
 		DaySchedule daySchedule = dayScheduleValidator.validateExistDaySchedule(optionalDaySchedule);
-		daySchedulePlaceService.addPlace(daySchedule, place, memo);
+		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
 	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {

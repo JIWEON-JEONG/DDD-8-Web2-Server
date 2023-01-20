@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.travel_plan.presentation;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -63,17 +65,20 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
+	/**
+	 * @return : 하루 일정 UUID
+	 */
 	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
-	public ResponseEntity<String> addPlaceInDayScheduleApi
+	public ResponseEntity<UUID> addPlaceInDayScheduleApi
 		(@AuthenticationPrincipal User user,
 			@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 			@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
 			@RequestBody DayScheduleAddPlaceDto request) {
-		travelPlanService.addPlaceInDaySchedule(
+		UUID response = travelPlanService.addPlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
 			request.getPlaceUUID(), request.getMemo());
 
-		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")

@@ -42,14 +42,11 @@ public enum ExceptionInformation {
 	NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "존재하지 않는 유저입니다."),
 	NOT_FOUND_PLACE_EXCEPTION(NOT_FOUND, "존재하지 않는 장소입니다."),
 	NOT_FOUND_BOOKMARK_EXCEPTION(NOT_FOUND, "존재하지 않는 북마크입니다."),
-	NOT_FOUND_TRAVEL_PLAN_USER_EXCEPTION(NOT_FOUND, ""),
+	NOT_FOUND_NOTIFICATION_EXCEPTION(NOT_FOUND, "존재하지 않는 공지사항입니다."),
 
 	// 409 Conflict
 	ALREADY_EXIST_USER_EXCEPTION(CONFLICT, "이미 존재하는 유저입니다."),
-	ALREADY_EXIST_BOOKMARK_EXCEPTION(CONFLICT, "이미 북마크에 추가된 장소입니다."),
-
-	// 500 Internal Server Error
-	;
+	ALREADY_EXIST_BOOKMARK_EXCEPTION(CONFLICT, "이미 북마크에 추가된 장소입니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;

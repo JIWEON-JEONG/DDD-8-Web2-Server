@@ -46,6 +46,7 @@ public class DayScheduleService {
 		return DayScheduleResponseDto.builder()
 			.dayScheduleUUID(daySchedule.getId())
 			.daySchedulePlaces(createDaySchedulePlaceDto(daySchedulePlaces))
+			.hasRegisteredPlace(!(daySchedulePlaces.isEmpty()))
 			.build();
 	}
 

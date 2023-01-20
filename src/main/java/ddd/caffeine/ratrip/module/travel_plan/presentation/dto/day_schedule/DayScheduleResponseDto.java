@@ -9,11 +9,15 @@ import lombok.Getter;
 @Getter
 public class DayScheduleResponseDto {
 	private UUID dayScheduleUUID;
-	List<DaySchedulePlaceDto> daySchedulePlaces;
+	private List<DaySchedulePlaceDto> daySchedulePlaces;
+
+	private boolean hasRegisteredPlace;
 
 	@Builder
-	public DayScheduleResponseDto(UUID dayScheduleUUID, List<DaySchedulePlaceDto> daySchedulePlaces) {
+	public DayScheduleResponseDto(UUID dayScheduleUUID, List<DaySchedulePlaceDto> daySchedulePlaces,
+		boolean hasRegisteredPlace) {
 		this.dayScheduleUUID = dayScheduleUUID;
 		this.daySchedulePlaces = daySchedulePlaces;
+		this.hasRegisteredPlace = hasRegisteredPlace;
 	}
 }

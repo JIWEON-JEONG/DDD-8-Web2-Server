@@ -32,9 +32,7 @@ public class TravelPlanUserService {
 		TravelPlanUser travelPlanUser = travelPlanUserRepository.findByUserUnfinishedTravel(user);
 		//작성중인 여행 없을 경우,
 		if (travelPlanUser == null) {
-			return TravelPlanResponseDto.builder()
-				.hasPlan(Boolean.FALSE)
-				.build();
+			return new TravelPlanResponseDto(Boolean.FALSE);
 		}
 		//작성중인 여행이 있을 경우,
 		return TravelPlanResponseDto.builder()

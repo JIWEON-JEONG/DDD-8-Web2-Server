@@ -34,6 +34,7 @@ public enum ExceptionInformation {
 	NOT_FOUND_JWT_CLAIMS_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 클레임이 존재하지 않습니다."),
 	NOT_FOUND_JWT_USERID_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 userId가 비어 있습니다."),
 	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB에 존재하지 않는 리프레시 토큰입니다."),
+	UNAUTHORIZED_ACCESS_TRAVEL_PLAN(UNAUTHORIZED, "해당 여행 계획에 접근 할 수 없습니다."),
 
 	// 403 Forbidden
 
@@ -45,10 +46,7 @@ public enum ExceptionInformation {
 
 	// 409 Conflict
 	ALREADY_EXIST_USER_EXCEPTION(CONFLICT, "이미 존재하는 유저입니다."),
-	ALREADY_EXIST_BOOKMARK_EXCEPTION(CONFLICT, "이미 북마크에 추가된 장소입니다."),
-
-	// 500 Internal Server Error
-	;
+	ALREADY_EXIST_BOOKMARK_EXCEPTION(CONFLICT, "이미 북마크에 추가된 장소입니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;

@@ -9,7 +9,6 @@ import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 
 @Component
 public class BookmarkValidator {
-
 	public void validateExistBookmark(Bookmark bookmark) {
 		if (bookmark == null) {
 			throw new BookmarkException(NOT_FOUND_BOOKMARK_EXCEPTION);

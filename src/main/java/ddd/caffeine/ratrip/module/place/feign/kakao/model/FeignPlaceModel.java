@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor
-public class PlaceKakaoModel {
-	List<PlaceKakaoData> documents;
-	KakaoFeignMetaData meta;
+public class FeignPlaceModel {
+	List<FeignPlaceData> documents;
+	FeignPlaceMetaData meta;
 
 	public PlaceSearchResponseDto mapByPlaceSearchResponseDto() {
 		List<PlaceSearchModel> searchModels = new ArrayList<>();
-		for (PlaceKakaoData document : documents) {
+		for (FeignPlaceData document : documents) {
 
 			PlaceSearchModel model = PlaceSearchModel.builder()
 				.placeKakaoId(document.getId())
@@ -39,11 +39,11 @@ public class PlaceKakaoModel {
 	}
 
 	public Place mapByPlaceEntity() {
-		PlaceKakaoData placeKakaoData = readOne();
-		return placeKakaoData.mapByPlaceEntity();
+		FeignPlaceData feignPlaceData = readOne();
+		return feignPlaceData.mapByPlaceEntity();
 	}
 
-	public PlaceKakaoData readOne() {
+	public FeignPlaceData readOne() {
 		final int PLACE_INDEX = 0;
 		if (this.documents.isEmpty()) {
 			throw new PlaceException(NOT_FOUND_PLACE_EXCEPTION);

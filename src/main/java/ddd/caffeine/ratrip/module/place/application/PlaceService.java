@@ -16,8 +16,8 @@ import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
@@ -43,10 +43,10 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(ThirdPartySearchOption searchOption) {
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByKeywordAndCoordinate(
 			searchOption);
 
-		return placeKakaoModel.mapByPlaceSearchResponseDto();
+		return feignPlaceModel.mapByPlaceSearchResponseDto();
 	}
 
 	@Transactional(readOnly = true)
@@ -105,9 +105,9 @@ public class PlaceService {
 	 */
 	private void handlePlaceUpdate(Place place, Map<String, String> placeNameAndAddressMap) {
 		if (place.checkNeedsUpdate(placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"))) {
-			PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(
+			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
-			place.update(placeKakaoModel.readOne());
+			place.update(feignPlaceModel.readOne());
 		}
 	}
 
@@ -117,11 +117,11 @@ public class PlaceService {
 	private Place readPlaceEntity(Map<String, String> placeNameAndAddressMap) {
 		final int DATA_INDEX = 0;
 
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
-		Place place = placeKakaoModel.mapByPlaceEntity();
+		Place place = feignPlaceModel.mapByPlaceEntity();
 
-		ImageNaverModel imageModel = placeFeignService.readImageModel(placeNameAndAddressMap.get("name"));
+		FeignImageModel imageModel = placeFeignService.readImageModel(placeNameAndAddressMap.get("name"));
 		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 
 		return place;

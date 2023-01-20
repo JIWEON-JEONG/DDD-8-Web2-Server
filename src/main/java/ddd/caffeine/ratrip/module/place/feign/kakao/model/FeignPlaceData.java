@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PlaceKakaoData {
+public class FeignPlaceData {
 	private String id;
 	private String categoryGroupCode;
 	private String categoryGroupName;

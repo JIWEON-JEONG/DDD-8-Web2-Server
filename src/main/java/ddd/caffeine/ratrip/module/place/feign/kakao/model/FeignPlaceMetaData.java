@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class KakaoFeignMetaData {
+public class FeignPlaceMetaData {
 	private boolean isEnd;
 	private int pageableCount;
 	private SameName sameName;

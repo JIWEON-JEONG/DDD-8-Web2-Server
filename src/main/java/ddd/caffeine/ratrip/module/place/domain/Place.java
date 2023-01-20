@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoData;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceData;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +46,15 @@ public class Place extends AuditingTimeEntity {
 	@NotNull
 	@Embedded
 	private Address address;
+
+	@Embedded
+	private Blog blog1;
+
+	@Embedded
+	private Blog blog2;
+
+	@Embedded
+	private Blog blog3;
 
 	@NotNull
 	@Embedded
@@ -112,7 +121,7 @@ public class Place extends AuditingTimeEntity {
 		return Boolean.TRUE;
 	}
 
-	public void update(PlaceKakaoData data) {
+	public void update(FeignPlaceData data) {
 		this.isUpdated = Boolean.TRUE;
 
 		this.kakaoId = data.getId();

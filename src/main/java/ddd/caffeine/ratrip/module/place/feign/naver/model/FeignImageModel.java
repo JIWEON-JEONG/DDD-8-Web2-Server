@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ImageNaverModel {
+public class FeignImageModel {
 	private List<ImageItem> items;
 
 	public String readImageLinkByIndex(int index) {

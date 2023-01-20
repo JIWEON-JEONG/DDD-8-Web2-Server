@@ -12,7 +12,7 @@ import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.BookmarkRepository;
-import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookmarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class BookmarkService {
 	@Transactional(readOnly = true)
 	public BookmarksResponseDto getBookmarks(User user, List<String> categories,
 		Pageable page) {
-		Slice<BookmarkPlaceDao> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(
+		Slice<BookMarkPlaceDao> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(
 			Category.createCategories(categories),
 			user, page);
 

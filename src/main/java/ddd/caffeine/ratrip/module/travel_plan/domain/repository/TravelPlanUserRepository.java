@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 
 @Repository
-public interface TravelPlanUserRepository extends JpaRepository<TravelPlanUser, Long> {
+public interface TravelPlanUserRepository extends JpaRepository<TravelPlanUser, Long>, TravelPlanUserQueryRepository {
 }

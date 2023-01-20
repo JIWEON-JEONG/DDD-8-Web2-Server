@@ -38,4 +38,8 @@ public class TravelPlanUser extends AuditingTimeEntity {
 		this.travelPlan = travelPlan;
 		this.user = user;
 	}
+
+	public TravelPlan readTravelPlan() {
+		return this.travelPlan;
+	}
 }

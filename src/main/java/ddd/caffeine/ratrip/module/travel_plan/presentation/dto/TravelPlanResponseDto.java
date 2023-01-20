@@ -5,10 +5,14 @@ import java.util.UUID;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class TravelPlanStartResponseDto {
+@NoArgsConstructor
+public class TravelPlanResponseDto {
+
 	private UUID planUUID;
 
 	private String title;
@@ -19,11 +23,19 @@ public class TravelPlanStartResponseDto {
 
 	private int travelDays;
 
-	public TravelPlanStartResponseDto(TravelPlan travelPlan) {
+	private boolean hasPlan;
+
+	public TravelPlanResponseDto(boolean hasPlan) {
+		this.hasPlan = hasPlan;
+	}
+
+	@Builder
+	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {
 		this.planUUID = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();
 		this.startDate = travelPlan.getStartDate();
 		this.travelDays = travelPlan.getTravelDays();
+		this.hasPlan = hasPlan;
 	}
 }

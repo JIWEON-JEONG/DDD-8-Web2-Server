@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class TravelPlanStartRequestDto {
+public class TravelPlanInitRequestDto {
 	@NotEmpty(message = "Region must not be Blank")
 	private String region;
 

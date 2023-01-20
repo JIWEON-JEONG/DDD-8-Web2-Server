@@ -66,6 +66,10 @@ public class User extends AuditingTimeEntity implements UserDetails {
 			.build();
 	}
 
+	public void updateName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;

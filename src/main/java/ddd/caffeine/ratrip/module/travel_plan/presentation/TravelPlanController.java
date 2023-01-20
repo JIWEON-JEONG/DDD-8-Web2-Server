@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/travel-plan")
+@RequestMapping("v1/travel-plans")
 public class TravelPlanController {
 
 	private final TravelPlanService travelPlanService;

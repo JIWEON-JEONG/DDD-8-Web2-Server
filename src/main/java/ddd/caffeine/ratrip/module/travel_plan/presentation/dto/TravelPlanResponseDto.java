@@ -1,41 +1,22 @@
 package ddd.caffeine.ratrip.module.travel_plan.presentation.dto;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import java.util.List;
 
-import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+//Todo : 이미지 ?
 @Getter
 @NoArgsConstructor
 public class TravelPlanResponseDto {
 
-	private UUID planUUID;
-
-	private String title;
-
-	private Region region;
-
-	private LocalDate startDate;
-
-	private int travelDays;
-
-	private boolean hasPlan;
-
-	public TravelPlanResponseDto(boolean hasPlan) {
-		this.hasPlan = hasPlan;
-	}
+	List<TravelPlanResponseModel> contents;
+	private boolean hasNext;
 
 	@Builder
-	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {
-		this.planUUID = travelPlan.readUUID();
-		this.title = travelPlan.getTitle();
-		this.region = travelPlan.getRegion();
-		this.startDate = travelPlan.getStartDate();
-		this.travelDays = travelPlan.getTravelDays();
-		this.hasPlan = hasPlan;
+	public TravelPlanResponseDto(List<TravelPlanResponseModel> contents, boolean hasNext) {
+		this.contents = contents;
+		this.hasNext = hasNext;
 	}
 }

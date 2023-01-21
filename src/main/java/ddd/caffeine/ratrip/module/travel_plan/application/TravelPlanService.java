@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
@@ -31,8 +33,13 @@ public class TravelPlanService {
 	private final TravelPlanRepository travelPlanRepository;
 
 	@Transactional(readOnly = true)
-	public TravelPlanResponseDto readTravelPlanByUser(User user) {
+	public TravelPlanOngoingResponseDto readTravelPlanByUser(User user) {
 		return travelPlanUserService.readByUserUnfinishedTravel(user);
+	}
+
+	@Transactional(readOnly = true)
+	public TravelPlanResponseDto readAllTravelPlanByUser(User user, Pageable pageable) {
+		return travelPlanUserService.readByUser(user, pageable);
 	}
 
 	@Transactional

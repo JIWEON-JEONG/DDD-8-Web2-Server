@@ -3,6 +3,9 @@ package ddd.caffeine.ratrip.module.travel_plan.presentation;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +23,7 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
@@ -40,9 +44,18 @@ public class TravelPlanController {
 
 	@Operation(summary = "현재 진행중인 여행 계획 정보 불러오기 API")
 	@GetMapping("ongoing")
-	public ResponseEntity<TravelPlanResponseDto> readTravelPlanOngoingApi(
+	public ResponseEntity<TravelPlanOngoingResponseDto> readTravelPlanOngoingApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-		TravelPlanResponseDto response = travelPlanService.readTravelPlanByUser(user);
+		TravelPlanOngoingResponseDto response = travelPlanService.readTravelPlanByUser(user);
+		return ResponseEntity.ok(response);
+	}
+
+	@Operation(summary = "진행 했던 모든 여행계획 불러오기 - 마이페이지에서 사용예정")
+	@GetMapping
+	public ResponseEntity<TravelPlanResponseDto> readAllTravelPlanApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		TravelPlanResponseDto response = travelPlanService.readAllTravelPlanByUser(user, pageable);
 		return ResponseEntity.ok(response);
 	}
 

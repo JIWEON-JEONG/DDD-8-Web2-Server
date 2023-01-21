@@ -5,7 +5,9 @@ import java.util.UUID;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import lombok.Getter;
 
+@Getter
 public class TravelPlanResponseModel {
 
 	private UUID planUUID;

@@ -35,7 +35,9 @@ public enum ExceptionInformation {
 	NOT_FOUND_JWT_USERID_EXCEPTION(UNAUTHORIZED, "JWT 토큰에 userId가 비어 있습니다."),
 	NOT_FOUND_REFRESH_TOKEN_EXCEPTION(UNAUTHORIZED, "DB에 존재하지 않는 리프레시 토큰입니다."),
 	UNAUTHORIZED_ACCESS_TRAVEL_PLAN(UNAUTHORIZED, "해당 여행 계획에 접근 할 수 없습니다."),
-
+	INVALID_ID_TOKEN_EXCEPTION(UNAUTHORIZED, "잘못된 애플 Id 토큰입니다."),
+	EXPIRED_ID_TOKEN_EXCEPTION(UNAUTHORIZED, "만료된 애플 Id 토큰입니다."),
+	INVALID_PUBLIC_KEY_EXCEPTION(UNAUTHORIZED, "잘못된 애플 Public Key 입니다."),
 	// 403 Forbidden
 
 	// 404 Not Found

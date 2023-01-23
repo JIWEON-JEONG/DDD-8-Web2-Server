@@ -1,4 +1,6 @@
-package ddd.caffeine.ratrip.module.auth.external.apple;
+package ddd.caffeine.ratrip.common.util;
+
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -16,6 +18,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ddd.caffeine.ratrip.common.exception.domain.CommonException;
+import ddd.caffeine.ratrip.module.auth.external.apple.AppleApiClient;
 import ddd.caffeine.ratrip.module.auth.external.apple.dto.response.ApplePublicKeyResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -45,9 +49,9 @@ public class AppleTokenProvider {
 			return claims.getSubject();
 
 		} catch (JsonProcessingException | InvalidClaimException e) {
-			throw new ExternalException(INVALID_ID_TOKEN_EXCEPTION);
+			throw new CommonException(INVALID_ID_TOKEN_EXCEPTION);
 		} catch (ExpiredJwtException e) {
-			throw new ExternalException(EXPIRED_ID_TOKEN_EXCEPTION);
+			throw new CommonException(EXPIRED_ID_TOKEN_EXCEPTION);
 		}
 	}
 
@@ -69,7 +73,7 @@ public class AppleTokenProvider {
 			return keyFactory.generatePublic(publicKeySpec);
 
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			throw new ExternalException(INVALID_PUBLIC_KEY_EXCEPTION);
+			throw new CommonException(INVALID_PUBLIC_KEY_EXCEPTION);
 		}
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignInWithAppleRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
@@ -32,6 +33,12 @@ public class AuthController {
 	@GetMapping("/signin/kakao")
 	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestParam("code") String code) {
 		return ResponseEntity.ok(authService.signInWithKakao(code));
+	}
+
+	@Operation(summary = "애플 로그인")
+	@GetMapping("/signin/apple")
+	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @RequestBody SignInWithAppleRequestDto request) {
+		return ResponseEntity.ok(authService.signInWithApple(request.toServiceDto()));
 	}
 
 	@Operation(summary = "엑세스 토큰 재발급")

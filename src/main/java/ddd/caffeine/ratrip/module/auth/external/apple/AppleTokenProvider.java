@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ddd.caffeine.ratrip.module.auth.external.apple.dto.ApplePublicKeyResponse;
+import ddd.caffeine.ratrip.module.auth.external.apple.dto.response.ApplePublicKeyResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.InvalidClaimException;

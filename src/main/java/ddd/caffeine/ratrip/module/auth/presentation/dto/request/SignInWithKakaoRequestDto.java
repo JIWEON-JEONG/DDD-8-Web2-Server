@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.auth.presentation.dto.request;
 
 import javax.validation.constraints.NotBlank;
 
-import ddd.caffeine.ratrip.module.auth.application.dto.SignInWithKakaoDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

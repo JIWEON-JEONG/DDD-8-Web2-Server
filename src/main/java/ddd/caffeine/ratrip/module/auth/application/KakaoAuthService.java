@@ -5,11 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
 import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
-import ddd.caffeine.ratrip.module.auth.external.KakaoAuthorizeApiClient;
-import ddd.caffeine.ratrip.module.auth.external.KakaoUserApiClient;
-import ddd.caffeine.ratrip.module.auth.external.dto.request.KakaoBearerTokenRequest;
-import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoBearerTokenResponse;
-import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfile;
+import ddd.caffeine.ratrip.module.auth.external.kakao.KakaoAuthorizeApiClient;
+import ddd.caffeine.ratrip.module.auth.external.kakao.KakaoUserApiClient;
+import ddd.caffeine.ratrip.module.auth.external.kakao.dto.request.KakaoBearerTokenRequest;
+import ddd.caffeine.ratrip.module.auth.external.kakao.dto.response.KakaoBearerTokenResponse;
+import ddd.caffeine.ratrip.module.auth.external.kakao.dto.response.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 
 @Service

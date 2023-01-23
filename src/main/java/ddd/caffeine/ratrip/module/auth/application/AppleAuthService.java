@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.auth.application.dto.SignInWithKakaoDto;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignUpWithAppleDto;
 import ddd.caffeine.ratrip.module.auth.external.apple.AppleTokenProvider;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;

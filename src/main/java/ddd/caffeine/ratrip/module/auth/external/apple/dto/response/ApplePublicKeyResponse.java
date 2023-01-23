@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.auth.external.apple.dto;
+package ddd.caffeine.ratrip.module.auth.external.apple.dto.response;
 
 import java.util.List;
 

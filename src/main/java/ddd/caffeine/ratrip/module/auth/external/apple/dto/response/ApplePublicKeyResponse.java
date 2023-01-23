@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.auth.external.apple.dto.response;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.List;
 
 import ddd.caffeine.ratrip.common.exception.domain.CommonException;

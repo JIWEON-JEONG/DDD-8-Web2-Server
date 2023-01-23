@@ -1,28 +1,33 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'org.springframework.boot' version '3.0.0'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'ddd.caffeine'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+ext {
+    set('springCloudVersion', "2021.0.4")
 }
 
-ext {
-    set('springCloudVersion', "2022.0.0-M5")
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
 }
-
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -31,11 +36,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // querydsl
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
     // openfeign
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
@@ -44,7 +53,7 @@ dependencies {
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
 
     //IO
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-io:commons-io:2.11.0'
 
     // jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
@@ -57,19 +66,54 @@ dependencies {
     //UUID
     implementation "com.fasterxml.uuid:java-uuid-generator:4.0.1"
 
+    //hibernate-spatial : 좌표를 다루기 위해 import
+    implementation group: 'org.hibernate', name: 'hibernate-spatial'
+
+    //db_connection
+    implementation 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
+
+    //warning: unknown enum constant When.MAYBE 이슈 안뜨게 하는 라이브러리.
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+jar {
+    enabled = false
+}
+// QueryDSL
+def querydslDir = "$buildDir/generated/'querydsl'"
+
+// JPA 사용여부 및 사용 경로 설정
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+// build시 사용할 sourceSet 추가 설정
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+
+// querydsl 컴파일 시 사용할 옵션 설정
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl이 compileClassPath를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+

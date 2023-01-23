@@ -1,14 +1,18 @@
 package ddd.caffeine.ratrip.module.user.application;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.user.application.dto.RegisterUserDto;
+import ddd.caffeine.ratrip.common.exception.domain.UserException;
+import ddd.caffeine.ratrip.module.notification.application.dto.UpdateUserNameDto;
+import ddd.caffeine.ratrip.module.user.application.dto.SignUpUserDto;
 import ddd.caffeine.ratrip.module.user.domain.SocialInfo;
 import ddd.caffeine.ratrip.module.user.domain.User;
-import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import ddd.caffeine.ratrip.module.user.domain.UserStatus;
 import ddd.caffeine.ratrip.module.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +20,40 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
-	private final UserServiceValidator userServiceValidator;
+	private final UserValidator userValidator;
 
-	public UUID registerUser(RegisterUserDto request) {
-		validateUserNotExist(SocialInfo.of(request.getSocialId(), request.getSocialType()));
+	public UUID findUserIdBySocialIdAndSocialType(SignUpUserDto request) {
+		User user = findUserBySocialInfo(SocialInfo.of(request.getSocialId(), request.getSocialType()));
+		return signUpUserIfAbsentAndGetUserId(request, user);
+	}
 
+	public String findUserName(User user) {
+		return user.getName();
+	}
+
+	public String updateName(User user, UpdateUserNameDto request) {
+		user.updateName(request.getNewName());
+		return userRepository.save(user).getName();
+	}
+
+	private User findUserBySocialInfo(SocialInfo socialInfo) {
+		return userRepository.findUserBySocialInfo(socialInfo);
+	}
+
+	private UUID signUpUserIfAbsentAndGetUserId(SignUpUserDto request, User user) {
+		if (userExist(user)) {
+			return user.getId();
+		}
+		return signUpUserAndGetUserId(request);
+	}
+
+	private boolean userExist(User user) {
+		return user != null;
+	}
+
+	private UUID signUpUserAndGetUserId(SignUpUserDto request) {
 		User user = userRepository.save(
 			User.of(request.getName(), request.getEmail(), UserStatus.ACTIVE, request.getSocialId(),
 				request.getSocialType()));
@@ -30,20 +61,9 @@ public class UserService {
 		return user.getId();
 	}
 
-	public UUID findUserBySocialIdAndSocialType(String socialId, UserSocialType socialType) {
-		User user = findUserBySocialInfo(SocialInfo.of(socialId, socialType));
-		return user.getId();
-	}
-
-	private void validateUserNotExist(SocialInfo socialInfo) {
-		User user = userRepository.findUserBySocialInfo(socialInfo);
-		userServiceValidator.validateUserNotExist(user);
-	}
-
-	private User findUserBySocialInfo(SocialInfo socialInfo) {
-		User user = userRepository.findUserBySocialInfo(socialInfo);
-		userServiceValidator.validateUserExist(user);
-
-		return user;
+	@Override
+	public User loadUserByUsername(String userId) {
+		return userRepository.findById(UUID.fromString(userId))
+			.orElseThrow(() -> new UserException(NOT_FOUND_USER_EXCEPTION));
 	}
 }

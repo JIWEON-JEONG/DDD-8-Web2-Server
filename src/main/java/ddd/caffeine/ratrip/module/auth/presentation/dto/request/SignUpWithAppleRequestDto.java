@@ -1,10 +1,11 @@
 package ddd.caffeine.ratrip.module.auth.presentation.dto.request;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.util.StringUtils;
 
 import ddd.caffeine.ratrip.module.auth.application.dto.SignUpWithAppleDto;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

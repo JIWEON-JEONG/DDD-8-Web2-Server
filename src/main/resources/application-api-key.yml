@@ -1,3 +1,0 @@
-api:
-  key:
-    kakao: ${KAKAO_API_KEY}

@@ -1,0 +1,71 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: ratrip
+
+  config:
+    activate:
+      on-profile: "dev"
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        non_contextual_creation: true
+        format_sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      platform: develop
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  default-produces-media-type: application/json
+  override-with-generic-response: true #생성된 모든 응답에 @ControllerAdvice 응답을 자동으로 추가합니다.
+  writer-with-default-pretty-printer: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 2000
+        loggerLevel: FULL
+
+logging:
+  level:
+    ddd.caffeine.ratrip: DEBUG
+
+secret:
+  jwt-secret: ${JWT_SECRET_KEY}
+
+  kakao:
+    rest-api-key: ${KAKAO_API_KEY}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
+
+  naver:
+    client-key: ${NAVER_CLIENT_KEY}
+    secret-key: ${NAVER_SECRET_KEY}
+
+
+
+

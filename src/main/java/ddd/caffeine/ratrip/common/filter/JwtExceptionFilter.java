@@ -2,17 +2,18 @@ package ddd.caffeine.ratrip.common.filter;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ddd.caffeine.ratrip.common.exception.BaseException;
 import ddd.caffeine.ratrip.common.exception.ExceptionResponse;
-import ddd.caffeine.ratrip.common.exception.domain.CommonException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
@@ -21,12 +22,12 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 		try {
 			filterChain.doFilter(request, response);
-		} catch (CommonException e) {
+		} catch (BaseException e) {
 			respondException(response, e);
 		}
 	}
 
-	private void respondException(HttpServletResponse response, CommonException e) throws IOException {
+	private void respondException(HttpServletResponse response, BaseException e) throws IOException {
 		setResponseHeader(response);
 		writeResponse(response, e);
 	}
@@ -36,7 +37,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 		response.setCharacterEncoding("UTF-8");
 	}
 
-	private void writeResponse(HttpServletResponse response, CommonException e) throws IOException {
+	private void writeResponse(HttpServletResponse response, BaseException e) throws IOException {
 		ExceptionResponse exceptionResponse = ExceptionResponse.of(
 			e.getHttpStatus(), e.getErrorCode(), e.getMessage());
 		response.setStatus(exceptionResponse.getHttpStatus().value());

@@ -1,17 +1,21 @@
 package ddd.caffeine.ratrip.module.user.domain;
 
+import java.util.Collection;
 import java.util.UUID;
 
-import com.fasterxml.uuid.Generators;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends AuditingTimeEntity {
+public class User extends AuditingTimeEntity implements UserDetails {
 	@Id
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
@@ -39,18 +43,9 @@ public class User extends AuditingTimeEntity {
 	private SocialInfo socialInfo;
 
 	@PrePersist
-	public void createUserUniqId() {
+	public void createUserPrimaryKey() {
 		//sequential uuid 생성
-		UUID uuid = Generators.timeBasedGenerator().generate();
-		String[] uuidArr = uuid.toString().split("-");
-		String uuidStr = uuidArr[2] + uuidArr[1] + uuidArr[0] + uuidArr[3] + uuidArr[4];
-		StringBuilder sb = new StringBuilder(uuidStr);
-		sb.insert(8, "-");
-		sb.insert(13, "-");
-		sb.insert(18, "-");
-		sb.insert(23, "-");
-		uuid = UUID.fromString(sb.toString());
-		this.id = uuid;
+		this.id = SequentialUUIDGenerator.generate();
 	}
 
 	@Builder(access = AccessLevel.PACKAGE)
@@ -69,5 +64,44 @@ public class User extends AuditingTimeEntity {
 			.socialId(socialId)
 			.socialType(socialType)
 			.build();
+	}
+
+	public void updateName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		return id.toString();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

@@ -2,59 +2,45 @@ package ddd.caffeine.ratrip.module.auth.presentation;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ddd.caffeine.ratrip.module.auth.application.AppleAuthService;
-import ddd.caffeine.ratrip.module.auth.application.KakaoAuthService;
+import ddd.caffeine.ratrip.module.auth.application.AuthService;
 import ddd.caffeine.ratrip.module.auth.application.TokenService;
-import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignInWithAppleRequestDto;
-import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignInWithKakaoRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDto;
-import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignUpWithAppleRequestDto;
-import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignUpWithKakaoRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class AuthController {
-	private final KakaoAuthService kakaoAuthService;
-	private final AppleAuthService appleAuthService;
+	private final AuthService authService;
 	private final TokenService tokenService;
 
-	@PostMapping("/auth/signup/kakao")
-	public ResponseEntity<SignInResponseDto> signUpWithKakao(@Valid @RequestBody SignUpWithKakaoRequestDto request) {
-		return ResponseEntity.ok(kakaoAuthService.signUpWithKakao(request.toServiceDto()));
+	@Operation(summary = "카카오 로그인")
+	@GetMapping("/auth/signin/kakao")
+	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestParam("code") String code) {
+		return ResponseEntity.ok(authService.signInWithKakao(code));
 	}
 
-	@PostMapping("/auth/signup/apple")
-	public ResponseEntity<SignInResponseDto> signUpWithApple(@Valid @RequestBody SignUpWithAppleRequestDto request) {
-		return ResponseEntity.ok(appleAuthService.signUpWithApple(request.toServiceDto()));
-	}
-
-	@PostMapping("/auth/signin/kakao")
-	public ResponseEntity<SignInResponseDto> signInWithKakao(@Valid @RequestBody SignInWithKakaoRequestDto request) {
-		return ResponseEntity.ok(kakaoAuthService.signInWithKakao(request.toServiceDto()));
-	}
-
-	@PostMapping("/auth/signin/apple")
-	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @RequestBody SignInWithAppleRequestDto request) {
-		return ResponseEntity.ok(appleAuthService.signInWithApple(request.toServiceDto()));
-	}
-
+	@Operation(summary = "엑세스 토큰 재발급")
 	@PostMapping("/auth/reissue")
 	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
 		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
 	}
 
+	@Operation(summary = "로그아웃")
 	@PostMapping("/auth/signout")
 	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
 		return ResponseEntity.ok(tokenService.deleteToken(request.toServiceDto()));

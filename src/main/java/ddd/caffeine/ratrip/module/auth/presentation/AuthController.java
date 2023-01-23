@@ -22,26 +22,26 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
 	private final TokenService tokenService;
 
 	@Operation(summary = "카카오 로그인")
-	@GetMapping("/auth/signin/kakao")
+	@GetMapping("/signin/kakao")
 	public ResponseEntity<SignInResponseDto> signInWithKakao(@RequestParam("code") String code) {
 		return ResponseEntity.ok(authService.signInWithKakao(code));
 	}
 
 	@Operation(summary = "엑세스 토큰 재발급")
-	@PostMapping("/auth/reissue")
+	@PostMapping("/reissue")
 	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
 		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
 	}
 
 	@Operation(summary = "로그아웃")
-	@PostMapping("/auth/signout")
+	@PostMapping("/signout")
 	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
 		return ResponseEntity.ok(tokenService.deleteToken(request.toServiceDto()));
 	}

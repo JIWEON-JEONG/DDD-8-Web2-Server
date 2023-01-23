@@ -21,6 +21,7 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRes
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 @Validated
@@ -33,14 +34,14 @@ public class TravelPlanController {
 
 	@GetMapping("ongoing")
 	public ResponseEntity<TravelPlanResponseDto> readTravelPlanOngoingApi(
-		@AuthenticationPrincipal User user) {
+		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
 		TravelPlanResponseDto response = travelPlanService.readTravelPlanByUser(user);
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping
 	public ResponseEntity<TravelPlanInitResponseDto> makeTravelPlanApi
-		(@AuthenticationPrincipal User user,
+		(@Parameter(hidden = true) @AuthenticationPrincipal User user,
 			@Valid @RequestBody TravelPlanInitRequestDto request) {
 		TravelPlanInitResponseDto response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
@@ -49,7 +50,7 @@ public class TravelPlanController {
 
 	@GetMapping("/{id}/day-schedules")
 	public ResponseEntity<DayScheduleResponseDto> ReadScheduleByDayApi
-		(@AuthenticationPrincipal User user,
+		(@Parameter(hidden = true) @AuthenticationPrincipal User user,
 			@PathVariable("id") @UUIDFormat String travelPlanUUID,
 			@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
 

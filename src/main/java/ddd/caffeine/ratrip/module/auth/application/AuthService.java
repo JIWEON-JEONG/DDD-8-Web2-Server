@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.auth.application.dto.SignOutDto;
 import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfile;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignOutResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import ddd.caffeine.ratrip.module.user.application.UserService;
 import ddd.caffeine.ratrip.module.user.application.dto.SignUpUserDto;
@@ -28,5 +30,9 @@ public class AuthService {
 		TokenResponseDto tokenResponseDto = tokenService.createJwtToken(userId);
 
 		return SignInResponseDto.of(userId, tokenResponseDto);
+	}
+
+	public SignOutResponseDto signOut(SignOutDto request) {
+		return tokenService.deleteToken(request);
 	}
 }

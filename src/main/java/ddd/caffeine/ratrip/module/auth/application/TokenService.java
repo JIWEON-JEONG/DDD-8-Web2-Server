@@ -31,8 +31,8 @@ public class TokenService {
 		return jwtProvider.createJwtToken(userId);
 	}
 
-	public SignOutResponseDto deleteToken(SignOutDto signOutDto) {
-		UUID userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
+	public SignOutResponseDto deleteToken(SignOutDto request) {
+		UUID userId = jwtUtil.validateTokensAndGetUserId(request.getAccessToken(), request.getRefreshToken());
 		jwtRemover.deleteRefreshToken(userId);
 		return new SignOutResponseDto(userId);
 	}

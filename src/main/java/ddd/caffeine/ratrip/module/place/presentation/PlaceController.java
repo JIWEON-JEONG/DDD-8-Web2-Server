@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.module.place.presentation;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -87,10 +88,10 @@ public class PlaceController {
 	@Operation(summary = "[인증] 북마크 추가")
 	@ApiResponse(description = "북마크 추가 성공 시, 북마크 ID 반환")
 	@PostMapping("/{id}/bookmarks")
-	public ResponseEntity<java.util.UUID> callAddBookmarkApi(
+	public ResponseEntity<UUID> callAddBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
-		java.util.UUID response = placeService.addBookMark(java.util.UUID.fromString(id), user);
+		UUID response = placeService.addBookMark(UUID.fromString(id), user);
 
 		return ResponseEntity.ok(response);
 	}
@@ -100,7 +101,7 @@ public class PlaceController {
 	public ResponseEntity<String> callDeleteBookmarkApi(
 		@PathVariable @UUIDFormat String id,
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-		placeService.deleteBookMark(java.util.UUID.fromString(id), user);
+		placeService.deleteBookMark(UUID.fromString(id), user);
 		return ResponseEntity.ok("SUCCESS TO DELETE");
 	}
 

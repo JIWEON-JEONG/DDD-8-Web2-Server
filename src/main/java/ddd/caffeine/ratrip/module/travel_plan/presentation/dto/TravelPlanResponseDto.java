@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TravelPlanResponseDto {
 
-	private UUID planUUID;
+	private UUID id;
 
 	private String title;
 
@@ -31,7 +31,7 @@ public class TravelPlanResponseDto {
 
 	@Builder
 	public TravelPlanResponseDto(TravelPlan travelPlan, boolean hasPlan) {
-		this.planUUID = travelPlan.readUUID();
+		this.id = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();
 		this.startDate = travelPlan.getStartDate();

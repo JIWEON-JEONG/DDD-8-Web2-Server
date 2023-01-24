@@ -8,5 +8,5 @@ import lombok.Getter;
 public class NotificationDetailResponseDto {
 	private final Long id;
 	private final String title;
-	private final String contents;
+	private final String content;
 }

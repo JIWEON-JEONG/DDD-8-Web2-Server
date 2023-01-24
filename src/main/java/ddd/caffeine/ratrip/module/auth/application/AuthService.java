@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.auth.application.dto.SignOutDto;
+import ddd.caffeine.ratrip.module.auth.application.dto.TokenReissueDto;
 import ddd.caffeine.ratrip.module.auth.external.dto.response.KakaoProfile;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignOutResponseDto;
@@ -34,5 +35,9 @@ public class AuthService {
 
 	public SignOutResponseDto signOut(SignOutDto request) {
 		return tokenService.deleteToken(request);
+	}
+
+	public TokenResponseDto reissueToken(TokenReissueDto request) {
+		return tokenService.reissueToken(request);
 	}
 }

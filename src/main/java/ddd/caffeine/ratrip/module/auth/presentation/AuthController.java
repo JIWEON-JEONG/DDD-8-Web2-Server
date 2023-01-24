@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class AuthController {
+
 	private final AuthService authService;
 
 	@Operation(summary = "카카오 로그인")
@@ -34,7 +35,7 @@ public class AuthController {
 	@Operation(summary = "엑세스 토큰 재발급")
 	@PostMapping("/auth/reissue")
 	public ResponseEntity<TokenResponseDto> reissueToken(@Valid @RequestBody TokenReissueRequestDto request) {
-		return ResponseEntity.ok(tokenService.reissueToken(request.toServiceDto()));
+		return ResponseEntity.ok(authService.reissueToken(request.toServiceDto()));
 	}
 
 	@Operation(summary = "로그아웃")

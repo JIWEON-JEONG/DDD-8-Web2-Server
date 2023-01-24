@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class TravelPlanResponseModel {
 
-	private UUID planUUID;
+	private UUID id;
 
 	private String title;
 
@@ -21,7 +21,7 @@ public class TravelPlanResponseModel {
 	private int travelDays;
 
 	public TravelPlanResponseModel(TravelPlan travelPlan) {
-		this.planUUID = travelPlan.readUUID();
+		this.id = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();
 		this.startDate = travelPlan.getStartDate();

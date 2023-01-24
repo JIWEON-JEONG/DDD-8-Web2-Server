@@ -52,11 +52,9 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
-		Optional<Place> place = placeRepository.findById(UUID.fromString(uuid));
-		placeValidator.validateExistPlace(place);
-
-		boolean isBookmarked = bookmarkService.isBookmarked(user, place.get());
-		return new PlaceDetailsResponseDto(place.get(), isBookmarked);
+		Place place = readPlaceByUUID(UUID.fromString(uuid));
+		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
+		return new PlaceDetailsResponseDto(place, isBookmarked);
 	}
 
 	@Transactional
@@ -88,17 +86,20 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public UUID deleteBookMark(UUID placeId, User user) {
-		Optional<Place> place = placeRepository.findById(placeId);
-		placeValidator.validateExistPlace(place);
-		bookmarkService.deleteBookmark(user, place.get());
-
-		return UUID.randomUUID();
+	public void deleteBookMark(UUID placeId, User user) {
+		Optional<Place> optionalPlace = placeRepository.findById(placeId);
+		Place place = placeValidator.validateExistPlace(optionalPlace);
+		bookmarkService.deleteBookmark(user, place);
 	}
 
 	@Transactional(readOnly = true)
 	public BookmarksResponseDto readBookmarks(User user, List<String> categories, Pageable pageable) {
 		return bookmarkService.getBookmarks(user, categories, pageable);
+	}
+
+	public Place readPlaceByUUID(UUID placeUUID) {
+		Optional<Place> place = placeRepository.findById(placeUUID);
+		return placeValidator.validateExistPlace(place);
 	}
 
 	/**
@@ -127,5 +128,4 @@ public class PlaceService {
 
 		return place;
 	}
-
 }

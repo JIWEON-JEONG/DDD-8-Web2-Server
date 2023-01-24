@@ -13,7 +13,7 @@ public class DaySchedulePlaceDto {
 	private String name;
 	private Category category;
 	private String memo;
-	private int order;
+	private int sequence;
 
 	@Builder
 	public DaySchedulePlaceDto(DaySchedulePlaceDao model) {
@@ -21,6 +21,6 @@ public class DaySchedulePlaceDto {
 		this.name = model.getPlaceName();
 		this.category = model.getCategory();
 		this.memo = model.getMemo();
-		this.order = model.getOrder();
+		this.sequence = model.getSequence();
 	}
 }

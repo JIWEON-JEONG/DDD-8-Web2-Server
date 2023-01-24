@@ -46,4 +46,8 @@ public class DaySchedule extends AuditingTimeEntity {
 		this.date = date;
 		this.travelPlan = travelPlan;
 	}
+
+	public UUID readPrimaryKey() {
+		return this.id;
+	}
 }

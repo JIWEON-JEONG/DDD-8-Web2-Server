@@ -3,11 +3,12 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
@@ -20,10 +21,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DayScheduleService {
 
-	private final DayScheduleRepository dayScheduleRepository;
 	private final DaySchedulePlaceService daySchedulePlaceService;
+	private final DayScheduleValidator dayScheduleValidator;
+	private final DayScheduleRepository dayScheduleRepository;
 
-	@Transactional
 	public void initTravelPlan(TravelPlan travelPlan, List<LocalDate> dates) {
 		List<DaySchedule> daySchedules = new ArrayList<>();
 		for (LocalDate date : dates) {
@@ -36,7 +37,12 @@ public class DayScheduleService {
 		dayScheduleRepository.saveAll(daySchedules);
 	}
 
-	@Transactional
+	public UUID addPlace(UUID dayScheduleUUID, Place place, String memo) {
+		Optional<DaySchedule> optionalDaySchedule = dayScheduleRepository.findById(dayScheduleUUID);
+		DaySchedule daySchedule = dayScheduleValidator.validateExistDaySchedule(optionalDaySchedule);
+		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
+	}
+
 	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {
 		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
 
@@ -48,6 +54,10 @@ public class DayScheduleService {
 			.daySchedulePlaces(createDaySchedulePlaceDto(daySchedulePlaces))
 			.hasRegisteredPlace(!(daySchedulePlaces.isEmpty()))
 			.build();
+	}
+
+	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
+		daySchedulePlaceService.exchangePlaceSequence(dayScheduleUUID, placeUUIDs);
 	}
 
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {

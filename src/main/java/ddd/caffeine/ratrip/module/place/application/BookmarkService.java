@@ -39,7 +39,6 @@ public class BookmarkService {
 		bookmarkRepository.delete(bookmark);
 	}
 
-	@Transactional(readOnly = true)
 	public BookmarksResponseDto getBookmarks(User user, List<String> categories,
 		Pageable page) {
 		Slice<BookMarkPlaceDao> bookmarkPlaceDtos = bookmarkRepository.findBookmarkPlacesInCategories(

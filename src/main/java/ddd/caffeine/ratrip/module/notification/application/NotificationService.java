@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ddd.caffeine.ratrip.module.notification.application.dto.CreateNotificationDto;
 import ddd.caffeine.ratrip.module.notification.domain.Notification;
 import ddd.caffeine.ratrip.module.notification.domain.respository.NotificationRepository;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationCreateResponseDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDetailResponseDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationsResponseDto;
@@ -20,9 +21,11 @@ public class NotificationService {
 	private final NotificationRepository notificationRepository;
 	private final NotificationValidator notificationValidator;
 
-	public Long createNotification(CreateNotificationDto request) {
+	public NotificationCreateResponseDto createNotification(CreateNotificationDto request) {
 		Notification notification = Notification.of(request.getTitle(), request.getContent());
-		return notificationRepository.save(notification).getId(); //TODO - 쿼리 최적화 필요 / 다른 save 문들 쿼리 확인해보기
+		Long notificationId = notificationRepository.save(notification)
+			.getId(); //TODO - 쿼리 최적화 필요 / 다른 save 문들 쿼리 확인해보기
+		return new NotificationCreateResponseDto(notificationId);
 	}
 
 	@Transactional(readOnly = true)

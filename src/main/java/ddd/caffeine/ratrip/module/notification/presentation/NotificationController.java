@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.module.notification.application.NotificationService;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.request.CreateNotificationRequestDto;
+import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationCreateResponseDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationDetailResponseDto;
 import ddd.caffeine.ratrip.module.notification.presentation.dto.response.NotificationsResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +27,8 @@ public class NotificationController {
 
 	@Operation(summary = "공지사항 추가")
 	@PostMapping("")
-	public ResponseEntity<Long> createNotification(@RequestBody CreateNotificationRequestDto request) {
+	public ResponseEntity<NotificationCreateResponseDto> createNotification(
+		@RequestBody CreateNotificationRequestDto request) {
 		return ResponseEntity.ok(notificationService.createNotification(request.toServiceDto()));
 	}
 

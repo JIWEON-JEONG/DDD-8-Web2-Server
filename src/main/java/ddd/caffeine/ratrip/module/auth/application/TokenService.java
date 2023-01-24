@@ -10,6 +10,7 @@ import ddd.caffeine.ratrip.common.jwt.JwtRemover;
 import ddd.caffeine.ratrip.common.jwt.JwtUtil;
 import ddd.caffeine.ratrip.module.auth.application.dto.SignOutDto;
 import ddd.caffeine.ratrip.module.auth.application.dto.TokenReissueDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignOutResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -30,9 +31,9 @@ public class TokenService {
 		return jwtProvider.createJwtToken(userId);
 	}
 
-	public UUID deleteToken(SignOutDto signOutDto) {
+	public SignOutResponseDto deleteToken(SignOutDto signOutDto) {
 		UUID userId = jwtUtil.validateTokensAndGetUserId(signOutDto.getAccessToken(), signOutDto.getRefreshToken());
 		jwtRemover.deleteRefreshToken(userId);
-		return userId;
+		return new SignOutResponseDto(userId);
 	}
 }

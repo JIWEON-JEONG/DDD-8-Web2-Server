@@ -1,7 +1,5 @@
 package ddd.caffeine.ratrip.module.auth.presentation;
 
-import java.util.UUID;
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import ddd.caffeine.ratrip.module.auth.application.TokenService;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.SignOutRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.request.TokenReissueRequestDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignInResponseDto;
+import ddd.caffeine.ratrip.module.auth.presentation.dto.response.SignOutResponseDto;
 import ddd.caffeine.ratrip.module.auth.presentation.dto.response.TokenResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class AuthController {
 
 	@Operation(summary = "로그아웃")
 	@PostMapping("/auth/signout")
-	public ResponseEntity<UUID> signOut(@Valid @RequestBody SignOutRequestDto request) {
+	public ResponseEntity<SignOutResponseDto> signOut(@Valid @RequestBody SignOutRequestDto request) {
 		return ResponseEntity.ok(tokenService.deleteToken(request.toServiceDto()));
 	}
 }

@@ -19,6 +19,7 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkAddResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
@@ -78,12 +79,12 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public UUID addBookMark(UUID placeId, User user) {
+	public BookmarkAddResponseDto addBookMark(UUID placeId, User user) {
 		Optional<Place> place = placeRepository.findById(placeId);
 		placeValidator.validateExistPlace(place);
-		UUID bookmarkID = bookmarkService.addBookmark(user, place.get());
+		UUID bookmarkId = bookmarkService.addBookmark(user, place.get());
 
-		return bookmarkID;
+		return new BookmarkAddResponseDto(bookmarkId);
 	}
 
 	@Transactional

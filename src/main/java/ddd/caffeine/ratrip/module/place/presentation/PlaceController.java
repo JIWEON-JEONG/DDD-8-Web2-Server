@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkAddResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
@@ -88,10 +89,10 @@ public class PlaceController {
 	@Operation(summary = "[인증] 북마크 추가")
 	@ApiResponse(description = "북마크 추가 성공 시, 북마크 ID 반환")
 	@PostMapping("/{id}/bookmarks")
-	public ResponseEntity<UUID> callAddBookmarkApi(
+	public ResponseEntity<BookmarkAddResponseDto> callAddBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
-		UUID response = placeService.addBookMark(UUID.fromString(id), user);
+		BookmarkAddResponseDto response = placeService.addBookMark(UUID.fromString(id), user);
 
 		return ResponseEntity.ok(response);
 	}

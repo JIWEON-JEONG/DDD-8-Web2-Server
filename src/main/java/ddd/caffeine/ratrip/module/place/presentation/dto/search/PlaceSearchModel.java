@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class PlaceSearchModel {
-	private String id;
+	private String kakaoId;
 	private String name;
 	private String address;
 	private String latitude;

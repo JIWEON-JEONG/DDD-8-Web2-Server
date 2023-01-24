@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class SignInResponseDto {
 	@Schema(description = "유저 ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6", type = "UUID")
-	private UUID userId;
+	private UUID id;
 	private TokenResponseDto token;
 
 	public static SignInResponseDto of(UUID userId, TokenResponseDto token) {

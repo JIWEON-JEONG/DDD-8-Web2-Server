@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,7 +101,7 @@ public class TravelPlanController {
 	}
 
 	@Operation(summary = "일정 내의 장소 순서 변경 API")
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
+	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
 	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,

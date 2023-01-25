@@ -10,10 +10,9 @@ import lombok.Getter;
 public class SignInWithAppleDto {
 	private String idToken;
 	private String authorizationCode;
-	private String state;
 	private AppleUserData user;
 
-	public static SignInWithAppleDto of(String idToken, String authorizationCode, String state, AppleUserData user) {
-		return new SignInWithAppleDto(idToken, authorizationCode, state, user);
+	public static SignInWithAppleDto of(String idToken, String authorizationCode, AppleUserData user) {
+		return new SignInWithAppleDto(idToken, authorizationCode, user);
 	}
 }

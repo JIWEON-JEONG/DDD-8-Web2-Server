@@ -1,13 +1,10 @@
 package ddd.caffeine.ratrip.module.travel_plan.application;
 
-import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
-
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import ddd.caffeine.ratrip.common.exception.domain.DayScheduleException;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
@@ -26,7 +23,6 @@ public class DaySchedulePlaceService {
 	}
 
 	public UUID addPlace(DaySchedule daySchedule, Place place, String memo) {
-		validateAddPlace(daySchedule, place);
 		DaySchedulePlace daySchedulePlace = DaySchedulePlace.builder()
 			.daySchedule(daySchedule)
 			.place(place)
@@ -48,13 +44,5 @@ public class DaySchedulePlaceService {
 	private int readNextSequence(UUID dayScheduleUUID) {
 		int total = daySchedulePlaceRepository.countPlacesByDayScheduleUUID(dayScheduleUUID);
 		return total + 1;
-	}
-
-	private void validateAddPlace(DaySchedule daySchedule, Place place) {
-		DaySchedulePlace daySchedulePlace = daySchedulePlaceRepository.findByDayScheduleAndPlace(daySchedule,
-			place);
-		if (daySchedule != null) {
-			throw new DayScheduleException(ALREADY_EXIST_PLACE_IN_SCHEDULE_EXCEPTION);
-		}
 	}
 }

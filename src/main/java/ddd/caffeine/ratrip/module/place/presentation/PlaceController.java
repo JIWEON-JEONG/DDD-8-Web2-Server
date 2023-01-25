@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkAddRes
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -54,13 +56,13 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "카카오 정보를 통한 장소 상세 읽기 API")
-	@GetMapping("third-party")
-	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByThirdPartyId(
+	@Operation(summary = "카카오 정보를 통한 장소 저장 및 업데이트 API")
+	@PostMapping
+	public ResponseEntity<PlaceSaveThirdPartyResponseDto> callSavePlaceByThirdPartyData(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@Valid @ModelAttribute PlaceDetailsByThirdPartyRequestDto request) {
+		@Valid @RequestBody PlaceDetailsByThirdPartyRequestDto request) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByThirdPartyId(
+		PlaceSaveThirdPartyResponseDto response = placeService.savePlaceByThirdPartyData(
 			request.mapByThirdPartyDetailSearchOption(), user);
 
 		return ResponseEntity.ok(response);

@@ -64,6 +64,14 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.fetchFirst() != null;
 	}
 
+	@Override
+	public Long deleteBookMark(Bookmark entity) {
+		return jpaQueryFactory
+			.delete(bookmark)
+			.where(bookmark.eq(entity))
+			.execute();
+	}
+
 	private BooleanExpression categoriesIn(List<Category> categories) {
 		return categories.isEmpty() ? null : place.category.in(categories);
 	}

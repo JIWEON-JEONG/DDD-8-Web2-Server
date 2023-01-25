@@ -36,7 +36,7 @@ public class BookmarkService {
 	public void deleteBookmark(User user, Place place) {
 		Bookmark bookmark = readBookmark(user, place);
 		bookmarkValidator.validateExistBookmark(bookmark);
-		bookmarkRepository.delete(bookmark);
+		bookmarkRepository.deleteBookMark(bookmark);
 	}
 
 	public BookmarksResponseDto getBookmarks(User user, List<String> categories,

@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class AuthController {
 
 	@Operation(summary = "애플 로그인")
 	@PostMapping("/signin/apple")
-	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @RequestBody SignInWithAppleRequestDto request) {
+	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @ModelAttribute SignInWithAppleRequestDto request) {
 		return ResponseEntity.ok(authService.signInWithApple(request.toServiceDto()));
 	}
 

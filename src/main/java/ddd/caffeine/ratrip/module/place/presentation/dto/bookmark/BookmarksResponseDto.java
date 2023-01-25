@@ -1,14 +1,25 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.bookmark;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class BookmarksResponseDto {
-	private final List<BookMarkPlaceDao> places;
-	private final boolean hasNext;
+	private List<BookMarkResponseModel> places;
+	private boolean hasNext;
+
+	public BookmarksResponseDto(List<BookMarkPlaceDao> places, boolean hasNext) {
+		mapBookMarkResponseModels(places);
+		this.hasNext = hasNext;
+	}
+
+	private void mapBookMarkResponseModels(List<BookMarkPlaceDao> places) {
+		this.places = new ArrayList<>();
+		for (BookMarkPlaceDao place : places) {
+			this.places.add(new BookMarkResponseModel(place));
+		}
+	}
 }

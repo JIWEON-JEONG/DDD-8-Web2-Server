@@ -16,9 +16,9 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -43,7 +43,7 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public TravelPlanInitResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
+	public TravelPlanResponseModel makeTravelPlan(TravelPlan travelPlan, User user) {
 		//TravelPlan 생성 및 저장
 		travelPlanRepository.save(travelPlan);
 		//TravelPlan 및 User 저장.
@@ -51,7 +51,7 @@ public class TravelPlanService {
 		//daySchedule 생성 및 저장.
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
-		return new TravelPlanInitResponseDto(travelPlan);
+		return new TravelPlanResponseModel(travelPlan);
 	}
 
 	@Transactional(readOnly = true)

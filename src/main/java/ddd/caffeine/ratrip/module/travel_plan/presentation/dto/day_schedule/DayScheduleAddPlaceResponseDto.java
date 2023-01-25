@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 public class DayScheduleAddPlaceResponseDto {
 
-	private UUID dayScheduleUUID;
+	private UUID id;
 
 	public DayScheduleAddPlaceResponseDto(UUID dayScheduleUUID) {
-		this.dayScheduleUUID = dayScheduleUUID;
+		this.id = dayScheduleUUID;
 	}
 }

@@ -44,6 +44,7 @@ public enum ExceptionInformation {
 	NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "존재하지 않는 유저입니다."),
 	NOT_FOUND_PLACE_EXCEPTION(NOT_FOUND, "존재하지 않는 장소입니다."),
 	NOT_FOUND_BOOKMARK_EXCEPTION(NOT_FOUND, "존재하지 않는 북마크입니다."),
+	NOT_FOUND_DAY_SCHEDULE_EXCEPTION(NOT_FOUND, "존재 하지 않는 하루 일정입니다."),
 	NOT_FOUND_NOTIFICATION_EXCEPTION(NOT_FOUND, "존재하지 않는 공지사항입니다."),
 	NOT_FOUND_PUBLIC_KEY_EXCEPTION(NOT_FOUND, "존재하지 않는 애플 Public Key 입니다."),
 

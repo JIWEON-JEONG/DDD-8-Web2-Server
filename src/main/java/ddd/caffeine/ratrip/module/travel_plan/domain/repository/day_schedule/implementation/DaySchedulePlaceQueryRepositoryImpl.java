@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DaySchedulePlace;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.QDaySchedulePlaceDao;
@@ -46,17 +44,6 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 					.or(daySchedulePlace.place.id.eq(secondPlaceUUID))
 			)
 			.fetch();
-	}
-
-	@Override
-	public DaySchedulePlace findByDayScheduleAndPlace(DaySchedule daySchedule, Place place) {
-		return jpaQueryFactory
-			.selectFrom(daySchedulePlace)
-			.where(
-				daySchedulePlace.daySchedule.eq(daySchedule),
-				daySchedulePlace.place.eq(place)
-			)
-			.fetchOne();
 	}
 
 	@Override

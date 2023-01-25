@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.place.application;
 
+import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.common.exception.domain.BookmarkException;
 import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
@@ -29,6 +32,7 @@ public class BookmarkService {
 	}
 
 	public UUID registerBookmark(User user, Place place) {
+		validateRegisterBookMark(user, place);
 		Bookmark bookmark = Bookmark.of(user, place);
 		return bookmarkRepository.save(bookmark).getId();
 	}
@@ -54,5 +58,12 @@ public class BookmarkService {
 	private Bookmark readBookmark(User user, Place place) {
 		Bookmark bookmark = bookmarkRepository.findByUserAndPlace(user, place);
 		return bookmark;
+	}
+
+	private void validateRegisterBookMark(User user, Place place) {
+		boolean exist = bookmarkRepository.existsByUserIdAndPlaceId(user.getId(), place.getId());
+		if (exist) {
+			throw new BookmarkException(ALREADY_EXIST_BOOKMARK_EXCEPTION);
+		}
 	}
 }

@@ -65,7 +65,7 @@ public class PlaceService {
 		if (place == null) {
 			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(entity);
-			return new PlaceSaveThirdPartyResponseDto(place, Boolean.FALSE);
+			return new PlaceSaveThirdPartyResponseDto(entity, Boolean.FALSE);
 		}
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
 		boolean isBookmarked = bookmarkService.isBookmarked(user, place);

@@ -94,24 +94,25 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 북마크 추가")
-	@ApiResponse(description = "북마크 추가 성공 시, 북마크 ID 반환")
+	@Operation(summary = "[인증] 북마크 등록")
+	@ApiResponse(description = "북마크 등록 성공 시, 북마크 ID 반환")
 	@PutMapping("/{id}/bookmarks")
 	public ResponseEntity<BookmarkAddResponseDto> callAddBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
-		BookmarkAddResponseDto response = placeService.addBookMark(UUID.fromString(id), user);
+		BookmarkAddResponseDto response = placeService.registerBookMark(UUID.fromString(id), user);
 
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 북마크 삭제")
+	@Operation(summary = "[인증] 북마크 해제")
 	@DeleteMapping("/{id}/bookmarks")
-	public ResponseEntity<String> callDeleteBookmarkApi(
+	public ResponseEntity<String> callReleaseBookmarkApi(
 		@PathVariable @UUIDFormat String id,
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-		placeService.deleteBookMark(UUID.fromString(id), user);
-		return ResponseEntity.ok("SUCCESS TO DELETE");
+		placeService.releaseBookMark(UUID.fromString(id), user);
+
+		return ResponseEntity.ok("SUCCESS TO RELEASE");
 	}
 
 	//TODO - 인자를 Enum 타입으로 받는 법 알아보기

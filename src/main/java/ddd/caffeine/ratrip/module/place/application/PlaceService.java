@@ -77,19 +77,19 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public BookmarkAddResponseDto addBookMark(UUID placeId, User user) {
+	public BookmarkAddResponseDto registerBookMark(UUID placeId, User user) {
 		Optional<Place> place = placeRepository.findById(placeId);
 		placeValidator.validateExistPlace(place);
-		UUID bookmarkId = bookmarkService.addBookmark(user, place.get());
+		UUID bookmarkId = bookmarkService.registerBookmark(user, place.get());
 
 		return new BookmarkAddResponseDto(bookmarkId);
 	}
 
 	@Transactional
-	public void deleteBookMark(UUID placeId, User user) {
+	public void releaseBookMark(UUID placeId, User user) {
 		Optional<Place> optionalPlace = placeRepository.findById(placeId);
 		Place place = placeValidator.validateExistPlace(optionalPlace);
-		bookmarkService.deleteBookmark(user, place);
+		bookmarkService.releaseBookmark(user, place);
 	}
 
 	@Transactional(readOnly = true)

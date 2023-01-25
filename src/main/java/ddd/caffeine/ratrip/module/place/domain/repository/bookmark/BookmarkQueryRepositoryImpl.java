@@ -47,6 +47,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.join(bookmark.place, place)
 			.where(
 				bookmark.user.eq(user),
+				bookmark.isActivated.isTrue(),
 				categoriesIn(categories)
 			)
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))

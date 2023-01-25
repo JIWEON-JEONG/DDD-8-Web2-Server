@@ -49,7 +49,7 @@ public class SecurityConfiguration {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOriginPattern("https://ddd-web2-map.web.app");
+		configuration.addAllowedOriginPattern("https://ddd-web2-map");
 		configuration.addAllowedHeader("*");
 		configuration.addAllowedMethod("*");
 		configuration.setAllowCredentials(true);

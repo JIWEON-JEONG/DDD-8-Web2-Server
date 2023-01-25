@@ -22,6 +22,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDt
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkAddResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -58,22 +59,21 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public PlaceDetailsResponseDto readPlaceDetailsByThirdPartyId(ThirdPartyDetailSearchOption searchOption,
+	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(ThirdPartyDetailSearchOption searchOption,
 		User user) {
-
 		Optional<Place> optionalPlace = placeRepository.findByKakaoId(searchOption.readThirdPartyId());
 
 		if (optionalPlace.isEmpty()) {
 			Place place = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(place);
-			return new PlaceDetailsResponseDto(place, Boolean.FALSE);
+			return new PlaceSaveThirdPartyResponseDto(place, Boolean.FALSE);
 		}
 
 		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
 		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
 
-		return new PlaceDetailsResponseDto(place, isBookmarked);
+		return new PlaceSaveThirdPartyResponseDto(place, isBookmarked);
 	}
 
 	@Transactional

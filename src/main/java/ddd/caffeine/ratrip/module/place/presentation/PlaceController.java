@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,7 +95,7 @@ public class PlaceController {
 
 	@Operation(summary = "[인증] 북마크 등록")
 	@ApiResponse(description = "북마크 등록 성공 시, 북마크 ID 반환")
-	@PutMapping("/{id}/bookmarks")
+	@PostMapping("/{id}/bookmarks")
 	public ResponseEntity<BookmarkAddResponseDto> callAddBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {

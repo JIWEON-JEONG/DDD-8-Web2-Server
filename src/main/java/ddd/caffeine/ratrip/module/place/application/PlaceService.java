@@ -61,15 +61,12 @@ public class PlaceService {
 	@Transactional
 	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(ThirdPartyDetailSearchOption searchOption,
 		User user) {
-		Optional<Place> optionalPlace = placeRepository.findByKakaoId(searchOption.readThirdPartyId());
-
-		if (optionalPlace.isEmpty()) {
-			Place place = readPlaceEntity(searchOption.readPlaceNameAndAddress());
-			placeRepository.save(place);
+		Place place = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
+		if (place == null) {
+			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
+			placeRepository.save(entity);
 			return new PlaceSaveThirdPartyResponseDto(place, Boolean.FALSE);
 		}
-
-		Place place = optionalPlace.get();
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
 		boolean isBookmarked = bookmarkService.isBookmarked(user, place);
 

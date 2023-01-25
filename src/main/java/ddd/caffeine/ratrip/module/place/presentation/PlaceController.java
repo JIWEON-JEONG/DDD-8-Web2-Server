@@ -27,8 +27,8 @@ import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkAddResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarksResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
@@ -61,7 +61,7 @@ public class PlaceController {
 	@PostMapping
 	public ResponseEntity<PlaceSaveThirdPartyResponseDto> callSavePlaceByThirdPartyData(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@Valid @RequestBody PlaceDetailsByThirdPartyRequestDto request) {
+		@Valid @RequestBody PlaceSaveByThirdPartyRequestDto request) {
 
 		PlaceSaveThirdPartyResponseDto response = placeService.savePlaceByThirdPartyData(
 			request.mapByThirdPartyDetailSearchOption(), user);

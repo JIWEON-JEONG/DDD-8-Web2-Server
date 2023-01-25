@@ -60,7 +60,7 @@ public class PlaceController {
 	@PostMapping
 	public ResponseEntity<PlaceSaveThirdPartyResponseDto> callSavePlaceByThirdPartyData(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@RequestBody PlaceDetailsByThirdPartyRequestDto request) {
+		@Valid @RequestBody PlaceDetailsByThirdPartyRequestDto request) {
 
 		PlaceSaveThirdPartyResponseDto response = placeService.savePlaceByThirdPartyData(
 			request.mapByThirdPartyDetailSearchOption(), user);

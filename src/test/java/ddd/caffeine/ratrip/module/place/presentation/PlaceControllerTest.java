@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsByThirdPartyRequestDto;
 
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(controllers = PlaceController.class,
@@ -39,15 +40,20 @@ class PlaceControllerTest {
 	@DisplayName("custom 어노테이션 Number 정상 동작 테스트")
 	void customAnnotationNumberTest() throws Exception {
 		//given
-		String baseURI = "/v1/places/third-party/";
-		String thirdPartyId = "?thirdPartyId=12345";
-		String placeName = "&placeName=지원이네 집";
-		String address = "&address=서울특별시 서초구 양재동 16-10";
+		String baseURI = "/v1/places/";
+		String thirdPartyId = "12345";
+		String placeName = "지원이네 집";
+		String address = "서울특별시 서초구 양재동 16-10";
 
-		String URI = baseURI + thirdPartyId + placeName + address;
+		PlaceDetailsByThirdPartyRequestDto request = new PlaceDetailsByThirdPartyRequestDto(
+			thirdPartyId, placeName, address
+		);
+
+		String content = mapper.writeValueAsString(request);
 
 		//when
-		ResultActions actions = mockMvc.perform(get(URI)
+		ResultActions actions = mockMvc.perform(post(baseURI)
+			.content(content)
 			.contentType(MediaType.APPLICATION_JSON_VALUE));
 		// then
 		actions
@@ -59,16 +65,22 @@ class PlaceControllerTest {
 	@ValueSource(strings = {"", "134숫자", "?234"})
 	void customAnnotationNumberReturnExceptionTest(String id) throws Exception {
 		//given
-		String baseURI = "/v1/places/third-party/";
-		String thirdPartyId = "?thirdPartyId=" + id;
-		String placeName = "&placeName=지원이네 집";
-		String address = "&address=서울특별시 서초구 양재동 16-10";
+		String baseURI = "/v1/places/";
+		String thirdPartyId = id;
+		String placeName = "지원이네 집";
+		String address = "서울특별시 서초구 양재동 16-10";
 
-		String URI = baseURI + thirdPartyId + placeName + address;
+		PlaceDetailsByThirdPartyRequestDto request = new PlaceDetailsByThirdPartyRequestDto(
+			thirdPartyId, placeName, address
+		);
+
+		String content = mapper.writeValueAsString(request);
 
 		//when
-		ResultActions actions = mockMvc.perform(get(URI)
+		ResultActions actions = mockMvc.perform(post(baseURI)
+			.content(content)
 			.contentType(MediaType.APPLICATION_JSON_VALUE));
+
 		// then
 		actions
 			.andExpect(status().is4xxClientError());

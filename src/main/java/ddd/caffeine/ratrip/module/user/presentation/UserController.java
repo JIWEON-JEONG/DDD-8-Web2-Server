@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ddd.caffeine.ratrip.module.user.application.UserService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import ddd.caffeine.ratrip.module.user.presentation.dto.request.UpdateUserNameRequestDto;
+import ddd.caffeine.ratrip.module.user.presentation.dto.response.UserNameResponseDto;
+import ddd.caffeine.ratrip.module.user.presentation.dto.response.UserNameUpdateResponseDto;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,14 +25,15 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping("/name")
-	public ResponseEntity<String> findUserName(@AuthenticationPrincipal User user) {
+	public ResponseEntity<UserNameResponseDto> findUserName(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(userService.findUserName(user));
 	}
 
 	@PatchMapping("/name")
-	public ResponseEntity<String> updateUserName(@AuthenticationPrincipal User user,
+	public ResponseEntity<UserNameUpdateResponseDto> updateUserName(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @RequestBody UpdateUserNameRequestDto request) {
 		return ResponseEntity.ok(userService.updateName(user, request.toServiceDto()));
 	}
-
 }

@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class DayScheduleResponseDto {
-	private UUID dayScheduleUUID;
+	private UUID id;
 	private List<DaySchedulePlaceDto> daySchedulePlaces;
 
 	private boolean hasRegisteredPlace;
@@ -16,7 +16,7 @@ public class DayScheduleResponseDto {
 	@Builder
 	public DayScheduleResponseDto(UUID dayScheduleUUID, List<DaySchedulePlaceDto> daySchedulePlaces,
 		boolean hasRegisteredPlace) {
-		this.dayScheduleUUID = dayScheduleUUID;
+		this.id = dayScheduleUUID;
 		this.daySchedulePlaces = daySchedulePlaces;
 		this.hasRegisteredPlace = hasRegisteredPlace;
 	}

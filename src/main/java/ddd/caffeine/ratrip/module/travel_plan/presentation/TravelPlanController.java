@@ -22,9 +22,9 @@ import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
@@ -61,11 +61,10 @@ public class TravelPlanController {
 
 	@Operation(summary = "여행 계획 만들기 API")
 	@PostMapping
-	public ResponseEntity<TravelPlanInitResponseDto> makeTravelPlanApi(
+	public ResponseEntity<TravelPlanResponseModel> makeTravelPlanApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @RequestBody TravelPlanInitRequestDto request) {
-
-		TravelPlanInitResponseDto response = travelPlanService.makeTravelPlan(
+		TravelPlanResponseModel response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
 		return ResponseEntity.ok(response);
 	}

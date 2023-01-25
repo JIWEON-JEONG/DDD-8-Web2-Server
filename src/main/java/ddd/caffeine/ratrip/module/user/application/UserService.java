@@ -15,6 +15,8 @@ import ddd.caffeine.ratrip.module.user.domain.SocialInfo;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import ddd.caffeine.ratrip.module.user.domain.UserStatus;
 import ddd.caffeine.ratrip.module.user.domain.repository.UserRepository;
+import ddd.caffeine.ratrip.module.user.presentation.dto.response.UserNameResponseDto;
+import ddd.caffeine.ratrip.module.user.presentation.dto.response.UserNameUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,13 +31,13 @@ public class UserService implements UserDetailsService {
 		return signUpUserIfAbsentAndGetUserId(request, user);
 	}
 
-	public String findUserName(User user) {
-		return user.getName();
+	public UserNameResponseDto findUserName(User user) {
+		return new UserNameResponseDto(user.getName());
 	}
 
-	public String updateName(User user, UpdateUserNameDto request) {
+	public UserNameUpdateResponseDto updateName(User user, UpdateUserNameDto request) {
 		user.updateName(request.getNewName());
-		return userRepository.save(user).getName();
+		return new UserNameUpdateResponseDto(userRepository.save(user).getName());
 	}
 
 	private User findUserBySocialInfo(SocialInfo socialInfo) {

@@ -48,9 +48,11 @@ public class AuthController {
 	@Operation(summary = "[테스트용] 애플 로그인 API 호출 (테스트 이후 삭제 예정)")
 	@GetMapping("/call")
 	public String call() {
-		return "https://appleid.apple.com/auth/authorize?" + "client_id=" + appleClientId + "&redirect_uri="
-			+ appleRedirectUri + "&response_type=code%20id_token&scope=name%20email&response_mode=form_post&nonce="
-			+ UUID.randomUUID();
+		final String redirectUrl =
+			"https://appleid.apple.com/auth/authorize?" + "client_id=" + appleClientId + "&redirect_uri="
+				+ appleRedirectUri + "&response_type=code%20id_token&scope=name%20email&response_mode=form_post&nonce="
+				+ UUID.randomUUID();
+		return "redirect:" + redirectUrl;
 	}
 
 	@Operation(summary = "애플 로그인")

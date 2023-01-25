@@ -37,6 +37,9 @@ public class AuthController {
 	@Operation(summary = "애플 로그인")
 	@PostMapping("/signin/apple")
 	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @ModelAttribute SignInWithAppleRequestDto request) {
+		System.out.println("code = " + request.getAuthorizationCode());
+		System.out.println("idToken = " + request.getIdToken());
+		System.out.println("name = " + request.getUser().getName());
 		return ResponseEntity.ok(authService.signInWithApple(request.toServiceDto()));
 	}
 

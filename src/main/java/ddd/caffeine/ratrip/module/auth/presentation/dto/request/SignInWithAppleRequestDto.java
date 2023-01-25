@@ -1,7 +1,5 @@
 package ddd.caffeine.ratrip.module.auth.presentation.dto.request;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ddd.caffeine.ratrip.module.auth.application.dto.SignInWithAppleDto;
@@ -27,7 +25,7 @@ public class SignInWithAppleRequestDto {
 	// private String state;
 
 	@Schema(description = "사용자 정보", example = "{\"name\":{\"firstName\":\"페인\",\"lastName\":\"카\"},\"email\":\"caffeineratrip@gmail.com\"}")
-	@NotBlank(message = "User must not be blank")
+	//@NotBlank(message = "User must not be blank")
 	@JsonProperty("user")
 	private AppleUserData user;
 

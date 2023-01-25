@@ -13,11 +13,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SignInWithAppleRequestDto {
 	@Schema(description = "아이디 토큰", example = "k5AmWU6rE9E6FRu92OP40K_MWkrk8TQJu7xaV8VLCj1zTgAAAYUT_N4T")
-	@NotBlank(message = "Token must not be blank")
+	//@NotBlank(message = "Token must not be blank")
+	@JsonProperty("id_token")
 	private String idToken;
 
 	@Schema(description = "인증 코드", example = "cs27903241f4a4cf395ba97456570b048.0.rafsfr.Z6E5z7DOSgRRrZXRmdybDQ")
-	@NotBlank(message = "Authorization code must not be blank")
+	//@NotBlank(message = "Authorization code must not be blank")
 	@JsonProperty("code")
 	private String authorizationCode;
 
@@ -27,6 +28,7 @@ public class SignInWithAppleRequestDto {
 
 	@Schema(description = "사용자 정보", example = "{\"name\":{\"firstName\":\"페인\",\"lastName\":\"카\"},\"email\":\"caffeineratrip@gmail.com\"}")
 	@NotBlank(message = "User must not be blank")
+	@JsonProperty("user")
 	private AppleUserData user;
 
 	/**

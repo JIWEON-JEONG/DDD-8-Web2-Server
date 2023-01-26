@@ -3,7 +3,7 @@ package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule;
 import java.util.UUID;
 
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
-import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.DaySchedulePlaceDao;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.dao.DaySchedulePlaceDao;
 import lombok.Builder;
 import lombok.Getter;
 

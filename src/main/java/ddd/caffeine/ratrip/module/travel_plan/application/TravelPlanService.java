@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
+import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;

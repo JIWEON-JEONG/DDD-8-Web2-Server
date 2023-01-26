@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,7 +47,7 @@ import lombok.RequiredArgsConstructor;
 public class PlaceController {
 	private final PlaceService placeService;
 
-	@Operation(summary = "장소 키워드 검색 API")
+	@Operation(summary = "[인증] 장소 키워드 검색 API")
 	@GetMapping("search")
 	public ResponseEntity<PlaceSearchResponseDto> callPlaceSearchApi(
 		@Valid @ModelAttribute PlaceSearchRequestDto request) {
@@ -56,7 +56,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "카카오 정보를 통한 장소 저장 및 업데이트 API")
+	@Operation(summary = "[인증] 카카오 정보를 통한 장소 저장 및 업데이트 API")
 	@PostMapping
 	public ResponseEntity<PlaceSaveThirdPartyResponseDto> callSavePlaceByThirdPartyData(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
@@ -68,7 +68,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "장소 기본키(UUID)로 장소 상세 읽기 API")
+	@Operation(summary = "[인증] 장소 기본키(UUID)로 장소 상세 읽기 API")
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailResponseDto> callPlaceDetailsApiByUUID(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
@@ -82,7 +82,7 @@ public class PlaceController {
 	 * default page = 0
 	 * Todo : default size 정하기.
 	 */
-	@Operation(summary = "지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순) "
+	@Operation(summary = "[인증] 지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순) "
 		+ "!!! 옵션을 파라미터에 명시하면 덮어쓰기 가능")
 	@GetMapping(value = "regions")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(

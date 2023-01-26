@@ -23,6 +23,7 @@ public class DaySchedulePlaceDto {
 			.id(model.getPlaceUUID())
 			.name(model.getPlaceName())
 			.category(model.getCategory())
+			.location(model.getLocation())
 			.build();
 	}
 }

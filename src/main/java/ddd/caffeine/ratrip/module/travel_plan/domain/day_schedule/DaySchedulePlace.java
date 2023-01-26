@@ -1,16 +1,18 @@
 package ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
+import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,8 +28,8 @@ import lombok.NoArgsConstructor;
 public class DaySchedulePlace extends AuditingTimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(columnDefinition = "BINARY(16)")
+	private UUID id;
 
 	@NotNull
 	@Column
@@ -46,6 +48,12 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", columnDefinition = "BINARY(16)")
 	private Place place;
+
+	@PrePersist
+	public void createDaySchedulePrimaryKey() {
+		//sequential uuid 생성
+		this.id = SequentialUUIDGenerator.generate();
+	}
 
 	@Builder
 	public DaySchedulePlace(int sequence, String memo, DaySchedule daySchedule, Place place) {

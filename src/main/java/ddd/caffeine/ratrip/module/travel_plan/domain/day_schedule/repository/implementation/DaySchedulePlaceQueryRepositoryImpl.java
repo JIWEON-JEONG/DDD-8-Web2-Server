@@ -24,7 +24,7 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	@Override
 	public List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUID(UUID dayScheduleUUID) {
 		return jpaQueryFactory
-			.select(new QDaySchedulePlaceDao(place.id, place.name, place.category,
+			.select(new QDaySchedulePlaceDao(daySchedulePlace.id, place.id, place.name, place.category,
 				daySchedulePlace.memo, daySchedulePlace.sequence))
 			.from(daySchedulePlace)
 			.innerJoin(daySchedulePlace.place, place)

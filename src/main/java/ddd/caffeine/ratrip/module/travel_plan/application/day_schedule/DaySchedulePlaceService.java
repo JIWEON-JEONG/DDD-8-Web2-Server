@@ -33,8 +33,7 @@ public class DaySchedulePlaceService {
 			.sequence(readNextSequence(daySchedule.readPrimaryKey()))
 			.memo(memo)
 			.build();
-		daySchedulePlaceRepository.save(daySchedulePlace);
-		return daySchedule.readPrimaryKey();
+		return daySchedulePlaceRepository.save(daySchedulePlace).getId();
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {

@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.dao.DaySchedulePlaceDao;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,17 +9,20 @@ import lombok.Getter;
 @Getter
 public class DaySchedulePlaceDto {
 	private UUID id;
-	private String name;
-	private Category category;
 	private String memo;
 	private int sequence;
 
+	private PlaceModelInDaySchedule place;
+
 	@Builder
 	public DaySchedulePlaceDto(DaySchedulePlaceDao model) {
-		this.id = model.getPlaceUUID();
-		this.name = model.getPlaceName();
-		this.category = model.getCategory();
+		this.id = model.getDaySchedulePlaceUUID();
 		this.memo = model.getMemo();
 		this.sequence = model.getSequence();
+		this.place = PlaceModelInDaySchedule.builder()
+			.id(model.getPlaceUUID())
+			.name(model.getPlaceName())
+			.category(model.getCategory())
+			.build();
 	}
 }

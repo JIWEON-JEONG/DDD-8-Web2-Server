@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
-import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
@@ -88,7 +88,7 @@ public class TravelPlanController {
 	 * @return : 하루 일정 UUID
 	 */
 	@Operation(summary = "일정 장소 추가 API")
-	@ApiResponse(description = "장소 추가 성공 시, 하루 일정 ID 반환")
+	@ApiResponse(description = "장소 추가 성공 시, ID 반환")
 	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
 	public ResponseEntity<DayScheduleAddPlaceResponseDto> addPlaceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,

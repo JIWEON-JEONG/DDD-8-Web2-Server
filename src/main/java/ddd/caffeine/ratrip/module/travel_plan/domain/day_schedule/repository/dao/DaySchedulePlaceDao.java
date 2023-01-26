@@ -9,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class DaySchedulePlaceDao {
+	private UUID daySchedulePlaceUUID;
 	private UUID placeUUID;
 	private String placeName;
 	private Category category;
@@ -16,8 +17,9 @@ public class DaySchedulePlaceDao {
 	private int sequence;
 
 	@QueryProjection
-	public DaySchedulePlaceDao(UUID placeUUID, String placeName, Category category,
+	public DaySchedulePlaceDao(UUID daySchedulePlaceUUID, UUID placeUUID, String placeName, Category category,
 		String memo, int sequence) {
+		this.daySchedulePlaceUUID = daySchedulePlaceUUID;
 		this.placeUUID = placeUUID;
 		this.placeName = placeName;
 		this.category = category;

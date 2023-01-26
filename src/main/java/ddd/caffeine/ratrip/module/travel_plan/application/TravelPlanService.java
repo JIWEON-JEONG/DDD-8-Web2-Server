@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
-import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
@@ -86,9 +86,9 @@ public class TravelPlanService {
 		//장소 불러오기
 		Place place = placeService.readPlaceByUUID(UUID.fromString(placeUUID));
 		//저장하기
-		UUID dayScheduleUUID = dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
+		UUID daySchedulePlaceUUID = dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
 
-		return new DayScheduleAddPlaceResponseDto(dayScheduleUUID);
+		return new DayScheduleAddPlaceResponseDto(daySchedulePlaceUUID);
 	}
 
 	@Transactional

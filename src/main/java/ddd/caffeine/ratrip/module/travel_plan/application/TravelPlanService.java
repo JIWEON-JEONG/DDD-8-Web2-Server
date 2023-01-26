@@ -13,11 +13,9 @@ import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
-import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
-import ddd.caffeine.ratrip.module.travel_plan.domain.repository.dao.LocalDateDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
@@ -68,14 +66,10 @@ public class TravelPlanService {
 	}
 
 	@Transactional(readOnly = true)
-	public DayScheduleResponseDto readScheduleByDay(TravelPlanAccessOption accessOption, int day) {
+	public DayScheduleResponseDto readScheduleByUUID(DayScheduleAccessOption accessOption) {
 		//접근 가능한 유저인지 확인
-		travelPlanUserService.validateAccessTravelPlan(accessOption);
-		LocalDateDao startDate = travelPlanRepository.findLocalDateById(
-			accessOption.readTravelPlanUUID());
-		LocalDate date = startDate.getLocalDate().plusDays(day - 1);
-
-		return dayScheduleService.readDaySchedule(accessOption.readTravelPlanUUID(), date);
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
+		return dayScheduleService.readDaySchedule(accessOption.readDayScheduleUUID());
 	}
 
 	@Transactional

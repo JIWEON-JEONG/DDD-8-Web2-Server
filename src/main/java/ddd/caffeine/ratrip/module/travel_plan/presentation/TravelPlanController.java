@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.travel_plan.presentation;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,12 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
-import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
@@ -72,14 +69,14 @@ public class TravelPlanController {
 	}
 
 	@Operation(summary = "[인증] 하루 일정 읽기 API")
-	@GetMapping("/{travel_plan_id}/day-schedules")
+	@GetMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}")
 	public ResponseEntity<DayScheduleResponseDto> readScheduleByDayApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
-		@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID) {
 
-		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(
-			new TravelPlanAccessOption(user, travelPlanUUID), day);
+		DayScheduleResponseDto response = travelPlanService.readScheduleByUUID(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID));
 
 		return ResponseEntity.ok(response);
 	}

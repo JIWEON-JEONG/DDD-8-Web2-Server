@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserName {
 	private String firstName;
+	private String middleName;
 	private String lastName;
 }

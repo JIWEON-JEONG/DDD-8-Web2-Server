@@ -19,7 +19,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -66,6 +66,11 @@ secret:
     client-key: ${NAVER_CLIENT_KEY}
     secret-key: ${NAVER_SECRET_KEY}
 
+  apple:
+    team-id: ${APPLE_TEAM_ID}
+    key-id: ${APPLE_KEY_ID}
+    client-id: ${APPLE_CLIENT_ID}
+    redirect-uri: ${APPLE_REDIRECT_URI}
 
 
 

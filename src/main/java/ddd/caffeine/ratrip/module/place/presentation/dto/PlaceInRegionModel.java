@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PlaceInRegionModel {
-	private String placeName;
+	private String name;
 	private String category;
 	private String imageLink;
 	private Location location;
 
 	public PlaceInRegionModel(Place place) {
-		this.placeName = place.getName();
+		this.name = place.getName();
 		this.category = place.getCategory().name();
 		this.imageLink = place.getImageLink();
 		this.location = place.getLocation();

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,9 @@ import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
@@ -61,11 +62,10 @@ public class TravelPlanController {
 
 	@Operation(summary = "여행 계획 만들기 API")
 	@PostMapping
-	public ResponseEntity<TravelPlanInitResponseDto> makeTravelPlanApi(
+	public ResponseEntity<TravelPlanResponseModel> makeTravelPlanApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @RequestBody TravelPlanInitRequestDto request) {
-
-		TravelPlanInitResponseDto response = travelPlanService.makeTravelPlan(
+		TravelPlanResponseModel response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
 		return ResponseEntity.ok(response);
 	}
@@ -87,21 +87,22 @@ public class TravelPlanController {
 	 * @return : 하루 일정 UUID
 	 */
 	@Operation(summary = "일정 장소 추가 API")
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/{place_id}")
 	public ResponseEntity<DayScheduleAddPlaceResponseDto> addPlaceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@PathVariable("place_id") @UUIDFormat String placeUUID,
 		@RequestBody DayScheduleAddPlaceRequestDto request) {
 		DayScheduleAddPlaceResponseDto response = travelPlanService.addPlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
-			request.getPlaceUUID(), request.getMemo());
+			placeUUID, request.getMemo());
 
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "일정 내의 장소 순서 변경 API")
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
+	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
 	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,

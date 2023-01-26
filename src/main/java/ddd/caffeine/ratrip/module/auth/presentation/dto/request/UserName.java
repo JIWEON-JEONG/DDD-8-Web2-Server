@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class AppleUserName {
+public class UserName {
 	private String firstName;
 	private String lastName;
 }

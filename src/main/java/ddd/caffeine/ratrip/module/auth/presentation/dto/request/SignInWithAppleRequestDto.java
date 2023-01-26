@@ -29,15 +29,15 @@ public class SignInWithAppleRequestDto {
 	private String user;
 
 	public SignInWithAppleDto toServiceDto() {
-		AppleUserData appleUserData = castStringToAppleUser(user);
-		return SignInWithAppleDto.of(id_token, code, appleUserData);
+		AppleProfile appleProfile = castStringToAppleUser(user);
+		return SignInWithAppleDto.of(id_token, code, appleProfile);
 	}
 
-	private AppleUserData castStringToAppleUser(String user) {
+	private AppleProfile castStringToAppleUser(String user) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
-			return objectMapper.readValue(user, AppleUserData.class);
+			return objectMapper.readValue(user, AppleProfile.class);
 		} catch (JsonProcessingException e) {
 			throw new AuthException(APPLE_USER_DATA_CASTING_EXCEPTION);
 		}

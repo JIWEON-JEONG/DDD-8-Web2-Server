@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class AppleUserData {
+public class AppleProfile {
 	@Email
 	private String email;
-	private AppleUserName name;
+	private UserName name;
 
 }

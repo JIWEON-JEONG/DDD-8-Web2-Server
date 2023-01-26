@@ -21,8 +21,8 @@ public class DaySchedulePlaceService {
 
 	private final DaySchedulePlaceRepository daySchedulePlaceRepository;
 
-	public List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID dayScheduleUUID) {
-		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID);
+	public List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID dayScheduleUUID, String placeUUID) {
+		return daySchedulePlaceRepository.findDaySchedulePlaceDaoByDayScheduleUUID(dayScheduleUUID, placeUUID);
 	}
 
 	public UUID addPlace(DaySchedule daySchedule, Place place, String memo) {

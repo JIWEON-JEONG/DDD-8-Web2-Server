@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
@@ -28,7 +29,6 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayS
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,10 +76,11 @@ public class TravelPlanController {
 	public ResponseEntity<DayScheduleResponseDto> readDayScheduleByUUIDApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
-		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID) {
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@RequestParam(name = "place-id", required = false) @UUIDFormat String placeUUID) {
 
 		DayScheduleResponseDto response = travelPlanService.readScheduleByUUID(
-			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID));
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID), placeUUID);
 
 		return ResponseEntity.ok(response);
 	}

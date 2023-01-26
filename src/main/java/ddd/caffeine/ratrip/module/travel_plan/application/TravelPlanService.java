@@ -69,10 +69,10 @@ public class TravelPlanService {
 	}
 
 	@Transactional(readOnly = true)
-	public DayScheduleResponseDto readScheduleByUUID(DayScheduleAccessOption accessOption) {
+	public DayScheduleResponseDto readScheduleByUUID(DayScheduleAccessOption accessOption, String placeUUID) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
-		return dayScheduleService.readDaySchedule(accessOption.readDayScheduleUUID());
+		return dayScheduleService.readDaySchedule(accessOption.readDayScheduleUUID(), placeUUID);
 	}
 
 	@Transactional(readOnly = true)

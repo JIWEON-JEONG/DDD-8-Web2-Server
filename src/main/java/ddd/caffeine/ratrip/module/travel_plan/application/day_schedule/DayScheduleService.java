@@ -43,12 +43,12 @@ public class DayScheduleService {
 		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
-	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID) {
+	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {
 		Optional<DaySchedule> daySchedule = dayScheduleRepository.findById(dayScheduleUUID);
 		dayScheduleValidator.validateExistDaySchedule(daySchedule);
 
 		List<DaySchedulePlaceDao> daySchedulePlaces = daySchedulePlaceService.readDaySchedulePlaces(
-			daySchedule.get().getId());
+			daySchedule.get().getId(), placeUUID);
 
 		return DayScheduleResponseDto.builder()
 			.dayScheduleUUID(daySchedule.get().getId())

@@ -57,6 +57,10 @@ public class DayScheduleService {
 			.build();
 	}
 
+	public List<DaySchedule> readDaySchedulesInTravelPlan(UUID travelPlanUUID) {
+		return dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
+	}
+
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
 		daySchedulePlaceService.exchangePlaceSequence(dayScheduleUUID, placeUUIDs);
 	}
@@ -68,4 +72,5 @@ public class DayScheduleService {
 		}
 		return response;
 	}
+
 }

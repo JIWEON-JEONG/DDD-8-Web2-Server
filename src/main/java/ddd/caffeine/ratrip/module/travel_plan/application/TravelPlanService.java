@@ -13,13 +13,16 @@ import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +73,16 @@ public class TravelPlanService {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		return dayScheduleService.readDaySchedule(accessOption.readDayScheduleUUID());
+	}
+
+	@Transactional(readOnly = true)
+	public DayScheduleInTravelPlanResponseDto readDaySchedulesInTravelPlan(TravelPlanAccessOption accessOption) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption);
+		List<DaySchedule> daySchedules = dayScheduleService.readDaySchedulesInTravelPlan(
+			accessOption.readTravelPlanUUID());
+
+		return new DayScheduleInTravelPlanResponseDto(daySchedules);
 	}
 
 	@Transactional

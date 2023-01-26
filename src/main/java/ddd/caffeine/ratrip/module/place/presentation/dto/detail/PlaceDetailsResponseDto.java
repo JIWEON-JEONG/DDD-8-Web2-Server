@@ -1,7 +1,9 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.detail;
 
+import java.util.List;
 import java.util.UUID;
 
+import ddd.caffeine.ratrip.module.place.domain.Blog;
 import ddd.caffeine.ratrip.module.place.domain.Location;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
@@ -23,13 +25,8 @@ public class PlaceDetailsResponseDto {
 	private String additionalInfoLink;
 	private String telephone;
 	private boolean isUpdated;
-
+	private List<Blog> blogs;
 	private BookmarkResponseDto bookmark;
-
-	private boolean isRegisteredSchedule;
-
-	private int day;
-	private String memo;
 
 	public PlaceDetailsResponseDto(Place place, BookmarkResponseDto bookmark) {
 		this.id = place.getId();
@@ -42,6 +39,7 @@ public class PlaceDetailsResponseDto {
 		this.imageLink = place.getImageLink();
 		this.additionalInfoLink = place.getAdditionalInfoLink();
 		this.telephone = place.getTelephone();
+		this.blogs = place.readBlogs();
 		this.bookmark = bookmark;
 	}
 }

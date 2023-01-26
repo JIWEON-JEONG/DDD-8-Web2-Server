@@ -1,10 +1,13 @@
 package ddd.caffeine.ratrip.module.place.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -47,14 +50,8 @@ public class Place extends AuditingTimeEntity {
 	@Embedded
 	private Address address;
 
-	@Embedded
-	private Blog blog1;
-
-	@Embedded
-	private Blog blog2;
-
-	@Embedded
-	private Blog blog3;
+	@ElementCollection
+	private List<Blog> blogs = new ArrayList<>();
 
 	@NotNull
 	@Embedded
@@ -132,6 +129,10 @@ public class Place extends AuditingTimeEntity {
 		setPlaceCategory(data.getCategoryGroupCode());
 		setAddress(data.getAddressName());
 		setLocation(Double.parseDouble(data.getY()), Double.parseDouble(data.getX()));
+	}
+
+	public List<Blog> readBlogs() {
+		return blogs;
 	}
 
 	@Builder

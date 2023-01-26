@@ -1,7 +1,7 @@
 package ddd.caffeine.ratrip.module.place.domain.bookmark.repository;
 
-import static ddd.caffeine.ratrip.module.place.domain.QBookmark.*;
 import static ddd.caffeine.ratrip.module.place.domain.QPlace.*;
+import static ddd.caffeine.ratrip.module.place.domain.bookmark.QBookmark.*;
 import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
-import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.dao.QBookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.QBookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;

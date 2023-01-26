@@ -35,7 +35,7 @@ public class AuthController {
 	}
 
 	@Operation(summary = "애플 로그인")
-	@PostMapping("/signin/apple")
+	@PostMapping(value = "/signin/apple", consumes = "application/x-www-form-urlencoded")
 	public ResponseEntity<SignInResponseDto> signInWithApple(@Valid @ModelAttribute SignInWithAppleRequestDto request) {
 		return ResponseEntity.ok(authService.signInWithApple(request.toServiceDto()));
 	}

@@ -8,10 +8,10 @@ import lombok.Getter;
 @Getter
 public class BookmarkResponseDto {
 	private UUID id;
-	private boolean isBookMarked;
+	private boolean isBookmarked;
 
 	public BookmarkResponseDto(Bookmark bookmark) {
 		this.id = bookmark.getId();
-		this.isBookMarked = bookmark.isActivated();
+		this.isBookmarked = bookmark.isActivated();
 	}
 }

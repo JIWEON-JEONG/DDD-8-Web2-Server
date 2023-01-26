@@ -30,7 +30,7 @@ public class BookmarkService {
 		Bookmark bookmark = readBookmark(user, place);
 		if (bookmark == null) {
 			Bookmark entity = Bookmark.of(user, place);
-			bookmarkRepository.save(bookmark);
+			bookmarkRepository.save(entity);
 			return new BookmarkResponseDto(entity);
 		}
 		return new BookmarkResponseDto(bookmark);
@@ -57,7 +57,6 @@ public class BookmarkService {
 	 * 북마크 엔티티를 조회 하는 메서드.
 	 */
 	private Bookmark readBookmark(User user, Place place) {
-		Bookmark bookmark = bookmarkRepository.findByUserAndPlace(user, place);
-		return bookmark;
+		return bookmarkRepository.findByUserAndPlace(user, place);
 	}
 }

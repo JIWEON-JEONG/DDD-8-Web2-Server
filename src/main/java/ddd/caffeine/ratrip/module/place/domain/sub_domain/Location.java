@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.domain;
+package ddd.caffeine.ratrip.module.place.domain.sub_domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

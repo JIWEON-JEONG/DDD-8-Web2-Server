@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.region.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveByThirdPartyRequestDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.save.PlaceSaveByThirdPartyRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.save.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -70,11 +70,11 @@ public class PlaceController {
 
 	@Operation(summary = "장소 기본키(UUID)로 장소 상세 읽기 API")
 	@GetMapping("/{id}")
-	public ResponseEntity<PlaceDetailsResponseDto> callPlaceDetailsApiByUUID(
+	public ResponseEntity<PlaceDetailResponseDto> callPlaceDetailsApiByUUID(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
 
-		PlaceDetailsResponseDto response = placeService.readPlaceDetailsByUUID(id, user);
+		PlaceDetailResponseDto response = placeService.readPlaceDetailsByUUID(id, user);
 		return ResponseEntity.ok(response);
 	}
 

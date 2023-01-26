@@ -1,9 +1,10 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto;
+package ddd.caffeine.ratrip.module.place.presentation.dto.region;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.presentation.dto.region.PlaceInRegionModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

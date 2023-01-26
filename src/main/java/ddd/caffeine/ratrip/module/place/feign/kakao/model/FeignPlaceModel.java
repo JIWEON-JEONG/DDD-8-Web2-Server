@@ -26,7 +26,7 @@ public class FeignPlaceModel {
 		for (FeignPlaceData document : documents) {
 
 			PlaceSearchModel model = PlaceSearchModel.builder()
-				.kakaoId(document.getId())
+				.id(document.getId())
 				.name(document.getPlaceName())
 				.longitude(document.getX())
 				.latitude(document.getY())

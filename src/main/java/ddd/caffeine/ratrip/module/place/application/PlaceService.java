@@ -19,11 +19,11 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.region.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.save.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -53,10 +53,10 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
+	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid, User user) {
 		Place place = readPlaceByUUID(UUID.fromString(uuid));
 		BookmarkResponseDto bookMarkModel = bookmarkService.readBookmarkModel(user, place);
-		return new PlaceDetailsResponseDto(place, bookMarkModel);
+		return new PlaceDetailResponseDto(place, bookMarkModel);
 	}
 
 	@Transactional
@@ -130,7 +130,7 @@ public class PlaceService {
 
 	private void injectBlogsInPlace(Place place, String keyword) {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
-		//place domain 주입.
+		place.injectBlogs(blogModel.readBlogs());
 	}
 
 }

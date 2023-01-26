@@ -19,10 +19,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.domain.Bookmark;
-import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
-import ddd.caffeine.ratrip.module.place.domain.repository.dao.QBookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.dao.QBookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -42,7 +42,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 		Pageable pageable) {
 		List<BookMarkPlaceDao> contents = jpaQueryFactory
 			.select(new QBookMarkPlaceDao(bookmark.id, place.name, place.address.detailed, place.imageLink,
-				place.category)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
+				place.category, bookmark.id, bookmark.isActivated)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
 			.from(bookmark)
 			.join(bookmark.place, place)
 			.where(

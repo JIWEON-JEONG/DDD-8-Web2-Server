@@ -67,7 +67,7 @@ public class PlaceFeignService {
 	}
 
 	/**
-	 * keyword 의 사진 데이터를 읽어 옵니다.
+	 * todo: 정확성 있는 키워드 고민.
 	 */
 	public FeignBlogModel readBlogModel(String keyword) {
 		final int DATA_COUNT = 3;

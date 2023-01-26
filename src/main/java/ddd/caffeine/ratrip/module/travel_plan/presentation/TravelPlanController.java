@@ -33,6 +33,7 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayS
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @Validated
@@ -72,7 +73,7 @@ public class TravelPlanController {
 
 	@Operation(summary = "하루 일정 읽기 API")
 	@GetMapping("/{travel_plan_id}/day-schedules")
-	public ResponseEntity<DayScheduleResponseDto> ReadScheduleByDayApi(
+	public ResponseEntity<DayScheduleResponseDto> readScheduleByDayApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
@@ -87,16 +88,16 @@ public class TravelPlanController {
 	 * @return : 하루 일정 UUID
 	 */
 	@Operation(summary = "일정 장소 추가 API")
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/{place_id}")
+	@ApiResponse(description = "장소 추가 성공 시, 하루 일정 ID 반환")
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places")
 	public ResponseEntity<DayScheduleAddPlaceResponseDto> addPlaceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@PathVariable("place_id") @UUIDFormat String placeUUID,
 		@RequestBody DayScheduleAddPlaceRequestDto request) {
 		DayScheduleAddPlaceResponseDto response = travelPlanService.addPlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
-			placeUUID, request.getMemo());
+			request.getId(), request.getMemo());
 
 		return ResponseEntity.ok(response);
 	}

@@ -18,6 +18,10 @@ import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Address;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Blog;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Location;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceData;
 import lombok.Builder;
 import lombok.Getter;
@@ -85,6 +89,10 @@ public class Place extends AuditingTimeEntity {
 	public void createPrimaryKey() {
 		//sequential uuid 생성
 		this.id = SequentialUUIDGenerator.generate();
+	}
+
+	public void injectBlogs(List<Blog> blogs) {
+		this.blogs = blogs;
 	}
 
 	public void injectImageLink(String imageLink) {

@@ -37,7 +37,7 @@ public class Bookmark extends AuditingTimeEntity {
 
 	@NotNull
 	@Column(name = "is_activated", columnDefinition = "TINYINT(1)")
-	private boolean isActivated = Boolean.TRUE;
+	private boolean isActivated = Boolean.FALSE;
 
 	@PrePersist
 	public void createBookmarkPrimaryKey() {

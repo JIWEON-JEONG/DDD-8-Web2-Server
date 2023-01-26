@@ -14,4 +14,9 @@ public class BookmarkResponseDto {
 		this.id = bookmark.getId();
 		this.isBookmarked = bookmark.isActivated();
 	}
+
+	public BookmarkResponseDto(UUID id, boolean isBookmarked) {
+		this.id = id;
+		this.isBookmarked = isBookmarked;
+	}
 }

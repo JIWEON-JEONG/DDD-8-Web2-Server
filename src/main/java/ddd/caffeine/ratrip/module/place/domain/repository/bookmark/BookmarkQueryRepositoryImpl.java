@@ -17,12 +17,16 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.QBookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionDao;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.QBookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -73,11 +77,28 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.execute();
 	}
 
+	@Override
+	public BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region) {
+		List<BookmarkPlaceByRegionDao> bookmarkPlaceByRegionDaos = jpaQueryFactory
+			.select(new QBookmarkPlaceByRegionDao(place.id, place.name, place.imageLink))
+			.from(bookmark)
+			.join(bookmark.place, place)
+			.where(
+				bookmark.user.eq(user),
+				bookmark.isActivated.isTrue(),
+				place.address.region.eq(region)
+			)
+			.orderBy(place.numberOfTrips.desc())
+			.limit(4)
+			.fetch();
+
+		return new BookmarkPlacesByRegionResponseDto(bookmarkPlaceByRegionDaos);
+	}
+
 	private BooleanExpression categoriesIn(List<Category> categories) {
 		return categories.isEmpty() ? null : place.category.in(categories);
 	}
 
-	//TODO - 리팩토링 고려 / Switch 문인데 어떻게 여러 조건을 처리하지?
 	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {
 		List<OrderSpecifier> orders = new ArrayList<>();
 

@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveByThirdPartyRequestDto;
@@ -120,11 +120,10 @@ public class PlaceController {
 
 	@Operation(summary = "[인증] 지역별 북마크 리스트 최대 4개 조회")
 	@GetMapping("/bookmarks/region")
-	public ResponseEntity<BookmarkPlacByRegionResponseDto> getBookmarkPlaceByRegion(
+	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request) {
 
-		BookmarkPlacByRegionResponseDto response = placeService.getBookmarkPlaceByRegion(user, request.toServiceDto());
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, request.toServiceDto()));
 	}
 }

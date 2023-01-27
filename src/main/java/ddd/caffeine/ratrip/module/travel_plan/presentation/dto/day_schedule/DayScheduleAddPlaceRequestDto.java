@@ -4,8 +4,10 @@ import javax.validation.constraints.Size;
 
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DayScheduleAddPlaceRequestDto {
 	@UUIDFormat
 	private String id;

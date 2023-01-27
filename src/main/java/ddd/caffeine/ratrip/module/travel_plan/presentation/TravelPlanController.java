@@ -28,7 +28,7 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoing
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceSequenceDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
@@ -105,7 +105,7 @@ public class TravelPlanController {
 	 */
 	@Operation(summary = "[인증] 일정 장소 추가 API (생성)")
 	@ApiResponse(description = "장소 추가 성공 시, ID 반환")
-	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}")
+	@PostMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/day-schedule-places")
 	public ResponseEntity<DaySchedulePlaceResponseDto> addPlaceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
@@ -118,17 +118,31 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "[인증] 일정 내의 장소 순서 변경 API")
+	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/day-schedule-places")
+	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@RequestBody DayScheduleExchangePlaceSequenceDto request) {
+
+		travelPlanService.exchangePlaceSequenceInDaySchedule(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
+			request.readDaySchedulePlaceUUIDs());
+		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
+	}
+
 	/**
 	 * @return :  day-schedule-place UUID
 	 */
 	@Operation(summary = "[인증] 일정 장소 수정 API (업데이트)")
 	@ApiResponse(description = "장소 메모 수정 성공 시, ID 반환")
-	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/day-schedule-places/{day-schedule-place_id}")
+	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/day-schedule-places/{day_schedule_place_id}")
 	public ResponseEntity<DaySchedulePlaceResponseDto> updatePlaceMemoInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@PathVariable("day-schedule-place_id") @UUIDFormat String daySchedulePlaceUUID,
+		@PathVariable("day_schedule_place_id") @UUIDFormat String daySchedulePlaceUUID,
 		@RequestBody DayScheduleUpdatePlaceRequestDto request) {
 
 		DaySchedulePlaceResponseDto response = travelPlanService.updatePlaceInDaySchedule(
@@ -150,19 +164,5 @@ public class TravelPlanController {
 			daySchedulePlaceUUID);
 
 		return ResponseEntity.ok("SUCCESS TO DELETE");
-	}
-
-	@Operation(summary = "[인증] 일정 내의 장소 순서 변경 API")
-	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/sequence")
-	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
-		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@RequestBody DayScheduleExchangePlaceOrderDto request) {
-
-		travelPlanService.exchangePlaceSequenceInDaySchedule(
-			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
-			request.readPlaceUUIDs());
-		return ResponseEntity.ok("SUCCESS TO EXCHANGE");
 	}
 }

@@ -69,8 +69,8 @@ public class DayScheduleService {
 		return dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
 	}
 
-	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
-		daySchedulePlaceService.exchangePlaceSequence(dayScheduleUUID, placeUUIDs);
+	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
+		daySchedulePlaceService.exchangePlaceSequence(daySchedulePlaceUUIDs);
 	}
 
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {

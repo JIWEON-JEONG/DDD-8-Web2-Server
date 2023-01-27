@@ -118,11 +118,11 @@ public class TravelPlanService {
 
 	@Transactional
 	public void exchangePlaceSequenceInDaySchedule(DayScheduleAccessOption accessOption,
-		List<UUID> placeUUIDs) {
+		List<UUID> daySchedulePlaceUUIDs) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//하루 일정 장소 순서 exchange
-		dayScheduleService.exchangePlaceSequence(accessOption.readDayScheduleUUID(), placeUUIDs);
+		dayScheduleService.exchangePlaceSequence(daySchedulePlaceUUIDs);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

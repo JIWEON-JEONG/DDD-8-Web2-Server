@@ -1,15 +1,11 @@
 package ddd.caffeine.ratrip.module.travel_plan.application.day_schedule;
 
-import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import ddd.caffeine.ratrip.common.exception.domain.DayScheduleException;
-import ddd.caffeine.ratrip.common.exception.domain.DaySchedulePlaceException;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedulePlace;
@@ -51,15 +47,13 @@ public class DaySchedulePlaceService {
 
 	public void deletePlace(String daySchedulePlaceUUID) {
 		boolean exist = daySchedulePlaceRepository.existByUUID(UUID.fromString(daySchedulePlaceUUID));
-		if (exist) {
-			daySchedulePlaceRepository.delete(UUID.fromString(daySchedulePlaceUUID));
-		}
-		throw new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION);
+		daySchedulePlaceValidator.validateExist(exist);
+		daySchedulePlaceRepository.delete(UUID.fromString(daySchedulePlaceUUID));
 	}
 
-	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
-		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findByDayScheduleUUIDAndPlaceUUIDs(
-			dayScheduleUUID, placeUUIDs.get(0), placeUUIDs.get(1));
+	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findDaySchedulePlacesById(
+			daySchedulePlaceUUIDs.get(0), daySchedulePlaceUUIDs.get(1));
 
 		DaySchedulePlace baseDaySchedulePlace = daySchedulePlaces.get(0);
 		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));
@@ -72,8 +66,6 @@ public class DaySchedulePlaceService {
 
 	private void validateAddPlaceInSchedule(DaySchedule daySchedule, Place place) {
 		boolean exist = daySchedulePlaceRepository.existByDayScheduleAndPlace(daySchedule, place);
-		if (exist) {
-			throw new DayScheduleException(ALREADY_EXIST_PLACE_IN_SCHEDULE_EXCEPTION);
-		}
+		daySchedulePlaceValidator.validateNotExist(exist);
 	}
 }

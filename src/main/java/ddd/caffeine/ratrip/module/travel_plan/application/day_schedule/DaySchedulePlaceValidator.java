@@ -6,14 +6,22 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import ddd.caffeine.ratrip.common.exception.domain.DayScheduleException;
 import ddd.caffeine.ratrip.common.exception.domain.DaySchedulePlaceException;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedulePlace;
 
 @Component
 public class DaySchedulePlaceValidator {
-	public DaySchedulePlace validateDaySchedulePlace(Optional<DaySchedulePlace> daySchedulePlace) {
-		return daySchedulePlace.orElseThrow(
-			() -> new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION));
+	public void validateExist(boolean exist) {
+		if (!exist) {
+			throw new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION);
+		}
+	}
+
+	public void validateNotExist(boolean exist) {
+		if (exist) {
+			throw new DayScheduleException(ALREADY_EXIST_PLACE_IN_SCHEDULE_EXCEPTION);
+		}
 	}
 
 	public DaySchedulePlace validateExistDaySchedulePlace(Optional<DaySchedulePlace> daySchedulePlace) {

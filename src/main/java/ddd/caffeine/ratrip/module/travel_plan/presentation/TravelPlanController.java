@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -137,8 +138,22 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "[인증] 일정 장소 삭제 API")
+	@DeleteMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/day-schedule-places/{day_schedule_place_id}")
+	public ResponseEntity<String> deletePlaceInDayScheduleApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@PathVariable("day_schedule_place_id") @UUIDFormat String daySchedulePlaceUUID) {
+		travelPlanService.deletePlaceInDaySchedule(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
+			daySchedulePlaceUUID);
+
+		return ResponseEntity.ok("SUCCESS TO DELETE");
+	}
+
 	@Operation(summary = "[인증] 일정 내의 장소 순서 변경 API")
-	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/places/sequence")
+	@PatchMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}/sequence")
 	public ResponseEntity<String> exchangePlaceSequenceInDayScheduleApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,

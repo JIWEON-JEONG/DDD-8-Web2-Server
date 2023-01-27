@@ -47,6 +47,10 @@ public class DayScheduleService {
 		return daySchedulePlaceService.update(daySchedulePlaceUUID, memo);
 	}
 
+	public void deleteDaySchedulePlace(String daySchedulePlaceUUID) {
+		daySchedulePlaceService.deletePlace(daySchedulePlaceUUID);
+	}
+
 	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {
 		Optional<DaySchedule> daySchedule = dayScheduleRepository.findById(dayScheduleUUID);
 		dayScheduleValidator.validateExistDaySchedule(daySchedule);

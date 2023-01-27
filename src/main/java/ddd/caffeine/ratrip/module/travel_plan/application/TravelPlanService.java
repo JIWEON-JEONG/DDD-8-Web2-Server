@@ -98,6 +98,7 @@ public class TravelPlanService {
 		return new DaySchedulePlaceResponseDto(daySchedulePlaceUUID);
 	}
 
+	@Transactional
 	public DaySchedulePlaceResponseDto updatePlaceInDaySchedule(DayScheduleAccessOption accessOption,
 		String daySchedulePlaceUUID, String memo) {
 		//접근 가능한 유저인지 확인
@@ -105,6 +106,14 @@ public class TravelPlanService {
 		//업데이트
 		UUID updatedDaySchedulePlaceUUID = dayScheduleService.updateDaySchedulePlace(daySchedulePlaceUUID, memo);
 		return new DaySchedulePlaceResponseDto(updatedDaySchedulePlaceUUID);
+	}
+
+	@Transactional
+	public void deletePlaceInDaySchedule(DayScheduleAccessOption accessOption, String daySchedulePlaceUUID) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
+		//삭제
+		dayScheduleService.deleteDaySchedulePlace(daySchedulePlaceUUID);
 	}
 
 	@Transactional

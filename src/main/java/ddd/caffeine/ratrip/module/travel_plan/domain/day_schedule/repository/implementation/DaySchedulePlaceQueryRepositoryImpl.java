@@ -72,6 +72,24 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 			.fetchFirst() != null;
 	}
 
+	@Override
+	public boolean existByUUID(UUID daySchedulePlaceUUID) {
+		return jpaQueryFactory
+			.selectFrom(daySchedulePlace)
+			.where(
+				daySchedulePlace.id.eq(daySchedulePlaceUUID)
+			)
+			.fetchFirst() != null;
+	}
+
+	@Override
+	public Long delete(UUID daySchedulePlaceUUID) {
+		return jpaQueryFactory
+			.delete(daySchedulePlace)
+			.where(daySchedulePlace.id.eq(daySchedulePlaceUUID))
+			.execute();
+	}
+
 	private BooleanExpression placeUUIDEq(String placeUUID) {
 		return placeUUID == null ? null : daySchedulePlace.place.id.eq(UUID.fromString(placeUUID));
 	}

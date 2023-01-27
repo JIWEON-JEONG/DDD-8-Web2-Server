@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.common.exception.domain.DayScheduleException;
+import ddd.caffeine.ratrip.common.exception.domain.DaySchedulePlaceException;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedulePlace;
@@ -46,6 +47,14 @@ public class DaySchedulePlaceService {
 			optionalDaySchedulePlace);
 		daySchedulePlace.update(memo);
 		return daySchedulePlace.getId();
+	}
+
+	public void deletePlace(String daySchedulePlaceUUID) {
+		boolean exist = daySchedulePlaceRepository.existByUUID(UUID.fromString(daySchedulePlaceUUID));
+		if (exist) {
+			daySchedulePlaceRepository.delete(UUID.fromString(daySchedulePlaceUUID));
+		}
+		throw new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION);
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {

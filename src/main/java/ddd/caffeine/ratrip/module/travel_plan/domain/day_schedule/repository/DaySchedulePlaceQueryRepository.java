@@ -18,4 +18,8 @@ public interface DaySchedulePlaceQueryRepository {
 	Integer countPlacesByDayScheduleUUID(UUID dayScheduleUUID);
 
 	boolean existByDayScheduleAndPlace(DaySchedule daySchedule, Place place);
+
+	boolean existByUUID(UUID daySchedulePlaceUUID);
+
+	Long delete(UUID daySchedulePlaceUUID);
 }

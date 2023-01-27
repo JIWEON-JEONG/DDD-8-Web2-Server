@@ -11,6 +11,11 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedulePla
 
 @Component
 public class DaySchedulePlaceValidator {
+	public DaySchedulePlace validateDaySchedulePlace(Optional<DaySchedulePlace> daySchedulePlace) {
+		return daySchedulePlace.orElseThrow(
+			() -> new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION));
+	}
+
 	public DaySchedulePlace validateExistDaySchedulePlace(Optional<DaySchedulePlace> daySchedulePlace) {
 		return daySchedulePlace.orElseThrow(
 			() -> new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION));

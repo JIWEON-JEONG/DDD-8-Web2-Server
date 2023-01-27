@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class BookmarkPlacByRegionResponseDto {
+public class BookmarkPlaceByRegionDao {
 	private final UUID id;
 	private final String name;
 	private final String imageLink;

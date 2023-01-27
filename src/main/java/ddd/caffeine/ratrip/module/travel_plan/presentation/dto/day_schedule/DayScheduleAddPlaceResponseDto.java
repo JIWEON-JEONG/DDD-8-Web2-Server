@@ -9,7 +9,7 @@ public class DayScheduleAddPlaceResponseDto {
 
 	private UUID id;
 
-	public DayScheduleAddPlaceResponseDto(UUID dayScheduleUUID) {
-		this.id = dayScheduleUUID;
+	public DayScheduleAddPlaceResponseDto(UUID daySchedulePlaceUUID) {
+		this.id = daySchedulePlaceUUID;
 	}
 }

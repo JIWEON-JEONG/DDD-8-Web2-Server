@@ -2,7 +2,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.bookmark;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.domain.Bookmark;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import lombok.Getter;
 
 @Getter
@@ -13,5 +13,10 @@ public class BookmarkResponseDto {
 	public BookmarkResponseDto(Bookmark bookmark) {
 		this.id = bookmark.getId();
 		this.isBookmarked = bookmark.isActivated();
+	}
+
+	public BookmarkResponseDto(UUID id, boolean isBookmarked) {
+		this.id = id;
+		this.isBookmarked = isBookmarked;
 	}
 }

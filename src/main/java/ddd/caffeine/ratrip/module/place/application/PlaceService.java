@@ -16,14 +16,15 @@ import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoModel;
-import ddd.caffeine.ratrip.module.place.feign.naver.model.ImageNaverModel;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
+import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.search.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -45,17 +46,17 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(ThirdPartySearchOption searchOption) {
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByKeywordAndCoordinate(
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByKeywordAndCoordinate(
 			searchOption);
 
-		return placeKakaoModel.mapByPlaceSearchResponseDto();
+		return feignPlaceModel.mapByPlaceSearchResponseDto();
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailsResponseDto readPlaceDetailsByUUID(String uuid, User user) {
+	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid, User user) {
 		Place place = readPlaceByUUID(UUID.fromString(uuid));
 		BookmarkResponseDto bookMarkModel = bookmarkService.readBookmarkModel(user, place);
-		return new PlaceDetailsResponseDto(place, bookMarkModel);
+		return new PlaceDetailResponseDto(place, bookMarkModel);
 	}
 
 	@Transactional
@@ -98,9 +99,11 @@ public class PlaceService {
 	 */
 	private void handlePlaceUpdate(Place place, Map<String, String> placeNameAndAddressMap) {
 		if (place.checkNeedsUpdate(placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"))) {
-			PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(
+			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
-			place.update(placeKakaoModel.readOne());
+			place.update(feignPlaceModel.readOne());
+			injectImageLinkInPlace(place, place.getName());
+			injectBlogsInPlace(place, place.getName());
 		}
 	}
 
@@ -108,15 +111,26 @@ public class PlaceService {
 	 * 장소이름과 주소를 가지고 그에 맞는 Place Entity 생성해주는 메서드.
 	 */
 	private Place readPlaceEntity(Map<String, String> placeNameAndAddressMap) {
-		final int DATA_INDEX = 0;
-
-		PlaceKakaoModel placeKakaoModel = placeFeignService.readPlacesByAddressAndPlaceName(
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
-		Place place = placeKakaoModel.mapByPlaceEntity();
+		Place place = feignPlaceModel.mapByPlaceEntity();
 
-		ImageNaverModel imageModel = placeFeignService.readImageModel(placeNameAndAddressMap.get("name"));
-		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+		injectImageLinkInPlace(place, place.getName());
+		injectBlogsInPlace(place, place.getName());
 
 		return place;
 	}
+
+	private void injectImageLinkInPlace(Place place, String keyword) {
+		final int DATA_INDEX = 0;
+
+		FeignImageModel imageModel = placeFeignService.readImageModel(keyword);
+		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+	}
+
+	private void injectBlogsInPlace(Place place, String keyword) {
+		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
+		place.injectBlogs(blogModel.readBlogs());
+	}
+
 }

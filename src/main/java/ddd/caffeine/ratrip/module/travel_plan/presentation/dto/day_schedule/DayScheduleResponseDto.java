@@ -10,7 +10,6 @@ import lombok.Getter;
 public class DayScheduleResponseDto {
 	private UUID id;
 	private List<DaySchedulePlaceDto> daySchedulePlaces;
-
 	private boolean hasRegisteredPlace;
 
 	@Builder

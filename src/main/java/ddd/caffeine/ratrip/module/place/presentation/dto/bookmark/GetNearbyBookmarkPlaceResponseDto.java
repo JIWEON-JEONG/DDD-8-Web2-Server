@@ -9,5 +9,6 @@ import lombok.Getter;
 @Getter
 public class GetNearbyBookmarkPlaceResponseDto {
 	private final UUID id;
+	private final String name;
 	private final String imageLink;
 }

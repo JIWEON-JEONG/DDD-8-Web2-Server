@@ -54,6 +54,7 @@ public class DaySchedulePlaceService {
 	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
 		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findDaySchedulePlacesById(
 			daySchedulePlaceUUIDs.get(0), daySchedulePlaceUUIDs.get(1));
+		daySchedulePlaceValidator.validateExchangeSequence(daySchedulePlaces);
 
 		DaySchedulePlace baseDaySchedulePlace = daySchedulePlaces.get(0);
 		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));

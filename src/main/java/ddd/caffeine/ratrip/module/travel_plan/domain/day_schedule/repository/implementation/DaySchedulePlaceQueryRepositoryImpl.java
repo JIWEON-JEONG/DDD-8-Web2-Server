@@ -45,7 +45,7 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 		return jpaQueryFactory
 			.selectFrom(daySchedulePlace)
 			.where(
-				daySchedulePlace.daySchedule.id.eq(firstUUID).or(daySchedulePlace.place.id.eq(secondUUID))
+				daySchedulePlace.id.eq(firstUUID).or(daySchedulePlace.id.eq(secondUUID))
 			)
 			.fetch();
 	}

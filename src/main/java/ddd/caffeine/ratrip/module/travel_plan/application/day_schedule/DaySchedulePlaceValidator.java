@@ -2,6 +2,7 @@ package ddd.caffeine.ratrip.module.travel_plan.application.day_schedule;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -27,5 +28,11 @@ public class DaySchedulePlaceValidator {
 	public DaySchedulePlace validateExistDaySchedulePlace(Optional<DaySchedulePlace> daySchedulePlace) {
 		return daySchedulePlace.orElseThrow(
 			() -> new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION));
+	}
+
+	public void validateExchangeSequence(List<DaySchedulePlace> daySchedulePlaces) {
+		if (daySchedulePlaces.size() != 2) {
+			throw new DaySchedulePlaceException(NOT_FOUND_DAY_SCHEDULE_PLACE_EXCEPTION);
+		}
 	}
 }

@@ -102,12 +102,12 @@ public class PlaceService {
 	}
 
 	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, BookmarkPlaceByRegionDto request) {
-		KakaoRegionResponse kakaoRegionResponse = getRegionFromKakao(request);
+		KakaoRegionResponse kakaoRegionResponse = changeLongitudeAndLatitudeToRegion(request);
 		Region region = getRegionFromKakaoRegionResponse(kakaoRegionResponse);
 		return bookmarkService.getBookmarkPlaceByRegion(user, region);
 	}
 
-	private KakaoRegionResponse getRegionFromKakao(BookmarkPlaceByRegionDto request) {
+	private KakaoRegionResponse changeLongitudeAndLatitudeToRegion(BookmarkPlaceByRegionDto request) {
 		return kakaoRegionApiClient.getRegion(
 			kakaoAuthorizationHeader(), request.getLongitude(),
 			request.getLatitude());

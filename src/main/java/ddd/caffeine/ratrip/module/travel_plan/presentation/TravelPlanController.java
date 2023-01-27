@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.common.validator.annotation.NullableUUIDFormat;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
@@ -89,7 +90,7 @@ public class TravelPlanController {
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@RequestParam(name = "place-id", required = false) @UUIDFormat String placeUUID) {
+		@RequestParam(name = "place-id", required = false) @NullableUUIDFormat String placeUUID) {
 
 		DayScheduleResponseDto response = travelPlanService.readScheduleByUUID(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID), placeUUID);

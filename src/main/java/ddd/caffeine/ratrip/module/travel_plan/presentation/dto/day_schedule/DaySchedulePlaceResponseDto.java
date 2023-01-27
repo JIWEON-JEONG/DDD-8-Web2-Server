@@ -5,11 +5,11 @@ import java.util.UUID;
 import lombok.Getter;
 
 @Getter
-public class DayScheduleAddPlaceResponseDto {
+public class DaySchedulePlaceResponseDto {
 
 	private UUID id;
 
-	public DayScheduleAddPlaceResponseDto(UUID daySchedulePlaceUUID) {
+	public DaySchedulePlaceResponseDto(UUID daySchedulePlaceUUID) {
 		this.id = daySchedulePlaceUUID;
 	}
 }

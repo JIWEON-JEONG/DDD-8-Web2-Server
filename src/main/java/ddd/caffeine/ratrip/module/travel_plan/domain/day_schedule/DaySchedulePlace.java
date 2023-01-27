@@ -68,4 +68,8 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 		exchangeDaySchedulePlace.sequence = this.sequence;
 		this.sequence = exchangeOrder;
 	}
+
+	public void update(String memo) {
+		this.memo = memo;
+	}
 }

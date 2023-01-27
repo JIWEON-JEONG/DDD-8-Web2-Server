@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.travel_plan.application.day_schedule;
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DaySchedulePlaceService {
 
+	private final DaySchedulePlaceValidator daySchedulePlaceValidator;
 	private final DaySchedulePlaceRepository daySchedulePlaceRepository;
 
 	public List<DaySchedulePlaceDao> readDaySchedulePlaces(UUID dayScheduleUUID, String placeUUID) {
@@ -35,6 +37,15 @@ public class DaySchedulePlaceService {
 			.memo(memo)
 			.build();
 		return daySchedulePlaceRepository.save(daySchedulePlace).getId();
+	}
+
+	public UUID update(String daySchedulePlaceUUID, String memo) {
+		Optional<DaySchedulePlace> optionalDaySchedulePlace = daySchedulePlaceRepository.findById(
+			UUID.fromString(daySchedulePlaceUUID));
+		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
+			optionalDaySchedulePlace);
+		daySchedulePlace.update(memo);
+		return daySchedulePlace.getId();
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {

@@ -26,6 +26,8 @@ import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.GetNearbyBookmarkPlaceRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.GetNearbyBookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceDetailsResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.detail.PlaceSaveThirdPartyResponseDto;
@@ -113,6 +115,16 @@ public class PlaceController {
 		@RequestParam(name = "category", defaultValue = "모든 카테고리", required = false) List<String> categories,
 		@PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		BookmarkPlaceResponseDto response = placeService.readBookmarks(user, categories, pageable);
+		return ResponseEntity.ok(response);
+	}
+
+	@Operation(summary = "[인증] 근처 북마크 리스트 최대 4개 조회")
+	@GetMapping("/bookmarks/nearby")
+	public ResponseEntity<GetNearbyBookmarkPlaceResponseDto> getNearbyBookmarks(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@Valid @ModelAttribute GetNearbyBookmarkPlaceRequestDto request) {
+
+		GetNearbyBookmarkPlaceResponseDto response = placeService.getNearbyBookmarkPlace(user, request.toServiceDto());
 		return ResponseEntity.ok(response);
 	}
 }

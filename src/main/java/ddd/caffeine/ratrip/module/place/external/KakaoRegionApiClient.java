@@ -2,6 +2,8 @@ package ddd.caffeine.ratrip.module.place.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ddd.caffeine.ratrip.module.place.external.dto.KakaoRegionResponse;
 
@@ -9,5 +11,6 @@ import ddd.caffeine.ratrip.module.place.external.dto.KakaoRegionResponse;
 public interface KakaoRegionApiClient {
 
 	@GetMapping("/v2/local/geo/coord2regioncode.json")
-	KakaoRegionResponse getRegion(double x, double y);
+	KakaoRegionResponse getRegion(@RequestHeader("Authorization") String restApiKey,
+		@RequestParam("x") double longitude, @RequestParam("y") double latitude);
 }

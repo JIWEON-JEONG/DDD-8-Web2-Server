@@ -71,6 +71,18 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "[인증] 여행계획 중 하루일정들 모두 불러오기 API")
+	@GetMapping("/{travel_plan_id}/day-schedules")
+	public ResponseEntity<DayScheduleInTravelPlanResponseDto> readDaySchedulesInTravelPlanApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID) {
+
+		DayScheduleInTravelPlanResponseDto response = travelPlanService.readDaySchedulesInTravelPlan(
+			new TravelPlanAccessOption(user, travelPlanUUID));
+
+		return ResponseEntity.ok(response);
+	}
+
 	@Operation(summary = "[인증] 하루 일정 읽기 API")
 	@GetMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}")
 	public ResponseEntity<DayScheduleResponseDto> readDayScheduleByUUIDApi(
@@ -81,18 +93,6 @@ public class TravelPlanController {
 
 		DayScheduleResponseDto response = travelPlanService.readScheduleByUUID(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID), placeUUID);
-
-		return ResponseEntity.ok(response);
-	}
-
-	@Operation(summary = "[인증] 여행계획 중 하루일정들 모두 불러오기 API")
-	@GetMapping("/{travel_plan_id}/day-schedules")
-	public ResponseEntity<DayScheduleInTravelPlanResponseDto> readDaySchedulesInTravelPlanApi(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID) {
-
-		DayScheduleInTravelPlanResponseDto response = travelPlanService.readDaySchedulesInTravelPlan(
-			new TravelPlanAccessOption(user, travelPlanUUID));
 
 		return ResponseEntity.ok(response);
 	}

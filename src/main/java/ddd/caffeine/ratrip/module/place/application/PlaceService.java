@@ -99,8 +99,8 @@ public class PlaceService {
 	}
 
 	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, BookmarkPlaceByRegionDto request) {
-		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(request.getLatitude(),
-			request.getLongitude());
+		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(request.getLongitude(),
+			request.getLatitude());
 		Region region = getRegionFromKakaoRegionResponse(kakaoRegionResponse);
 		return bookmarkService.getBookmarkPlaceByRegion(user, region);
 	}

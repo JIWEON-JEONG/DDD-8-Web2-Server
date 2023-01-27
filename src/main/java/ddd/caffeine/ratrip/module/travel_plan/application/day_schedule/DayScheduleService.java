@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
+import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.DayScheduleRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.dao.DaySchedulePlaceDao;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceDto;
@@ -43,17 +43,22 @@ public class DayScheduleService {
 		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
-	public DayScheduleResponseDto readDaySchedule(UUID travelPlanUUID, LocalDate date) {
-		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
+	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {
+		Optional<DaySchedule> daySchedule = dayScheduleRepository.findById(dayScheduleUUID);
+		dayScheduleValidator.validateExistDaySchedule(daySchedule);
 
 		List<DaySchedulePlaceDao> daySchedulePlaces = daySchedulePlaceService.readDaySchedulePlaces(
-			daySchedule.getId());
+			daySchedule.get().getId(), placeUUID);
 
 		return DayScheduleResponseDto.builder()
-			.dayScheduleUUID(daySchedule.getId())
+			.dayScheduleUUID(daySchedule.get().getId())
 			.daySchedulePlaces(createDaySchedulePlaceDto(daySchedulePlaces))
 			.hasRegisteredPlace(!(daySchedulePlaces.isEmpty()))
 			.build();
+	}
+
+	public List<DaySchedule> readDaySchedulesInTravelPlan(UUID travelPlanUUID) {
+		return dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
 	}
 
 	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
@@ -67,4 +72,5 @@ public class DayScheduleService {
 		}
 		return response;
 	}
+
 }

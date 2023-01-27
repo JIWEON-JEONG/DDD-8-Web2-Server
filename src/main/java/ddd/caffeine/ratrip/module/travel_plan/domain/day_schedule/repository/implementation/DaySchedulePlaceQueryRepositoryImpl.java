@@ -6,6 +6,7 @@ import static ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.QDaySch
 import java.util.List;
 import java.util.UUID;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
@@ -22,7 +23,9 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUID(UUID dayScheduleUUID) {
+	public List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUIDAndPlaceUUID(UUID dayScheduleUUID,
+		String placeUUID) {
+
 		return jpaQueryFactory
 			.select(new QDaySchedulePlaceDao(daySchedulePlace.id, daySchedulePlace.memo, daySchedulePlace.sequence,
 				place.id, place.name, place.category, place.location
@@ -30,7 +33,8 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 			.from(daySchedulePlace)
 			.innerJoin(daySchedulePlace.place, place)
 			.where(
-				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID)
+				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),
+				placeUUIDEq(placeUUID)
 			)
 			.orderBy(daySchedulePlace.sequence.asc())
 			.fetch();
@@ -67,4 +71,9 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 			)
 			.fetchFirst() != null;
 	}
+
+	private BooleanExpression placeUUIDEq(String placeUUID) {
+		return placeUUID == null ? null : daySchedulePlace.place.id.eq(UUID.fromString(placeUUID));
+	}
+
 }

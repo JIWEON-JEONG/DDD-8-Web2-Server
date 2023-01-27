@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.travel_plan.presentation;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.common.validator.annotation.NullableUUIDFormat;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
@@ -29,6 +29,7 @@ import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanRespons
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceOrderDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,15 +72,28 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 하루 일정 읽기 API")
+	@Operation(summary = "[인증] 여행계획 중 하루일정들 모두 불러오기 API")
 	@GetMapping("/{travel_plan_id}/day-schedules")
-	public ResponseEntity<DayScheduleResponseDto> readScheduleByDayApi(
+	public ResponseEntity<DayScheduleInTravelPlanResponseDto> readDaySchedulesInTravelPlanApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID) {
+
+		DayScheduleInTravelPlanResponseDto response = travelPlanService.readDaySchedulesInTravelPlan(
+			new TravelPlanAccessOption(user, travelPlanUUID));
+
+		return ResponseEntity.ok(response);
+	}
+
+	@Operation(summary = "[인증] 하루 일정 읽기 API")
+	@GetMapping("/{travel_plan_id}/day-schedules/{day_schedule_id}")
+	public ResponseEntity<DayScheduleResponseDto> readDayScheduleByUUIDApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
-		@RequestParam(defaultValue = "1", required = false) @Min(1) int day) {
+		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
+		@RequestParam(name = "place-id", required = false) @NullableUUIDFormat String placeUUID) {
 
-		DayScheduleResponseDto response = travelPlanService.readScheduleByDay(
-			new TravelPlanAccessOption(user, travelPlanUUID), day);
+		DayScheduleResponseDto response = travelPlanService.readScheduleByUUID(
+			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID), placeUUID);
 
 		return ResponseEntity.ok(response);
 	}

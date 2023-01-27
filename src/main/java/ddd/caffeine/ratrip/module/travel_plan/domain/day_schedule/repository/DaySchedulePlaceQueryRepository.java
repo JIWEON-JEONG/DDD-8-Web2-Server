@@ -9,7 +9,8 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedulePla
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.dao.DaySchedulePlaceDao;
 
 public interface DaySchedulePlaceQueryRepository {
-	List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUID(UUID dayScheduleUUID);
+	List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUIDAndPlaceUUID(UUID dayScheduleUUID,
+		String placeUUID);
 
 	List<DaySchedulePlace> findByDayScheduleUUIDAndPlaceUUIDs(UUID dayScheduleUUID, UUID firstPlaceUUID,
 		UUID secondPlaceUUID);

@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class GetNearbyBookmarkPlaceDto {
+public class BookmarkPlaceByRegionDto {
 	private final double latitude;
 	private final double longitude;
 
-	public static GetNearbyBookmarkPlaceDto of(double latitude, double longitude) {
-		return new GetNearbyBookmarkPlaceDto(latitude, longitude);
+	public static BookmarkPlaceByRegionDto of(double latitude, double longitude) {
+		return new BookmarkPlaceByRegionDto(latitude, longitude);
 	}
 }

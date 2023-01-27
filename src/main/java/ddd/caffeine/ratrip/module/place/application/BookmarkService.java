@@ -9,11 +9,13 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.repository.bookmark.BookmarkRepository;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -51,6 +53,10 @@ public class BookmarkService {
 			user, page);
 
 		return new BookmarkPlaceResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
+	}
+
+	public BookmarkPlacByRegionResponseDto getBookmarkPlaceByRegion(User user, BookmarkPlaceByRegionDto request) {
+
 	}
 
 	/**

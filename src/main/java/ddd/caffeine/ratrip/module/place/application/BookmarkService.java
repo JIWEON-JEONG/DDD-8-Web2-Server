@@ -2,7 +2,6 @@ package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -29,12 +28,12 @@ public class BookmarkService {
 
 	public BookmarkResponseDto readBookmark(User user, Place place) {
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
-		Bookmark bookmark = bookmarkRepository.getById(bookmarkId);
-		if (bookmark == null) {
-			return BookmarkResponseDto.hasBookmarkedFalse();
+		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkId);
+		if (bookmark.isEmpty()) {
+			return BookmarkResponseDto.hasBookmarkFalse();
 		}
 		return BookmarkResponseDto.builder()
-			.isBookmarked(bookmark.isActivated())
+			.isBookmarked(bookmark.get().isActivated())
 			.build();
 	}
 
@@ -48,12 +47,15 @@ public class BookmarkService {
 			.build();
 	}
 
-	public BookmarkResponseDto changeBookmarkState(UUID bookmarkUUID) {
-		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkUUID.toString());
-		bookmarkValidator.validateExistOptionalBookmark(bookmark);
-		bookmark.get().changeBookmarkState();
+	public BookmarkResponseDto changeBookmarkState(User user, Place place) {
+		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
+		Bookmark bookmark = bookmarkValidator.validateExistOptionalBookmark(
+			bookmarkRepository.findById(bookmarkId));
+		bookmark.changeBookmarkState();
 
-		return new BookmarkResponseDto(bookmark.get());
+		return BookmarkResponseDto.builder()
+			.isBookmarked(bookmark.isActivated())
+			.build();
 	}
 
 	public BookmarkPlaceResponseDto getBookmarks(User user, List<String> categories,

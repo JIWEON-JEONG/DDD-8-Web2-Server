@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.place.presentation;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -34,7 +33,6 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkRespon
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -116,7 +114,7 @@ public class PlaceController {
 
 	@Operation(summary = "[인증] 북마크 생성")
 	@PostMapping("/{place_id}/bookmarks")
-	public ResponseEntity<BookmarkResponseDto> callChangeBookmarkStateApi(
+	public ResponseEntity<BookmarkResponseDto> callCreateBookmarkApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
 		BookmarkResponseDto response = placeService.createBookmark(user, placeUUID);
@@ -125,13 +123,11 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 북마크 상태 변경")
-	@ApiResponse(description = "북마크 등록 성공 시, 북마크 ID & 북마크 상태 반환")
 	@PatchMapping("/{place_id}/bookmarks")
 	public ResponseEntity<BookmarkResponseDto> callChangeBookmarkStateApi(
-		@PathVariable(name = "place_id") @UUIDFormat String placeUUID,
-		@PathVariable("bookmark_id") @UUIDFormat String bookmarkUUID) {
-		BookmarkResponseDto response = placeService.changeBookmarkState(
-			UUID.fromString(placeUUID), UUID.fromString(bookmarkUUID));
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
+		BookmarkResponseDto response = placeService.changeBookmarkState(user, placeUUID);
 
 		return ResponseEntity.ok(response);
 	}

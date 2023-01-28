@@ -78,10 +78,10 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public BookmarkResponseDto changeBookmarkState(String placeUUID, String bookmarkUUID) {
-		Optional<Place> place = placeRepository.findById(placeUUID);
+	public BookmarkResponseDto changeBookmarkState(User user, String placeUUID) {
+		Optional<Place> place = placeRepository.findById(UUID.fromString(placeUUID));
 		placeValidator.validateExistPlace(place);
-		return bookmarkService.changeBookmarkState(bookmarkUUID);
+		return bookmarkService.changeBookmarkState(user, place.get());
 	}
 
 	@Transactional(readOnly = true)

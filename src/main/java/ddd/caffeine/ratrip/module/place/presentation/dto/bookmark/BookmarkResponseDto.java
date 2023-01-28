@@ -18,7 +18,7 @@ public class BookmarkResponseDto {
 		this.hasBookmark = Boolean.FALSE;
 	}
 
-	public static BookmarkResponseDto hasBookmarkedFalse() {
+	public static BookmarkResponseDto hasBookmarkFalse() {
 		return new BookmarkResponseDto();
 	}
 }

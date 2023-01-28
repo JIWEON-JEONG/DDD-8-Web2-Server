@@ -1,19 +1,24 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.bookmark;
 
-import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class BookmarkResponseDto {
-	private String id;
 	private boolean isBookmarked;
+	private boolean hasBookmark;
 
-	public BookmarkResponseDto(Bookmark bookmark) {
-		this.isBookmarked = bookmark.isActivated();
+	@Builder
+	public BookmarkResponseDto(boolean isBookmarked) {
+		this.isBookmarked = isBookmarked;
+		this.hasBookmark = Boolean.TRUE;
 	}
 
-	public BookmarkResponseDto(String id, boolean isBookmarked) {
-		this.id = id;
-		this.isBookmarked = isBookmarked;
+	public BookmarkResponseDto() {
+		this.hasBookmark = Boolean.FALSE;
+	}
+
+	public static BookmarkResponseDto hasBookmarkedFalse() {
+		return new BookmarkResponseDto();
 	}
 }

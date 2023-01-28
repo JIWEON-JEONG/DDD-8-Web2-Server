@@ -19,12 +19,12 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -78,7 +78,7 @@ public class PlaceService {
 	}
 
 	@Transactional
-	public BookmarkResponseDto changeBookmarkState(UUID placeUUID, UUID bookmarkUUID) {
+	public BookmarkResponseDto changeBookmarkState(String placeUUID, String bookmarkUUID) {
 		Optional<Place> place = placeRepository.findById(placeUUID);
 		placeValidator.validateExistPlace(place);
 		return bookmarkService.changeBookmarkState(bookmarkUUID);
@@ -89,7 +89,14 @@ public class PlaceService {
 		return bookmarkService.getBookmarks(user, categories, pageable);
 	}
 
-	public Place readPlaceByUUID(UUID placeUUID) {
+	@Transactional(readOnly = true)
+	public BookmarkResponseDto readBookmark(User user, String placeUUID) {
+		Optional<Place> place = placeRepository.findById(UUID.fromString(placeUUID));
+		placeValidator.validateExistPlace(place);
+		return bookmarkService.readBookmark(user, place.get());
+	}
+
+	public Place readPlaceByUUID(String placeUUID) {
 		Optional<Place> place = placeRepository.findById(placeUUID);
 		return placeValidator.validateExistPlace(place);
 	}
@@ -132,5 +139,4 @@ public class PlaceService {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
 		place.injectBlogs(blogModel.readBlogs());
 	}
-
 }

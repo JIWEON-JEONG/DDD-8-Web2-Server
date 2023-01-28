@@ -93,26 +93,48 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
+	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
+	@Operation(summary = "[인증] 북마크 리스트 조회")
+	@GetMapping("/bookmarks")
+	public ResponseEntity<BookmarkPlaceResponseDto> callReadBookmarksApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@RequestParam(name = "category", defaultValue = "모든 카테고리", required = false) List<String> categories,
+		@PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		BookmarkPlaceResponseDto response = placeService.readBookmarks(user, categories, pageable);
+		return ResponseEntity.ok(response);
+	}
+
+	@Operation(summary = "[인증] 특정 장소에 대한 북마크 조회")
+	@PostMapping("/{place_id}/bookmarks")
+	public ResponseEntity<BookmarkResponseDto> callReadBookmarkOfPlaceApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
+		BookmarkResponseDto response = placeService.readBookmark(user, placeUUID);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@Operation(summary = "[인증] 북마크 생성")
+	@ApiResponse(description = "북마크 생성 성공 시, 북마크 상태 반환")
+	@PostMapping("/{place_id}/bookmarks")
+	public ResponseEntity<BookmarkResponseDto> callChangeBookmarkStateApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
+		BookmarkResponseDto response = placeService.changeBookmarkState(
+			UUID.fromString(placeUUID));
+
+		return ResponseEntity.ok(response);
+	}
+
 	@Operation(summary = "[인증] 북마크 상태 변경")
 	@ApiResponse(description = "북마크 등록 성공 시, 북마크 ID & 북마크 상태 반환")
-	@PatchMapping("/{place_id}/bookmarks/{bookmark_id}")
+	@PatchMapping("/{place_id}/bookmarks")
 	public ResponseEntity<BookmarkResponseDto> callChangeBookmarkStateApi(
 		@PathVariable(name = "place_id") @UUIDFormat String placeUUID,
 		@PathVariable("bookmark_id") @UUIDFormat String bookmarkUUID) {
 		BookmarkResponseDto response = placeService.changeBookmarkState(
 			UUID.fromString(placeUUID), UUID.fromString(bookmarkUUID));
 
-		return ResponseEntity.ok(response);
-	}
-
-	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
-	@Operation(summary = "[인증] 북마크 리스트 조회")
-	@GetMapping("/bookmarks")
-	public ResponseEntity<BookmarkPlaceResponseDto> getBookmarks(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@RequestParam(name = "category", defaultValue = "모든 카테고리", required = false) List<String> categories,
-		@PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-		BookmarkPlaceResponseDto response = placeService.readBookmarks(user, categories, pageable);
 		return ResponseEntity.ok(response);
 	}
 }

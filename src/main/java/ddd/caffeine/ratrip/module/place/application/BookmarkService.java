@@ -27,14 +27,15 @@ public class BookmarkService {
 	private final BookmarkRepository bookmarkRepository;
 	private final BookmarkValidator bookmarkValidator;
 
-	public BookmarkResponseDto readBookmarkModel(User user, Place place) {
-		Bookmark bookmark = readBookmark(user, place);
+	public BookmarkResponseDto readBookmark(User user, Place place) {
+		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
+		Bookmark bookmark = bookmarkRepository.getById(bookmarkId);
 		if (bookmark == null) {
-			Bookmark entity = Bookmark.of(new BookmarkId(), user, place);
-			bookmarkRepository.save(entity);
-			return new BookmarkResponseDto(entity);
+			return BookmarkResponseDto.hasBookmarkedFalse();
 		}
-		return new BookmarkResponseDto(bookmark);
+		return BookmarkResponseDto.builder()
+			.isBookmarked(bookmark.isActivated())
+			.build();
 	}
 
 	public BookmarkResponseDto changeBookmarkState(UUID bookmarkUUID) {
@@ -52,12 +53,5 @@ public class BookmarkService {
 			user, page);
 
 		return new BookmarkPlaceResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
-	}
-
-	/**
-	 * 북마크 엔티티를 조회 하는 메서드.
-	 */
-	private Bookmark readBookmark(User user, Place place) {
-		return bookmarkRepository.findByUserAndPlace(user, place);
 	}
 }

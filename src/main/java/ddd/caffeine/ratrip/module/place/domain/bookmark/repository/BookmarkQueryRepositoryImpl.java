@@ -6,7 +6,6 @@ import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -18,8 +17,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.BookmarkId;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.QBookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
@@ -31,19 +30,11 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Bookmark findByUserAndPlace(User user, Place place) {
-		return jpaQueryFactory.selectFrom(bookmark)
-			.where(bookmark.user.eq(user), bookmark.place.eq(place))
-			.fetchOne();
-	}
-
-	@Override
 	public Slice<BookMarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
 		Pageable pageable) {
 		List<BookMarkPlaceDao> contents = jpaQueryFactory
 			.select(new QBookMarkPlaceDao(place.id, place.name, place.address.detailed, place.imageLink,
-				place.category, bookmark.user.name,
-				bookmark.isActivated)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
+				place.category, bookmark.isActivated))
 			.from(bookmark)
 			.join(bookmark.place, place)
 			.where(
@@ -60,9 +51,9 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public boolean existsByUserIdAndPlaceId(UUID userId, UUID placeId) {
+	public boolean existsById(BookmarkId id) {
 		return jpaQueryFactory.selectFrom(bookmark)
-			.where(bookmark.user.id.eq(userId), bookmark.place.id.eq(placeId))
+			.where(bookmark.id.eq(id))
 			.fetchFirst() != null;
 	}
 

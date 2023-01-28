@@ -57,22 +57,19 @@ public class PlaceController {
 	@Operation(summary = "[인증] 카카오 정보를 통한 장소 저장 및 업데이트 API")
 	@PostMapping
 	public ResponseEntity<PlaceSaveThirdPartyResponseDto> callSavePlaceByThirdPartyData(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @RequestBody PlaceSaveByThirdPartyRequestDto request) {
 
 		PlaceSaveThirdPartyResponseDto response = placeService.savePlaceByThirdPartyData(
-			request.mapByThirdPartyDetailSearchOption(), user);
-
+			request.mapByThirdPartyDetailSearchOption());
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "[인증] 장소 기본키(UUID)로 장소 상세 읽기 API")
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailResponseDto> callPlaceDetailsApiByUUID(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
 
-		PlaceDetailResponseDto response = placeService.readPlaceDetailsByUUID(id, user);
+		PlaceDetailResponseDto response = placeService.readPlaceDetailsByUUID(id);
 		return ResponseEntity.ok(response);
 	}
 

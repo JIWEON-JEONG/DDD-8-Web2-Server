@@ -15,16 +15,12 @@ public class BookMarkPlaceDao {
 	private final String imageUrl;
 	private final Category category;
 
-	private final boolean isActivated;
-
 	@QueryProjection
-	public BookMarkPlaceDao(UUID id, String name, String detailAddress, String imageUrl, Category category,
-		boolean isActivated) {
+	public BookMarkPlaceDao(UUID id, String name, String detailAddress, String imageUrl, Category category) {
 		this.id = id;
 		this.name = name;
 		this.detailAddress = detailAddress;
 		this.imageUrl = imageUrl;
 		this.category = category;
-		this.isActivated = isActivated;
 	}
 }

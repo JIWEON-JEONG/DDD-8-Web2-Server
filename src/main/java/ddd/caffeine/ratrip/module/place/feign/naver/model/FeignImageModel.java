@@ -11,6 +11,9 @@ public class FeignImageModel {
 	private List<ImageItem> items;
 
 	public String readImageLinkByIndex(int index) {
+		if (this.items.isEmpty()) {
+			return null;
+		}
 		ImageItem imageItem = this.items.get(index);
 		return imageItem.getLink();
 	}

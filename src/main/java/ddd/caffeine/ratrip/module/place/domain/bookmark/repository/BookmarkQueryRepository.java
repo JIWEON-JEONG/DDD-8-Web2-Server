@@ -12,7 +12,9 @@ import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 
 public interface BookmarkQueryRepository {
-	boolean existsById(BookmarkId id);
+	Bookmark findByBookmarkId(BookmarkId id);
+
+	boolean existsByBookmarkId(BookmarkId id);
 
 	Slice<BookMarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user, Pageable pageable);
 

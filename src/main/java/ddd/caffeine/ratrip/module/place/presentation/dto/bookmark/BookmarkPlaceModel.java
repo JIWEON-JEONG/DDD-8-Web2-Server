@@ -13,7 +13,6 @@ public class BookmarkPlaceModel {
 	private String detailAddress;
 	private String imageUrl;
 	private Category category;
-	private BookmarkResponseDto bookmark;
 
 	public BookmarkPlaceModel(BookMarkPlaceDao dao) {
 		this.id = dao.getId();
@@ -21,6 +20,5 @@ public class BookmarkPlaceModel {
 		this.detailAddress = dao.getDetailAddress();
 		this.imageUrl = dao.getImageUrl();
 		this.category = dao.getCategory();
-		this.bookmark = new BookmarkResponseDto(dao.getBookmarkId().toString(), dao.isActivated());
 	}
 }

@@ -1,5 +1,7 @@
 package ddd.caffeine.ratrip.module.place.domain.repository.bookmark;
 
+import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +43,33 @@ class BookmarkRepositoryTest {
 		placeRepository.save(place);
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
 		Bookmark bookmark = Bookmark.of(bookmarkId, user, place);
-
-		//when
-
 		bookmarkRepository.save(bookmark);
 
-		System.out.println(bookmark.getId());
+		//when
+		BookmarkId id = new BookmarkId(user.getId(), place.getId());
+		Bookmark entity = bookmarkRepository.findByBookmarkId(id);
 
 		//then
-		// assertThat(bookmark).isNull();
+	}
+
+	@Test
+	@DisplayName("validate method test")
+	void existsBookmarkTest() {
+		//given
+		User user = User.of("name", "email", UserStatus.ACTIVE, "socialId", UserSocialType.KAKAO);
+		Place place = createPlace("testId", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1,
+			"testLink", "testLink", "testPhoneNumber");
+		userRepository.save(user);
+		placeRepository.save(place);
+		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
+		Bookmark bookmark = Bookmark.of(bookmarkId, user, place);
+		bookmarkRepository.save(bookmark);
+
+		//when
+		boolean exist = bookmarkRepository.existsByBookmarkId(bookmarkId);
+
+		//then
+		assertThat(exist).isTrue();
 	}
 
 	// @Test

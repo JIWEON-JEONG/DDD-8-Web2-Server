@@ -30,11 +30,22 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
+	public Bookmark findByBookmarkId(BookmarkId id) {
+		return jpaQueryFactory
+			.selectFrom(bookmark)
+			.where(
+				bookmarkIdEq(id)
+			)
+			.fetchOne();
+	}
+
+	@Override
 	public Slice<BookMarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
 		Pageable pageable) {
 		List<BookMarkPlaceDao> contents = jpaQueryFactory
 			.select(new QBookMarkPlaceDao(place.id, place.name, place.address.detailed, place.imageLink,
-				place.category, bookmark.isActivated))
+				place.category)
+			)
 			.from(bookmark)
 			.join(bookmark.place, place)
 			.where(
@@ -51,9 +62,11 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public boolean existsById(BookmarkId id) {
+	public boolean existsByBookmarkId(BookmarkId id) {
 		return jpaQueryFactory.selectFrom(bookmark)
-			.where(bookmark.id.eq(id))
+			.where(
+				bookmarkIdEq(id)
+			)
 			.fetchFirst() != null;
 	}
 
@@ -67,6 +80,12 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 
 	private BooleanExpression categoriesIn(List<Category> categories) {
 		return categories.isEmpty() ? null : place.category.in(categories);
+	}
+
+	private BooleanExpression bookmarkIdEq(BookmarkId bookmarkId) {
+		return bookmarkId == null ? null :
+			bookmark.user.id.eq(bookmarkId.getUser()).and(
+				bookmark.place.id.eq(bookmarkId.getPlace()));
 	}
 
 	//TODO - 리팩토링 고려 / Switch 문인데 어떻게 여러 조건을 처리하지?

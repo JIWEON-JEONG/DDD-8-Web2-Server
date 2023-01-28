@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -28,34 +27,31 @@ public class BookmarkService {
 
 	public BookmarkResponseDto readBookmark(User user, Place place) {
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
-		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkId);
-		if (bookmark.isEmpty()) {
+		Bookmark bookmark = bookmarkRepository.findByBookmarkId(bookmarkId);
+		if (bookmark == null) {
 			return BookmarkResponseDto.hasBookmarkFalse();
 		}
-		return BookmarkResponseDto.builder()
-			.isBookmarked(bookmark.get().isActivated())
-			.build();
+		return new BookmarkResponseDto(bookmark.isActivated());
 	}
 
 	public BookmarkResponseDto createBookmark(User user, Place place) {
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
-		Bookmark bookmark = Bookmark.of(bookmarkId, user, place);
+		boolean exist = bookmarkRepository.existsByBookmarkId(bookmarkId);
+		System.out.println(exist);
+		bookmarkValidator.validateNotExistBookmark(exist);
+		Bookmark bookmark = Bookmark.of(user, place);
 		bookmarkRepository.save(bookmark);
 
-		return BookmarkResponseDto.builder()
-			.isBookmarked(bookmark.isActivated())
-			.build();
+		return new BookmarkResponseDto(bookmark.isActivated());
 	}
 
 	public BookmarkResponseDto changeBookmarkState(User user, Place place) {
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
-		Bookmark bookmark = bookmarkValidator.validateExistOptionalBookmark(
-			bookmarkRepository.findById(bookmarkId));
+		Bookmark bookmark = bookmarkRepository.findByBookmarkId(bookmarkId);
+		bookmarkValidator.validateExistBookmark(bookmark);
 		bookmark.changeBookmarkState();
 
-		return BookmarkResponseDto.builder()
-			.isBookmarked(bookmark.isActivated())
-			.build();
+		return new BookmarkResponseDto(bookmark.isActivated());
 	}
 
 	public BookmarkPlaceResponseDto getBookmarks(User user, List<String> categories,

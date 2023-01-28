@@ -19,9 +19,8 @@ public class PlaceSaveThirdPartyResponseDto {
 	private Location location;
 	private String telephone;
 	private boolean isUpdated;
-	private BookmarkResponseDto bookmark;
 
-	public PlaceSaveThirdPartyResponseDto(Place place, BookmarkResponseDto bookmark) {
+	public PlaceSaveThirdPartyResponseDto(Place place) {
 		this.id = place.getId();
 		this.name = place.getName();
 		this.category = place.getCategory().name();
@@ -29,6 +28,5 @@ public class PlaceSaveThirdPartyResponseDto {
 		this.location = place.getLocation();
 		this.isUpdated = place.isUpdated();
 		this.telephone = place.getTelephone();
-		this.bookmark = bookmark;
 	}
 }

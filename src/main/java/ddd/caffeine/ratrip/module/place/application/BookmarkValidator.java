@@ -17,6 +17,12 @@ public class BookmarkValidator {
 		}
 	}
 
+	public void validateNotExistBookmark(Boolean exist) {
+		if (exist) {
+			throw new BookmarkException(ALREADY_EXIST_BOOKMARK_EXCEPTION);
+		}
+	}
+
 	public Bookmark validateExistOptionalBookmark(Optional<Bookmark> bookmark) {
 		return bookmark.orElseThrow(() -> new BookmarkException(NOT_FOUND_BOOKMARK_EXCEPTION));
 	}

@@ -41,8 +41,9 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	public Slice<BookMarkPlaceDao> findBookmarkPlacesInCategories(List<Category> categories, User user,
 		Pageable pageable) {
 		List<BookMarkPlaceDao> contents = jpaQueryFactory
-			.select(new QBookMarkPlaceDao(bookmark.id, place.name, place.address.detailed, place.imageLink,
-				place.category, bookmark.id, bookmark.isActivated)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
+			.select(new QBookMarkPlaceDao(place.id, place.name, place.address.detailed, place.imageLink,
+				place.category, bookmark.user.name,
+				bookmark.isActivated)) //TODO - BookmarksResponseDto로 한번에 처리할 수 있을 것 같은데..
 			.from(bookmark)
 			.join(bookmark.place, place)
 			.where(

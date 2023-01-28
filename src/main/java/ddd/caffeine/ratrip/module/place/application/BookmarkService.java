@@ -9,11 +9,12 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
-import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.BookmarkId;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.BookmarkRepository;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -29,7 +30,7 @@ public class BookmarkService {
 	public BookmarkResponseDto readBookmarkModel(User user, Place place) {
 		Bookmark bookmark = readBookmark(user, place);
 		if (bookmark == null) {
-			Bookmark entity = Bookmark.of(user, place);
+			Bookmark entity = Bookmark.of(new BookmarkId(), user, place);
 			bookmarkRepository.save(entity);
 			return new BookmarkResponseDto(entity);
 		}
@@ -37,7 +38,7 @@ public class BookmarkService {
 	}
 
 	public BookmarkResponseDto changeBookmarkState(UUID bookmarkUUID) {
-		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkUUID);
+		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkUUID.toString());
 		bookmarkValidator.validateExistOptionalBookmark(bookmark);
 		bookmark.get().changeBookmarkState();
 

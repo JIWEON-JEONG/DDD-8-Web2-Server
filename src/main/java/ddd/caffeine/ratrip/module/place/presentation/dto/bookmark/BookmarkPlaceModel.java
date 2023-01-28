@@ -2,8 +2,8 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.bookmark;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import lombok.Getter;
 
 @Getter
@@ -21,6 +21,6 @@ public class BookmarkPlaceModel {
 		this.detailAddress = dao.getDetailAddress();
 		this.imageUrl = dao.getImageUrl();
 		this.category = dao.getCategory();
-		this.bookmark = new BookmarkResponseDto(dao.getBookmarkId(), dao.isActivated());
+		this.bookmark = new BookmarkResponseDto(dao.getBookmarkId().toString(), dao.isActivated());
 	}
 }

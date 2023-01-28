@@ -1,18 +1,15 @@
 package ddd.caffeine.ratrip.module.place.domain.bookmark;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
-import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.AccessLevel;
@@ -20,13 +17,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
+@IdClass(BookmarkId.class) //
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark extends AuditingTimeEntity {
-	@Id
-	@Column(columnDefinition = "BINARY(16)")
-	private UUID id;
+	@EmbeddedId
+	private BookmarkId id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
@@ -38,22 +35,18 @@ public class Bookmark extends AuditingTimeEntity {
 
 	@NotNull
 	@Column(name = "is_activated", columnDefinition = "TINYINT(1)")
-	private boolean isActivated = Boolean.FALSE;
-
-	@PrePersist
-	public void createBookmarkPrimaryKey() {
-		//sequential uuid 생성
-		this.id = SequentialUUIDGenerator.generate();
-	}
+	private boolean isActivated = Boolean.TRUE;
 
 	@Builder
-	private Bookmark(User user, Place place) {
+	private Bookmark(BookmarkId id, User user, Place place) {
+		this.id = id;
 		this.user = user;
 		this.place = place;
 	}
 
-	public static Bookmark of(User user, Place place) {
+	public static Bookmark of(BookmarkId id, User user, Place place) {
 		return Bookmark.builder()
+			.id(id)
 			.user(user)
 			.place(place)
 			.build();

@@ -96,6 +96,13 @@ public class PlaceService {
 		return bookmarkService.readBookmark(user, place.get());
 	}
 
+	@Transactional
+	public BookmarkResponseDto createBookmark(User user, String placeUUID) {
+		Optional<Place> place = placeRepository.findById(UUID.fromString(placeUUID));
+		placeValidator.validateExistPlace(place);
+		return bookmarkService.createBookmark(user, place.get());
+	}
+
 	public Place readPlaceByUUID(String placeUUID) {
 		Optional<Place> place = placeRepository.findById(placeUUID);
 		return placeValidator.validateExistPlace(place);
@@ -139,4 +146,5 @@ public class PlaceService {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
 		place.injectBlogs(blogModel.readBlogs());
 	}
+
 }

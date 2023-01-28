@@ -38,6 +38,16 @@ public class BookmarkService {
 			.build();
 	}
 
+	public BookmarkResponseDto createBookmark(User user, Place place) {
+		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
+		Bookmark bookmark = Bookmark.of(bookmarkId, user, place);
+		bookmarkRepository.save(bookmark);
+
+		return BookmarkResponseDto.builder()
+			.isBookmarked(bookmark.isActivated())
+			.build();
+	}
+
 	public BookmarkResponseDto changeBookmarkState(UUID bookmarkUUID) {
 		Optional<Bookmark> bookmark = bookmarkRepository.findById(bookmarkUUID.toString());
 		bookmarkValidator.validateExistOptionalBookmark(bookmark);

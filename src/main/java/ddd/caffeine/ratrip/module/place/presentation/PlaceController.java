@@ -105,7 +105,7 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 특정 장소에 대한 북마크 조회")
-	@PostMapping("/{place_id}/bookmarks")
+	@GetMapping("/{place_id}/bookmarks")
 	public ResponseEntity<BookmarkResponseDto> callReadBookmarkOfPlaceApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
@@ -115,13 +115,11 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 북마크 생성")
-	@ApiResponse(description = "북마크 생성 성공 시, 북마크 상태 반환")
 	@PostMapping("/{place_id}/bookmarks")
 	public ResponseEntity<BookmarkResponseDto> callChangeBookmarkStateApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable(name = "place_id") @UUIDFormat String placeUUID) {
-		BookmarkResponseDto response = placeService.changeBookmarkState(
-			UUID.fromString(placeUUID));
+		BookmarkResponseDto response = placeService.createBookmark(user, placeUUID);
 
 		return ResponseEntity.ok(response);
 	}

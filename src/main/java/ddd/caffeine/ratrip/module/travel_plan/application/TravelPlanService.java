@@ -21,8 +21,8 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanReposi
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +86,7 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public DayScheduleAddPlaceResponseDto addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID,
+	public DaySchedulePlaceResponseDto addPlaceInDaySchedule(DayScheduleAccessOption accessOption, String placeUUID,
 		String memo) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
@@ -95,16 +95,34 @@ public class TravelPlanService {
 		//저장하기
 		UUID daySchedulePlaceUUID = dayScheduleService.addPlace(accessOption.readDayScheduleUUID(), place, memo);
 
-		return new DayScheduleAddPlaceResponseDto(daySchedulePlaceUUID);
+		return new DaySchedulePlaceResponseDto(daySchedulePlaceUUID);
+	}
+
+	@Transactional
+	public DaySchedulePlaceResponseDto updatePlaceInDaySchedule(DayScheduleAccessOption accessOption,
+		String daySchedulePlaceUUID, String memo) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
+		//업데이트
+		UUID updatedDaySchedulePlaceUUID = dayScheduleService.updateDaySchedulePlace(daySchedulePlaceUUID, memo);
+		return new DaySchedulePlaceResponseDto(updatedDaySchedulePlaceUUID);
+	}
+
+	@Transactional
+	public void deletePlaceInDaySchedule(DayScheduleAccessOption accessOption, String daySchedulePlaceUUID) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
+		//삭제
+		dayScheduleService.deleteDaySchedulePlace(daySchedulePlaceUUID);
 	}
 
 	@Transactional
 	public void exchangePlaceSequenceInDaySchedule(DayScheduleAccessOption accessOption,
-		List<UUID> placeUUIDs) {
+		List<UUID> daySchedulePlaceUUIDs) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//하루 일정 장소 순서 exchange
-		dayScheduleService.exchangePlaceSequence(accessOption.readDayScheduleUUID(), placeUUIDs);
+		dayScheduleService.exchangePlaceSequence(daySchedulePlaceUUIDs);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

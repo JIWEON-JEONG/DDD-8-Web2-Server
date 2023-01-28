@@ -43,6 +43,14 @@ public class DayScheduleService {
 		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
+	public UUID updateDaySchedulePlace(String daySchedulePlaceUUID, String memo) {
+		return daySchedulePlaceService.update(daySchedulePlaceUUID, memo);
+	}
+
+	public void deleteDaySchedulePlace(String daySchedulePlaceUUID) {
+		daySchedulePlaceService.deletePlace(daySchedulePlaceUUID);
+	}
+
 	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {
 		Optional<DaySchedule> daySchedule = dayScheduleRepository.findById(dayScheduleUUID);
 		dayScheduleValidator.validateExistDaySchedule(daySchedule);
@@ -61,8 +69,8 @@ public class DayScheduleService {
 		return dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
 	}
 
-	public void exchangePlaceSequence(UUID dayScheduleUUID, List<UUID> placeUUIDs) {
-		daySchedulePlaceService.exchangePlaceSequence(dayScheduleUUID, placeUUIDs);
+	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
+		daySchedulePlaceService.exchangePlaceSequence(daySchedulePlaceUUIDs);
 	}
 
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {
@@ -72,5 +80,4 @@ public class DayScheduleService {
 		}
 		return response;
 	}
-
 }

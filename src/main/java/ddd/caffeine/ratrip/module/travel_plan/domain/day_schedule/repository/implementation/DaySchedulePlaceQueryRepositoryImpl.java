@@ -41,14 +41,11 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	}
 
 	@Override
-	public List<DaySchedulePlace> findByDayScheduleUUIDAndPlaceUUIDs(UUID dayScheduleUUID, UUID firstPlaceUUID,
-		UUID secondPlaceUUID) {
+	public List<DaySchedulePlace> findDaySchedulePlacesById(UUID firstUUID, UUID secondUUID) {
 		return jpaQueryFactory
 			.selectFrom(daySchedulePlace)
 			.where(
-				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),
-				daySchedulePlace.place.id.eq(firstPlaceUUID)
-					.or(daySchedulePlace.place.id.eq(secondPlaceUUID))
+				daySchedulePlace.id.eq(firstUUID).or(daySchedulePlace.id.eq(secondUUID))
 			)
 			.fetch();
 	}
@@ -70,6 +67,24 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 				daySchedulePlace.place.eq(place)
 			)
 			.fetchFirst() != null;
+	}
+
+	@Override
+	public boolean existByUUID(UUID daySchedulePlaceUUID) {
+		return jpaQueryFactory
+			.selectFrom(daySchedulePlace)
+			.where(
+				daySchedulePlace.id.eq(daySchedulePlaceUUID)
+			)
+			.fetchFirst() != null;
+	}
+
+	@Override
+	public Long delete(UUID daySchedulePlaceUUID) {
+		return jpaQueryFactory
+			.delete(daySchedulePlace)
+			.where(daySchedulePlace.id.eq(daySchedulePlaceUUID))
+			.execute();
 	}
 
 	private BooleanExpression placeUUIDEq(String placeUUID) {

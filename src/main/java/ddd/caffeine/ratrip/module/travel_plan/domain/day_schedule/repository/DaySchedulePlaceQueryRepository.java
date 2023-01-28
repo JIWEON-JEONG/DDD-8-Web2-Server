@@ -12,10 +12,13 @@ public interface DaySchedulePlaceQueryRepository {
 	List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUIDAndPlaceUUID(UUID dayScheduleUUID,
 		String placeUUID);
 
-	List<DaySchedulePlace> findByDayScheduleUUIDAndPlaceUUIDs(UUID dayScheduleUUID, UUID firstPlaceUUID,
-		UUID secondPlaceUUID);
+	List<DaySchedulePlace> findDaySchedulePlacesById(UUID firstUUID, UUID secondUUID);
 
 	Integer countPlacesByDayScheduleUUID(UUID dayScheduleUUID);
 
 	boolean existByDayScheduleAndPlace(DaySchedule daySchedule, Place place);
+
+	boolean existByUUID(UUID daySchedulePlaceUUID);
+
+	Long delete(UUID daySchedulePlaceUUID);
 }

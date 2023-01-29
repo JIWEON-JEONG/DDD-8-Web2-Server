@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TravelPlanService {
 	private final TravelPlanUserService travelPlanUserService;
+	private final TravelPlanValidator travelPlanValidator;
 	private final DayScheduleService dayScheduleService;
 	private final PlaceService placeService;
 	private final TravelPlanRepository travelPlanRepository;
@@ -65,6 +66,18 @@ public class TravelPlanService {
 		//daySchedule 생성 및 저장.
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
+		return new TravelPlanResponseModel(travelPlan);
+	}
+
+	@Transactional
+	public TravelPlanResponseModel endTravelPlan(TravelPlanAccessOption accessOption) {
+		//접근 가능한 유저인지 확인
+		travelPlanUserService.validateAccessTravelPlan(accessOption);
+		//객체 가져오기
+		TravelPlan travelPlan = travelPlanValidator.validateExistTravelPlan(
+			travelPlanRepository.findById(accessOption.readTravelPlanUUID()));
+		//변경
+		travelPlan.endTheTrip();
 		return new TravelPlanResponseModel(travelPlan);
 	}
 

@@ -66,6 +66,17 @@ public class TravelPlanController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "[인증] 여행 계획 종료 API (상태 변경)")
+	@PatchMapping("/{travel_plan_id}")
+	public ResponseEntity<TravelPlanResponseModel> endTravelPlanApi(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID) {
+
+		TravelPlanResponseModel response = travelPlanService.endTravelPlan(
+			new TravelPlanAccessOption(user, travelPlanUUID));
+		return ResponseEntity.ok(response);
+	}
+
 	@Operation(summary = "[인증] 현재 진행중인 여행 계획 정보 불러오기 API")
 	@GetMapping("ongoing")
 	public ResponseEntity<TravelPlanOngoingResponseDto> readTravelPlanOngoingApi(

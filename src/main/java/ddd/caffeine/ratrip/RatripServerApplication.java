@@ -8,14 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
-
 @EnableJpaAuditing
 @EnableFeignClients
 @SpringBootApplication
 @RestController
-@OpenAPIDefinition(servers = {@Server(url = "https://ratrip.store", description = "Default Server URL")})
 public class RatripServerApplication {
 	@GetMapping("/health-check")
 	public ResponseEntity<String> test() {

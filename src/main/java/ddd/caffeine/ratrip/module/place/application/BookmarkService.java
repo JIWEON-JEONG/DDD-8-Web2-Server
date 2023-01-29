@@ -37,7 +37,6 @@ public class BookmarkService {
 	public BookmarkResponseDto createBookmark(User user, Place place) {
 		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
 		boolean exist = bookmarkRepository.existsByBookmarkId(bookmarkId);
-		System.out.println(exist);
 		bookmarkValidator.validateNotExistBookmark(exist);
 		Bookmark bookmark = Bookmark.of(user, place);
 		bookmarkRepository.save(bookmark);

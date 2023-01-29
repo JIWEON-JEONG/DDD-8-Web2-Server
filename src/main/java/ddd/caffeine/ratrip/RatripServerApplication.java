@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableFeignClients
 @SpringBootApplication
 @RestController
-// @OpenAPIDefinition(servers = {@Server(url = "https://ratrip.store", description = "Default Server URL")})
 public class RatripServerApplication {
 	@GetMapping("/health-check")
 	public ResponseEntity<String> test() {

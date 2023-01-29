@@ -32,4 +32,5 @@ public class SwaggerConfiguration {
 						.name("Authorization")))
 			.security(List.of(securityRequirement));
 	}
+	
 }

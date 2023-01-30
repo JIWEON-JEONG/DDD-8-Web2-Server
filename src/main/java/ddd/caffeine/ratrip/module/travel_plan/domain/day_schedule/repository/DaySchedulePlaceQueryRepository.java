@@ -20,7 +20,7 @@ public interface DaySchedulePlaceQueryRepository {
 
 	boolean existByUUID(UUID daySchedulePlaceUUID);
 
-	Place findRepresentativePlace(UUID dayScheduleUUID);
+	String findRepresentativeImageLink(UUID dayScheduleUUID);
 
 	Long delete(UUID daySchedulePlaceUUID);
 }

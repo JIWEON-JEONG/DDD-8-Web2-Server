@@ -80,9 +80,10 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	}
 
 	@Override
-	public Place findRepresentativePlace(UUID dayScheduleUUID) {
+	public String findRepresentativeImageLink(UUID dayScheduleUUID) {
 		return jpaQueryFactory
-			.selectFrom(daySchedulePlace.place)
+			.select(daySchedulePlace.place.imageLink)
+			.from(daySchedulePlace)
 			.innerJoin(daySchedulePlace.place, place)
 			.where(
 				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),

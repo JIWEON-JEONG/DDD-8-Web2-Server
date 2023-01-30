@@ -61,14 +61,9 @@ public class DaySchedulePlaceService {
 	}
 
 	public String readRepresentativePhoto(UUID dayScheduleUUID) {
-		Place place = daySchedulePlaceRepository.findRepresentativePlace(dayScheduleUUID);
-		//다녀왔던 장소중 사진이 하나도 없을 경우
-		if (place == null) {
-			return null;
-		}
-		return place.getImageLink();
+		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
 	}
-
+	
 	private int readNextSequence(UUID dayScheduleUUID) {
 		int total = daySchedulePlaceRepository.countPlacesByDayScheduleUUID(dayScheduleUUID);
 		return total + 1;

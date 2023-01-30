@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,17 @@ public class TravelPlanService {
 			.content(new TravelPlanResponseModel(travelPlanUser.readTravelPlan()))
 			.hasPlan(Boolean.TRUE)
 			.build();
+	}
+
+	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+	public void endOutOfDateTravelPlan() {
+		LocalDate currentDate = LocalDate.now();
+		List<TravelPlan> travelPlans = travelPlanRepository.findAllOngoingTravelPlan();
+		for (TravelPlan travelPlan : travelPlans) {
+			if (filterOutOfDate(travelPlan, currentDate)) {
+				travelPlan.isEnd();
+			}
+		}
 	}
 
 	@Transactional(readOnly = true)
@@ -145,5 +157,10 @@ public class TravelPlanService {
 			dates.add(localDate);
 		}
 		return dates;
+	}
+
+	private boolean filterOutOfDate(TravelPlan travelPlan, LocalDate currentDate) {
+		LocalDate endDate = travelPlan.getStartDate().plusDays(travelPlan.getTravelDays() - 1);
+		return endDate.isBefore(currentDate);
 	}
 }

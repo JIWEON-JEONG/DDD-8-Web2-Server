@@ -20,11 +20,14 @@ public class TravelPlanResponseModel {
 
 	private int travelDays;
 
+	private boolean isEnd;
+
 	public TravelPlanResponseModel(TravelPlan travelPlan) {
 		this.id = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();
 		this.startDate = travelPlan.getStartDate();
 		this.travelDays = travelPlan.getTravelDays();
+		this.isEnd = travelPlan.isEnd();
 	}
 }

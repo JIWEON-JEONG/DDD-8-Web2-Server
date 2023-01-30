@@ -1,10 +1,13 @@
 package ddd.caffeine.ratrip.module.place.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +18,11 @@ import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.jpa.AuditingTimeEntity;
 import ddd.caffeine.ratrip.common.util.SequentialUUIDGenerator;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.PlaceKakaoData;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Address;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Blog;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Location;
+import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceData;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +53,9 @@ public class Place extends AuditingTimeEntity {
 	@NotNull
 	@Embedded
 	private Address address;
+
+	@ElementCollection
+	private List<Blog> blogs = new ArrayList<>();
 
 	@NotNull
 	@Embedded
@@ -81,6 +91,10 @@ public class Place extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
+	public void injectBlogs(List<Blog> blogs) {
+		this.blogs = blogs;
+	}
+
 	public void injectImageLink(String imageLink) {
 		this.imageLink = imageLink;
 	}
@@ -112,7 +126,7 @@ public class Place extends AuditingTimeEntity {
 		return Boolean.TRUE;
 	}
 
-	public void update(PlaceKakaoData data) {
+	public void update(FeignPlaceData data) {
 		this.isUpdated = Boolean.TRUE;
 
 		this.kakaoId = data.getId();
@@ -123,6 +137,10 @@ public class Place extends AuditingTimeEntity {
 		setPlaceCategory(data.getCategoryGroupCode());
 		setAddress(data.getAddressName());
 		setLocation(Double.parseDouble(data.getY()), Double.parseDouble(data.getX()));
+	}
+
+	public List<Blog> readBlogs() {
+		return blogs;
 	}
 
 	@Builder

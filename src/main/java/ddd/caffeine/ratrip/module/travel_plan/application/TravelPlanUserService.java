@@ -56,7 +56,7 @@ public class TravelPlanUserService {
 
 	public void validateMakeTravelPlan(User user) {
 		TravelPlanUser travelPlanUser = readByUserUnfinishedTravel(user);
-		if (travelPlanUser == null) {
+		if (travelPlanUser != null) {
 			throw new TravelPlanException(ALREADY_EXIST_TRAVEL_PLAN_EXCEPTION);
 		}
 	}

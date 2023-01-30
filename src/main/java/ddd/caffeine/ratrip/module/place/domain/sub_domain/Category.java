@@ -14,41 +14,38 @@ import lombok.Getter;
  */
 @Getter
 public enum Category {
-	CAFE("CE7"),
-	RESTAURANT("FD6"),
-	TOURIST_ATTRACTION("AT4"),
-	PUBLIC_INSTITUTION("PO3"),
-	ACCOMMODATION("AD5"),
-	HOSPITAL("HP8"),
-	PHARMACY("PM9"),
-	KINDERGARTEN("PS3"),
-	SCHOOL("SC4"),
-	ACADEMY("AC5"),
-	PARKING_LOT("PK6"),
-	GAS_STATION("OL7"),
-	SUBWAY_STATION("SW8"),
-	BANK("BK9"),
-	CULTURAL_FACILITIES("CT1"),
-	BROKERAGE("AG2"),
-	SUPERMARKET("MT1"),
-	CONVENIENCE_STORE("CS2"),
-	ETC("ETC");
+	CAFE(List.of("CE7")),
+	RESTAURANT(List.of("FD6")),
+	TOURIST_ATTRACTION(List.of("AT4", "CT1")),
+	ACCOMMODATION(List.of("AD5")),
+	MART(List.of("MT1", "CS2")),
+	ETC(List.of("ETC"));
 
-	private String code;
+	private List<String> code;
 
-	Category(String code) {
+	Category(List<String> code) {
 		this.code = code;
 	}
 
 	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
 	public static List<Category> createCategories(List<String> categories) {
 		List<Category> response = new ArrayList<>();
-		for (String category : categories) {
-			Optional<Category> optionalCategory = Arrays.stream(values()).filter(
-				c -> c.name().equals(category)).findFirst();
+		for (String categoryName : categories) {
+			Optional<Category> category = Arrays.stream(values()).filter(
+				c -> c.name().equals(categoryName)).findFirst();
 
-			optionalCategory.ifPresent(c -> response.add(c));
+			category.ifPresent(c -> response.add(c));
 		}
 		return response;
+	}
+
+	public static Category createByCode(String code) {
+		Optional<Category> category = Arrays.stream(Category.values())
+			.filter(c -> c.code.contains(code))
+			.findFirst();
+		if (category.isPresent()) {
+			return category.get();
+		}
+		return Category.ETC;
 	}
 }

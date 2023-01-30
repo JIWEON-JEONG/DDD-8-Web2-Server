@@ -1,9 +1,7 @@
 package ddd.caffeine.ratrip.module.place.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -91,11 +89,11 @@ public class Place extends AuditingTimeEntity {
 		this.id = SequentialUUIDGenerator.generate();
 	}
 
-	public void injectBlogs(List<Blog> blogs) {
+	public void setBlogs(List<Blog> blogs) {
 		this.blogs = blogs;
 	}
 
-	public void injectImageLink(String imageLink) {
+	public void setImageLink(String imageLink) {
 		this.imageLink = imageLink;
 	}
 
@@ -107,12 +105,8 @@ public class Place extends AuditingTimeEntity {
 		this.address = new Address(address);
 	}
 
-	public void setPlaceCategory(String categoryCode) {
-		Optional<Category> optionalCategory = Arrays.stream(Category.values())
-			.filter((category) -> category.getCode().equals(categoryCode))
-			.findFirst();
-
-		this.category = optionalCategory.orElse(Category.ETC);
+	public void setCategoryByCode(String categoryCode) {
+		this.category = Category.createByCode(categoryCode);
 	}
 
 	/**
@@ -126,17 +120,17 @@ public class Place extends AuditingTimeEntity {
 		return Boolean.TRUE;
 	}
 
-	public void update(FeignPlaceData data) {
+	public void update(FeignPlaceData feign) {
 		this.isUpdated = Boolean.TRUE;
 
-		this.kakaoId = data.getId();
-		this.name = data.getPlaceName();
-		this.additionalInfoLink = data.getPlaceUrl();
-		this.telephone = data.getPhone();
+		this.kakaoId = feign.getId();
+		this.name = feign.getPlaceName();
+		this.additionalInfoLink = feign.getPlaceUrl();
+		this.telephone = feign.getPhone();
 
-		setPlaceCategory(data.getCategoryGroupCode());
-		setAddress(data.getAddressName());
-		setLocation(Double.parseDouble(data.getY()), Double.parseDouble(data.getX()));
+		setCategoryByCode(feign.getCategoryGroupCode());
+		setAddress(feign.getAddressName());
+		setLocation(Double.parseDouble(feign.getY()), Double.parseDouble(feign.getX()));
 	}
 
 	public List<Blog> readBlogs() {

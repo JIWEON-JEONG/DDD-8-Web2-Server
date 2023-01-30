@@ -50,5 +50,4 @@ public class FeignPlaceModel {
 		}
 		return this.documents.get(PLACE_INDEX);
 	}
-
 }

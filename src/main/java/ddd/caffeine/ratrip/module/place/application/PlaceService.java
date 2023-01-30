@@ -111,8 +111,8 @@ public class PlaceService {
 			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 			place.update(feignPlaceModel.readOne());
-			injectImageLinkInPlace(place, place.getName());
-			injectBlogsInPlace(place, place.getName());
+			setImageLinkInPlace(place, place.getName());
+			setBlogsInPlace(place, place.getName());
 		}
 	}
 
@@ -124,22 +124,22 @@ public class PlaceService {
 			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 		Place place = feignPlaceModel.mapByPlaceEntity();
 
-		injectImageLinkInPlace(place, place.getName());
-		injectBlogsInPlace(place, place.getName());
+		setImageLinkInPlace(place, place.getName());
+		setBlogsInPlace(place, place.getName());
 
 		return place;
 	}
 
-	private void injectImageLinkInPlace(Place place, String keyword) {
+	private void setImageLinkInPlace(Place place, String keyword) {
 		final int DATA_INDEX = 0;
 
 		FeignImageModel imageModel = placeFeignService.readImageModel(keyword);
-		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+		place.setImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 	}
 
-	private void injectBlogsInPlace(Place place, String keyword) {
+	private void setBlogsInPlace(Place place, String keyword) {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
-		place.injectBlogs(blogModel.readBlogs());
+		place.setBlogs(blogModel.readBlogs());
 	}
 
 }

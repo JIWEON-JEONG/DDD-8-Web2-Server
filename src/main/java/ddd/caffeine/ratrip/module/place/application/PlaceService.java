@@ -19,12 +19,12 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -40,53 +40,62 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
+
 		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
 		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
 
 	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(ThirdPartySearchOption searchOption) {
+
 		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByKeywordAndCoordinate(
 			searchOption);
-
 		return feignPlaceModel.mapByPlaceSearchResponseDto();
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid, User user) {
+	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid) {
+
 		Place place = readPlaceByUUID(UUID.fromString(uuid));
-		BookmarkResponseDto bookMarkModel = bookmarkService.readBookmarkModel(user, place);
-		return new PlaceDetailResponseDto(place, bookMarkModel);
+		return new PlaceDetailResponseDto(place);
 	}
 
 	@Transactional
-	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(ThirdPartyDetailSearchOption searchOption,
-		User user) {
-		BookmarkResponseDto bookmarkModel;
+	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(ThirdPartyDetailSearchOption searchOption) {
 		Place place = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
 
 		if (place == null) {
 			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(entity);
-			bookmarkModel = bookmarkService.readBookmarkModel(user, entity);
-			return new PlaceSaveThirdPartyResponseDto(entity, bookmarkModel);
+			return new PlaceSaveThirdPartyResponseDto(entity);
 		}
-
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		bookmarkModel = bookmarkService.readBookmarkModel(user, place);
-		return new PlaceSaveThirdPartyResponseDto(place, bookmarkModel);
+		return new PlaceSaveThirdPartyResponseDto(place);
 	}
 
 	@Transactional
-	public BookmarkResponseDto changeBookmarkState(UUID placeUUID, UUID bookmarkUUID) {
-		Optional<Place> place = placeRepository.findById(placeUUID);
+	public BookmarkResponseDto changeBookmarkState(User user, String placeUUID) {
+		Optional<Place> place = placeRepository.findById(UUID.fromString(placeUUID));
 		placeValidator.validateExistPlace(place);
-		return bookmarkService.changeBookmarkState(bookmarkUUID);
+		return bookmarkService.changeBookmarkState(user, place.get());
 	}
 
 	@Transactional(readOnly = true)
 	public BookmarkPlaceResponseDto readBookmarks(User user, List<String> categories, Pageable pageable) {
 		return bookmarkService.getBookmarks(user, categories, pageable);
+	}
+
+	@Transactional(readOnly = true)
+	public BookmarkResponseDto readBookmark(User user, String placeUUID) {
+		Optional<Place> place = placeRepository.findById(UUID.fromString(placeUUID));
+		placeValidator.validateExistPlace(place);
+		return bookmarkService.readBookmark(user, place.get());
+	}
+
+	@Transactional
+	public BookmarkResponseDto createBookmark(User user, String placeUUID) {
+		Place place = readPlaceByUUID(UUID.fromString(placeUUID));
+		return bookmarkService.createBookmark(user, place);
 	}
 
 	public Place readPlaceByUUID(UUID placeUUID) {

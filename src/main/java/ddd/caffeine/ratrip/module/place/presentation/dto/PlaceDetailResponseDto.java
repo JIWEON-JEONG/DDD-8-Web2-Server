@@ -26,9 +26,8 @@ public class PlaceDetailResponseDto {
 	private String telephone;
 	private boolean isUpdated;
 	private List<Blog> blogs;
-	private BookmarkResponseDto bookmark;
 
-	public PlaceDetailResponseDto(Place place, BookmarkResponseDto bookmark) {
+	public PlaceDetailResponseDto(Place place) {
 		this.id = place.getId();
 		this.kakaoId = place.getKakaoId();
 		this.name = place.getName();
@@ -40,6 +39,5 @@ public class PlaceDetailResponseDto {
 		this.additionalInfoLink = place.getAdditionalInfoLink();
 		this.telephone = place.getTelephone();
 		this.blogs = place.readBlogs();
-		this.bookmark = bookmark;
 	}
 }

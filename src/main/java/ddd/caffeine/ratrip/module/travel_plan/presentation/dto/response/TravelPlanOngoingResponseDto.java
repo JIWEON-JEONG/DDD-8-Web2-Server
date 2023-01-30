@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.presentation.dto;
+package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TravelPlanOngoingResponseDto {
 
-	private TravelPlanResponseModel content;
+	private TravelPlanResponseDto content;
 	private boolean hasPlan;
 
 	public TravelPlanOngoingResponseDto(boolean hasPlan) {
@@ -16,7 +16,7 @@ public class TravelPlanOngoingResponseDto {
 	}
 
 	@Builder
-	public TravelPlanOngoingResponseDto(TravelPlanResponseModel content, boolean hasPlan) {
+	public TravelPlanOngoingResponseDto(TravelPlanResponseDto content, boolean hasPlan) {
 		this.content = content;
 		this.hasPlan = hasPlan;
 	}

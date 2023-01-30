@@ -20,5 +20,7 @@ public interface DaySchedulePlaceQueryRepository {
 
 	boolean existByUUID(UUID daySchedulePlaceUUID);
 
+	Place findRepresentativePlace(UUID dayScheduleUUID);
+
 	Long delete(UUID daySchedulePlaceUUID);
 }

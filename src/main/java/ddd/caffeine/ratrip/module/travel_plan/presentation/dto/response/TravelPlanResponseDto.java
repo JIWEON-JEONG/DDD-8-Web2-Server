@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.presentation.dto;
+package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -8,21 +8,15 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import lombok.Getter;
 
 @Getter
-public class TravelPlanResponseModel {
-
+public class TravelPlanResponseDto {
 	private UUID id;
-
 	private String title;
-
 	private Region region;
-
 	private LocalDate startDate;
-
 	private int travelDays;
-
 	private boolean isEnd;
 
-	public TravelPlanResponseModel(TravelPlan travelPlan) {
+	public TravelPlanResponseDto(TravelPlan travelPlan) {
 		this.id = travelPlan.readUUID();
 		this.title = travelPlan.getTitle();
 		this.region = travelPlan.getRegion();

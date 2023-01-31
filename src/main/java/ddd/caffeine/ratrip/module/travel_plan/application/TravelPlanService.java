@@ -18,12 +18,13 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanUser;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.repository.TravelPlanRepository;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DayScheduleInTravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DaySchedulePlaceResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DayScheduleResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.MyTravelPlanResponse;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.MyTravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.TravelPlanOngoingResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -45,18 +46,24 @@ public class TravelPlanService {
 		}
 		//작성중인 여행이 있을 경우,
 		return TravelPlanOngoingResponseDto.builder()
-			.content(new TravelPlanResponseModel(travelPlanUser.readTravelPlan()))
+			.content(new TravelPlanResponseDto(travelPlanUser.readTravelPlan()))
 			.hasPlan(Boolean.TRUE)
 			.build();
 	}
 
 	@Transactional(readOnly = true)
-	public TravelPlanResponseDto readAllTravelPlanByUser(User user, Pageable pageable) {
-		return travelPlanUserService.readByUser(user, pageable);
+	public MyTravelPlanResponseDto readAllTravelPlanByUser(User user, Pageable pageable) {
+		MyTravelPlanResponseDto response = travelPlanUserService.readByUser(user, pageable);
+		for (MyTravelPlanResponse content : response.readContents()) {
+			String imageLink = dayScheduleService.readRepresentativePhoto(content.readTravelPlanId(),
+				content.readStartDate());
+			content.setRepresentativePhoto(imageLink);
+		}
+		return response;
 	}
 
 	@Transactional
-	public TravelPlanResponseModel makeTravelPlan(TravelPlan travelPlan, User user) {
+	public TravelPlanResponseDto makeTravelPlan(TravelPlan travelPlan, User user) {
 		//진행중인 일정 있을 경우 예외
 		travelPlanUserService.validateMakeTravelPlan(user);
 		//TravelPlan 생성 및 저장
@@ -66,11 +73,11 @@ public class TravelPlanService {
 		//daySchedule 생성 및 저장.
 		dayScheduleService.initTravelPlan(travelPlan, createDateList(travelPlan.getStartDate(),
 			travelPlan.getTravelDays()));
-		return new TravelPlanResponseModel(travelPlan);
+		return new TravelPlanResponseDto(travelPlan);
 	}
 
 	@Transactional
-	public TravelPlanResponseModel endTravelPlan(TravelPlanAccessOption accessOption) {
+	public TravelPlanResponseDto endTravelPlan(TravelPlanAccessOption accessOption) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption);
 		//객체 가져오기
@@ -78,7 +85,7 @@ public class TravelPlanService {
 			travelPlanRepository.findById(accessOption.readTravelPlanUUID()));
 		//변경
 		travelPlan.endTheTrip();
-		return new TravelPlanResponseModel(travelPlan);
+		return new TravelPlanResponseDto(travelPlan);
 	}
 
 	@Transactional(readOnly = true)

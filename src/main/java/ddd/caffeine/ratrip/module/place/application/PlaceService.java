@@ -26,7 +26,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
+import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanUserService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class PlaceService {
 	private final PlaceFeignService placeFeignService;
 	private final PlaceValidator placeValidator;
 	private final BookmarkService bookmarkService;
-	private final TravelPlanService travelPlanService;
+	private final TravelPlanUserService travelPlanUserService;
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
@@ -107,7 +107,7 @@ public class PlaceService {
 	}
 
 	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user) {
-		Region region = travelPlanService.getOngoingTravelPlanUserRegionByUser(user);
+		Region region = travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
 		return bookmarkService.getBookmarkPlacesByRegion(user, region);
 	}
 

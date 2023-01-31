@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
@@ -137,11 +136,6 @@ public class TravelPlanService {
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//하루 일정 장소 순서 exchange
 		dayScheduleService.exchangePlaceSequence(daySchedulePlaceUUIDs);
-	}
-
-	@Transactional
-	public Region getOngoingTravelPlanUserRegionByUser(User user) {
-		return travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

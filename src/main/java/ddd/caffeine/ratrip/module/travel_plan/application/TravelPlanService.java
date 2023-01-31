@@ -140,7 +140,7 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public Region getOngoingTravelPlanUserRegion(User user) {
+	public Region getOngoingTravelPlanUserRegionByUser(User user) {
 		return travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
 	}
 

@@ -64,7 +64,7 @@ public class BookmarkService {
 		return new BookmarkPlaceResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
 	}
 
-	public BookmarkPlacesByRegionResponseDto getBookmarkPlaceByRegion(User user, Region region) {
+	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, Region region) {
 		return bookmarkRepository.findBookmarkPlacesByRegion(user, region);
 	}
 }

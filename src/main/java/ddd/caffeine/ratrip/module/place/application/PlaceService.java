@@ -107,8 +107,8 @@ public class PlaceService {
 	}
 
 	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user) {
-		Region region = travelPlanService.getOngoingTravelPlanUserRegion(user);
-		return bookmarkService.getBookmarkPlaceByRegion(user, region);
+		Region region = travelPlanService.getOngoingTravelPlanUserRegionByUser(user);
+		return bookmarkService.getBookmarkPlacesByRegion(user, region);
 	}
 
 	/**

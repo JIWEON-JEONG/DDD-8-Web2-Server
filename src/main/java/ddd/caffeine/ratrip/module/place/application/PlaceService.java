@@ -11,15 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
-import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
-import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
-import ddd.caffeine.ratrip.module.place.external.KakaoRegionApiClient;
-import ddd.caffeine.ratrip.module.place.external.dto.KakaoRegionResponse;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
@@ -31,6 +26,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -42,9 +38,8 @@ public class PlaceService {
 	private final PlaceFeignService placeFeignService;
 	private final PlaceValidator placeValidator;
 	private final BookmarkService bookmarkService;
+	private final TravelPlanService travelPlanService;
 	private final PlaceRepository placeRepository;
-	private final KakaoRegionApiClient kakaoRegionApiClient;
-	private final SecretKeyManager secretKeyManager;
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
@@ -111,24 +106,9 @@ public class PlaceService {
 		return placeValidator.validateExistPlace(place);
 	}
 
-	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, BookmarkPlaceByRegionDto request) {
-		KakaoRegionResponse kakaoRegionResponse = changeLongitudeAndLatitudeToRegion(request);
-		Region region = getRegionFromKakaoRegionResponse(kakaoRegionResponse);
+	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user) {
+		Region region = travelPlanService.getOngoingTravelPlanUserRegion(user);
 		return bookmarkService.getBookmarkPlaceByRegion(user, region);
-	}
-
-	private KakaoRegionResponse changeLongitudeAndLatitudeToRegion(BookmarkPlaceByRegionDto request) {
-		return kakaoRegionApiClient.getRegion(
-			kakaoAuthorizationHeader(), request.getLongitude(),
-			request.getLatitude());
-	}
-
-	private String kakaoAuthorizationHeader() {
-		return HttpHeaderUtils.concatWithKakaoAKPrefix(secretKeyManager.getKakaoRestApiKey());
-	}
-
-	private static Region getRegionFromKakaoRegionResponse(KakaoRegionResponse kakaoRegionResponse) {
-		return kakaoRegionResponse.getDocuments().get(0).getRegion_1depth_name();
 	}
 
 	/**

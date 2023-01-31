@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.travel_plan.application.day_schedule.DayScheduleService;
@@ -39,7 +40,7 @@ public class TravelPlanService {
 	@Transactional(readOnly = true)
 	public TravelPlanOngoingResponseDto readTravelPlanByUser(User user) {
 		TravelPlanUser travelPlanUser = travelPlanUserService.readByUserUnfinishedTravel(user);
-		//작성중인 여행 없을 경우,
+		//작성중인 여행 없을 경우,천
 		if (travelPlanUser == null) {
 			return new TravelPlanOngoingResponseDto(Boolean.FALSE);
 		}
@@ -136,6 +137,11 @@ public class TravelPlanService {
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//하루 일정 장소 순서 exchange
 		dayScheduleService.exchangePlaceSequence(daySchedulePlaceUUIDs);
+	}
+
+	@Transactional
+	public Region getOngoingTravelPlanUserRegion(User user) {
+		return travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

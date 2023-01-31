@@ -28,7 +28,6 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveByThirdPartyRe
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
@@ -136,6 +135,6 @@ public class PlaceController {
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
 
-		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user);
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user));
 	}
 }

@@ -23,16 +23,16 @@ import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanService;
 import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlanAccessOption;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DayScheduleAccessOption;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanInitRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanOngoingResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.TravelPlanResponseModel;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleAddPlaceRequestDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleExchangePlaceSequenceDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleInTravelPlanResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleUpdatePlaceRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.request.DayScheduleAddPlaceRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.request.DayScheduleExchangePlaceSequenceDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.request.DayScheduleUpdatePlaceRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DayScheduleInTravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DaySchedulePlaceResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DayScheduleResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.request.TravelPlanInitRequestDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.MyTravelPlanResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.TravelPlanOngoingResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.response.TravelPlanResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,32 +47,32 @@ public class TravelPlanController {
 
 	private final TravelPlanService travelPlanService;
 
-	@Operation(summary = "[인증] 진행 했던 모든 여행계획 불러오기 - 마이페이지에서 사용예정")
+	@Operation(summary = "[인증] 진행 했던 모든 여행계획 불러오기")
 	@GetMapping
-	public ResponseEntity<TravelPlanResponseDto> readAllTravelPlanApi(
+	public ResponseEntity<MyTravelPlanResponseDto> readAllTravelPlanApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-		TravelPlanResponseDto response = travelPlanService.readAllTravelPlanByUser(user, pageable);
+		MyTravelPlanResponseDto response = travelPlanService.readAllTravelPlanByUser(user, pageable);
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "[인증] 여행 계획 만들기 API")
 	@PostMapping
-	public ResponseEntity<TravelPlanResponseModel> makeTravelPlanApi(
+	public ResponseEntity<TravelPlanResponseDto> makeTravelPlanApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @RequestBody TravelPlanInitRequestDto request) {
-		TravelPlanResponseModel response = travelPlanService.makeTravelPlan(
+		TravelPlanResponseDto response = travelPlanService.makeTravelPlan(
 			request.mapByTravelPlan(), user);
 		return ResponseEntity.ok(response);
 	}
 
 	@Operation(summary = "[인증] 여행 계획 종료 API (상태 변경)")
 	@PatchMapping("/{travel_plan_id}")
-	public ResponseEntity<TravelPlanResponseModel> endTravelPlanApi(
+	public ResponseEntity<TravelPlanResponseDto> endTravelPlanApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID) {
 
-		TravelPlanResponseModel response = travelPlanService.endTravelPlan(
+		TravelPlanResponseDto response = travelPlanService.endTravelPlan(
 			new TravelPlanAccessOption(user, travelPlanUUID));
 		return ResponseEntity.ok(response);
 	}

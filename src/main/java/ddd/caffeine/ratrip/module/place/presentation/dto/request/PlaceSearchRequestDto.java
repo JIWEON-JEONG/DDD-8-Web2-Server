@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.presentation.dto;
+package ddd.caffeine.ratrip.module.place.presentation.dto.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

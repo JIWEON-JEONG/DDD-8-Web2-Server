@@ -7,8 +7,8 @@ import java.util.List;
 
 import ddd.caffeine.ratrip.common.exception.domain.PlaceException;
 import ddd.caffeine.ratrip.module.place.domain.Place;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSearchResponse;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSearchResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +22,10 @@ public class FeignPlaceModel {
 	FeignPlaceMetaData meta;
 
 	public PlaceSearchResponseDto mapByPlaceSearchResponseDto() {
-		List<PlaceSearchModel> searchModels = new ArrayList<>();
+		List<PlaceSearchResponse> searchModels = new ArrayList<>();
 		for (FeignPlaceData document : documents) {
 
-			PlaceSearchModel model = PlaceSearchModel.builder()
+			PlaceSearchResponse model = PlaceSearchResponse.builder()
 				.id(document.getId())
 				.name(document.getPlaceName())
 				.longitude(document.getX())
@@ -50,5 +50,4 @@ public class FeignPlaceModel {
 		}
 		return this.documents.get(PLACE_INDEX);
 	}
-
 }

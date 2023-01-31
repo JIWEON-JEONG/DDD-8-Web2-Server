@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule;
+package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class DayScheduleInTravelPlanResponseDto {
-	private List<DayScheduleInTravelPlanResponseModel> daySchedules;
+	private List<DayScheduleInTravelPlanResponse> daySchedules;
 
 	public DayScheduleInTravelPlanResponseDto(List<DaySchedule> daySchedules) {
 		mapByDaySchedules(daySchedules);
@@ -17,7 +17,7 @@ public class DayScheduleInTravelPlanResponseDto {
 	public void mapByDaySchedules(List<DaySchedule> daySchedules) {
 		this.daySchedules = new ArrayList<>();
 		for (DaySchedule daySchedule : daySchedules) {
-			this.daySchedules.add(new DayScheduleInTravelPlanResponseModel(daySchedule));
+			this.daySchedules.add(new DayScheduleInTravelPlanResponse(daySchedule));
 		}
 	}
 }

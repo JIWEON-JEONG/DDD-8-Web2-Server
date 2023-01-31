@@ -60,6 +60,10 @@ public class DaySchedulePlaceService {
 		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));
 	}
 
+	public String readRepresentativePhoto(UUID dayScheduleUUID) {
+		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
+	}
+	
 	private int readNextSequence(UUID dayScheduleUUID) {
 		int total = daySchedulePlaceRepository.countPlacesByDayScheduleUUID(dayScheduleUUID);
 		return total + 1;
@@ -69,4 +73,5 @@ public class DaySchedulePlaceService {
 		boolean exist = daySchedulePlaceRepository.existByDayScheduleAndPlace(daySchedule, place);
 		daySchedulePlaceValidator.validateNotExist(exist);
 	}
+
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
+import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
@@ -167,8 +168,10 @@ public class PlaceService {
 	}
 
 	private Region convertLongituteAndLatitudeToRegion(double longitude, double latitude) {
-		final String KAKAO_API_KEY = secretKeyManager.getKakaoRestApiKey();
-		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(KAKAO_API_KEY, longitude, latitude);
+		final String KAKAO_REQUEST_HEADER = HttpHeaderUtils.concatWithKakaoAKPrefix(
+			secretKeyManager.getKakaoRestApiKey());
+		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(KAKAO_REQUEST_HEADER, longitude,
+			latitude);
 		return kakaoRegionResponse.getDocuments().get(0).getRegion_1depth_name();
 	}
 }

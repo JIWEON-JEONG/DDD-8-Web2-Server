@@ -11,6 +11,6 @@ import ddd.caffeine.ratrip.module.place.external.dto.KakaoRegionResponse;
 public interface KakaoRegionApiClient {
 
 	@GetMapping("/v2/local/geo/coord2regioncode.json")
-	KakaoRegionResponse getRegion(@RequestHeader("Authorization") String restApiKey,
+	KakaoRegionResponse getRegion(@RequestHeader("Authorization") String requestHeader,
 		@RequestParam("x") double longitude, @RequestParam("y") double latitude);
 }

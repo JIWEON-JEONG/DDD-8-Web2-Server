@@ -91,17 +91,13 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.where(
 				bookmark.user.eq(user),
 				bookmark.isActivated.isTrue(),
-				eqRegion(region)
+				place.address.region.eq(region)
 			)
 			.orderBy(place.numberOfTrips.desc())
 			.limit(4)
 			.fetch();
 
 		return new BookmarkPlacesByRegionResponseDto(bookmarkPlaceByRegionDaos);
-	}
-
-	private BooleanExpression eqRegion(Region region) {
-		return region == null ? null : place.address.region.eq(region);
 	}
 
 	private BooleanExpression categoriesIn(List<Category> categories) {

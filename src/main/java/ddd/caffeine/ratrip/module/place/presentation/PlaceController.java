@@ -28,6 +28,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveByThirdPartyRe
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
@@ -133,8 +134,9 @@ public class PlaceController {
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 최대 4개 조회")
 	@GetMapping("/bookmarks/region")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request) {
 
-		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user));
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, request.toServiceDto()));
 	}
 }

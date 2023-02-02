@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
+import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
+import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.place.external.KakaoRegionApiClient;
+import ddd.caffeine.ratrip.module.place.external.dto.KakaoRegionResponse;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
@@ -40,6 +44,8 @@ public class PlaceService {
 	private final BookmarkService bookmarkService;
 	private final TravelPlanUserService travelPlanUserService;
 	private final PlaceRepository placeRepository;
+	private final KakaoRegionApiClient kakaoRegionApiClient;
+	private final SecretKeyManager secretKeyManager;
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
@@ -106,9 +112,18 @@ public class PlaceService {
 		return placeValidator.validateExistPlace(place);
 	}
 
-	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user) {
+	@Transactional(readOnly = true)
+	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, BookmarkPlaceByRegionDto request) {
 		Region region = travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
+		region = getUserRecentRegionIfTravelPlanAbsent(request, region);
 		return bookmarkService.getBookmarkPlacesByRegion(user, region);
+	}
+
+	private Region getUserRecentRegionIfTravelPlanAbsent(BookmarkPlaceByRegionDto request, Region region) {
+		if (region == null) {
+			region = convertLongituteAndLatitudeToRegion(request.getLongitude(), request.getLatitude());
+		}
+		return region;
 	}
 
 	/**
@@ -150,4 +165,9 @@ public class PlaceService {
 		place.injectBlogs(blogModel.readBlogs());
 	}
 
+	private Region convertLongituteAndLatitudeToRegion(double longitude, double latitude) {
+		final String KAKAO_API_KEY = secretKeyManager.getKakaoRestApiKey();
+		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(KAKAO_API_KEY, longitude, latitude);
+		return kakaoRegionResponse.getDocuments().get(0).getRegion_1depth_name();
+	}
 }

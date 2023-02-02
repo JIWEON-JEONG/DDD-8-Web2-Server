@@ -83,8 +83,8 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region) {
-		List<BookmarkPlaceByRegionDao> bookmarkPlaceByRegionDaos = jpaQueryFactory
+	public BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region, Pageable pageable) {
+		List<BookmarkPlaceByRegionDao> contents = jpaQueryFactory
 			.select(new QBookmarkPlaceByRegionDao(place.id, place.name, place.imageLink))
 			.from(bookmark)
 			.join(bookmark.place, place)
@@ -94,10 +94,12 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 				place.address.region.eq(region)
 			)
 			.orderBy(place.numberOfTrips.desc())
-			.limit(4)
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
 
-		return new BookmarkPlacesByRegionResponseDto(bookmarkPlaceByRegionDaos);
+		Slice<BookmarkPlaceByRegionDao> slices = QuerydslUtils.toSlice(contents, pageable);
+		return new BookmarkPlacesByRegionResponseDto(slices.getContent(), slices.hasNext());
 	}
 
 	private BooleanExpression categoriesIn(List<Category> categories) {

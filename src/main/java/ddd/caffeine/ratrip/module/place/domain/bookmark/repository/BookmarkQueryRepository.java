@@ -22,5 +22,5 @@ public interface BookmarkQueryRepository {
 
 	Long deleteBookMark(Bookmark entity);
 
-	BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region);
+	BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region, Pageable pageable);
 }

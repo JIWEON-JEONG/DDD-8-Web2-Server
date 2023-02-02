@@ -8,5 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class BookmarkPlacesByRegionResponseDto {
-	List<BookmarkPlaceByRegionDao> places;
+	private List<BookmarkPlaceByRegionDao> places;
+	private boolean hasNext;
 }

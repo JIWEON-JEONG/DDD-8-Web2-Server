@@ -131,12 +131,13 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 최대 4개 조회")
+	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 조회 (선택 지역이 없다면 위치 기반 조회)")
 	@GetMapping("/bookmarks/region")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request) {
+		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request,
+		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, request.toServiceDto()));
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, request.toServiceDto(), pageable));
 	}
 }

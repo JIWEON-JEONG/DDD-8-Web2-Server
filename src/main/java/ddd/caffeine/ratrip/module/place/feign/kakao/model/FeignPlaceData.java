@@ -34,7 +34,7 @@ public class FeignPlaceData {
 			.telephone(this.phone)
 			.build();
 
-		place.setPlaceCategory(this.categoryGroupCode);
+		place.setCategoryByCode(this.categoryGroupCode);
 		place.setAddress(addressName);
 		place.setLocation(Double.parseDouble(y), Double.parseDouble(x));
 

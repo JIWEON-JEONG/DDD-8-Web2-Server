@@ -13,8 +13,8 @@ import ddd.caffeine.ratrip.module.travel_plan.domain.TravelPlan;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.DaySchedule;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.DayScheduleRepository;
 import ddd.caffeine.ratrip.module.travel_plan.domain.day_schedule.repository.dao.DaySchedulePlaceDao;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DaySchedulePlaceDto;
-import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.DayScheduleResponseDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DaySchedulePlaceDto;
+import ddd.caffeine.ratrip.module.travel_plan.presentation.dto.day_schedule.response.DayScheduleResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,7 +39,7 @@ public class DayScheduleService {
 
 	public UUID addPlace(UUID dayScheduleUUID, Place place, String memo) {
 		Optional<DaySchedule> optionalDaySchedule = dayScheduleRepository.findById(dayScheduleUUID);
-		DaySchedule daySchedule = dayScheduleValidator.validateExistDaySchedule(optionalDaySchedule);
+		DaySchedule daySchedule = dayScheduleValidator.validateExistOptionalDaySchedule(optionalDaySchedule);
 		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
@@ -53,7 +53,7 @@ public class DayScheduleService {
 
 	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {
 		Optional<DaySchedule> daySchedule = dayScheduleRepository.findById(dayScheduleUUID);
-		dayScheduleValidator.validateExistDaySchedule(daySchedule);
+		dayScheduleValidator.validateExistOptionalDaySchedule(daySchedule);
 
 		List<DaySchedulePlaceDao> daySchedulePlaces = daySchedulePlaceService.readDaySchedulePlaces(
 			daySchedule.get().getId(), placeUUID);
@@ -71,6 +71,12 @@ public class DayScheduleService {
 
 	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
 		daySchedulePlaceService.exchangePlaceSequence(daySchedulePlaceUUIDs);
+	}
+
+	public String readRepresentativePhoto(UUID travelPlanUUID, LocalDate date) {
+		DaySchedule daySchedule = dayScheduleRepository.findByTravelPlanIdAndDate(travelPlanUUID, date);
+		dayScheduleValidator.validateExistDaySchedule(daySchedule);
+		return daySchedulePlaceService.readRepresentativePhoto(daySchedule.readPrimaryKey());
 	}
 
 	private List<DaySchedulePlaceDto> createDaySchedulePlaceDto(List<DaySchedulePlaceDao> daySchedulePlaceDaos) {

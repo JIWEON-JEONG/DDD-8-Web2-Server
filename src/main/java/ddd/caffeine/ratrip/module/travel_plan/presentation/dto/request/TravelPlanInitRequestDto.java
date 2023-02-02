@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.travel_plan.presentation.dto;
+package ddd.caffeine.ratrip.module.travel_plan.presentation.dto.request;
 
 import java.time.LocalDate;
 

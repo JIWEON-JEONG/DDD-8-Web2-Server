@@ -24,13 +24,13 @@ import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceDetailResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceInRegionResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSaveThirdPartyResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceDetailResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceInRegionResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSaveThirdPartyResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSearchResponseDto;
 import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanUserService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -136,8 +136,8 @@ public class PlaceService {
 			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
 				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 			place.update(feignPlaceModel.readOne());
-			injectImageLinkInPlace(place, place.getName());
-			injectBlogsInPlace(place, place.getName());
+			setImageLinkInPlace(place, place.getName());
+			setBlogsInPlace(place, place.getName());
 		}
 	}
 
@@ -149,22 +149,22 @@ public class PlaceService {
 			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
 		Place place = feignPlaceModel.mapByPlaceEntity();
 
-		injectImageLinkInPlace(place, place.getName());
-		injectBlogsInPlace(place, place.getName());
+		setImageLinkInPlace(place, place.getName());
+		setBlogsInPlace(place, place.getName());
 
 		return place;
 	}
 
-	private void injectImageLinkInPlace(Place place, String keyword) {
+	private void setImageLinkInPlace(Place place, String keyword) {
 		final int DATA_INDEX = 0;
 
 		FeignImageModel imageModel = placeFeignService.readImageModel(keyword);
-		place.injectImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
+		place.setImageLink(imageModel.readImageLinkByIndex(DATA_INDEX));
 	}
 
-	private void injectBlogsInPlace(Place place, String keyword) {
+	private void setBlogsInPlace(Place place, String keyword) {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
-		place.injectBlogs(blogModel.readBlogs());
+		place.setBlogs(blogModel.readBlogs());
 	}
 
 	private Region convertLongituteAndLatitudeToRegion(double longitude, double latitude) {

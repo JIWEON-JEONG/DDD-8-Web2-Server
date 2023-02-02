@@ -80,6 +80,19 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	}
 
 	@Override
+	public String findRepresentativeImageLink(UUID dayScheduleUUID) {
+		return jpaQueryFactory
+			.select(daySchedulePlace.place.imageLink)
+			.from(daySchedulePlace)
+			.innerJoin(daySchedulePlace.place, place)
+			.where(
+				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),
+				daySchedulePlace.place.imageLink.isNotNull()
+			)
+			.fetchFirst();
+	}
+
+	@Override
 	public Long delete(UUID daySchedulePlaceUUID) {
 		return jpaQueryFactory
 			.delete(daySchedulePlace)

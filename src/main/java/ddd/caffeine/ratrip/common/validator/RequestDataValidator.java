@@ -46,28 +46,6 @@ public class RequestDataValidator {
 		}
 	}
 
-	public static void validateRangeLatitude(String lat) {
-		double latitude = validateTypeCastDouble(lat);
-		if (!(-90 <= latitude && latitude <= 90)) {
-			throw new CommonException(INVALID_LATITUDE_RANGE_EXCEPTION);
-		}
-	}
-
-	public static void validateRangeLongitude(String lng) {
-		double longitude = validateTypeCastDouble(lng);
-		if (!(-180 <= longitude && longitude <= 180)) {
-			throw new CommonException(INVALID_LONGITUDE_RANGE_EXCEPTION);
-		}
-	}
-
-	private static double validateTypeCastDouble(String param) {
-		try {
-			return Double.parseDouble(param);
-		} catch (NumberFormatException e) {
-			throw new CommonException(INVALID_COORDINATE_EXCEPTION);
-		}
-	}
-
 	public static void validateRangeLatitude(double latitude) {
 		if (!(-90 <= latitude && latitude <= 90)) {
 			throw new CommonException(INVALID_LATITUDE_RANGE_EXCEPTION);

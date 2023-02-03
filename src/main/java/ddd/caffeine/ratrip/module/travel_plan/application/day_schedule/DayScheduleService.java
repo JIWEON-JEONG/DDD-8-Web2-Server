@@ -69,8 +69,8 @@ public class DayScheduleService {
 		return dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
 	}
 
-	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
-		daySchedulePlaceService.exchangePlaceSequence(daySchedulePlaceUUIDs);
+	public void updatePlacesSequence(UUID dayScheduleUUID, List<UUID> daySchedulePlaceUUIDs) {
+		daySchedulePlaceService.updatePlacesSequence(dayScheduleUUID, daySchedulePlaceUUIDs);
 	}
 
 	public String readRepresentativePhoto(UUID travelPlanUUID, LocalDate date) {

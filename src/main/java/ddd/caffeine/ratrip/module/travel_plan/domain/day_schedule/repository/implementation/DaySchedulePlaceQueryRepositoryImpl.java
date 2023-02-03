@@ -41,11 +41,11 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	}
 
 	@Override
-	public List<DaySchedulePlace> findDaySchedulePlacesById(UUID firstUUID, UUID secondUUID) {
+	public List<DaySchedulePlace> findDaySchedulePlacesByDayScheduleUUID(UUID dayScheduleUUID) {
 		return jpaQueryFactory
 			.selectFrom(daySchedulePlace)
 			.where(
-				daySchedulePlace.id.eq(firstUUID).or(daySchedulePlace.id.eq(secondUUID))
+				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID)
 			)
 			.fetch();
 	}

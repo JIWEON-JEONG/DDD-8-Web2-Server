@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class CategoryPlaceByCoordinateRequestDto {
-	@NotNull(message = "Category must not be blank")
+	@NotNull(message = "Category must not be null")
 	private final Category category;
 
 	@NotNull(message = "Latitude must not be null")

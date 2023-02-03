@@ -9,10 +9,10 @@ import lombok.Getter;
 
 @Getter
 public class CategoryPlaceByRegionRequestDto {
-	@NotNull(message = "Region must not be blank")
+	@NotNull(message = "Region must not be null")
 	private final Region region;
 
-	@NotNull(message = "Category must not be blank")
+	@NotNull(message = "Category must not be null")
 	private final Category category;
 
 	public CategoryPlaceByRegionRequestDto(Region region, Category category) {

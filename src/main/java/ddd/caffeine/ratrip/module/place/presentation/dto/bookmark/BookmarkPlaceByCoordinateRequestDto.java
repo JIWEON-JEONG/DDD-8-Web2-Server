@@ -7,14 +7,14 @@ import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto
 import lombok.Getter;
 
 @Getter
-public class BookmarkPlaceByRegionRequestDto {
+public class BookmarkPlaceByCoordinateRequestDto {
 	@NotNull(message = "Latitude must not be null")
 	private final double latitude;
 
 	@NotNull(message = "Longitude must not be null")
 	private final double longitude;
 
-	public BookmarkPlaceByRegionRequestDto(double latitude, double longitude) {
+	public BookmarkPlaceByCoordinateRequestDto(double latitude, double longitude) {
 		validateParameters(latitude, longitude);
 		this.latitude = latitude;
 		this.longitude = longitude;

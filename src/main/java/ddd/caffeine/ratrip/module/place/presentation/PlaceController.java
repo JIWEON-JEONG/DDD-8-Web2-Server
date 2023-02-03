@@ -85,18 +85,16 @@ public class PlaceController {
 	 * default page = 0
 	 * Todo : default size 정하기.
 	 */
-	@Operation(summary = "[인증] 지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순) "
-		+ "!!! 옵션을 파라미터에 명시하면 덮어쓰기 가능")
-	@GetMapping(value = "regions")
+	@Operation(summary = "[인증] 지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
+	@GetMapping(value = "region")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
-		@RequestParam(name = "region", required = false, defaultValue = "전국") List<String> regions,
+		@RequestParam(name = "region", required = false, defaultValue = "전국") List<Region> regions,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
 		PlaceInRegionResponseDto response = placeService.readPlacesInRegions(regions, pageable);
 		return ResponseEntity.ok(response);
 	}
 
-	//TODO - 인자를 Enum 타입으로 받는 법 알아보기
 	@Operation(summary = "[인증] 카테고리별 북마크 리스트 페이지네이션 조회")
 	@GetMapping("/bookmarks")
 	public ResponseEntity<BookmarkPlaceResponseDto> callReadBookmarksApi(

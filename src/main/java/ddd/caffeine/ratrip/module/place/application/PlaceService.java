@@ -48,9 +48,9 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
+	public PlaceInRegionResponseDto readPlacesInRegions(List<Region> regions, Pageable page) {
 
-		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
+		Slice<Place> places = placeRepository.findPlacesInRegions(regions, page);
 		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
 

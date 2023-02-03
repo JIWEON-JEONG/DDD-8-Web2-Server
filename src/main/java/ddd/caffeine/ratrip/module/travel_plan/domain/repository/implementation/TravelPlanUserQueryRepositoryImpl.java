@@ -43,10 +43,10 @@ public class TravelPlanUserQueryRepositoryImpl implements TravelPlanUserQueryRep
 		TravelPlanUser response = jpaQueryFactory
 			.selectFrom(travelPlanUser)
 			.where(
-				travelPlanUser.user.eq(user),
-				travelPlanUser.travelPlan.isEnd.isFalse()
+				travelPlanUser.user.eq(user)
 			)
-			.fetchOne();
+			.orderBy(travelPlanUser.createdAt.desc())
+			.fetchFirst();
 		return response;
 	}
 

@@ -48,7 +48,7 @@ public class PlaceFeignService {
 		final int PLACE_RADIUS = 5000;
 
 		return kakaoFeignClient.readPlacesByKeywordInRadius(
-			KAKAO_REQUEST_HEADER, option.getKeyword(), option.getLatitude(), option.getLongitude(), PLACE_RADIUS,
+			KAKAO_REQUEST_HEADER, option.getKeyword(), option.readLatitude(), option.readLongitude(), PLACE_RADIUS,
 			option.getPage());
 	}
 

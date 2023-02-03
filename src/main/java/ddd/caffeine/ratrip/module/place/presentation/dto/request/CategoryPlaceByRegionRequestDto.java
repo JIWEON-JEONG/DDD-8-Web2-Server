@@ -1,6 +1,6 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByRegionDto;
@@ -9,10 +9,10 @@ import lombok.Getter;
 
 @Getter
 public class CategoryPlaceByRegionRequestDto {
-	@NotBlank(message = "Region must not be blank")
+	@NotNull(message = "Region must not be blank")
 	private final Region region;
 
-	@NotBlank(message = "Category must not be blank")
+	@NotNull(message = "Category must not be blank")
 	private final Category category;
 
 	public CategoryPlaceByRegionRequestDto(Region region, Category category) {

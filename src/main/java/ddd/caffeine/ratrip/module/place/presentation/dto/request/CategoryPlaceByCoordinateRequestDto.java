@@ -1,6 +1,5 @@
 package ddd.caffeine.ratrip.module.place.presentation.dto.request;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import ddd.caffeine.ratrip.common.validator.RequestDataValidator;
@@ -10,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class CategoryPlaceByCoordinateRequestDto {
-	@NotBlank(message = "Category must not be blank")
+	@NotNull(message = "Category must not be blank")
 	private final Category category;
 
 	@NotNull(message = "Latitude must not be null")

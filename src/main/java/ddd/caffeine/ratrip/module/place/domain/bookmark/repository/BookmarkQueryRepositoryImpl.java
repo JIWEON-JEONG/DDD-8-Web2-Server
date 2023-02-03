@@ -25,7 +25,6 @@ import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkP
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.QBookMarkPlaceDao;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.QBookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -83,7 +82,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 	}
 
 	@Override
-	public BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region, Pageable pageable) {
+	public Slice<BookmarkPlaceByRegionDao> findBookmarkPlacesByRegion(User user, Region region, Pageable pageable) {
 		List<BookmarkPlaceByRegionDao> contents = jpaQueryFactory
 			.select(new QBookmarkPlaceByRegionDao(place.id, place.name, place.imageLink))
 			.from(bookmark)
@@ -98,8 +97,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository {
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
 
-		Slice<BookmarkPlaceByRegionDao> slices = QuerydslUtils.toSlice(contents, pageable);
-		return new BookmarkPlacesByRegionResponseDto(slices.getContent(), slices.hasNext());
+		return QuerydslUtils.toSlice(contents, pageable);
 	}
 
 	private BooleanExpression categoriesIn(List<Category> categories) {

@@ -13,9 +13,9 @@ import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.BookmarkId;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.BookmarkRepository;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +64,7 @@ public class BookmarkService {
 		return new BookmarkPlaceResponseDto(bookmarkPlaceDtos.getContent(), bookmarkPlaceDtos.hasNext());
 	}
 
-	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, Region region, Pageable pageable) {
+	public Slice<BookmarkPlaceByRegionDao> getBookmarkPlacesByRegion(User user, Region region, Pageable pageable) {
 		return bookmarkRepository.findBookmarkPlacesByRegion(user, region, pageable);
 	}
 }

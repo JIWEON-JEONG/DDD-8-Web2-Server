@@ -9,8 +9,8 @@ import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.BookmarkId;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookMarkPlaceDao;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.user.domain.User;
 
 public interface BookmarkQueryRepository {
@@ -22,5 +22,5 @@ public interface BookmarkQueryRepository {
 
 	Long deleteBookMark(Bookmark entity);
 
-	BookmarkPlacesByRegionResponseDto findBookmarkPlacesByRegion(User user, Region region, Pageable pageable);
+	Slice<BookmarkPlaceByRegionDao> findBookmarkPlacesByRegion(User user, Region region, Pageable pageable);
 }

@@ -1,5 +1,8 @@
 package ddd.caffeine.ratrip.module.travel_plan.application.day_schedule;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -36,22 +39,23 @@ class DaySchedulePlaceServiceTest {
 		//given
 		UUID dayScheduleUUID = UUID.fromString("11111111-1111-1111-1111-111111111111");
 		List<UUID> daySchedulePlaceUUIDs = List.of(
-			UUID.fromString("11111111-1111-1111-1111-111111111111"),
-			UUID.fromString("22222222-2222-2222-2222-222222222222")
+			UUID.fromString("22222222-2222-2222-2222-222222222222"),
+			UUID.fromString("11111111-1111-1111-1111-111111111111")
 		);
-
 		List<DaySchedulePlace> daySchedulePlaces = readStubDaySchedulePlaces();
+		DaySchedulePlace sequence1 = daySchedulePlaces.get(0);
+		DaySchedulePlace sequence2 = daySchedulePlaces.get(1);
 
-		for (DaySchedulePlace daySchedulePlace : daySchedulePlaces) {
-			System.out.println(daySchedulePlace.getId());
-		}
+		//when
+		when(daySchedulePlaceRepository.findDaySchedulePlacesByDayScheduleUUID(dayScheduleUUID))
+			.thenReturn(daySchedulePlaces);
+		daySchedulePlaceService.updatePlacesSequence(dayScheduleUUID, daySchedulePlaceUUIDs);
 
-		// //when
-		// when(daySchedulePlaceRepository.findDaySchedulePlacesByDayScheduleUUID(dayScheduleUUID))
-		// 	.thenReturn(testLecture);
-		//
-		// //then
-		// assertThat(lec)).isEqualTo(testLecture);
+		//then
+		assertThat(sequence1.getId()).isEqualTo(UUID.fromString("11111111-1111-1111-1111-111111111111"));
+		assertThat(sequence1.getSequence()).isEqualTo(2);
+		assertThat(sequence2.getId()).isEqualTo(UUID.fromString("22222222-2222-2222-2222-222222222222"));
+		assertThat(sequence2.getSequence()).isEqualTo(1);
 	}
 
 	private List<DaySchedulePlace> readStubDaySchedulePlaces() {
@@ -69,19 +73,4 @@ class DaySchedulePlaceServiceTest {
 
 		return daySchedulePlaces;
 	}
-
-	// //given
-	// Pageable pageable = PageRequest.of(0, 1, Sort.by("modifiedDate").descending());
-	// Page<Lecture> lectureContentNull = new PageImpl<>(new ArrayList<>(), pageable, 0);
-	// LectureToJsonArray result = new LectureToJsonArray(new ArrayList<>(), 0l);
-	//
-	// //when
-	// when(lectureRepository.searchLectureForLectureName("null", null, pageable, "null"))
-	// 	.thenReturn(lectureContentNull);
-	//
-	// //
-	// assertThat(lectureService.searchLectureForLectureName("null", Optional.empty(),
-	// pageable, Optional.of("null")).getData()).isEqualTo(new ArrayList<>());
-	// assertThat(lectureService.searchLectureForLectureName("null", Optional.empty(),
-	// pageable, Optional.of("null")).getCount()).isEqualTo(0);
 }

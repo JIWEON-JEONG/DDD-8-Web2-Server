@@ -134,7 +134,7 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 조회")
+	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 추천 페이지네이션 조회")
 	@GetMapping("/bookmarks/region")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user, @RequestParam Region region,
@@ -143,7 +143,7 @@ public class PlaceController {
 		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, region, pageable));
 	}
 
-	@Operation(summary = "[인증] 유저가 현재 위치 기반 북마크 리스트 조회")
+	@Operation(summary = "[인증] 유저가 현재 위치 기반 북마크 추천 페이지네이션 조회")
 	@GetMapping("/bookmarks/coordinate")
 	public ResponseEntity<BookmarkPlacesByCoordinateResponseDto> getBookmarkPlacesByCoordinate(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
@@ -153,7 +153,7 @@ public class PlaceController {
 		return ResponseEntity.ok(placeService.getBookmarkPlacesByCoordinate(user, request.toServiceDto(), pageable));
 	}
 
-	@Operation(summary = "[인증] 유저가 선택한 지역 기반 카테고리 리스트 조회")
+	@Operation(summary = "[인증] 유저가 선택한 지역 기반 카테고리 추천 페이지네이션 조회")
 	@GetMapping("/categories/region")
 	public ResponseEntity<CategoryPlacesByRegionResponseDto> getCategoryPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user, @RequestParam Region region,

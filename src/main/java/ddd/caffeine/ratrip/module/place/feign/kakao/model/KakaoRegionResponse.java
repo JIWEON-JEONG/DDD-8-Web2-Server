@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.external.dto;
+package ddd.caffeine.ratrip.module.place.feign.kakao.model;
 
 import java.util.List;
 

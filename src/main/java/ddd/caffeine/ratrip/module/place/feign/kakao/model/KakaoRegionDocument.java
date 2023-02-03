@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.external.dto;
+package ddd.caffeine.ratrip.module.place.feign.kakao.model;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import lombok.Getter;

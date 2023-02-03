@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
+import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
@@ -25,6 +27,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceR
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByCoordinateResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.response.CategoryPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceDetailResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSaveThirdPartyResponseDto;
@@ -122,6 +125,16 @@ public class PlaceService {
 		Slice<BookmarkPlaceByRegionDao> places = bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 
 		return new BookmarkPlacesByCoordinateResponseDto(places.getContent(), places.hasNext());
+	}
+
+	@Transactional(readOnly = true)
+	public CategoryPlacesByRegionResponseDto getCategoryPlacesByRegion(User user, CategoryPlaceByRegionDto request,
+		Pageable pageable) {
+
+		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(user, request.getRegion(),
+			request.getCategory(), pageable);
+
+		return new CategoryPlacesByRegionResponseDto(places.getContent(), places.hasNext());
 	}
 
 	/**

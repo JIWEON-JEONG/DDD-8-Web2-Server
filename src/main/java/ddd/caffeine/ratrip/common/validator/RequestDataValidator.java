@@ -31,14 +31,6 @@ public class RequestDataValidator {
 		}
 	}
 
-	public static void validateIsNumber(String number) {
-		try {
-			Long.parseLong(number);
-		} catch (NumberFormatException e) {
-			throw new CommonException(INVALID_THIRD_PARTY_ID_EXCEPTION);
-		}
-	}
-
 	public static void validateUUIDForm(String uuid) {
 		final Pattern UUID_PATTERN = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
 		if (!(UUID_PATTERN.matcher(uuid).matches())) {

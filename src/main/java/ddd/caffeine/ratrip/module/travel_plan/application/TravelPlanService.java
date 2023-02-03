@@ -41,7 +41,7 @@ public class TravelPlanService {
 	@Transactional(readOnly = true)
 	public LatestTravelPlanResponseDto readTravelPlanByUser(User user) {
 		TravelPlanUser travelPlanUser = travelPlanUserService.readByUserUnfinishedTravel(user);
-		//작성중인 여행 없을 경우,
+		//작성중인 여행 없을 경우,천
 		if (travelPlanUser == null) {
 			return new LatestTravelPlanResponseDto(Boolean.FALSE);
 		}

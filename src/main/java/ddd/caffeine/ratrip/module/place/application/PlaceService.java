@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
-import ddd.caffeine.ratrip.common.util.HttpHeaderUtils;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
@@ -20,9 +19,7 @@ import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
-import ddd.caffeine.ratrip.module.place.feign.kakao.KakaoRegionApiClient;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
-import ddd.caffeine.ratrip.module.place.feign.kakao.model.KakaoRegionResponse;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
@@ -33,7 +30,6 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceDetailRes
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceInRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSaveThirdPartyResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceSearchResponseDto;
-import ddd.caffeine.ratrip.module.travel_plan.application.TravelPlanUserService;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
@@ -45,9 +41,7 @@ public class PlaceService {
 	private final PlaceFeignService placeFeignService;
 	private final PlaceValidator placeValidator;
 	private final BookmarkService bookmarkService;
-	private final TravelPlanUserService travelPlanUserService;
 	private final PlaceRepository placeRepository;
-	private final KakaoRegionApiClient kakaoRegionApiClient;
 	private final SecretKeyManager secretKeyManager;
 
 	@Transactional(readOnly = true)
@@ -125,7 +119,8 @@ public class PlaceService {
 	@Transactional(readOnly = true)
 	public BookmarkPlacesByCoordinateResponseDto getBookmarkPlacesByCoordinate(User user,
 		BookmarkPlaceByRegionDto request, Pageable pageable) {
-		Region region = convertLongituteAndLatitudeToRegion(request.getLongitude(), request.getLatitude());
+		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
+			request.getLatitude());
 		Slice<BookmarkPlaceByRegionDao> places = bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 
 		return new BookmarkPlacesByCoordinateResponseDto(places.getContent(), places.hasNext());
@@ -168,13 +163,5 @@ public class PlaceService {
 	private void setBlogsInPlace(Place place, String keyword) {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
 		place.setBlogs(blogModel.readBlogs());
-	}
-
-	private Region convertLongituteAndLatitudeToRegion(double longitude, double latitude) {
-		final String KAKAO_REQUEST_HEADER = HttpHeaderUtils.concatWithKakaoAKPrefix(
-			secretKeyManager.getKakaoRestApiKey());
-		KakaoRegionResponse kakaoRegionResponse = kakaoRegionApiClient.getRegion(KAKAO_REQUEST_HEADER, longitude,
-			latitude);
-		return kakaoRegionResponse.getDocuments().get(0).getRegion_1depth_name();
 	}
 }

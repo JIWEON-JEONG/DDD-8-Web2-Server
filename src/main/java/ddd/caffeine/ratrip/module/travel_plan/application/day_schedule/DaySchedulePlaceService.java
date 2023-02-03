@@ -60,16 +60,16 @@ public class DaySchedulePlaceService {
 		}
 	}
 
+	public String readRepresentativePhoto(UUID dayScheduleUUID) {
+		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
+	}
+
 	private void updateSequence(List<DaySchedulePlace> daySchedulePlaces, UUID daySchedulePlaceUUID, int index) {
 		Optional<DaySchedulePlace> optionalDaySchedulePlace = daySchedulePlaces.stream().filter(
 			o -> o.getId().equals(daySchedulePlaceUUID)).findFirst();
 		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
 			optionalDaySchedulePlace);
 		daySchedulePlace.changeSequence(index + 1);
-	}
-
-	public String readRepresentativePhoto(UUID dayScheduleUUID) {
-		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
 	}
 
 	private int readNextSequence(UUID dayScheduleUUID) {

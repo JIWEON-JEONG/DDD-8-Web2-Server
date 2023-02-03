@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.common.secret.SecretKeyManager;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
@@ -42,7 +41,6 @@ public class PlaceService {
 	private final PlaceValidator placeValidator;
 	private final BookmarkService bookmarkService;
 	private final PlaceRepository placeRepository;
-	private final SecretKeyManager secretKeyManager;
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {

@@ -136,8 +136,7 @@ public class PlaceController {
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 조회")
 	@GetMapping("/bookmarks/region")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@Valid @RequestParam Region region,
+		@Parameter(hidden = true) @AuthenticationPrincipal User user, @RequestParam Region region,
 		@PageableDefault(size = 20) Pageable pageable) {
 
 		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, region, pageable));

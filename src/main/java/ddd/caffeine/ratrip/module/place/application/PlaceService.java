@@ -25,6 +25,7 @@ import ddd.caffeine.ratrip.module.place.feign.kakao.model.KakaoRegionResponse;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignImageModel;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByCoordinateResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.PlaceDetailResponseDto;
@@ -120,11 +121,12 @@ public class PlaceService {
 		return bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 	}
 
-	private Region getUserRecentRegionIfTravelPlanAbsent(BookmarkPlaceByRegionDto request, Region region) {
-		if (region == null) {
-			region = convertLongituteAndLatitudeToRegion(request.getLongitude(), request.getLatitude());
-		}
-		return region;
+	@Transactional(readOnly = true)
+	public BookmarkPlacesByCoordinateResponseDto getBookmarkPlacesByCoordinate(User user,
+		BookmarkPlaceByRegionDto request, Pageable pageable) {
+		Region region = convertLongituteAndLatitudeToRegion(request.getLongitude(), request.getLatitude());
+
+		return bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 	}
 
 	/**

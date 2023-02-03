@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByCoordinateResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.request.PlaceSaveByThirdPartyRequestDto;
@@ -139,5 +141,15 @@ public class PlaceController {
 		@PageableDefault(size = 20) Pageable pageable) {
 
 		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, region, pageable));
+	}
+
+	@Operation(summary = "[인증] 유저가 현재 위치 기반 북마크 리스트 조회")
+	@GetMapping("/bookmarks/coordinate")
+	public ResponseEntity<BookmarkPlacesByCoordinateResponseDto> getBookmarkPlacesByCoordinate(
+		@Parameter(hidden = true) @AuthenticationPrincipal User user,
+		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request,
+		@PageableDefault(size = 20) Pageable pageable) {
+
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByCoordinate(user, request.toServiceDto(), pageable));
 	}
 }

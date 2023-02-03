@@ -114,10 +114,9 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, BookmarkPlaceByRegionDto request,
+	public BookmarkPlacesByRegionResponseDto getBookmarkPlacesByRegion(User user, Region region,
 		Pageable pageable) {
-		Region region = travelPlanUserService.findOngoingTravelPlanUserRegionByUser(user);
-		region = getUserRecentRegionIfTravelPlanAbsent(request, region);
+
 		return bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 	}
 

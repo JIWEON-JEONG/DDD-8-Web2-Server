@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
-import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByRegionRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlacesByRegionResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
@@ -131,13 +131,13 @@ public class PlaceController {
 		return ResponseEntity.ok(response);
 	}
 
-	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 조회 (선택 지역이 없다면 위치 기반 조회)")
+	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 리스트 조회")
 	@GetMapping("/bookmarks/region")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
-		@Valid @ModelAttribute BookmarkPlaceByRegionRequestDto request,
+		@Valid @RequestParam Region region,
 		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, request.toServiceDto(), pageable));
+		return ResponseEntity.ok(placeService.getBookmarkPlacesByRegion(user, region, pageable));
 	}
 }

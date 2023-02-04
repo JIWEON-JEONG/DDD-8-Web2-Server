@@ -29,5 +29,6 @@ public class PlaceSaveThirdPartyResponseDto {
 		this.location = place.getLocation();
 		this.isUpdated = place.isUpdated();
 		this.telephone = place.getTelephone();
+		this.bookmark = bookmark;
 	}
 }

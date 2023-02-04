@@ -156,7 +156,7 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 북마크 추천 페이지네이션 조회")
-	@GetMapping("/bookmarks/region")
+	@GetMapping("/bookmarks/regions")
 	public ResponseEntity<BookmarkPlacesByRegionResponseDto> getBookmarkPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user, @RequestParam Region region,
 		@PageableDefault(size = 20) Pageable pageable) {
@@ -165,7 +165,7 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 유저가 현재 위치 기반 북마크 추천 페이지네이션 조회")
-	@GetMapping("/bookmarks/coordinate")
+	@GetMapping("/bookmarks/coordinates")
 	public ResponseEntity<BookmarkPlacesByCoordinateResponseDto> getBookmarkPlacesByCoordinate(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute BookmarkPlaceByCoordinateRequestDto request,
@@ -175,7 +175,7 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 카테고리 추천 페이지네이션 조회")
-	@GetMapping("/categories/region")
+	@GetMapping("/categories/regions")
 	public ResponseEntity<CategoryPlacesByRegionResponseDto> getCategoryPlacesByRegion(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByRegionRequestDto request,
@@ -185,7 +185,7 @@ public class PlaceController {
 	}
 
 	@Operation(summary = "[인증] 유저가 현재 위치 기반 카테고리 추천 페이지네이션 조회")
-	@GetMapping("/categories/coordinate")
+	@GetMapping("/categories/coordinates")
 	public ResponseEntity<CategoryPlacesByCoordinateResponseDto> getCategoryPlacesByCoordinate(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByCoordinateRequestDto request,

@@ -27,7 +27,11 @@ public class DayScheduleService {
 
 	//todo : 개발용 
 	public void deleteDaySchedule(UUID travelPlanUUID) {
-		List<DaySchedule> byTravelPlanId = dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
+		List<DaySchedule> daySchedule = dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
+		for (DaySchedule schedule : daySchedule) {
+			daySchedulePlaceService.delete(schedule.getId());
+			dayScheduleRepository.delete(schedule);
+		}
 	}
 
 	public void initTravelPlan(TravelPlan travelPlan, List<LocalDate> dates) {

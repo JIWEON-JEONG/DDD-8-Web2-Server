@@ -74,4 +74,10 @@ public class DaySchedulePlaceService {
 		daySchedulePlaceValidator.validateNotExist(exist);
 	}
 
+	/**
+	 * Todo : 개발용 추후 삭제
+	 */
+	public void delete(UUID id) {
+		daySchedulePlaceRepository.findBy
+	}
 }

@@ -22,6 +22,17 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 
 	private final JPAQueryFactory jpaQueryFactory;
 
+	/**
+	 * todo : 추후 삭제
+	 */
+	@Override
+	public List<DaySchedulePlace> findByDayScheduleUUID(UUID dayScheduleUUID) {
+		return jpaQueryFactory
+			.selectFrom(daySchedulePlace)
+			.where(daySchedulePlace.daySchedule.id.eq(dayScheduleUUID))
+			.fetch();
+	}
+
 	@Override
 	public List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUIDAndPlaceUUID(UUID dayScheduleUUID,
 		String placeUUID) {

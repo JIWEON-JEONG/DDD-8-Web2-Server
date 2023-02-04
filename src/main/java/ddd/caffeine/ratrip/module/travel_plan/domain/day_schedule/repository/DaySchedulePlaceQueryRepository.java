@@ -12,7 +12,7 @@ public interface DaySchedulePlaceQueryRepository {
 	List<DaySchedulePlaceDao> findDaySchedulePlaceDaoByDayScheduleUUIDAndPlaceUUID(UUID dayScheduleUUID,
 		String placeUUID);
 
-	List<DaySchedulePlace> findDaySchedulePlacesById(UUID firstUUID, UUID secondUUID);
+	List<DaySchedulePlace> findDaySchedulePlacesByDayScheduleUUID(UUID dayScheduleUUID);
 
 	Integer countPlacesByDayScheduleUUID(UUID dayScheduleUUID);
 

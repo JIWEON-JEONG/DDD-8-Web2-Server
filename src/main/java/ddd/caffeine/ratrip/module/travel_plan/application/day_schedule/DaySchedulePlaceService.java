@@ -51,17 +51,25 @@ public class DaySchedulePlaceService {
 		daySchedulePlaceRepository.delete(UUID.fromString(daySchedulePlaceUUID));
 	}
 
-	public void exchangePlaceSequence(List<UUID> daySchedulePlaceUUIDs) {
-		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findDaySchedulePlacesById(
-			daySchedulePlaceUUIDs.get(0), daySchedulePlaceUUIDs.get(1));
-		daySchedulePlaceValidator.validateExchangeSequence(daySchedulePlaces);
-
-		DaySchedulePlace baseDaySchedulePlace = daySchedulePlaces.get(0);
-		baseDaySchedulePlace.exchangeOrder(daySchedulePlaces.get(1));
+	public void updatePlacesSequence(UUID dayScheduleUUID, List<UUID> daySchedulePlaceUUIDs) {
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findDaySchedulePlacesByDayScheduleUUID(
+			dayScheduleUUID);
+		for (int index = 0; index < daySchedulePlaceUUIDs.size(); index++) {
+			UUID daySchedulePlaceUUID = daySchedulePlaceUUIDs.get(index);
+			updateSequence(daySchedulePlaces, daySchedulePlaceUUID, index);
+		}
 	}
 
 	public String readRepresentativePhoto(UUID dayScheduleUUID) {
 		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
+	}
+
+	private void updateSequence(List<DaySchedulePlace> daySchedulePlaces, UUID daySchedulePlaceUUID, int index) {
+		Optional<DaySchedulePlace> optionalDaySchedulePlace = daySchedulePlaces.stream().filter(
+			o -> o.getId().equals(daySchedulePlaceUUID)).findFirst();
+		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
+			optionalDaySchedulePlace);
+		daySchedulePlace.changeSequence(index + 1);
 	}
 
 	private int readNextSequence(UUID dayScheduleUUID) {

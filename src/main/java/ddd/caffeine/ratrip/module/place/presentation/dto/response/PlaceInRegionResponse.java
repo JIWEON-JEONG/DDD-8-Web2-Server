@@ -5,6 +5,7 @@ import java.util.UUID;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Address;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Location;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,8 +22,9 @@ public class PlaceInRegionResponse {
 	private Location location;
 	private String imageLink;
 	private String telephone;
+	private BookmarkResponseDto bookmark;
 
-	public PlaceInRegionResponse(Place place) {
+	public PlaceInRegionResponse(Place place, BookmarkResponseDto bookmark) {
 		this.id = place.getId();
 		this.name = place.getName();
 		this.category = place.getCategory().name();
@@ -30,5 +32,6 @@ public class PlaceInRegionResponse {
 		this.imageLink = place.getImageLink();
 		this.location = place.getLocation();
 		this.telephone = place.getTelephone();
+		this.bookmark = bookmark;
 	}
 }

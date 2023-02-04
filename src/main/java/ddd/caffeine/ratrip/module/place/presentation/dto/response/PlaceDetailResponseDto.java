@@ -6,6 +6,7 @@ import java.util.UUID;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Blog;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Location;
+import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import lombok.Getter;
 
 /**
@@ -25,8 +26,9 @@ public class PlaceDetailResponseDto {
 	private String telephone;
 	private boolean isUpdated;
 	private List<Blog> blogs;
+	BookmarkResponseDto bookmark;
 
-	public PlaceDetailResponseDto(Place place) {
+	public PlaceDetailResponseDto(Place place, BookmarkResponseDto bookmark) {
 		this.id = place.getId();
 		this.kakaoId = place.getKakaoId();
 		this.name = place.getName();
@@ -38,5 +40,6 @@ public class PlaceDetailResponseDto {
 		this.additionalInfoLink = place.getAdditionalInfoLink();
 		this.telephone = place.getTelephone();
 		this.blogs = place.readBlogs();
+		this.bookmark = bookmark;
 	}
 }

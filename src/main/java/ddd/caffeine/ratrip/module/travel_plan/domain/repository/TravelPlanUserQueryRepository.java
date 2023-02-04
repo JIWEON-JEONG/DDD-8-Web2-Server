@@ -1,5 +1,6 @@
 package ddd.caffeine.ratrip.module.travel_plan.domain.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,9 @@ public interface TravelPlanUserQueryRepository {
 
 	TravelPlanUser findByUserUnfinishedTravel(User user);
 
-	Slice<TravelPlanUser> findByUser(User user, Pageable pageable);
+	Slice<TravelPlanUser> findByUserPagination(User user, Pageable pageable);
+
+	List<TravelPlanUser> findByUser(User user);
 
 	Region findOngoingTravelPlanUserRegionByUser(User user);
 }

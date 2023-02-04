@@ -25,6 +25,11 @@ public class DayScheduleService {
 	private final DayScheduleValidator dayScheduleValidator;
 	private final DayScheduleRepository dayScheduleRepository;
 
+	//todo : 개발용 
+	public void deleteDaySchedule(UUID travelPlanUUID) {
+		List<DaySchedule> byTravelPlanId = dayScheduleRepository.findByTravelPlanId(travelPlanUUID);
+	}
+
 	public void initTravelPlan(TravelPlan travelPlan, List<LocalDate> dates) {
 		List<DaySchedule> daySchedules = new ArrayList<>();
 		for (LocalDate date : dates) {

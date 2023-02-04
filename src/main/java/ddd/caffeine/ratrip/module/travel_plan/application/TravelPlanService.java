@@ -43,9 +43,10 @@ public class TravelPlanService {
 	 * 개발용 - 추후 삭제.
 	 */
 	@Transactional
-	public void deleteTravelPlan(String travelPlanUUID) {
+	public void deleteTravelPlan(String travelPlanUUID, User user) {
 		Optional<TravelPlan> travelPlan = travelPlanRepository.findById(UUID.fromString(travelPlanUUID));
 		travelPlanValidator.validateExistTravelPlan(travelPlan);
+		travelPlanUserService.deleteTravelPlanUser(user);
 		travelPlanRepository.delete(travelPlan.get());
 	}
 

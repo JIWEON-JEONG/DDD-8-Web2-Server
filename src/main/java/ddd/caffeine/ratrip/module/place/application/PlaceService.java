@@ -14,6 +14,7 @@ import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByCoordinateDto;
 import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByRegionDto;
+import ddd.caffeine.ratrip.module.place.application.dto.PlaceByCoordinateDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
@@ -48,10 +49,14 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInRegions(List<String> regions, Pageable page) {
-
-		Slice<Place> places = placeRepository.findPlacesInRegions(Region.createRegions(regions), page);
-		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
+	public PlaceInRegionResponseDto readPlacesInRegions(User user, List<Region> regions, Pageable page) {
+		Slice<Place> places = placeRepository.findPlacesInRegions(regions, page);
+		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
+		for (Place place : places) {
+			BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
+			response.addContent(place, bookmarkInfo);
+		}
+		return response;
 	}
 
 	@Transactional(readOnly = true)
@@ -63,23 +68,24 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid) {
-
+	public PlaceDetailResponseDto readPlaceDetailsByUUID(User user, String uuid) {
 		Place place = readPlaceByUUID(UUID.fromString(uuid));
-		return new PlaceDetailResponseDto(place);
+		BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
+		return new PlaceDetailResponseDto(place, bookmarkInfo);
 	}
 
 	@Transactional
-	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(ThirdPartyDetailSearchOption searchOption) {
+	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(User user,
+		ThirdPartyDetailSearchOption searchOption) {
 		Place place = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
-
+		BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
 		if (place == null) {
 			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(entity);
-			return new PlaceSaveThirdPartyResponseDto(entity);
+			return new PlaceSaveThirdPartyResponseDto(entity, bookmarkInfo);
 		}
 		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		return new PlaceSaveThirdPartyResponseDto(place);
+		return new PlaceSaveThirdPartyResponseDto(place, bookmarkInfo);
 	}
 
 	@Transactional
@@ -131,6 +137,20 @@ public class PlaceService {
 		Slice<BookmarkPlaceByRegionDao> places = bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 
 		return new BookmarkPlacesByCoordinateResponseDto(places.getContent(), places.hasNext());
+	}
+
+	@Transactional(readOnly = true)
+	public PlaceInRegionResponseDto readPlacesInCoordinate(User user, PlaceByCoordinateDto request, Pageable pageable) {
+		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
+			request.getLatitude());
+
+		Slice<Place> places = placeRepository.findPlacesInRegion(region, pageable);
+		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
+		for (Place place : places) {
+			BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
+			response.addContent(place, bookmarkInfo);
+		}
+		return response;
 	}
 
 	@Transactional(readOnly = true)

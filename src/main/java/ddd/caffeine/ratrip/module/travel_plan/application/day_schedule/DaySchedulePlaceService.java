@@ -81,4 +81,14 @@ public class DaySchedulePlaceService {
 		boolean exist = daySchedulePlaceRepository.existByDayScheduleAndPlace(daySchedule, place);
 		daySchedulePlaceValidator.validateNotExist(exist);
 	}
+
+	/**
+	 * Todo : 개발용 추후 삭제
+	 */
+	public void delete(UUID dayScheduleUUID) {
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findByDayScheduleUUID(dayScheduleUUID);
+		for (DaySchedulePlace daySchedulePlace : daySchedulePlaces) {
+			daySchedulePlaceRepository.delete(daySchedulePlace);
+		}
+	}
 }

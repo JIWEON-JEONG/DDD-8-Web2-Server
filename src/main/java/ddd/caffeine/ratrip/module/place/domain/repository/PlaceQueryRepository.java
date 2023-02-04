@@ -14,6 +14,8 @@ import ddd.caffeine.ratrip.module.user.domain.User;
 public interface PlaceQueryRepository {
 	Slice<Place> findPlacesInRegions(List<Region> regions, Pageable pageable);
 
+	Slice<Place> findPlacesInRegion(Region region, Pageable pageable);
+
 	Place findByThirdPartyID(String thirdPartyID);
 
 	Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(User user, Region region, Category category,

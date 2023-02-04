@@ -23,4 +23,6 @@ public interface DaySchedulePlaceQueryRepository {
 	String findRepresentativeImageLink(UUID dayScheduleUUID);
 
 	Long delete(UUID daySchedulePlaceUUID);
+
+	List<DaySchedulePlace> findByDayScheduleUUID(UUID dayScheduleUUID);
 }

@@ -50,6 +50,19 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	}
 
 	@Override
+	public Slice<Place> findPlacesInRegion(Region region, Pageable pageable) {
+		List<Place> contents = jpaQueryFactory
+			.selectFrom(place)
+			.where(regionsEq(region))
+			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
+
+		return QuerydslUtils.toSlice(contents, pageable);
+	}
+
+	@Override
 	public Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(User user, Region region, Category category,
 		Pageable pageable) {
 		List<CategoryPlaceByRegionDao> contents = jpaQueryFactory
@@ -66,6 +79,10 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 
 	private BooleanExpression regionsIn(List<Region> region) {
 		return region.isEmpty() ? null : place.address.region.in(region);
+	}
+
+	private BooleanExpression regionsEq(Region region) {
+		return region == null ? null : place.address.region.eq(region);
 	}
 
 	private List<OrderSpecifier> readOrderSpecifiers(Pageable pageable) {

@@ -63,7 +63,7 @@ public class DaySchedulePlaceService {
 	public String readRepresentativePhoto(UUID dayScheduleUUID) {
 		return daySchedulePlaceRepository.findRepresentativeImageLink(dayScheduleUUID);
 	}
-	
+
 	private int readNextSequence(UUID dayScheduleUUID) {
 		int total = daySchedulePlaceRepository.countPlacesByDayScheduleUUID(dayScheduleUUID);
 		return total + 1;
@@ -77,7 +77,10 @@ public class DaySchedulePlaceService {
 	/**
 	 * Todo : 개발용 추후 삭제
 	 */
-	public void delete(UUID id) {
-		daySchedulePlaceRepository.findBy
+	public void delete(UUID dayScheduleUUID) {
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findByDayScheduleUUID(dayScheduleUUID);
+		for (DaySchedulePlace daySchedulePlace : daySchedulePlaces) {
+			daySchedulePlaceRepository.delete(daySchedulePlace);
+		}
 	}
 }

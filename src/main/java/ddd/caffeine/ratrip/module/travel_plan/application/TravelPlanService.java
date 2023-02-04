@@ -47,6 +47,7 @@ public class TravelPlanService {
 		Optional<TravelPlan> travelPlan = travelPlanRepository.findById(UUID.fromString(travelPlanUUID));
 		travelPlanValidator.validateExistTravelPlan(travelPlan);
 		travelPlanUserService.deleteTravelPlanUser(user);
+		dayScheduleService.deleteDaySchedule(UUID.fromString(travelPlanUUID));
 		travelPlanRepository.delete(travelPlan.get());
 	}
 

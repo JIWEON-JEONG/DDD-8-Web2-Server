@@ -3,6 +3,7 @@ package ddd.caffeine.ratrip.module.travel_plan.application;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,16 @@ public class TravelPlanService {
 	private final DayScheduleService dayScheduleService;
 	private final PlaceService placeService;
 	private final TravelPlanRepository travelPlanRepository;
+
+	/**
+	 * 개발용 - 추후 삭제.
+	 */
+	@Transactional
+	public void deleteTravelPlan(String travelPlanUUID) {
+		Optional<TravelPlan> travelPlan = travelPlanRepository.findById(UUID.fromString(travelPlanUUID));
+		travelPlanValidator.validateExistTravelPlan(travelPlan);
+		travelPlanRepository.delete(travelPlan.get());
+	}
 
 	@Transactional(readOnly = true)
 	public LatestTravelPlanResponseDto readTravelPlanByUser(User user) {

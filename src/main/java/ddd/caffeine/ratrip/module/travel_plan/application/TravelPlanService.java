@@ -52,7 +52,7 @@ public class TravelPlanService {
 	}
 
 	@Transactional(readOnly = true)
-	public LatestTravelPlanResponseDto readTravelPlanByUser(User user) {
+	public LatestTravelPlanResponseDto readRecentTravelPlanByUser(User user) {
 		TravelPlanUser travelPlanUser = travelPlanUserService.readByUserLatestTravel(user);
 		//최근 작성한 여행 없을 경우,
 		if (travelPlanUser == null) {

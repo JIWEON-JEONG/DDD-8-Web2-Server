@@ -149,12 +149,12 @@ public class TravelPlanService {
 	}
 
 	@Transactional
-	public void exchangePlaceSequenceInDaySchedule(DayScheduleAccessOption accessOption,
+	public void updatePlacesSequenceInDaySchedule(DayScheduleAccessOption accessOption,
 		List<UUID> daySchedulePlaceUUIDs) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
-		//하루 일정 장소 순서 exchange
-		dayScheduleService.exchangePlaceSequence(daySchedulePlaceUUIDs);
+		//하루 일정 장소 순서 update
+		dayScheduleService.updatePlacesSequence(accessOption.readDayScheduleUUID(), daySchedulePlaceUUIDs);
 	}
 
 	private List<LocalDate> createDateList(LocalDate startTravelDate, int travelDays) {

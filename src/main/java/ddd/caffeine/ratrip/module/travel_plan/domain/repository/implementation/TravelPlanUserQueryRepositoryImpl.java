@@ -39,7 +39,19 @@ public class TravelPlanUserQueryRepositoryImpl implements TravelPlanUserQueryRep
 			.fetchFirst() != null;
 	}
 
-	public TravelPlanUser findByUserUnfinishedTravel(User user) {
+	public TravelPlanUser findByUserLatestTravel(User user) {
+		TravelPlanUser response = jpaQueryFactory
+			.selectFrom(travelPlanUser)
+			.where(
+				travelPlanUser.user.eq(user)
+			)
+			.orderBy(travelPlanUser.createdAt.desc())
+			.fetchFirst();
+
+		return response;
+	}
+
+	public TravelPlanUser findByUserUnFinishedTravel(User user) {
 		TravelPlanUser response = jpaQueryFactory
 			.selectFrom(travelPlanUser)
 			.where(

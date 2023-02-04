@@ -30,6 +30,7 @@ import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaces
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.request.CategoryPlaceByCoordinateRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.request.CategoryPlaceByRegionRequestDto;
+import ddd.caffeine.ratrip.module.place.presentation.dto.request.PlaceCoordinateRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.request.PlaceSaveByThirdPartyRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.request.PlaceSearchRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.response.CategoryPlacesByCoordinateResponseDto;
@@ -85,13 +86,28 @@ public class PlaceController {
 	 * default page = 0
 	 * Todo : default size 정하기.
 	 */
-	@Operation(summary = "[인증] 지역 별 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
-	@GetMapping(value = "region")
+	@Operation(summary = "[인증] 지역기반 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
+	@GetMapping("/regions")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
-		@RequestParam(name = "region", required = false, defaultValue = "전국") List<Region> regions,
+		@RequestParam(name = "region") List<Region> regions,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
 		PlaceInRegionResponseDto response = placeService.readPlacesInRegions(regions, pageable);
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * default page = 0
+	 * Todo : default size 정하기.
+	 */
+	@Operation(summary = "[인증] 좌표데이터를 통해 위치 기반 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
+	@GetMapping("/coordinates")
+	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInCoordinateApi(
+		@Valid @ModelAttribute PlaceCoordinateRequestDto request,
+		@PageableDefault(
+			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
+		PlaceInRegionResponseDto response = placeService.readPlacesInCoordinate(request.toServiceDto(),
+			pageable);
 		return ResponseEntity.ok(response);
 	}
 

@@ -14,6 +14,7 @@ import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.application.dto.BookmarkPlaceByRegionDto;
 import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByCoordinateDto;
 import ddd.caffeine.ratrip.module.place.application.dto.CategoryPlaceByRegionDto;
+import ddd.caffeine.ratrip.module.place.application.dto.PlaceByCoordinateDto;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartyDetailSearchOption;
 import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
@@ -131,6 +132,14 @@ public class PlaceService {
 		Slice<BookmarkPlaceByRegionDao> places = bookmarkService.getBookmarkPlacesByRegion(user, region, pageable);
 
 		return new BookmarkPlacesByCoordinateResponseDto(places.getContent(), places.hasNext());
+	}
+
+	@Transactional(readOnly = true)
+	public PlaceInRegionResponseDto readPlacesInCoordinate(PlaceByCoordinateDto request, Pageable pageable) {
+		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
+			request.getLatitude());
+		Slice<Place> places = placeRepository.findPlacesInRegion(region, pageable);
+		return new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 	}
 
 	@Transactional(readOnly = true)

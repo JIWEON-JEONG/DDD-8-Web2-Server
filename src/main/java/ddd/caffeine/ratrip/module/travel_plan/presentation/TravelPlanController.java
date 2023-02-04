@@ -91,7 +91,7 @@ public class TravelPlanController {
 	@GetMapping("latest")
 	public ResponseEntity<LatestTravelPlanResponseDto> readTravelPlanLatestApi(
 		@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-		LatestTravelPlanResponseDto response = travelPlanService.readTravelPlanByUser(user);
+		LatestTravelPlanResponseDto response = travelPlanService.readRecentTravelPlanByUser(user);
 		return ResponseEntity.ok(response);
 	}
 

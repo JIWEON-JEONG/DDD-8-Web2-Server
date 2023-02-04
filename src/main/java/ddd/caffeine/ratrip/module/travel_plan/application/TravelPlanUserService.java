@@ -45,8 +45,12 @@ public class TravelPlanUserService {
 			.build();
 	}
 
+	public TravelPlanUser readByUserLatestTravel(User user) {
+		return travelPlanUserRepository.findByUserLatestTravel(user);
+	}
+
 	public TravelPlanUser readByUserUnfinishedTravel(User user) {
-		return travelPlanUserRepository.findByUserUnfinishedTravel(user);
+		return travelPlanUserRepository.findByUserUnFinishedTravel(user);
 	}
 
 	public void validateAccessTravelPlan(TravelPlanAccessOption accessOption) {

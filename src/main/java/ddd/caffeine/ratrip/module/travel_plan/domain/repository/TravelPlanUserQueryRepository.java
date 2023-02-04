@@ -13,7 +13,9 @@ import ddd.caffeine.ratrip.module.user.domain.User;
 public interface TravelPlanUserQueryRepository {
 	boolean existByUserAndTravelPlanUUID(User user, UUID travelPlanUUID);
 
-	TravelPlanUser findByUserUnfinishedTravel(User user);
+	TravelPlanUser findByUserLatestTravel(User user);
+
+	TravelPlanUser findByUserUnFinishedTravel(User user);
 
 	Slice<TravelPlanUser> findByUserPagination(User user, Pageable pageable);
 

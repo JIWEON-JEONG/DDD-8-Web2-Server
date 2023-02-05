@@ -82,7 +82,7 @@ public class PlaceService {
 		if (place == null) {
 			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
 			placeRepository.save(entity);
-			bookmarkInfo = bookmarkService.readBookmark(user, place);
+			bookmarkInfo = bookmarkService.readBookmark(user, entity);
 			return new PlaceSaveThirdPartyResponseDto(entity, bookmarkInfo);
 		}
 		bookmarkInfo = bookmarkService.readBookmark(user, place);

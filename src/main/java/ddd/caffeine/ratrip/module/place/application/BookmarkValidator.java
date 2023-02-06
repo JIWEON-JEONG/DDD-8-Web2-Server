@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.application.bookmark;
+package ddd.caffeine.ratrip.module.place.application;
 
 import static ddd.caffeine.ratrip.common.exception.ExceptionInformation.*;
 

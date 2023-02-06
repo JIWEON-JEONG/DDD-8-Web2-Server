@@ -39,7 +39,7 @@ class PlaceRepositoryTest {
 		placeRepository.save(testPlace);
 
 		//when
-		Place place = placeRepository.findByThirdPartyID("testId");
+		PlaceBookmarkDao place = placeRepository.findByThirdPartyID("testId");
 
 		//then
 		assertThat(place).isNotNull();

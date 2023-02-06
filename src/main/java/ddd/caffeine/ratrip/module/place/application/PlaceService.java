@@ -1,7 +1,6 @@
 package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkP
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Address;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
@@ -52,16 +52,16 @@ public class PlaceService {
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(User user, List<Region> regions, Pageable page) {
 		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(regions, page);
-		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
+		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 
 		return response;
 	}
 
 	@Transactional(readOnly = true)
 	public PlaceSearchResponseDto searchPlaces(ThirdPartySearchOption searchOption) {
-
 		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByKeywordAndCoordinate(
 			searchOption);
+
 		return feignPlaceModel.mapByPlaceSearchResponseDto();
 	}
 
@@ -69,23 +69,22 @@ public class PlaceService {
 	public PlaceDetailResponseDto readPlaceDetailsByUUID(User user, String uuid) {
 		Place place = readPlaceByUUID(UUID.fromString(uuid));
 		BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
+
 		return new PlaceDetailResponseDto(place, bookmarkInfo);
 	}
 
 	@Transactional
 	public PlaceSaveThirdPartyResponseDto savePlaceByThirdPartyData(User user,
 		ThirdPartyDetailSearchOption searchOption) {
-		BookmarkResponseDto bookmarkInfo;
-		Place place = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
-		if (place == null) {
-			Place entity = readPlaceEntity(searchOption.readPlaceNameAndAddress());
-			placeRepository.save(entity);
-			bookmarkInfo = bookmarkService.readBookmark(user, entity);
-			return new PlaceSaveThirdPartyResponseDto(entity, bookmarkInfo);
+		PlaceBookmarkDao content = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
+		if (content == null) {
+			//해당 부분 다시 리팩토링
+			Place place = readPlaceEntity(searchOption.getPlaceName(), searchOption.getAddress());
+			placeRepository.save(place);
+			return new PlaceSaveThirdPartyResponseDto(content);
 		}
-		bookmarkInfo = bookmarkService.readBookmark(user, place);
-		handlePlaceUpdate(place, searchOption.readPlaceNameAndAddress());
-		return new PlaceSaveThirdPartyResponseDto(place, bookmarkInfo);
+		handlePlaceUpdate(content, searchOption.getPlaceName(), searchOption.getAddress());
+		return new PlaceSaveThirdPartyResponseDto(content);
 	}
 
 	@Transactional
@@ -145,7 +144,7 @@ public class PlaceService {
 			request.getLatitude());
 
 		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegion(region, pageable);
-		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
+		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 
 		return response;
 	}
@@ -176,10 +175,11 @@ public class PlaceService {
 	/**
 	 * 장소 데이터 업데이트 처리 메서드.
 	 */
-	private void handlePlaceUpdate(Place place, Map<String, String> placeNameAndAddressMap) {
-		if (place.checkNeedsUpdate(placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"))) {
-			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
-				placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
+	private void handlePlaceUpdate(PlaceBookmarkDao placeDao, String name, String address) {
+		if (checkNeedsUpdate(placeDao, name, address)) {
+			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, address);
+
+			Place place = placeValidator.validateExistPlace(placeRepository.findById(placeDao.getId()));
 			place.update(feignPlaceModel.readOne());
 			setImageLinkInPlace(place, place.getName());
 			setBlogsInPlace(place, place.getName());
@@ -189,9 +189,8 @@ public class PlaceService {
 	/**
 	 * 장소이름과 주소를 가지고 그에 맞는 Place Entity 생성해주는 메서드.
 	 */
-	private Place readPlaceEntity(Map<String, String> placeNameAndAddressMap) {
-		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(
-			placeNameAndAddressMap.get("address"), placeNameAndAddressMap.get("name"));
+	private Place readPlaceEntity(String name, String address) {
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, address);
 		Place place = feignPlaceModel.mapByPlaceEntity();
 
 		setImageLinkInPlace(place, place.getName());
@@ -210,5 +209,13 @@ public class PlaceService {
 	private void setBlogsInPlace(Place place, String keyword) {
 		FeignBlogModel blogModel = placeFeignService.readBlogModel(keyword);
 		place.setBlogs(blogModel.readBlogs());
+	}
+
+	private boolean checkNeedsUpdate(PlaceBookmarkDao place, String address, String placeName) {
+		Address checkSample = new Address(address);
+		if (place.getName().equals(placeName) || place.getAddress().equals(checkSample)) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
 	}
 }

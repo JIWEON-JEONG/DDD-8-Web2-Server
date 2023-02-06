@@ -2,7 +2,7 @@ package ddd.caffeine.ratrip.module.place.presentation.dto.response;
 
 import java.util.UUID;
 
-import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Location;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkResponseDto;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class PlaceSaveThirdPartyResponseDto {
 	private boolean isUpdated;
 	private BookmarkResponseDto bookmark;
 
-	public PlaceSaveThirdPartyResponseDto(Place place, BookmarkResponseDto bookmark) {
+	public PlaceSaveThirdPartyResponseDto(PlaceBookmarkDao place) {
 		this.id = place.getId();
 		this.name = place.getName();
 		this.category = place.getCategory().name();
@@ -29,6 +29,13 @@ public class PlaceSaveThirdPartyResponseDto {
 		this.location = place.getLocation();
 		this.isUpdated = place.isUpdated();
 		this.telephone = place.getTelephone();
-		this.bookmark = bookmark;
+		this.bookmark = createBookmarkContent(place.getIsActivated());
+	}
+
+	public BookmarkResponseDto createBookmarkContent(Boolean isActivated) {
+		if (isActivated == null) {
+			return new BookmarkResponseDto();
+		}
+		return new BookmarkResponseDto(isActivated);
 	}
 }

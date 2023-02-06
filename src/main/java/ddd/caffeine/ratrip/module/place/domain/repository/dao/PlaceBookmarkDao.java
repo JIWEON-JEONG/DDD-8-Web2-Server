@@ -18,13 +18,14 @@ public class PlaceBookmarkDao {
 	private Location location;
 	private String imageLink;
 	private String telephone;
+	private boolean isUpdated;
 
-	private boolean isActivated;
+	private Boolean isActivated;
 
 	@QueryProjection
 	public PlaceBookmarkDao(UUID id, String name, Category category, Address address, Location location,
 		String imageLink,
-		String telephone, boolean isActivated) {
+		String telephone, Boolean isUpdated, Boolean isActivated) {
 		this.id = id;
 		this.name = name;
 		this.category = category;
@@ -32,6 +33,7 @@ public class PlaceBookmarkDao {
 		this.location = location;
 		this.imageLink = imageLink;
 		this.telephone = telephone;
+		this.isUpdated = isUpdated();
 		this.isActivated = isActivated;
 	}
 }

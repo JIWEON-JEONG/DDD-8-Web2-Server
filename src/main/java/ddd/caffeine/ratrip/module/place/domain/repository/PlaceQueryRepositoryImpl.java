@@ -18,7 +18,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
-import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.QCategoryPlaceByRegionDao;
@@ -33,8 +32,12 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Place findByThirdPartyID(String thirdPartyID) {
-		return jpaQueryFactory.selectFrom(place)
+	public PlaceBookmarkDao findByThirdPartyID(String thirdPartyID) {
+		return jpaQueryFactory
+			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
+				place.imageLink, place.telephone, place.isUpdated, bookmark.isActivated))
+			.from(place)
+			.leftJoin(place.bookmarks, bookmark)
 			.where(place.kakaoId.eq(thirdPartyID))
 			.fetchOne();
 	}
@@ -43,7 +46,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	public Slice<PlaceBookmarkDao> findPlacesInRegions(List<Region> regions, Pageable pageable) {
 		List<PlaceBookmarkDao> contents = jpaQueryFactory
 			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
-				place.imageLink, place.telephone, bookmark.isActivated))
+				place.imageLink, place.telephone, place.isUpdated, bookmark.isActivated))
 			.from(place)
 			.leftJoin(place.bookmarks, bookmark)
 			.where(regionsIn(regions))
@@ -59,7 +62,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	public Slice<PlaceBookmarkDao> findPlacesInRegion(Region region, Pageable pageable) {
 		List<PlaceBookmarkDao> contents = jpaQueryFactory
 			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
-				place.imageLink, place.telephone, bookmark.isActivated))
+				place.imageLink, place.telephone, place.isUpdated, bookmark.isActivated))
 			.from(place)
 			.leftJoin(place.bookmarks, bookmark)
 			.where(regionsEq(region))

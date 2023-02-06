@@ -45,7 +45,7 @@ public class Bookmark extends AuditingTimeEntity {
 
 	private void changePlace(Place place) {
 		this.place = place;
-		place.addBookmark(this);
+		place.updateBookmark(this);
 	}
 
 	public static Bookmark of(User user, Place place) {
@@ -61,6 +61,7 @@ public class Bookmark extends AuditingTimeEntity {
 			return;
 		}
 		this.isActivated = Boolean.TRUE;
+		this.place.updateBookmark(this);
 	}
 
 	public boolean compareToBookmark(Bookmark bookmark) {

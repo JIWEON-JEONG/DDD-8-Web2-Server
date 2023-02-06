@@ -1,4 +1,4 @@
-package ddd.caffeine.ratrip.module.place.application.bookmark;
+package ddd.caffeine.ratrip.module.place.application;
 
 import java.util.List;
 

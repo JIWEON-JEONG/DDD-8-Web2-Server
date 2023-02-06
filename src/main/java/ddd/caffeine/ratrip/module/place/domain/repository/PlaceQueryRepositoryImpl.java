@@ -1,6 +1,7 @@
 package ddd.caffeine.ratrip.module.place.domain.repository;
 
 import static ddd.caffeine.ratrip.module.place.domain.QPlace.*;
+import static ddd.caffeine.ratrip.module.place.domain.bookmark.QBookmark.*;
 import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.QCategoryPlaceByRegionDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.QPlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +40,12 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	}
 
 	@Override
-	public Slice<Place> findPlacesInRegions(List<Region> regions, Pageable pageable) {
-		List<Place> contents = jpaQueryFactory
-			.selectFrom(place)
+	public Slice<PlaceBookmarkDao> findPlacesInRegions(List<Region> regions, Pageable pageable) {
+		List<PlaceBookmarkDao> contents = jpaQueryFactory
+			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
+				place.imageLink, place.telephone, bookmark.isActivated))
+			.from(place)
+			.innerJoin(place.bookmarks, bookmark)
 			.where(regionsIn(regions))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
@@ -50,9 +56,12 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	}
 
 	@Override
-	public Slice<Place> findPlacesInRegion(Region region, Pageable pageable) {
-		List<Place> contents = jpaQueryFactory
-			.selectFrom(place)
+	public Slice<PlaceBookmarkDao> findPlacesInRegion(Region region, Pageable pageable) {
+		List<PlaceBookmarkDao> contents = jpaQueryFactory
+			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
+				place.imageLink, place.telephone, bookmark.isActivated))
+			.from(place)
+			.innerJoin(place.bookmarks, bookmark)
 			.where(regionsEq(region))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())

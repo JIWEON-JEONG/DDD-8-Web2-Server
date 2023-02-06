@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import ddd.caffeine.ratrip.TestConfig;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 
 @DataJpaTest
 @Import(TestConfig.class)
@@ -65,7 +66,7 @@ class PlaceRepositoryTest {
 
 		//when
 		List<Region> 특정지역 = List.of(Region.서울특별시, Region.부산광역시, Region.인천광역시);
-		Slice<Place> places = placeRepository.findPlacesInRegions(특정지역, pageRequest);
+		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(특정지역, pageRequest);
 
 		//then
 		assertThat(places.getContent().size()).isEqualTo(3);
@@ -88,7 +89,7 @@ class PlaceRepositoryTest {
 
 		//when
 		List<Region> regions = new ArrayList<>();
-		Slice<Place> places = placeRepository.findPlacesInRegions(regions, pageRequest);
+		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(regions, pageRequest);
 
 		//then
 		assertThat(places.getContent().size()).isEqualTo(2);
@@ -116,7 +117,7 @@ class PlaceRepositoryTest {
 		Pageable pageRequest = PageRequest.of(0, 1, Sort.Direction.DESC, "popular");
 
 		//when
-		Slice<Place> places = placeRepository.findPlacesInRegions(특정지역, pageRequest);
+		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(특정지역, pageRequest);
 
 		//then
 		assertThat(places.getContent().size()).isEqualTo(1);

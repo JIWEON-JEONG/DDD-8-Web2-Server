@@ -21,6 +21,7 @@ import ddd.caffeine.ratrip.module.place.domain.ThirdPartySearchOption;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
 import ddd.caffeine.ratrip.module.place.feign.naver.model.FeignBlogModel;
@@ -50,12 +51,9 @@ public class PlaceService {
 
 	@Transactional(readOnly = true)
 	public PlaceInRegionResponseDto readPlacesInRegions(User user, List<Region> regions, Pageable page) {
-		Slice<Place> places = placeRepository.findPlacesInRegions(regions, page);
+		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(regions, page);
 		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
-		for (Place place : places) {
-			BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
-			response.addContent(place, bookmarkInfo);
-		}
+
 		return response;
 	}
 
@@ -146,12 +144,9 @@ public class PlaceService {
 		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
 			request.getLatitude());
 
-		Slice<Place> places = placeRepository.findPlacesInRegion(region, pageable);
+		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegion(region, pageable);
 		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto();
-		for (Place place : places) {
-			BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
-			response.addContent(place, bookmarkInfo);
-		}
+
 		return response;
 	}
 

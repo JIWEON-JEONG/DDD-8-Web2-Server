@@ -154,11 +154,11 @@ public class Place extends AuditingTimeEntity {
 	}
 
 	public void addBookmark(Bookmark bookmark) {
-		updateBookmarks(bookmark);
+		removeIfExistBookmark(bookmark);
 		this.getBookmarks().add(bookmark);
 	}
 
-	private void updateBookmarks(Bookmark bookmark) {
+	private void removeIfExistBookmark(Bookmark bookmark) {
 		boolean isPresent = this.getBookmarks().stream().filter(
 			b -> b.compareToBookmark(bookmark)).findFirst().isPresent();
 		if (isPresent) {

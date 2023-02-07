@@ -28,7 +28,7 @@ public class PlaceSaveThirdPartyResponseDto {
 		this.category = place.getCategory().name();
 		this.address = place.getAddress().toString();
 		this.location = place.getLocation();
-		this.isUpdated = place.isUpdated();
+		this.isUpdated = place.getIsUpdated();
 		this.telephone = place.getTelephone();
 		this.bookmark = createBookmarkContent(place.getIsActivated());
 	}

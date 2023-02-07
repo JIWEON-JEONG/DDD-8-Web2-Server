@@ -84,7 +84,6 @@ public class PlaceService {
 			BookmarkResponseDto bookmarkContent = bookmarkService.readBookmark(user, place);
 			return new PlaceSaveThirdPartyResponseDto(place, bookmarkContent);
 		}
-
 		handlePlaceUpdate(content, searchOption.getPlaceName(), searchOption.getAddress());
 		return new PlaceSaveThirdPartyResponseDto(content);
 	}
@@ -181,7 +180,7 @@ public class PlaceService {
 		if (checkNeedsUpdate(placeDao, name, address)) {
 			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, address);
 
-			Place place = placeValidator.validateExistPlace(placeRepository.findById(placeDao.getId()));
+			Place place = placeRepository.findById(placeDao.getId()).get();
 			place.update(feignPlaceModel.readOne());
 			setImageLinkInPlace(place, place.getName());
 			setBlogsInPlace(place, place.getName());
@@ -213,9 +212,9 @@ public class PlaceService {
 		place.setBlogs(blogModel.readBlogs());
 	}
 
-	private boolean checkNeedsUpdate(PlaceBookmarkDao place, String address, String placeName) {
-		Address checkSample = new Address(address);
-		if (place.getName().equals(placeName) || place.getAddress().equals(checkSample)) {
+	private boolean checkNeedsUpdate(PlaceBookmarkDao place, String placeName, String address) {
+		Address checkAddress = new Address(address);
+		if (place.getName().equals(placeName) && place.getAddress().equals(checkAddress)) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;

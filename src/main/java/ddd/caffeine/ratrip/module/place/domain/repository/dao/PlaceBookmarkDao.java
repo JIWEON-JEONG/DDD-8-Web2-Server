@@ -18,7 +18,7 @@ public class PlaceBookmarkDao {
 	private Location location;
 	private String imageLink;
 	private String telephone;
-	private boolean isUpdated;
+	private Boolean isUpdated;
 
 	private Boolean isActivated;
 
@@ -33,7 +33,7 @@ public class PlaceBookmarkDao {
 		this.location = location;
 		this.imageLink = imageLink;
 		this.telephone = telephone;
-		this.isUpdated = isUpdated();
+		this.isUpdated = isUpdated;
 		this.isActivated = isActivated;
 	}
 }

@@ -18,7 +18,7 @@ public interface DaySchedulePlaceQueryRepository {
 
 	boolean existByDayScheduleAndPlace(DaySchedule daySchedule, Place place);
 
-	boolean existByUUID(UUID daySchedulePlaceUUID);
+	List<DaySchedulePlace> findByDaySchedulePlaceGreaterThanSequence(UUID daySchedulePlaceUUID, int sequence);
 
 	String findRepresentativeImageLink(UUID dayScheduleUUID);
 

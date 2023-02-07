@@ -81,11 +81,11 @@ public class DaySchedulePlaceQueryRepositoryImpl implements DaySchedulePlaceQuer
 	}
 
 	@Override
-	public List<DaySchedulePlace> findByDaySchedulePlaceGreaterThanSequence(UUID daySchedulePlaceUUID, int sequence) {
+	public List<DaySchedulePlace> findByDaySchedulePlaceGreaterThanSequence(UUID dayScheduleUUID, int sequence) {
 		return jpaQueryFactory
 			.selectFrom(daySchedulePlace)
 			.where(
-				daySchedulePlace.id.eq(daySchedulePlaceUUID),
+				daySchedulePlace.daySchedule.id.eq(dayScheduleUUID),
 				daySchedulePlace.sequence.gt(sequence)
 			)
 			.fetch();

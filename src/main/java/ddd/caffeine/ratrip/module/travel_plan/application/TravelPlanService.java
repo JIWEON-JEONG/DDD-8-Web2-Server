@@ -158,7 +158,7 @@ public class TravelPlanService {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//삭제
-		dayScheduleService.deleteDaySchedulePlace(daySchedulePlaceUUID);
+		dayScheduleService.deleteDaySchedulePlace(accessOption.readDayScheduleUUID(), daySchedulePlaceUUID);
 	}
 
 	@Transactional

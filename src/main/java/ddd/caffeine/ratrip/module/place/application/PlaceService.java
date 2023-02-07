@@ -140,7 +140,7 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInCoordinate(User user, PlaceByCoordinateDto request, Pageable pageable) {
+	public PlaceInRegionResponseDto readPlacesInCoordinate(PlaceByCoordinateDto request, Pageable pageable) {
 		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
 			request.getLatitude());
 
@@ -178,7 +178,8 @@ public class PlaceService {
 	 */
 	private void handlePlaceUpdate(PlaceBookmarkDao placeDao, String name, String address) {
 		if (checkNeedsUpdate(placeDao, name, address)) {
-			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, address);
+			String region = address.split(" ")[0];
+			FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, region);
 
 			Place place = placeRepository.findById(placeDao.getId()).get();
 			place.update(feignPlaceModel.readOne());
@@ -191,7 +192,8 @@ public class PlaceService {
 	 * 장소이름과 주소를 가지고 그에 맞는 Place Entity 생성해주는 메서드.
 	 */
 	private Place readPlaceEntity(String name, String address) {
-		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, address);
+		String region = address.split(" ")[0];
+		FeignPlaceModel feignPlaceModel = placeFeignService.readPlacesByAddressAndPlaceName(name, region);
 		Place place = feignPlaceModel.mapByPlaceEntity();
 
 		setImageLinkInPlace(place, place.getName());

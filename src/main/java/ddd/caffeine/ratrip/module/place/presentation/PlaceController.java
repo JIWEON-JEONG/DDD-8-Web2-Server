@@ -104,11 +104,10 @@ public class PlaceController {
 	@Operation(summary = "[인증] 좌표데이터를 통해 위치 기반 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
 	@GetMapping("/coordinates")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInCoordinateApi(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute PlaceCoordinateRequestDto request,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
-		PlaceInRegionResponseDto response = placeService.readPlacesInCoordinate(user, request.toServiceDto(),
+		PlaceInRegionResponseDto response = placeService.readPlacesInCoordinate(request.toServiceDto(),
 			pageable);
 		return ResponseEntity.ok(response);
 	}

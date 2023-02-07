@@ -67,6 +67,10 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 		this.sequence = sequence;
 	}
 
+	public void minusSequence() {
+		this.sequence -= 1;
+	}
+
 	public void update(String memo) {
 		this.memo = memo;
 	}

@@ -45,10 +45,16 @@ public class DaySchedulePlaceService {
 		return daySchedulePlace.getId();
 	}
 
-	public void deletePlace(String daySchedulePlaceUUID) {
-		boolean exist = daySchedulePlaceRepository.existByUUID(UUID.fromString(daySchedulePlaceUUID));
-		daySchedulePlaceValidator.validateExist(exist);
-		daySchedulePlaceRepository.delete(UUID.fromString(daySchedulePlaceUUID));
+	public void deletePlace(UUID dayScheduleUUID, String daySchedulePlaceUUID) {
+		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
+			daySchedulePlaceRepository.findById(UUID.fromString(daySchedulePlaceUUID)));
+		daySchedulePlaceRepository.delete(daySchedulePlace.getId());
+		//sequence 동기화
+		List<DaySchedulePlace> daySchedulePlaces = daySchedulePlaceRepository.findByDaySchedulePlaceGreaterThanSequence(
+			dayScheduleUUID, daySchedulePlace.getSequence());
+		for (DaySchedulePlace schedulePlace : daySchedulePlaces) {
+			schedulePlace.minusSequence();
+		}
 	}
 
 	public void updatePlacesSequence(UUID dayScheduleUUID, List<UUID> daySchedulePlaceUUIDs) {

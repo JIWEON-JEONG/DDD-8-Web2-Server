@@ -56,8 +56,8 @@ public class DayScheduleService {
 		return daySchedulePlaceService.update(daySchedulePlaceUUID, memo);
 	}
 
-	public void deleteDaySchedulePlace(String daySchedulePlaceUUID) {
-		daySchedulePlaceService.deletePlace(daySchedulePlaceUUID);
+	public void deleteDaySchedulePlace(UUID dayScheduleUUID, String daySchedulePlaceUUID) {
+		daySchedulePlaceService.deletePlace(dayScheduleUUID, daySchedulePlaceUUID);
 	}
 
 	public DayScheduleResponseDto readDaySchedule(UUID dayScheduleUUID, String placeUUID) {

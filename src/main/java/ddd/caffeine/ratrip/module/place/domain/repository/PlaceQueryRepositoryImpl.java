@@ -6,6 +6,7 @@ import static org.springframework.util.ObjectUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,8 +21,10 @@ import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.common.util.QuerydslUtils;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceDetailBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.QCategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.QPlaceBookmarkDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.QPlaceDetailBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,16 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 			.from(place)
 			.leftJoin(place.bookmarks, bookmark)
 			.where(place.kakaoId.eq(thirdPartyID))
+			.fetchOne();
+	}
+
+	@Override
+	public PlaceDetailBookmarkDao findByUUID(UUID id) {
+		return jpaQueryFactory
+			.select(new QPlaceDetailBookmarkDao(place, bookmark.isActivated))
+			.from(place)
+			.leftJoin(place.bookmarks, bookmark)
+			.where(place.id.eq(id))
 			.fetchOne();
 	}
 

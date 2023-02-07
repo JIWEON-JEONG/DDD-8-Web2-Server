@@ -21,6 +21,7 @@ import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.dao.BookmarkP
 import ddd.caffeine.ratrip.module.place.domain.repository.PlaceRepository;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceDetailBookmarkDao;
 import ddd.caffeine.ratrip.module.place.domain.sub_domain.Address;
 import ddd.caffeine.ratrip.module.place.feign.PlaceFeignService;
 import ddd.caffeine.ratrip.module.place.feign.kakao.model.FeignPlaceModel;
@@ -50,7 +51,7 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 
 	@Transactional(readOnly = true)
-	public PlaceInRegionResponseDto readPlacesInRegions(User user, List<Region> regions, Pageable page) {
+	public PlaceInRegionResponseDto readPlacesInRegions(List<Region> regions, Pageable page) {
 		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(regions, page);
 		PlaceInRegionResponseDto response = new PlaceInRegionResponseDto(places.getContent(), places.hasNext());
 
@@ -66,11 +67,11 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public PlaceDetailResponseDto readPlaceDetailsByUUID(User user, String uuid) {
-		Place place = readPlaceByUUID(UUID.fromString(uuid));
-		BookmarkResponseDto bookmarkInfo = bookmarkService.readBookmark(user, place);
+	public PlaceDetailResponseDto readPlaceDetailsByUUID(String uuid) {
+		PlaceDetailBookmarkDao content = placeRepository.findByUUID(UUID.fromString(uuid));
+		placeValidator.validateExistPlaceDetailDao(content);
 
-		return new PlaceDetailResponseDto(place, bookmarkInfo);
+		return new PlaceDetailResponseDto(content);
 	}
 
 	@Transactional
@@ -78,11 +79,12 @@ public class PlaceService {
 		ThirdPartyDetailSearchOption searchOption) {
 		PlaceBookmarkDao content = placeRepository.findByThirdPartyID(searchOption.readThirdPartyId());
 		if (content == null) {
-			//해당 부분 다시 리팩토링
 			Place place = readPlaceEntity(searchOption.getPlaceName(), searchOption.getAddress());
 			placeRepository.save(place);
-			return new PlaceSaveThirdPartyResponseDto(content);
+			BookmarkResponseDto bookmarkContent = bookmarkService.readBookmark(user, place);
+			return new PlaceSaveThirdPartyResponseDto(place, bookmarkContent);
 		}
+
 		handlePlaceUpdate(content, searchOption.getPlaceName(), searchOption.getAddress());
 		return new PlaceSaveThirdPartyResponseDto(content);
 	}

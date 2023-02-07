@@ -41,7 +41,6 @@ class BookmarkRepositoryTest {
 			"testLink", "testLink", "testPhoneNumber");
 		userRepository.save(user);
 		placeRepository.save(place);
-		BookmarkId bookmarkId = new BookmarkId(user.getId(), place.getId());
 		Bookmark bookmark = Bookmark.of(user, place);
 		bookmarkRepository.save(bookmark);
 

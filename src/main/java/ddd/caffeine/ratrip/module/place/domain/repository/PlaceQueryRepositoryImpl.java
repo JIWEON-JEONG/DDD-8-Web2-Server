@@ -50,7 +50,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 		return jpaQueryFactory
 			.select(new QPlaceDetailBookmarkDao(place, bookmark.isActivated))
 			.from(place)
-			.innerJoin(place.bookmarks, bookmark)
+			.leftJoin(place.bookmarks, bookmark)
 			.where(place.id.eq(id))
 			.fetchOne();
 	}
@@ -61,7 +61,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
 				place.imageLink, place.telephone, place.isUpdated, bookmark.isActivated))
 			.from(place)
-			.innerJoin(place.bookmarks, bookmark)
+			.leftJoin(place.bookmarks, bookmark)
 			.where(regionsIn(regions))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
@@ -77,7 +77,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 			.select(new QPlaceBookmarkDao(place.id, place.name, place.category, place.address, place.location,
 				place.imageLink, place.telephone, place.isUpdated, bookmark.isActivated))
 			.from(place)
-			.innerJoin(place.bookmarks, bookmark)
+			.leftJoin(place.bookmarks, bookmark)
 			.where(regionsEq(region))
 			.orderBy(readOrderSpecifiers(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())

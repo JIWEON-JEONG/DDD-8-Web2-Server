@@ -71,11 +71,7 @@ public class DaySchedulePlace extends AuditingTimeEntity {
 		this.sequence -= 1;
 	}
 
-	public void updateMemo(String memo) {
+	public void update(String memo) {
 		this.memo = memo;
-	}
-
-	public void updateDaySchedule(DaySchedule daySchedule) {
-		this.daySchedule = daySchedule;
 	}
 }

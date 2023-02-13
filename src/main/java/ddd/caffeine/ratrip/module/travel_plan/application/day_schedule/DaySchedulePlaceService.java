@@ -36,22 +36,12 @@ public class DaySchedulePlaceService {
 		return daySchedulePlaceRepository.save(daySchedulePlace).getId();
 	}
 
-	public UUID updateMemo(UUID daySchedulePlaceUUID, String memo) {
+	public UUID update(String daySchedulePlaceUUID, String memo) {
 		Optional<DaySchedulePlace> optionalDaySchedulePlace = daySchedulePlaceRepository.findById(
-			daySchedulePlaceUUID);
+			UUID.fromString(daySchedulePlaceUUID));
 		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
 			optionalDaySchedulePlace);
-		daySchedulePlace.updateMemo(memo);
-		return daySchedulePlace.getId();
-	}
-
-	public UUID updateDayScheduleAndMemo(DaySchedule daySchedule, UUID daySchedulePlaceUUID, String memo) {
-		Optional<DaySchedulePlace> optionalDaySchedulePlace = daySchedulePlaceRepository.findById(
-			daySchedulePlaceUUID);
-		DaySchedulePlace daySchedulePlace = daySchedulePlaceValidator.validateExistDaySchedulePlace(
-			optionalDaySchedulePlace);
-		daySchedulePlace.updateDaySchedule(daySchedule);
-		daySchedulePlace.updateMemo(memo);
+		daySchedulePlace.update(memo);
 		return daySchedulePlace.getId();
 	}
 

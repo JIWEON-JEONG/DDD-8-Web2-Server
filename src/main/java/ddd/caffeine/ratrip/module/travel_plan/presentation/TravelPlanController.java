@@ -168,7 +168,7 @@ public class TravelPlanController {
 
 		DaySchedulePlaceResponseDto response = travelPlanService.updatePlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
-			daySchedulePlaceUUID, request.getId(), request.getMemo());
+			daySchedulePlaceUUID, request.getMemo());
 
 		return ResponseEntity.ok(response);
 	}

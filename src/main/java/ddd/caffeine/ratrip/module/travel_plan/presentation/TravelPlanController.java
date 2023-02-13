@@ -131,7 +131,7 @@ public class TravelPlanController {
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@RequestBody DayScheduleAddPlaceRequestDto request) {
+		@Valid @RequestBody DayScheduleAddPlaceRequestDto request) {
 		DaySchedulePlaceResponseDto response = travelPlanService.addPlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
 			request.getId(), request.getMemo());
@@ -145,7 +145,7 @@ public class TravelPlanController {
 		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
-		@RequestBody DaySchedulePlaceSequenceDto request) {
+		@Valid @RequestBody DaySchedulePlaceSequenceDto request) {
 
 		travelPlanService.updatePlacesSequenceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
@@ -164,11 +164,11 @@ public class TravelPlanController {
 		@PathVariable("travel_plan_id") @UUIDFormat String travelPlanUUID,
 		@PathVariable("day_schedule_id") @UUIDFormat String dayScheduleUUID,
 		@PathVariable("day_schedule_place_id") @UUIDFormat String daySchedulePlaceUUID,
-		@RequestBody DayScheduleUpdatePlaceRequestDto request) {
+		@Valid @RequestBody DayScheduleUpdatePlaceRequestDto request) {
 
 		DaySchedulePlaceResponseDto response = travelPlanService.updatePlaceInDaySchedule(
 			new DayScheduleAccessOption(user, travelPlanUUID, dayScheduleUUID),
-			daySchedulePlaceUUID, request.getMemo());
+			daySchedulePlaceUUID, request.getId(), request.getMemo());
 
 		return ResponseEntity.ok(response);
 	}

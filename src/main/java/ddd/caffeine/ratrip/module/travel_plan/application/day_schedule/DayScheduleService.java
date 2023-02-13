@@ -52,8 +52,14 @@ public class DayScheduleService {
 		return daySchedulePlaceService.addPlace(daySchedule, place, memo);
 	}
 
-	public UUID updateDaySchedulePlace(String daySchedulePlaceUUID, String memo) {
-		return daySchedulePlaceService.update(daySchedulePlaceUUID, memo);
+	public UUID updateDaySchedulePlace(String updateDayScheduleUUID, UUID daySchedulePlaceUUID,
+		String memo) {
+		if (updateDayScheduleUUID == null) {
+			return daySchedulePlaceService.updateMemo(daySchedulePlaceUUID, memo);
+		}
+		DaySchedule daySchedule = dayScheduleValidator.validateExistOptionalDaySchedule(
+			dayScheduleRepository.findById(UUID.fromString(updateDayScheduleUUID)));
+		return daySchedulePlaceService.updateDayScheduleAndMemo(daySchedule, daySchedulePlaceUUID, memo);
 	}
 
 	public void deleteDaySchedulePlace(UUID dayScheduleUUID, String daySchedulePlaceUUID) {

@@ -145,11 +145,12 @@ public class TravelPlanService {
 
 	@Transactional
 	public DaySchedulePlaceResponseDto updatePlaceInDaySchedule(DayScheduleAccessOption accessOption,
-		String daySchedulePlaceUUID, String memo) {
+		String daySchedulePlaceUUID, String updateDayScheduleUUID, String memo) {
 		//접근 가능한 유저인지 확인
 		travelPlanUserService.validateAccessTravelPlan(accessOption.readTravelPlanAccessOption());
 		//업데이트
-		UUID updatedDaySchedulePlaceUUID = dayScheduleService.updateDaySchedulePlace(daySchedulePlaceUUID, memo);
+		UUID updatedDaySchedulePlaceUUID = dayScheduleService.updateDaySchedulePlace(updateDayScheduleUUID,
+			UUID.fromString(daySchedulePlaceUUID), memo);
 		return new DaySchedulePlaceResponseDto(updatedDaySchedulePlaceUUID);
 	}
 

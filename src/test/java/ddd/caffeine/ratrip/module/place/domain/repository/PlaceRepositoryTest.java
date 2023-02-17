@@ -17,15 +17,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import ddd.caffeine.ratrip.TestConfig;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 
-import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
-import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.BookmarkRepository;
+import ddd.caffeine.ratrip.module.place.domain.repository.dao.CategoryPlaceByRegionDao;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
+import ddd.caffeine.ratrip.module.place.domain.sub_domain.Category;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import ddd.caffeine.ratrip.module.user.domain.UserStatus;
@@ -42,9 +41,9 @@ class PlaceRepositoryTest {
 	@DisplayName("여러 지역의 장소 찾기 정상 동작 테스트")
 	void findPlacesInRegionsTest() {
 		//given
-		Place 부산_스타벅스 = createPlaceExceptNotNullField("부산ThirdPartyID", "서면 스타벅스", "부산 서면 스타벅스 까페", "CF7", 1, 1);
-		Place 서울_스타벅스 = createPlaceExceptNotNullField("서울ThirdPartyID", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1);
-		Place 인천_스타벅스 = createPlaceExceptNotNullField("인천ThirdPartyID", "부평 스타벅스", "인천 부평 스타벅스 까페", "CF7", 1, 1);
+		Place 부산_스타벅스 = createPlaceExceptNotNullField("부산ThirdPartyID", "서면 스타벅스", "부산 서면 스타벅스 까페", "CE7", 1, 1);
+		Place 서울_스타벅스 = createPlaceExceptNotNullField("서울ThirdPartyID", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CE7", 1, 1);
+		Place 인천_스타벅스 = createPlaceExceptNotNullField("인천ThirdPartyID", "부평 스타벅스", "인천 부평 스타벅스 까페", "CE7", 1, 1);
 		placeRepository.save(부산_스타벅스);
 		placeRepository.save(서울_스타벅스);
 		placeRepository.save(인천_스타벅스);
@@ -80,9 +79,9 @@ class PlaceRepositoryTest {
 	@DisplayName("특정 지역의 인기 많은 장소 찾기 정상 동작 테스트")
 	void findPlacesInRegionsSortPopularTest() {
 		//given
-		Place seoulFamousPlace = createPlaceExceptNotNullField("강남ThirdPartyID", "강남 스타벅스", "서울 강남 스타벅스 까페", "CF7", 1,
+		Place seoulFamousPlace = createPlaceExceptNotNullField("강남ThirdPartyID", "강남 스타벅스", "서울 강남 스타벅스 까페", "CE7", 1,
 			1);
-		Place seoulPlace = createPlaceExceptNotNullField("양재ThirdPartyID", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CF7", 1, 1);
+		Place seoulPlace = createPlaceExceptNotNullField("양재ThirdPartyID", "양재 스타벅스", "서울 양재동 스타벅스 까페", "CE7", 1, 1);
 		seoulFamousPlace.travelCome();
 		placeRepository.save(seoulFamousPlace);
 		placeRepository.save(seoulPlace);
@@ -101,15 +100,20 @@ class PlaceRepositoryTest {
 	@DisplayName("카테고리별 장소 찾기 정상 동작 테스트")
 	void getCategoryPlacesByRegionTest() {
 		//given
-		Place 까페Place = createPlaceExceptNotNullField("testId", "강남 스타벅스", "서울 강남 스타벅스 까페", "CF7", 1, 1);
-		Place 기타Place = createPlaceExceptNotNullField("기타ThirdPartyID", "name", "서울 강남 기타 장소", "기타", 1, 1);
+		Place 까페Place = createPlaceExceptNotNullField("testId", "강남 스타벅스", "서울 양재동 스타벅스 까페", "CE7", 1, 1);
+		Place 기타Place = createPlaceExceptNotNullField("기타ThirdPartyID", "name", "서울 양재동 기타 장소", "기타", 1, 1);
 		placeRepository.save(까페Place);
 		placeRepository.save(기타Place);
+		Pageable pageRequest = PageRequest.of(0, 2);
 
 		//when
-		placeRepository.getCategoryPlacesByRegion()
+		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(Region.서울특별시,
+			Category.CAFE, pageRequest);
+		CategoryPlaceByRegionDao 까페Dao = places.getContent().get(0);
 
-
+		//then
+		assertThat(places.getContent().size()).isEqualTo(1);
+		assertThat(까페Dao.getId()).isEqualTo(까페Place.getId());
 	}
 
 	private Boolean comparePlaceDaoAndPlace(PlaceBookmarkDao dao, Place place) {

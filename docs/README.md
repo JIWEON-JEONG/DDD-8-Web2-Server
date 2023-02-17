@@ -1,5 +1,5 @@
 # DDD-8-Web2-Server
-## 서비스 
+## Introduce
 여행 일정을 관리하고, 기록하는 서비스 Ratrip 입니다.
 
 ## Convention

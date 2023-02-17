@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,11 +17,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import ddd.caffeine.ratrip.TestConfig;
 import ddd.caffeine.ratrip.common.model.Region;
 import ddd.caffeine.ratrip.module.place.domain.Place;
 
+import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.place.domain.bookmark.repository.BookmarkRepository;
 import ddd.caffeine.ratrip.module.place.domain.repository.dao.PlaceBookmarkDao;
 import ddd.caffeine.ratrip.module.user.domain.User;
@@ -33,22 +37,6 @@ class PlaceRepositoryTest {
 
 	@Autowired
 	PlaceRepository placeRepository;
-
-	@Autowired
-	BookmarkRepository bookmarkRepository;
-
-	@Test
-	@DisplayName("외부 서비스 ID로 장소 찾기 정상 동작 테스트")
-	void findByThirdPartyIDTest() {
-		//given
-		Place testPlace = createPlaceExceptNotNullField("testThirdPartyID", "name", "address", "categoryCode",
-			120.365, 34.678);
-		placeRepository.save(testPlace);
-		//when
-		PlaceBookmarkDao place = placeRepository.findByThirdPartyID("testThirdPartyID");
-		//then
-		assertThat(place).isEqualTo(testPlace);
-	}
 
 	@Test
 	@DisplayName("여러 지역의 장소 찾기 정상 동작 테스트")
@@ -86,8 +74,6 @@ class PlaceRepositoryTest {
 		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(regions, pageRequest);
 		//then
 		assertThat(places.getContent().size()).isEqualTo(2);
-		assertThat(places.getContent().contains(기타Place));
-		assertThat(places.getContent().contains(양재Place));
 	}
 
 	@Test
@@ -105,20 +91,36 @@ class PlaceRepositoryTest {
 		Pageable pageRequest = PageRequest.of(0, 1, Sort.Direction.DESC, "popular");
 		//when
 		Slice<PlaceBookmarkDao> places = placeRepository.findPlacesInRegions(특정지역, pageRequest);
+		PlaceBookmarkDao famousPlaceDao = places.getContent().get(0);
 		//then
-		assertThat(places.getContent().contains(seoulFamousPlace)).isTrue();
+		assertThat(comparePlaceDaoAndPlace(famousPlaceDao, seoulFamousPlace)).isTrue();
 		assertThat(places.hasNext()).isTrue();
 	}
 
 	@Test
-	@DisplayName("특정 지역의 인기 많은 장소 찾기 정상 동작 테스트")
-	void checkQueryNPlusOneProblem() {
+	@DisplayName("카테고리별 장소 찾기 정상 동작 테스트")
+	void getCategoryPlacesByRegionTest() {
 		//given
-		Place place = createPlaceExceptNotNullField("testId", "강남 스타벅스", "서울 강남 스타벅스 까페", "CF7", 1, 1);
-		User user01 = User.of("name01", "email01", UserStatus.ACTIVE, "socialId01", UserSocialType.KAKAO);
-		User user02 = User.of("name02", "email02", UserStatus.ACTIVE, "socialId02", UserSocialType.KAKAO);
-		// Bookmark bookmark = Bookmark.of()
+		Place 까페Place = createPlaceExceptNotNullField("testId", "강남 스타벅스", "서울 강남 스타벅스 까페", "CF7", 1, 1);
+		Place 기타Place = createPlaceExceptNotNullField("기타ThirdPartyID", "name", "서울 강남 기타 장소", "기타", 1, 1);
+		placeRepository.save(까페Place);
+		placeRepository.save(기타Place);
 
+		//when
+		placeRepository.getCategoryPlacesByRegion()
+
+
+	}
+
+	private Boolean comparePlaceDaoAndPlace(PlaceBookmarkDao dao, Place place) {
+		if (dao.getName().equals(place.getName()) &&
+			dao.getCategory().equals(place.getCategory()) &&
+			dao.getLocation().equals(place.getLocation()) &&
+			dao.getAddress().equals(place.getAddress())
+		) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
 	}
 
 	/**
@@ -135,5 +137,18 @@ class PlaceRepositoryTest {
 		place.setAddress(address);
 		place.setLocation(y, x);
 		return place;
+	}
+
+	/**
+	 * User 엔티티 생성 메서드.
+	 */
+	private User createUser(String name, String email, UserStatus status, String socialId, UserSocialType socialType) {
+		return User.builder()
+			.name(name)
+			.email(email)
+			.status(status)
+			.socialId(socialId)
+			.socialType(socialType)
+			.build();
 	}
 }

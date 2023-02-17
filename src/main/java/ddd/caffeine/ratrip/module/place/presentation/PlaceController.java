@@ -174,20 +174,18 @@ public class PlaceController {
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 카테고리 추천 페이지네이션 조회")
 	@GetMapping("/categories/regions")
 	public ResponseEntity<CategoryPlacesByRegionResponseDto> getCategoryPlacesByRegion(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByRegionRequestDto request,
 		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getCategoryPlacesByRegion(user, request.toServiceDto(), pageable));
+		return ResponseEntity.ok(placeService.getCategoryPlacesByRegion(request.toServiceDto(), pageable));
 	}
 
 	@Operation(summary = "[인증] 유저가 현재 위치 기반 카테고리 추천 페이지네이션 조회")
 	@GetMapping("/categories/coordinates")
 	public ResponseEntity<CategoryPlacesByCoordinateResponseDto> getCategoryPlacesByCoordinate(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByCoordinateRequestDto request,
 		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getCategoryPlacesByCoordinate(user, request.toServiceDto(), pageable));
+		return ResponseEntity.ok(placeService.getCategoryPlacesByCoordinate(request.toServiceDto(), pageable));
 	}
 }

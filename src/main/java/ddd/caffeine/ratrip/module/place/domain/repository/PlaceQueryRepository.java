@@ -22,6 +22,6 @@ public interface PlaceQueryRepository {
 
 	PlaceDetailBookmarkDao findByUUID(UUID id);
 
-	Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(User user, Region region, Category category,
+	Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(Region region, Category category,
 		Pageable pageable);
 }

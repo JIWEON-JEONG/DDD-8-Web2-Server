@@ -88,7 +88,7 @@ public class PlaceQueryRepositoryImpl implements PlaceQueryRepository {
 	}
 
 	@Override
-	public Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(User user, Region region, Category category,
+	public Slice<CategoryPlaceByRegionDao> getCategoryPlacesByRegion(Region region, Category category,
 		Pageable pageable) {
 		List<CategoryPlaceByRegionDao> contents = jpaQueryFactory
 			.select(new QCategoryPlaceByRegionDao(place.id, place.name))

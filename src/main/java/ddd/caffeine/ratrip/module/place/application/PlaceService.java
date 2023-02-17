@@ -151,23 +151,23 @@ public class PlaceService {
 	}
 
 	@Transactional(readOnly = true)
-	public CategoryPlacesByRegionResponseDto getCategoryPlacesByRegion(User user, CategoryPlaceByRegionDto request,
+	public CategoryPlacesByRegionResponseDto getCategoryPlacesByRegion(CategoryPlaceByRegionDto request,
 		Pageable pageable) {
 
-		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(user, request.getRegion(),
+		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(request.getRegion(),
 			request.getCategory(), pageable);
 
 		return new CategoryPlacesByRegionResponseDto(places.getContent(), places.hasNext());
 	}
 
 	@Transactional(readOnly = true)
-	public CategoryPlacesByCoordinateResponseDto getCategoryPlacesByCoordinate(User user,
+	public CategoryPlacesByCoordinateResponseDto getCategoryPlacesByCoordinate(
 		CategoryPlaceByCoordinateDto request, Pageable pageable) {
 
 		Region region = placeFeignService.convertLongituteAndLatitudeToRegion(request.getLongitude(),
 			request.getLatitude());
 
-		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(user, region,
+		Slice<CategoryPlaceByRegionDao> places = placeRepository.getCategoryPlacesByRegion(region,
 			request.getCategory(), pageable);
 
 		return new CategoryPlacesByCoordinateResponseDto(places.getContent(), places.hasNext());

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import ddd.caffeine.ratrip.module.place.domain.Place;
+import ddd.caffeine.ratrip.module.place.domain.bookmark.Bookmark;
 import ddd.caffeine.ratrip.module.user.domain.User;
 import ddd.caffeine.ratrip.module.user.domain.UserSocialType;
 import ddd.caffeine.ratrip.module.user.domain.UserStatus;
@@ -13,17 +14,18 @@ import ddd.caffeine.ratrip.module.user.domain.UserStatus;
 class BookmarkTest {
 
 	@Test
-	@DisplayName("연관관계 편의 메서드 정상 동작 테스트")
-	void createBookmarkTest() {
+	@DisplayName("북마크 상태 변환 정상 동작 테스트")
+	void changeBookmarkState() {
 		//given
-		Place place = createPlaceExceptNotNullField();
 		User user = createActiveUser();
-
-		//when
+		Place place = createPlaceExceptNotNullField();
 		Bookmark bookmark = Bookmark.of(user, place);
 
+		//when
+		bookmark.changeBookmarkState();
+
 		//then
-		assertThat(place.getBookmarks()).contains(bookmark);
+		assertThat(bookmark.isActivated()).isFalse();
 	}
 
 	/**
@@ -47,5 +49,4 @@ class BookmarkTest {
 	private User createActiveUser() {
 		return User.of("name", "email", UserStatus.ACTIVE, "socialId", UserSocialType.KAKAO);
 	}
-
 }

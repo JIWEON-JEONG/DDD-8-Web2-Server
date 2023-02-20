@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ddd.caffeine.ratrip.common.model.Region;
-import ddd.caffeine.ratrip.common.validator.annotation.UUIDFormat;
+import ddd.caffeine.ratrip.common.annotation.UUIDFormat;
 import ddd.caffeine.ratrip.module.place.application.PlaceService;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceByCoordinateRequestDto;
 import ddd.caffeine.ratrip.module.place.presentation.dto.bookmark.BookmarkPlaceResponseDto;
@@ -77,10 +77,9 @@ public class PlaceController {
 	@Operation(summary = "[인증] 장소 기본키(UUID)로 장소 상세 읽기 API")
 	@GetMapping("/{id}")
 	public ResponseEntity<PlaceDetailResponseDto> callPlaceDetailsApiByUUID(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@PathVariable @UUIDFormat String id) {
 
-		PlaceDetailResponseDto response = placeService.readPlaceDetailsByUUID(user, id);
+		PlaceDetailResponseDto response = placeService.readPlaceDetailsByUUID(id);
 		return ResponseEntity.ok(response);
 	}
 
@@ -91,11 +90,10 @@ public class PlaceController {
 	@Operation(summary = "[인증] 지역기반 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
 	@GetMapping("/regions")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInRegionsApi(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@RequestParam(name = "region") List<Region> regions,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
-		PlaceInRegionResponseDto response = placeService.readPlacesInRegions(user, regions, pageable);
+		PlaceInRegionResponseDto response = placeService.readPlacesInRegions(regions, pageable);
 		return ResponseEntity.ok(response);
 	}
 
@@ -106,11 +104,10 @@ public class PlaceController {
 	@Operation(summary = "[인증] 좌표데이터를 통해 위치 기반 장소 불러오기 (default 옵션 : 인기순정렬, 데이터 5개씩, 내림차순)")
 	@GetMapping("/coordinates")
 	public ResponseEntity<PlaceInRegionResponseDto> callPlacesInCoordinateApi(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute PlaceCoordinateRequestDto request,
 		@PageableDefault(
 			size = 5, sort = "popular", direction = Sort.Direction.DESC) Pageable pageable) {
-		PlaceInRegionResponseDto response = placeService.readPlacesInCoordinate(user, request.toServiceDto(),
+		PlaceInRegionResponseDto response = placeService.readPlacesInCoordinate(request.toServiceDto(),
 			pageable);
 		return ResponseEntity.ok(response);
 	}
@@ -177,20 +174,18 @@ public class PlaceController {
 	@Operation(summary = "[인증] 유저가 선택한 지역 기반 카테고리 추천 페이지네이션 조회")
 	@GetMapping("/categories/regions")
 	public ResponseEntity<CategoryPlacesByRegionResponseDto> getCategoryPlacesByRegion(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByRegionRequestDto request,
 		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getCategoryPlacesByRegion(user, request.toServiceDto(), pageable));
+		return ResponseEntity.ok(placeService.getCategoryPlacesByRegion(request.toServiceDto(), pageable));
 	}
 
 	@Operation(summary = "[인증] 유저가 현재 위치 기반 카테고리 추천 페이지네이션 조회")
 	@GetMapping("/categories/coordinates")
 	public ResponseEntity<CategoryPlacesByCoordinateResponseDto> getCategoryPlacesByCoordinate(
-		@Parameter(hidden = true) @AuthenticationPrincipal User user,
 		@Valid @ModelAttribute CategoryPlaceByCoordinateRequestDto request,
 		@PageableDefault(size = 20) Pageable pageable) {
 
-		return ResponseEntity.ok(placeService.getCategoryPlacesByCoordinate(user, request.toServiceDto(), pageable));
+		return ResponseEntity.ok(placeService.getCategoryPlacesByCoordinate(request.toServiceDto(), pageable));
 	}
 }
